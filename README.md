@@ -1,4 +1,4 @@
-# Bellwether v0.7.1 — NPC Cognition and Long-Term Memory
+# Bellwether v0.7.2 — Procedural Social Arcs
 
 Bellwether is a persistent village life-sim/RPG and psychological-supernatural horror game. The deterministic engine owns truth and legality; local LLMs provide bounded dialogue, Director choices, and strategic proposals that are validated before application.
 
@@ -31,20 +31,16 @@ Bellwether automatically prefers `qwen3.5:2b` for foreground dialogue and routin
 
 For a faster computer that still has 8 GB RAM, `qwen3.5:4b` can be used as the single installed model. Larger models are not required by this release.
 
-## v0.7.1 highlights
+## v0.7.2 highlights
 
-- Persistent per-NPC cognition state separate from objective world truth.
-- Explicit distinction between fact, belief, rumour, impression, and suspicion.
-- Confidence-bounded beliefs with source provenance.
-- Belief reinforcement and revision history.
-- Concerns, unresolved questions, short-term goals, and long-term ambitions.
-- Witness-gated event interpretation: NPCs cannot remember events they did not witness or participate in.
-- Salience/confidence-aware bounded retrieval for dialogue context.
-- Daily fading of weak subjective beliefs while authoritative facts remain stable.
-- Asymmetric cognition: different NPCs may interpret or remember the same event differently.
-- Conversation events feed cognition only through structured witnessed events; generated prose does not become canon.
-- Town Mind intentions remain strategic context only and cannot dictate NPC beliefs.
-- Safe migration for older saves.
+- Persistent multi-day procedural social arcs composed only from legal authored templates.
+- Deep-model routing for infrequent arc selection, with deterministic fallback when Ollama is unavailable.
+- Five initial causal arc families spanning shop pressure, cottage-garden cooperation, railway routine disagreement, bakery workload, and local-history questions.
+- Stage timing across multiple in-game days, persistent active/history state, bounded location-specific player involvement, and safe old-save migration.
+- Arc stages create structured memory events and bounded NPC concerns without turning generated prose into objective truth.
+- Maximum two simultaneous arcs and infrequent proposal scheduling to protect low-end hardware.
+- Town Mind intentions can inform arc selection context but cannot directly create facts, residents, relationships, evidence, or story outcomes.
+- v0.7.1 cognition, v0.7.0 Town Mind, concise dialogue, travel depth, and all earlier systems remain intact.
 
 ## AI authority boundary
 
@@ -60,10 +56,10 @@ Free NPC dialogue is intentionally concise for both tone and low-end hardware. N
 
 ## Diagnostics
 
-Focused v0.7.1 diagnostic:
+Focused v0.7.2 diagnostic:
 
 ```bash
-PYTHONPATH=. python3 tools/v071_npc_cognition_diagnostic.py
+PYTHONPATH=. python3 tools/v072_procedural_social_arcs_diagnostic.py
 ```
 
 Cumulative regression suite:
@@ -81,6 +77,8 @@ PYTHONPATH=. python3 tools/release_candidate_diagnostic.py
 Use `--skip-qwen` only for deterministic engineering certification when Ollama is not available.
 
 ## Recent release line
+
+- **v0.7.2** — persistent validated multi-day procedural social arcs and causal stage progression.
 
 - **v0.7.1** — NPC cognition, subjective beliefs, concerns, goals, ambitions, revision and bounded retrieval.
 - **v0.7.0** — Town Mind strategic intention architecture and deep-model routing.

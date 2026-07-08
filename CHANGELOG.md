@@ -1,4 +1,14 @@
-# Changelog
+# Bellwether Changelog
+
+## v0.7.2 — Procedural Social Arcs
+- Added persistent validated multi-day social arc state and migration.
+- Added five legal authored arc templates with timed causal stages.
+- Added infrequent deep-model template selection with deterministic fallback.
+- Added structured memory-event and bounded NPC-concern consequences.
+- Added active-arc limits, history, provenance, expiry-by-resolution, and compact context.
+- Added focused v0.7.2 diagnostics and exhaustive repository audit.
+
+## Earlier release history
 
 ## v0.7.0 — Town Mind Architecture
 

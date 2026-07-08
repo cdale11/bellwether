@@ -802,6 +802,6 @@ The roadmap should be revised when implementation evidence demands it, but revis
 
 **END OF POST-v0.3.4 DEVELOPMENT ROADMAP**
 
-## Implementation status update — v0.7.1
+## Implementation status update — v0.7.2
 
-Completed through v0.7.1: baseline certification, ordinary-life foundation, economy/work, hobbies/skills, six-person core cast, durable memory foundation, lightweight population tiers, relationship consequences, world expansion, journey depth, Town Mind architecture, and bounded core-NPC cognition/long-term memory interpretation. The next planned release is v0.7.2 — Procedural Social Arcs.
+Completed through v0.7.2: baseline certification, ordinary-life foundation, economy/work, hobbies/skills, six-person core cast, durable memory foundation, lightweight population tiers, relationship consequences, world expansion, journey depth, Town Mind architecture, bounded core-NPC cognition/long-term memory interpretation, and persistent validated multi-day procedural social arcs with bounded player involvement. The next planned release is v0.8.0 — Full Mystery Expansion.

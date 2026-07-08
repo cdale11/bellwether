@@ -34,6 +34,7 @@ from backend.core.social_consequence_model import SOCIAL_CONSEQUENCE_MODEL
 from backend.core.travel_model import TRAVEL_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
 from backend.core.cognition_model import COGNITION_MODEL
+from backend.core.procedural_arc_model import PROCEDURAL_ARC_MODEL, ARC_TEMPLATES
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -212,6 +213,7 @@ INITIAL_STATE = {
     "travel": TRAVEL_MODEL.runtime_defaults(),
     "town_mind": TOWN_MIND_MODEL.runtime_defaults(),
     "npc_cognition": COGNITION_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
+    "procedural_arcs": PROCEDURAL_ARC_MODEL.runtime_defaults(),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -573,6 +575,7 @@ class Game:
         MEMORY_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         COGNITION_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         COGNITION_MODEL.bootstrap_authoritative_context(self.state, NPC_MODEL, KNOWLEDGE_MODEL)
+        PROCEDURAL_ARC_MODEL.migrate(self.state)
         POPULATION_MODEL.migrate(self.state)
         SOCIAL_CONSEQUENCE_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         TRAVEL_MODEL.migrate(self.state)
@@ -809,6 +812,10 @@ class Game:
         for action_id, label in ACTIVITY_MODEL.available_hobby_actions(s):
             actions.append({"id": action_id, "label": label, "kind": "life"})
 
+        # v0.7.2: active procedural arcs can expose bounded, location-specific player involvement.
+        for action_id, label in PROCEDURAL_ARC_MODEL.available_player_actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"social"})
+
         # Part 16: harvested food and cottage repair supplies now feed deep ordinary-life loops.
         for action_id, label in CONTENT_MODEL.cooking_actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
@@ -935,6 +942,7 @@ class Game:
         self.maybe_run_ai_directors(run_now=run_directors)
         if run_directors:
             self.maybe_run_town_mind()
+            self.maybe_run_procedural_arcs()
 
     def record_world_event(self, text, domain="village", actor=None):
         event = {"time": self.time_label(), "domain": domain, "text": text}
@@ -1660,6 +1668,34 @@ class Game:
         if due:
             return self.run_town_mind_review("opening_review" if tm.get("review_count",0)==0 else "periodic_review")
         TOWN_MIND_MODEL.expire(s)
+        return False
+
+    def run_procedural_arc_proposal(self, reason="scheduled"):
+        """Choose one legal multi-day social arc template; no free-form state mutation."""
+        s=self.state; root=PROCEDURAL_ARC_MODEL.migrate(s)
+        candidates=PROCEDURAL_ARC_MODEL.candidates(s)
+        root["proposal_count"]+=1
+        root["last_proposal_pulse"]=s.get("village_brain",{}).get("pulse_count",0)
+        if not candidates or len(root.get("active",[]))>=PROCEDURAL_ARC_MODEL.MAX_ACTIVE: return False
+        choice=provider.ask_choice("procedural_arc","Choose one grounded multi-day village social situation that fits current pressures. Select only from the legal templates; do not invent facts, residents, outcomes, or stages.",PROCEDURAL_ARC_MODEL.compact_context(s),candidates)
+        if choice is None:
+            choice=candidates[(s.get("day",1)+root["proposal_count"])%len(candidates)]
+            model_name="deterministic_fallback"
+        else: model_name=provider.model_for_task("procedural_arc")
+        arc=PROCEDURAL_ARC_MODEL.start(s,choice.get("id"),model_name)
+        if arc: self.record_world_event("A small situation has begun to develop through ordinary village life.","procedural_arc"); return True
+        return False
+
+    def maybe_run_procedural_arcs(self):
+        """Advance due stages and propose arcs infrequently to protect low-end hardware."""
+        s=self.state; root=PROCEDURAL_ARC_MODEL.migrate(s)
+        templates={t["id"]:t for t in ARC_TEMPLATES}
+        for arc,t,stage in list(PROCEDURAL_ARC_MODEL.due_stages(s)):
+            eid=PROCEDURAL_ARC_MODEL.apply_stage(s,arc,t,stage,MEMORY_MODEL,COGNITION_MODEL)
+            if eid: self.record_world_event(stage["text"],"procedural_arc")
+        pulse=s.get("village_brain",{}).get("pulse_count",0)
+        due=(not root.get("active") and pulse>=3) or (len(root.get("active",[]))<PROCEDURAL_ARC_MODEL.MAX_ACTIVE and pulse-root.get("last_proposal_pulse",-999)>=24)
+        if due: return self.run_procedural_arc_proposal("opening_arc" if root.get("proposal_count",0)==0 else "periodic_arc")
         return False
 
     def run_ai_directors(self, domains, reason="scheduled"):
@@ -2450,6 +2486,14 @@ class Game:
                 "objective": "Sleep, then return to the village green",
                 "done": False
             })
+
+        elif action.startswith("arc:help:"):
+            arc_id=action.split(":",2)[2]
+            eid=PROCEDURAL_ARC_MODEL.involve_player(s,arc_id,MEMORY_MODEL,COGNITION_MODEL)
+            if eid:
+                self.advance(20)
+                self.add("Narrator","You offer practical help. The gesture becomes part of how the situation unfolds.")
+                self.record_world_event("The player became involved in a developing village situation.","procedural_arc")
 
         elif action.startswith("job:"):
             self.perform_job_action(action)
