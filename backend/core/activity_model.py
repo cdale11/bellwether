@@ -28,8 +28,15 @@ class ActivityModel:
                 "last_update_absolute_minute": 550,
                 "actions_completed": 0,
             },
-            "skills": {"gardening":0,"home_care":0,"cooking":0},
+            "skills": {"gardening":0,"home_care":0,"cooking":0,"foraging":0,"birdwatching":0,"fishing":0,"local_history":0,"sketching":0},
             "routines": {},
+            "hobbies": {
+                "schema_version": 1,
+                "sessions": {"foraging":0,"birdwatching":0,"fishing":0,"local_history":0,"sketching":0},
+                "collections": {"foraged":{},"birds":[],"fish":{},"history_notes":[],"sketches":[]},
+                "last_practised_day": {},
+                "milestones": [],
+            },
         }
 
     def absolute_minute(self, state):
@@ -80,5 +87,47 @@ class ActivityModel:
             if any(p and self.stage(p)=="ready" for p in g["plots"]): out.append(("garden:harvest","Harvest Ready Crops"))
         out.append(("garden:inspect","Inspect the Garden"))
         return out
+
+
+    def migrate(self, state):
+        rt=state.setdefault("player_activities", self.runtime_defaults())
+        defaults=self.runtime_defaults()
+        rt.setdefault("schema_version", defaults["schema_version"])
+        for skill,value in defaults["skills"].items(): rt.setdefault("skills",{}).setdefault(skill,value)
+        rt.setdefault("routines",{})
+        hobbies=rt.setdefault("hobbies",deepcopy(defaults["hobbies"]))
+        for key,value in defaults["hobbies"].items(): hobbies.setdefault(key,deepcopy(value))
+        for key,value in defaults["hobbies"]["sessions"].items(): hobbies.setdefault("sessions",{}).setdefault(key,value)
+        for key,value in defaults["hobbies"]["collections"].items(): hobbies.setdefault("collections",{}).setdefault(key,deepcopy(value))
+        return rt
+
+    def available_hobby_actions(self, state):
+        loc=state.get("location")
+        out=[]
+        if loc in {"riverside_path","churchyard","ashcroft_cottage"}: out.append(("hobby:birdwatch","Watch for Birds"))
+        if loc in {"riverside_path","churchyard"}: out.append(("hobby:forage","Go Foraging"))
+        if loc == "riverside_path": out.append(("hobby:fish","Fish the River"))
+        if loc in {"churchyard","railway_halt","village_green"}: out.append(("hobby:history","Research Local History"))
+        if loc in {"riverside_path","churchyard","village_green","ashcroft_cottage"}: out.append(("hobby:sketch","Make a Sketch"))
+        return out
+
+HOBBY_DISCOVERIES = {
+    "birds": {
+        "ashcroft_cottage":["blackbird","robin","wren","blue_tit"],
+        "churchyard":["robin","song_thrush","jackdaw","tawny_owl"],
+        "riverside_path":["grey_wagtail","kingfisher","mallard","heron"],
+    },
+    "foraged": {
+        "early_spring":["nettles","wild_garlic"], "late_spring":["wild_garlic","elderflower"],
+        "early_summer":["elderflower","wild_strawberry"], "high_summer":["blackberry","wild_strawberry"],
+        "late_summer":["blackberry","damson"], "early_autumn":["blackberry","damson","hazelnut"],
+        "late_autumn":["hazelnut","rosehip"], "early_winter":["rosehip"], "deep_winter":[], "late_winter":[]
+    },
+    "fish": ["brown_trout","chub","perch","roach"],
+    "history": {
+        "churchyard":"churchyard_masons_marks", "railway_halt":"halt_freight_siding", "village_green":"green_old_market_charter"
+    }
+}
+
 
 ACTIVITY_MODEL=ActivityModel()

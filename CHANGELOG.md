@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.4.2 — Hobbies, Skills, and Personal Routine
+
+- added persistent foraging, birdwatching, fishing, local-history research, and sketching;
+- added location, season, weather, and skill-sensitive hobby outcomes;
+- added persistent hobby skills, collections, session history, practice dates, and milestones;
+- added old-save migration for v0.4.2 activity state;
+- integrated hobbies with player activity history and world consequence propagation;
+- exposed collection counts in the Inventory panel;
+- added focused hobby/skill diagnostic and exhaustive regression audit.
+
 ## v0.4.1 — Economy and Work
 
 - added persistent market demand and business pressure state;

@@ -560,6 +560,7 @@ class Game:
         CONTENT_MODEL.migrate_v040(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
+        ACTIVITY_MODEL.migrate(self.state)
         self.state.setdefault("economy", ECONOMY_MODEL.runtime_defaults())
         self.state.setdefault("jobs", JOB_MODEL.runtime_defaults())
         ECONOMY_MODEL.migrate(self.state)
@@ -770,6 +771,8 @@ class Game:
             ],
         }
         for action_id, label in life_actions.get(loc, []):
+            actions.append({"id": action_id, "label": label, "kind": "life"})
+        for action_id, label in ACTIVITY_MODEL.available_hobby_actions(s):
             actions.append({"id": action_id, "label": label, "kind": "life"})
 
         # Part 16: harvested food and cottage repair supplies now feed deep ordinary-life loops.
@@ -1984,6 +1987,57 @@ class Game:
         if verb!="inspect": CONTENT_MODEL.note_activity(s,"garden")
         self.advance(minutes)
 
+    def perform_hobby_activity(self, action):
+        """v0.4.2: location-, season- and weather-aware persistent hobbies."""
+        from backend.core.activity_model import HOBBY_DISCOVERIES
+        s=self.state; ACTIVITY_MODEL.migrate(s)
+        rt=s["player_activities"]; h=rt["hobbies"]; loc=s.get("location"); season=s.get("season",{}).get("id","")
+        weather=s.get("weather",{}).get("state",""); verb=action.split(":",1)[1] if ":" in action else ""
+        rainy=("rain" in weather or weather in {"storm","showers"})
+        key={"birdwatch":"birdwatching","forage":"foraging","fish":"fishing","history":"local_history","sketch":"sketching"}.get(verb)
+        legal={a for a,_ in ACTIVITY_MODEL.available_hobby_actions(s)}
+        if action not in legal or not key: return
+        minutes={"birdwatch":45,"forage":60,"fish":90,"history":60,"sketch":50}[verb]
+        skill=rt["skills"].get(key,0); coll=h["collections"]; found=None
+        if verb=="birdwatch":
+            pool=HOBBY_DISCOVERIES["birds"].get(loc,[])
+            idx=(s["day"]+h["sessions"][key]+skill//5+(0 if rainy else 1)) % max(1,len(pool))
+            if pool:
+                found=pool[idx]
+                if found not in coll["birds"]: coll["birds"].append(found); self.add("Field Notes",f"You add {found.replace('_',' ')} to your bird list.")
+                else: self.add("Narrator",f"You spend a patient while observing {found.replace('_',' ')} behaviour you are beginning to recognise.")
+        elif verb=="forage":
+            pool=HOBBY_DISCOVERIES["foraged"].get(season,[])
+            if pool:
+                found=pool[(s["day"]+h["sessions"][key])%len(pool)]; amount=1+(skill//20)
+                coll["foraged"][found]=coll["foraged"].get(found,0)+amount
+                self.add("Narrator",f"You return with {amount} useful portion{'s' if amount!=1 else ''} of {found.replace('_',' ')}.")
+            else:self.add("Narrator","You search carefully, but the season offers little worth taking. Learning when not to harvest is part of knowing a place.")
+        elif verb=="fish":
+            pool=HOBBY_DISCOVERIES["fish"]; chance=35+skill*2-(20 if weather=="storm" else 0)
+            roll=(s["day"]*17+h["sessions"][key]*23+skill*7)%100
+            if roll<min(85,chance):
+                found=pool[(s["day"]+h["sessions"][key])%len(pool)]; coll["fish"][found]=coll["fish"].get(found,0)+1
+                self.add("Narrator",f"Patience pays off: a {found.replace('_',' ')} comes to the bank. You record the catch before packing up.")
+            else:self.add("Narrator","The river gives you no catch today, but the time is not empty; you learn a little more about current, shade and patience.")
+        elif verb=="history":
+            note=HOBBY_DISCOVERIES["history"].get(loc)
+            if note and note not in coll["history_notes"]:
+                coll["history_notes"].append(note); found=note
+                self.add("Local History",{"churchyard_masons_marks":"Repeated mason's marks link several old stones to the same nineteenth-century workshop.","halt_freight_siding":"An old notice confirms that the halt once handled small agricultural freight consignments.","green_old_market_charter":"A copied parish notice refers to a much older seasonal market held on the green."}[note])
+            else:self.add("Narrator","You compare dates, names and small public records. No revelation arrives, but the village becomes a little less anonymous.")
+        elif verb=="sketch":
+            sketch=f"{loc}_day_{s['day']}"
+            if sketch not in coll["sketches"]: coll["sketches"].append(sketch)
+            self.add("Narrator","You sit long enough to draw what is actually in front of you. Looking for proportion and shadow makes familiar details newly specific.")
+        h["sessions"][key]+=1; h["last_practised_day"][key]=s["day"]
+        rt["skills"][key]=min(100,skill+1+(1 if found else 0))
+        total=sum(h["sessions"].values())
+        for threshold,label in [(5,"first_hobby_rhythm"),(20,"settled_interests"),(50,"village_naturalist")]:
+            if total>=threshold and label not in h["milestones"]: h["milestones"].append(label)
+        self.record_player_activity("hobby_"+key,f"practising {key.replace('_',' ')}",minutes,{"hobby":key,"skill":rt["skills"][key],"discovery":found})
+        self.advance(minutes); self.propagate_world_consequences("player_activity")
+
     def perform_job_action(self, action):
         """Part 6 employment actions: applications and bounded scheduled shifts."""
         s=self.state; parts=action.split(":")
@@ -2266,6 +2320,9 @@ class Game:
 
         elif action.startswith("garden:"):
             self.perform_garden_activity(action)
+
+        elif action.startswith("hobby:"):
+            self.perform_hobby_activity(action)
 
         elif action == "ask_village":
             # Observation is read-only with respect to Director state. Time still passes,

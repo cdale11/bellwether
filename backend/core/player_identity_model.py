@@ -30,13 +30,16 @@ class PlayerIdentityModel:
         routine_share=(counts.get(dominant,0)/acts) if dominant and acts else 0
         psych=state.get("psychological_state",{}); horrors=len(state.get("systemic_horror",{}).get("experienced",[]))
         jobs=state.get("jobs",{}); shifts=sum(len(v.get("shift_history",[])) for v in jobs.get("employment",{}).values() if isinstance(v,dict))
+        hobby_sessions=sum(v for k,v in counts.items() if k.startswith("hobby_"))
+        field_observation=counts.get("hobby_birdwatching",0)+counts.get("hobby_local_history",0)
+        practical_hobbies=counts.get("hobby_foraging",0)+counts.get("hobby_fishing",0)+counts.get("hobby_sketching",0)
         scores={
-          "care":min(100,branch.get("care",0)*7+counts.get("tidy",0)*5+counts.get("tea",0)*2+counts.get("garden",0)*4),
+          "care":min(100,branch.get("care",0)*7+counts.get("tidy",0)*5+counts.get("tea",0)*2+counts.get("garden",0)*4+counts.get("hobby_sketching",0)*2),
           "community":min(100,branch.get("community",0)*6+talks*4+trust*2),
-          "inquiry":min(100,branch.get("inquiry",0)*6+(evidence+structured)*5+counts.get("read_timetable",0)*3),
+          "inquiry":min(100,branch.get("inquiry",0)*6+(evidence+structured)*5+counts.get("read_timetable",0)*3+field_observation*3),
           "routine":min(100,int(routine_share*70)+min(30,acts*2)),
           "social":min(100,talks*8+trust*3),
-          "independence":min(100,max(0,acts*3-talks*2)+shifts*3),
+          "independence":min(100,max(0,acts*3-talks*2)+shifts*3+practical_hobbies*2),
           "resilience":min(100,branch.get("recoveries",[]).__len__()*18+horrors*5+max(0,50-int(psych.get("unease",0)))//5),
           "avoidance":min(100,branch.get("avoidance",0)*8+max(0,int(psych.get("unease",0))-45)//2),
         }

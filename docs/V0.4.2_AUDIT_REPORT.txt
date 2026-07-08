@@ -1,0 +1,34 @@
+BELLWETHER v0.4.2 AUDIT REPORT
+
+Scope: Hobbies, Skills, and Personal Routine.
+
+Audit areas:
+- activity-state migration and nested defaults
+- location gating
+- season-aware foraging
+- weather-aware outdoor outcomes
+- skill/session persistence
+- collection uniqueness and accumulation
+- time advancement and world consequence propagation
+- player activity-history integration
+- cumulative historical diagnostics
+- Python compilation and JavaScript syntax
+- packaging and executable permission
+
+Any unresolved findings from the executed audit are reported in the delivery message.
+
+EXECUTED RESULTS
+- v0.4.2 focused diagnostic: 11/11 PASS
+- v0.4.1 economy/work diagnostic: 15/15 PASS
+- v0.4.0 ordinary-life diagnostic: 5/5 PASS
+- cumulative post-v0.1.0 diagnostic: all stages PASS
+- release-candidate certification with --skip-qwen: PASS, including 14/14 structural simulation profiles, save/load migration, conversation/fallback isolation, scheduler, temperature, and transition invariants
+- Python compileall: PASS
+- JavaScript syntax check: PASS
+- run.sh executable permission: preserved
+
+REAL-QWEN NOTE
+Real-Qwen QA was not rerun because v0.4.2 does not modify provider code, prompts, model routing, or conversation parsing. Deterministic AI fallback and conversation isolation were covered by release-candidate certification.
+
+AUDIT FINDING
+The first hobby layer is intentionally deterministic and compact. Foraged goods and fish are persistent collections but are not yet integrated into cooking or selling; deeper economic/social/mystery consequences are reserved for additive later releases rather than being introduced as unvalidated cross-system shortcuts.

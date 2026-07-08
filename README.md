@@ -1,6 +1,6 @@
-# Bellwether v0.4.1 — Economy and Work
+# Bellwether v0.4.2 — Hobbies, Skills, and Personal Routine
 
-Bellwether v0.4.1 deepens the ordinary-life loop by making work and local trade persistent, progressive systems rather than isolated transactions. It is an additive upgrade from v0.4.0.
+Bellwether v0.4.2 expands ordinary village life with persistent hobbies that depend on place, season, weather, repeated practice, and discovery. It is an additive upgrade from v0.4.1.
 
 ## Run
 
@@ -10,22 +10,20 @@ Bellwether v0.4.1 deepens the ordinary-life loop by making work and local trade 
 
 Bellwether uses the local Ollama model when available and retains deterministic fallback behaviour when AI is unavailable.
 
-## v0.4.1 scope
+## v0.4.2 scope
 
-- persistent village market state with bounded produce demand cycles;
-- business pressure and trend state for the shop and bakery;
-- gradual stock recovery through daily deliveries, affected by severe weather;
-- demand-sensitive produce selling prices;
-- bounded retail pressure pricing;
-- persistent job reliability, career history, shift progression and modest wage growth;
-- voluntary job resignation and a cooldown before reapplying;
-- daily fatigue recovery;
-- save migration for v0.4.0 economy and job state;
-- focused v0.4.1 economy/work diagnostic and cumulative regression audit.
+- persistent foraging, birdwatching, fishing, local-history research, and sketching;
+- location-specific hobby availability;
+- seasonal forage tables and weather-aware outdoor activity outcomes;
+- persistent hobby skills, session counts, last-practised dates, collections, and milestones;
+- bird list, forage store, catch log, history notes, and sketch archive;
+- old-save migration for hobby and skill state;
+- player activity history integration so later Town Mind/player-style systems can observe hobbies;
+- focused v0.4.2 hobby diagnostic plus cumulative regression audit.
 
 ## Design boundary
 
-The economy remains deterministic and authoritative. Future Town Mind or Economy Director work may propose validated pressure changes, but LLM output must never directly edit money, stock, employment or prices.
+Hobby outcomes are deterministic and state-grounded. They use authoritative location, season, weather, skill, and persistent collection state. Future Directors may influence opportunities, but may not invent discoveries or mutate collections directly.
 
 ## Historical development notes
 

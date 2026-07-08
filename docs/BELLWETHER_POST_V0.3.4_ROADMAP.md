@@ -154,6 +154,8 @@ Different work styles produce meaningfully different weeks, contacts, income pat
 
 ## Milestone B3 — v0.4.2 Hobbies, Skills, and Personal Routine
 
+**Implementation status:** Completed in v0.4.2 with foraging, birdwatching, fishing, local-history research, and sketching as the first coherent subset. Persistent skills, collections, seasonal/location gating, activity-history integration, and PlayerIdentityModel influence are implemented. Deeper NPC, economic, and mystery consequences remain additive future work.
+
 **Primary objective:** broaden the player's identity through chosen behaviour rather than character-creation stat allocation.
 
 ### Candidate activities
