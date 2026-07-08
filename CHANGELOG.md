@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.5.1 — Village Population and Simulation Tiers
+
+- Added 24 persistent lightweight background residents.
+- Added strict resident schema validation, households, occupations, routine archetypes, traits and interests.
+- Added batched hourly background simulation with work, commute, school, errands, community and evening routines.
+- Added cheap persistent social-link formation without per-resident LLM calls.
+- Surfaced lightweight residents in location presence UI while keeping them outside core-NPC cognition and dialogue loops.
+- Added old-save migration for the population substrate.
+- Added focused v0.5.1 diagnostics and audit documentation.
+
 ## v0.5.0 — Complete Core Cast and Memory Foundation
 
 - Expanded the authored core cast from three to six residents.

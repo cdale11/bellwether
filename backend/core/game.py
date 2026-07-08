@@ -29,6 +29,7 @@ from backend.core.danger_model import DANGER_MODEL
 from backend.core.recurrence_model import RECURRENCE_MODEL
 from backend.core.content_model import CONTENT_MODEL
 from backend.core.memory_model import MEMORY_MODEL
+from backend.core.population_model import POPULATION_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -202,6 +203,7 @@ INITIAL_STATE = {
     "recurrence": RECURRENCE_MODEL.runtime_defaults(),
     "content_progression": CONTENT_MODEL.runtime_defaults(),
     "memory_system": MEMORY_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
+    "population": POPULATION_MODEL.runtime_defaults(),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -561,6 +563,7 @@ class Game:
         self.state.setdefault("recurrence", RECURRENCE_MODEL.runtime_defaults())
         self.state.setdefault("content_progression", CONTENT_MODEL.runtime_defaults())
         MEMORY_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
+        POPULATION_MODEL.migrate(self.state)
         CONTENT_MODEL.migrate_v040(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
@@ -675,6 +678,9 @@ class Game:
             npc for npc in self.state.get("npcs", {}).values()
             if npc.get("visible", True) and npc.get("location") == self.state["location"]
         ]
+        # Lightweight residents are visible village life, but remain outside the
+        # expensive core-NPC dialogue/cognition loops.
+        present_npcs.extend(POPULATION_MODEL.present(self.state, self.state["location"]))
         present_traffic = [
             vehicle for vehicle in self.state.get("traffic", {}).values()
             if vehicle.get("location") == self.state["location"]
@@ -846,6 +852,7 @@ class Game:
             self.update_npc_personal_lives(step)
             ACTIVITY_MODEL.advance(s, step)
             SEASONAL_MODEL.refresh(s)
+            POPULATION_MODEL.advance_batch(s)
             HORROR_MODEL.expire(s)
             for event_kind,event_id,message in EVENT_MODEL.advance(s):
                 self.add("Bellwether", message)
@@ -994,8 +1001,10 @@ class Game:
         if gp:
             obs["ashcroft_cottage"] = "Freshly disturbed soil and a growing cleared patch show that someone has been working in the garden."
         obs["village_road"] = ("The road is busy with passing traffic." if new_level >= 2 else "The road has settled into a quieter interval.")
-        if green_people:
-            obs["village_green"] = f"There are {len(green_people)} familiar villager{'s' if len(green_people) != 1 else ''} moving around the green."
+        light_green = POPULATION_MODEL.present(s, "village_green")
+        total_green = len(green_people) + len(light_green)
+        if total_green:
+            obs["village_green"] = f"There are {total_green} villager{'s' if total_green != 1 else ''} moving around the green."
         else:
             obs["village_green"] = "For the moment, the green has fallen quiet."
 

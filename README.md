@@ -1,4 +1,24 @@
-# Bellwether v0.5.0 — Complete Core Cast and Memory Foundation
+# Bellwether v0.5.1 — Village Population and Simulation Tiers
+
+Bellwether v0.5.1 expands the village beyond the six-person core cast with 24 persistent lightweight residents. They have stable identities, households, occupations, interests, routines, location schedules, social links, and bounded histories, while remaining outside expensive core-NPC LLM and social-web loops. This is an additive upgrade from v0.5.0.
+
+## v0.5.1 scope
+
+- 24 persistent lightweight background residents with strict validated schemas.
+- Stable households, occupations, traits, interests, routine archetypes, and identities.
+- Hourly batched simulation rather than per-resident LLM calls.
+- Work, commute, school, errands, community activity, and evening movement schedules.
+- Cheap persistent social-link formation from repeated co-location.
+- Lightweight residents appear in the location presence UI without entering core-NPC dialogue/cognition loops.
+- Old-save migration creates the population safely without replacing existing state.
+- Existing integrated Ollama auto-detection remains unchanged: pull the recommended models once, then run `./run.sh`.
+
+Run the focused diagnostic with:
+
+```bash
+python tools/v051_population_tiers_diagnostic.py
+```
+
 
 Bellwether v0.5.0 expands the deeply simulated authored cast from three to six core residents and introduces the first durable structured memory substrate required for later relationship depth, procedural social arcs, and the Town Mind. It is an additive upgrade from v0.4.2.
 

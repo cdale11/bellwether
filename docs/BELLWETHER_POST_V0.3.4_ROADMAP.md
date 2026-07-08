@@ -1,7 +1,7 @@
 
-## Implementation status update — v0.5.0
+## Implementation status update — v0.5.1
 
-Completed in v0.5.0: six-person authored core cast, complete pairwise authored social web, first durable structured event/NPC-memory substrate, old-save migration for the expanded cast, and fast/deep Ollama task-routing readiness. Relationship consequence depth remains scheduled for v0.5.2; full Town Mind scheduling remains in v0.7.x.
+Completed through v0.5.1: six-person authored core cast, complete pairwise authored social web, first durable structured event/NPC-memory substrate, fast/deep Ollama task-routing readiness, and a separate 24-resident lightweight population tier with stable identities, households, occupations, schedules, batched simulation, and cheap persistent social links. Relationship consequence depth remains scheduled for v0.5.2; full Town Mind scheduling remains in v0.7.x.
 
 # BELLWETHER — POST-v0.3.4 DEVELOPMENT ROADMAP
 
@@ -235,7 +235,7 @@ The player can form distinct impressions and relationships with the full core ca
 ### Work
 
 - implement simulation tiers for core, semi-main, and lightweight residents;
-- add roughly 15–20 persistent lighter residents gradually;
+- add roughly 20–25 persistent lighter residents;
 - give each stable identity, home/work/social anchors, bounded schedules, selected relationships, and limited knowledge;
 - batch low-cost simulation pulses;
 - allow promotion of selected residents into richer simulation when story or relationship relevance grows;
