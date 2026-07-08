@@ -1,0 +1,21 @@
+BELLWETHER v0.5.0 — INTEGRATED OLLAMA MODEL SELECTION UPDATE
+
+Normal player workflow:
+1. Pull recommended model(s) into Ollama once.
+2. Run ./run.sh.
+
+Bellwether queries the local Ollama /api/tags endpoint at provider initialization and automatically selects compatible installed models. No BELLWETHER_AI_FAST_MODEL or BELLWETHER_AI_DEEP_MODEL exports are required for normal play.
+
+Low-end preference order:
+Foreground: qwen3.5:2b -> qwen3.5:4b -> qwen3:1.7b -> llama3.2:3b.
+Strategic: qwen3.5:4b -> qwen3.5:2b -> foreground model.
+
+Developer environment overrides remain supported for testing only.
+
+Validation performed:
+- Python compilation: PASS
+- v0.5.0 focused diagnostic: 12/12 PASS
+- cumulative post-v0.1.0 diagnostic: all 20 stages PASS
+- launcher executable permission preserved
+
+No gameplay state schema changed in this update.

@@ -10,83 +10,33 @@ Bellwether v0.5.0 expands the deeply simulated authored cast from three to six c
 
 Bellwether uses local Ollama models when available and retains deterministic fallback behaviour when AI is unavailable.
 
-## Required local models for the recommended low-end profile
+## Local Ollama models — automatic in-game use
 
-For the current target machine (Intel i3-4160, 8 GB RAM, 4 GB zram), install these two models:
+Bellwether now discovers compatible models already pulled into the local Ollama service and uses them directly. **No model exports, environment-variable setup, or manual model selection is required for normal play.**
+
+For the target i3-4160 / 8 GB RAM machine, install once:
 
 ```bash
 ollama pull qwen3.5:2b
 ollama pull qwen3.5:4b
 ```
 
-The 2B model is the foreground/default model for dialogue, bounded Directors, NPC choices, weather, traffic, memory-adjacent work, and ordinary simulation calls. The 4B model is the optional strategic model reserved by the routing layer for future Town Mind, procedural-arc, recurrence-strategy, and horror-strategy task classes. v0.5.0 is routing-ready, but does not yet run the future Town Mind loop.
-
-Recommended low-end environment:
+Then simply run:
 
 ```bash
-export BELLWETHER_AI_FAST_MODEL=qwen3.5:2b
-export BELLWETHER_AI_DEEP_MODEL=qwen3.5:4b
-export BELLWETHER_AI_THREADS=4
-export BELLWETHER_AI_NUM_CTX=4096
-export OLLAMA_NUM_PARALLEL=1
 ./run.sh
 ```
 
-Do not increase context merely because a model advertises a very large maximum. Bellwether deliberately uses compact context routing and structured memory retrieval. On an 8 GB CPU system, 4096 is the recommended starting point.
+The game automatically prefers `qwen3.5:2b` for foreground and routine simulation work and `qwen3.5:4b` for strategic task classes. If only one compatible model is installed, Bellwether uses that available model for the roles it can serve. If Ollama is unavailable, deterministic fallback keeps the game playable.
 
-## Installing Ollama on headless Debian
-
-If Ollama is not installed:
-
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-sudo systemctl enable --now ollama
-ollama pull qwen3.5:2b
-ollama pull qwen3.5:4b
-ollama list
-```
-
-If the service needs explicit low-end settings, create a systemd override:
-
-```bash
-sudo systemctl edit ollama
-```
-
-Add:
-
-```ini
-[Service]
-Environment="OLLAMA_NUM_PARALLEL=1"
-Environment="OLLAMA_MAX_LOADED_MODELS=1"
-```
-
-Then apply it:
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart ollama
-```
-
-`OLLAMA_MAX_LOADED_MODELS=1` is recommended on the 8 GB low-end machine so the future strategic model does not compete in RAM with the foreground model. Model switching is slower, but safer.
-
-## Better 8 GB home computer profile
-
-For a materially faster CPU with 8 GB RAM, the safe default is still:
+For a faster home computer that still has 8 GB RAM, pulling only `qwen3.5:4b` is a reasonable simple profile:
 
 ```bash
 ollama pull qwen3.5:4b
-```
-
-Run the 4B model as the foreground and strategic model:
-
-```bash
-export BELLWETHER_AI_FAST_MODEL=qwen3.5:4b
-export BELLWETHER_AI_DEEP_MODEL=qwen3.5:4b
-export BELLWETHER_AI_NUM_CTX=4096
 ./run.sh
 ```
 
-A larger strategic model should only be introduced after benchmarking actual RAM pressure and latency. Bellwether must remain playable with one small local model and deterministic fallback.
+Bellwether will detect and use it automatically. Advanced environment overrides remain supported for developers and benchmarking, but players do not need them. Context defaults to 4096 and thread count defaults to the logical CPUs visible to the operating system.
 
 ## v0.5.0 scope
 

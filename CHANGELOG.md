@@ -485,3 +485,10 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Connected gardening, cooking and paid work to the shared daily-routine record.
 - Sleep now closes and evaluates the lived day, preserving consequences into following mornings.
 - Added migration-safe defaults and a focused v0.4.0 ordinary-life diagnostic.
+
+### v0.5.0 integrated Ollama selection update
+- Bellwether now discovers compatible models already installed in the local Ollama service.
+- Normal play no longer requires model-selection environment variables.
+- Low-end routing automatically prefers qwen3.5:2b for foreground work and qwen3.5:4b for strategic work when both are installed.
+- If only one compatible model is available, routing degrades to the available model; deterministic fallback remains available when Ollama is offline.
+- README and launcher instructions simplified to pull model(s) once and run `./run.sh`.

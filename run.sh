@@ -1,46 +1,28 @@
 #!/usr/bin/env bash
 set -e
-
 cd "$(dirname "$0")"
 
 echo
-echo "Starting Bellwether using the active Conda environment..."
+echo "Starting Bellwether..."
 export BELLWETHER_AI="${BELLWETHER_AI:-1}"
-export BELLWETHER_AI_FAST_MODEL="${BELLWETHER_AI_FAST_MODEL:-${BELLWETHER_AI_MODEL:-qwen3.5:2b}}"
-export BELLWETHER_AI_DEEP_MODEL="${BELLWETHER_AI_DEEP_MODEL:-qwen3.5:4b}"
-export BELLWETHER_AI_MODEL="$BELLWETHER_AI_FAST_MODEL"
 export BELLWETHER_AI_NUM_CTX="${BELLWETHER_AI_NUM_CTX:-4096}"
 export BELLWETHER_AI_THREADS="${BELLWETHER_AI_THREADS:-$(getconf _NPROCESSORS_ONLN 2>/dev/null || nproc 2>/dev/null || echo 1)}"
-echo "AI foreground model: ${BELLWETHER_AI_FAST_MODEL}"
-echo "AI strategic model:  ${BELLWETHER_AI_DEEP_MODEL} (used only by strategic task classes)"
+
+echo "Bellwether automatically uses compatible models already installed in local Ollama."
+echo "No model environment variables are required for normal play."
 echo "LLM inference threads: ${BELLWETHER_AI_THREADS}"
-echo "Optional thread benchmark: python3 tools/benchmark_llm_threads.py"
-echo "Bellwether will ask the local model to choose a season while the server starts."
-echo "The selected season will be printed below before the game is ready."
 
 if command -v ollama >/dev/null 2>&1; then
-    if ! ollama list 2>/dev/null | awk '{print $1}' | grep -qx "${BELLWETHER_AI_MODEL}"; then
-        echo "WARNING: ${BELLWETHER_AI_MODEL} is not installed in Ollama."
-        echo "Install once with: ollama pull ${BELLWETHER_AI_MODEL}"
-    fi
-    if ! ollama list 2>/dev/null | awk '{print $1}' | grep -qx "${BELLWETHER_AI_DEEP_MODEL}"; then
-        echo "NOTICE: strategic model ${BELLWETHER_AI_DEEP_MODEL} is not installed."
-        echo "Install for future strategic task classes with: ollama pull ${BELLWETHER_AI_DEEP_MODEL}"
-    fi
+    echo "Installed Ollama models:"
+    ollama list 2>/dev/null | sed -n '1,6p' || true
 else
-    echo "WARNING: Ollama command not found. Bellwether will use baseline simulation."
+    echo "WARNING: Ollama command not found. Bellwether will use deterministic fallback simulation."
 fi
 
-
+echo
 echo "Server will listen on all network interfaces."
-echo
-
 LAN_IP="$(hostname -I 2>/dev/null | awk '{print $1}')"
-
 echo "This computer: http://127.0.0.1:8000"
-if [ -n "$LAN_IP" ]; then
-    echo "Local WLAN:   http://${LAN_IP}:8000"
-fi
+if [ -n "$LAN_IP" ]; then echo "Local WLAN:   http://${LAN_IP}:8000"; fi
 echo
-
 exec python -m uvicorn backend.app:app --host 0.0.0.0 --port 8000

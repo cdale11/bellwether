@@ -5,8 +5,18 @@ class AIProvider:
     def __init__(self):
         self.enabled=os.getenv("BELLWETHER_AI","1").lower() in {"1","true","yes","on"}
         self.base_url=os.getenv("BELLWETHER_AI_URL","http://127.0.0.1:11434")
-        self.fast_model=os.getenv("BELLWETHER_AI_FAST_MODEL",os.getenv("BELLWETHER_AI_MODEL","qwen3.5:2b"))
-        self.deep_model=os.getenv("BELLWETHER_AI_DEEP_MODEL","qwen3.5:4b")
+        # v0.5.0 integrated local-model selection: models already pulled into Ollama
+        # are discovered and used automatically. Environment variables remain optional
+        # developer overrides, not a requirement for normal play.
+        installed = self._installed_ollama_models()
+        fast_override = os.getenv("BELLWETHER_AI_FAST_MODEL") or os.getenv("BELLWETHER_AI_MODEL")
+        deep_override = os.getenv("BELLWETHER_AI_DEEP_MODEL")
+        self.fast_model = fast_override or self._pick_installed_model(
+            installed, ["qwen3.5:2b", "qwen3.5:4b", "qwen3:1.7b", "llama3.2:3b"]
+        ) or "qwen3.5:2b"
+        self.deep_model = deep_override or self._pick_installed_model(
+            installed, ["qwen3.5:4b", "qwen3.5:2b", self.fast_model]
+        ) or self.fast_model
         self.model=self.fast_model  # compatibility: existing diagnostics and UI report the foreground model
         self.num_ctx=max(1024,int(os.getenv("BELLWETHER_AI_NUM_CTX","4096")))
         self.timeout=float(os.getenv("BELLWETHER_AI_TIMEOUT","30"))
@@ -29,6 +39,26 @@ class AIProvider:
         # authoritative game state and attached to every Director/dialogue request.
         self.overview_context = {}
         self.recent_call_memory = []
+
+
+    def _installed_ollama_models(self):
+        """Return locally installed Ollama model names without requiring shell configuration."""
+        try:
+            with urllib.request.urlopen(self.base_url.rstrip("/") + "/api/tags", timeout=1.5) as r:
+                data = json.loads(r.read().decode())
+            return [m.get("name", "") for m in data.get("models", []) if m.get("name")]
+        except Exception:
+            return []
+
+    @staticmethod
+    def _pick_installed_model(installed, preferences):
+        for preferred in preferences:
+            if not preferred:
+                continue
+            for name in installed:
+                if name == preferred or name.startswith(preferred + ":"):
+                    return name
+        return None
 
     def model_for_task(self,director):
         # v0.5.0 routing-ready boundary. Existing synchronous Directors stay fast;
