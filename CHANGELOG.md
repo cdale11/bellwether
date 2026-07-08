@@ -552,3 +552,12 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added engine-side trust/familiarity clamps for greetings and short weather small talk.
 - Improved diagnostics so repaired dialogue is distinguishable from cleanly formatted dialogue.
 - Added `tools/v061_conversation_reliability_diagnostic.py`.
+
+## v0.7.1 — NPC Cognition and Long-Term Memory
+- Added persistent bounded cognition state for every core NPC.
+- Added explicit fact/belief/rumour/impression/suspicion typing and source provenance.
+- Added belief reinforcement, confidence revision logs, concerns, unresolved questions, short-term goals and ambitions.
+- Added witness-gated event ingestion and bounded cognition retrieval for free dialogue context.
+- Added daily fading of low-confidence subjective beliefs without degrading authoritative facts.
+- Added old-save migration and focused v0.7.1 diagnostics.
+- Rebuilt README.md to accurately describe the current release, direct Ollama setup, CPU-thread behaviour, AI authority, conversation limits and diagnostic commands.

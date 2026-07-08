@@ -33,6 +33,7 @@ from backend.core.population_model import POPULATION_MODEL
 from backend.core.social_consequence_model import SOCIAL_CONSEQUENCE_MODEL
 from backend.core.travel_model import TRAVEL_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
+from backend.core.cognition_model import COGNITION_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -210,6 +211,7 @@ INITIAL_STATE = {
     "social_consequences": SOCIAL_CONSEQUENCE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "travel": TRAVEL_MODEL.runtime_defaults(),
     "town_mind": TOWN_MIND_MODEL.runtime_defaults(),
+    "npc_cognition": COGNITION_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -569,6 +571,8 @@ class Game:
         self.state.setdefault("recurrence", RECURRENCE_MODEL.runtime_defaults())
         self.state.setdefault("content_progression", CONTENT_MODEL.runtime_defaults())
         MEMORY_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
+        COGNITION_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
+        COGNITION_MODEL.bootstrap_authoritative_context(self.state, NPC_MODEL, KNOWLEDGE_MODEL)
         POPULATION_MODEL.migrate(self.state)
         SOCIAL_CONSEQUENCE_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         TRAVEL_MODEL.migrate(self.state)
@@ -923,6 +927,7 @@ class Game:
         # Every pulse leaves a small persistent consequence: the village lives even
         # when no AI Director happens to be scheduled on this tick.
         self.apply_tick_consequence()
+        COGNITION_MODEL.fade(s)
         self.propagate_world_consequences("pulse")
 
         # Universal AI World round: ordinary movement, dialogue, rest, quests,
@@ -1508,6 +1513,7 @@ class Game:
             "village_mood": s["village_brain"]["mood"],
             "npc_memories": s.get("social_memory", {}).get(npc_id, [])[-3:],
             "structured_memory": MEMORY_MODEL.context(s,npc_id,limit=6),
+            "npc_cognition": COGNITION_MODEL.context(s,npc_id,limit=6),
             "social_consequences": SOCIAL_CONSEQUENCE_MODEL.context(s,npc_id,limit=6),
             "recent_conversation": self._conversation_recent_exchange_context(npc_id),
             "npc_personality": self._npc_social_personality(npc_id),
@@ -1568,6 +1574,7 @@ class Game:
             "conversation", npc_id
         )
         event_id=MEMORY_MODEL.record(s,"conversation",f"The player spoke with {npc['name']} at {WORLD[s['location']]['name']}.",actors=[npc_id],location=s["location"],witnesses=[npc_id],importance=2,tags=["player_contact"])
+        COGNITION_MODEL.ingest_event(s,npc_id,event_id)
         if social and social.get("memory") and self._social_memory_supported_by_player(player_text,social.get("memory")):
             MEMORY_MODEL.remember_impression(s,npc_id,social.get("memory"),event_id,0.65)
         # v0.5.2: only explicit, conservatively recognized social acts become structured consequences.
