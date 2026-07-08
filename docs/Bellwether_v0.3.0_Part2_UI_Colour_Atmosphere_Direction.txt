@@ -1,0 +1,52 @@
+BELLWETHER v0.3.0 — PART 2 UI COLOUR, ATMOSPHERE, AND VISUAL STATE DIRECTION
+
+Version: Planning Draft 1
+Purpose: Replace the transitional fixed dark palette with a state-responsive visual identity.
+
+1. STATUS OF THE PART 1 COLOUR SCHEME
+The Part 1 dark green-grey interface was transitional. Ordinary opening play should be warm, readable, rural, and inviting. A pleasant spring or summer morning must not visually resemble late-evening horror.
+
+2. CORE COLOUR PRINCIPLE
+Bellwether should not have one static theme. Presentation responds coherently to season, time of day, weather, indoor/outdoor context, location character, supernatural pressure, psychology where appropriate, and recurrence where appropriate. Readability remains mandatory.
+
+3. ORDINARY DAYTIME BASELINE
+Use warm cream, restrained parchment, muted natural greens, sunlit wood, weathered stone neutrals, earth browns, and restrained seasonal accents. Dark surfaces may be used selectively for prose focus, but ordinary daytime must communicate possibility, comfort, curiosity, rural calm, attachment, and ordinary life.
+
+4. SEASONAL PALETTE BEHAVIOUR
+Spring: fresh greens, cream, pale yellow warmth, damp earth, blossom accents, gentle blue-grey rain.
+Summer: fuller greens, warm cream, sunlit straw, abundant vegetation, brighter sky influence, warm wood and stone.
+Autumn: ochre, russet, muted gold, damp green, warm grey, darkening earth.
+Winter: pale blue-grey, cream, bare-earth brown, subdued vegetation, and low warm interior light. Winter is quiet and demanding, not automatically supernatural.
+
+5. TIME-OF-DAY BEHAVIOUR
+Morning is clean, warm, legible, and hopeful. Midday has the clearest ordinary-life colour identity. Late afternoon adds warmer highlights and longer shadows. Evening reduces brightness while emphasizing warm local light. Night uses genuinely darker surfaces, restrained cool environmental tones, warm pools of light, stronger scene focus, and reduced visual noise.
+
+6. WEATHER PALETTE BEHAVIOUR
+Clear weather retains seasonal colour. Overcast softens contrast without becoming ominous. Rain cools the environment and adds wet-surface atmosphere while preserving readable warm UI surfaces. Heavy rain strengthens shelter contrast. Snow uses pale reflected light and warm interior accents. Storms reduce saturation and increase physical disruption without automatically implying supernatural corruption. Mist reduces depth contrast while preserving foreground readability.
+
+7. PROSE AND DIALOGUE SURFACES
+Bellwether remains text-first. Narration uses a calm integrated reading surface with strong typography. Conversation uses related VN-compatible framing with portrait/bust presentation, speaker identity, and clearly separated responses. Major authored scenes intensify the same grammar rather than replacing it.
+
+8. BUTTON AND ACTION VISUAL LANGUAGE
+People, Activities, Explore, Investigate, and Travel are navigation categories, not generic web buttons. Contextual actions connect visually to category. Quick actions may be prominent without becoming a permanent toolbar. Dialogue responses have their own VN-compatible treatment. Disabled actions remain legible and may explain why unavailable.
+
+9. ARTWORK-DRIVEN UI PALETTE
+The artwork and UI must feel like one visual system. Derive semantic tokens from approved art, test ordinary daytime first, then seasonal transformation, weather, night readability, and horror corruption separately. Avoid placing illustrated art inside an unrelated dark administrative dashboard.
+
+10. SEMANTIC THEME TOKENS
+Use semantic variables for page background, scene surround, reading surface, elevated panel, primary/secondary/muted text, subtle/emphasized borders, ordinary/relationship/investigation/activity/danger accents, weather tint, seasonal tint, night tint, and supernatural corruption tint.
+
+11. HORROR COLOUR CORRUPTION
+Horror corrupts an established normal palette rather than merely darkening the screen. Possible state-driven changes include warmth draining locally, familiar accents shifting, a panel retaining the wrong season, weather tint disagreeing with the scene, subtly wrong portrait balance, impossible lighting, or recurrence annotations using an alien colour. Early corruption is subtle and deniable. Random glitches are not a substitute for systemic horror.
+
+12. MOBILE AND DESKTOP REQUIREMENTS
+Test bright screens, low-light play, small text surfaces, portraits, action trays, scene cards, dedicated panels, weather overlays, night, snow brightness, and storm darkness. Mobile must not blindly inherit desktop transparency if readability suffers over cropped artwork.
+
+13. PART 2 IMPLEMENTATION RULE
+Preserve the successful Part 1 layout architecture; select and document art direction; maintain the Asset Bible; derive semantic palette tokens; integrate scenes and characters; test ordinary life before horror states.
+
+14. SUCCESS CRITERIA
+A spring morning feels welcoming. Summer feels alive. Rain is atmospheric rather than automatically frightening. Snow changes the world. Night is naturally darker. Interiors can feel safe and warm. Storms feel disruptive. Horror corruption remains distinguishable from ordinary weather. Prose stays readable. Artwork and UI feel unified. Desktop and mobile remain coherent.
+
+CLOSING PRINCIPLE
+Bellwether should not look haunted before the player has learned to love it. Darkness should arrive because night falls. Coldness should arrive because winter comes. Unease should arrive because something familiar has become wrong.

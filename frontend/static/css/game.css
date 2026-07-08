@@ -73,25 +73,24 @@ body[data-daypart="night"] .npc-portrait,body[data-daypart="late_night"] .npc-po
 @media(max-width:720px){.home-hero{grid-template-columns:1fr}.garden-plots{grid-template-columns:1fr}.map-board{grid-template-columns:1fr 1fr;padding:14px;gap:10px}.relationship-person{grid-template-columns:72px 1fr}.relationship-person img{width:72px;height:84px}}
 
 /* v0.3.1 — illustrated exploration map */
-.exploration-map{position:relative;width:100%;aspect-ratio:1536/1024;overflow:hidden;border:1px solid #a58d64;border-radius:12px;background:linear-gradient(135deg,#c8b78f,#9e8d69);box-shadow:inset 0 0 55px rgba(54,42,25,.28)}
-.map-image{position:absolute;inset:0;background:url('/static/assets/maps/Base_Map.png') center/cover no-repeat;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-composite:source-over;mask-composite:add;transition:filter .3s ease}
-.map-fog{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 45%,rgba(235,222,184,.18),rgba(71,63,48,.42));display:flex;align-items:flex-end;justify-content:center;padding:14px;color:rgba(255,250,231,.82);text-shadow:0 1px 3px #332a1d}
-.map-fog p{margin:0;background:rgba(53,45,33,.58);padding:7px 11px;border-radius:999px;font-size:.82rem}
-.map-markers{position:absolute;inset:0}.map-landmark{position:absolute;z-index:3;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;max-width:130px;text-align:center;filter:drop-shadow(0 2px 2px rgba(255,248,225,.9))}
-.map-landmark span{background:rgba(250,241,211,.9);border:1px solid rgba(94,74,44,.55);border-radius:5px;padding:3px 6px;font-size:.72rem;font-weight:700;color:#493b29;line-height:1.1}
-.map-landmark b{background:#5e4930;color:#fff6dd;border-radius:999px;padding:4px 8px;font-size:.7rem;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.28)}
-.map-landmark.current::before{content:'◆';color:#6f392e;font-size:1.25rem;line-height:1;text-shadow:0 1px 2px #fff4d7}
-.map-landmark .panel-action{padding:3px 7px!important;font-size:.68rem;margin:0}
-@media(max-width:720px){.exploration-map{min-width:700px}.panel-content:has(.exploration-map){overflow:auto}.map-landmark span{font-size:.66rem}.map-fog p{display:none}}
 
 /* v0.3.1 — illustrated exploration map */
-.exploration-map{position:relative;width:100%;aspect-ratio:1536/1024;overflow:hidden;border:1px solid #a58d64;border-radius:12px;background:linear-gradient(135deg,#c8b78f,#9e8d69);box-shadow:inset 0 0 55px rgba(54,42,25,.28)}
-.map-image{position:absolute;inset:0;background:url('/static/assets/maps/Base_Map.png') center/cover no-repeat;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-composite:source-over;mask-composite:add}
-.map-fog{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 45%,rgba(235,222,184,.18),rgba(71,63,48,.42));display:flex;align-items:flex-end;justify-content:center;padding:14px;color:rgba(255,250,231,.82);text-shadow:0 1px 3px #332a1d}
-.map-fog p{margin:0;background:rgba(53,45,33,.58);padding:7px 11px;border-radius:999px;font-size:.82rem}
-.map-markers{position:absolute;inset:0}.map-landmark{position:absolute;z-index:3;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;max-width:130px;text-align:center;filter:drop-shadow(0 2px 2px rgba(255,248,225,.9))}
-.map-landmark span{background:rgba(250,241,211,.9);border:1px solid rgba(94,74,44,.55);border-radius:5px;padding:3px 6px;font-size:.72rem;font-weight:700;color:#493b29;line-height:1.1}
-.map-landmark b{background:#5e4930;color:#fff6dd;border-radius:999px;padding:4px 8px;font-size:.7rem;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.28)}
-.map-landmark.current::before{content:'◆';color:#6f392e;font-size:1.25rem;line-height:1;text-shadow:0 1px 2px #fff4d7}
-.map-landmark .panel-action{padding:3px 7px!important;font-size:.68rem;margin:0}
-@media(max-width:720px){.exploration-map{min-width:700px}.panel-content:has(.exploration-map){overflow:auto}.map-landmark span{font-size:.66rem}.map-fog p{display:none}}
+
+/* v0.3.2 exploration map: continuous feathered reveal over blank parchment fog. */
+.exploration-map{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden;border:1px solid #a58d64;border-radius:12px;background:#d8c69d;box-shadow:inset 0 0 55px rgba(54,42,25,.22)}
+.map-unknown{position:absolute;inset:0;background-color:#d8c69d;background-image:radial-gradient(circle at 18% 22%,rgba(111,86,47,.08) 0 1px,transparent 1.6px),radial-gradient(circle at 72% 64%,rgba(255,248,219,.18) 0 1px,transparent 1.8px),linear-gradient(115deg,rgba(255,249,224,.16),transparent 34%,rgba(111,87,50,.05) 70%,transparent);background-size:17px 19px,23px 29px,100% 100%;box-shadow:inset 0 0 70px rgba(83,62,33,.14)}
+.map-revealed{position:absolute;inset:0;width:100%;height:100%;display:block;filter:drop-shadow(0 0 5px rgba(102,78,42,.16))}
+.map-paper-grain{position:absolute;inset:0;pointer-events:none;opacity:.18;mix-blend-mode:multiply;background-image:repeating-linear-gradient(7deg,rgba(91,69,38,.04) 0 1px,transparent 1px 4px)}
+.map-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 66%,rgba(76,61,39,.12) 100%);box-shadow:inset 0 0 24px rgba(65,50,31,.14)}
+.player-map-marker{position:absolute;z-index:4;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(255,245,213,.9))}
+.player-map-marker i{display:block;width:15px;height:15px;background:#7a3f31;border:2px solid #f7e8bd;transform:rotate(45deg);box-shadow:0 2px 7px rgba(48,31,19,.55)}
+.player-map-marker span{margin-top:7px;background:rgba(83,64,42,.94);color:#fff3d1;border:1px solid rgba(255,239,197,.7);border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.map-note{margin:.8rem 0 0;color:var(--text-secondary,#665b49);font-style:italic;text-align:center}
+
+.map-legend-layer{filter:drop-shadow(0 2px 3px rgba(67,49,27,.22));pointer-events:none}
+
+/* v0.3.4 map correction: isolated permanent reference graphics. */
+.map-reference{position:absolute;z-index:5;pointer-events:none;user-select:none}
+.map-compass{top:2.2%;right:2.2%;width:10.6%;height:auto;object-fit:contain;border-radius:4px;filter:drop-shadow(0 2px 3px rgba(67,49,27,.18))}
+.map-legend{left:2.1%;bottom:2.1%;width:12.2%;height:auto;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(67,49,27,.22))}
+@media(max-width:720px){.map-compass{width:13%}.map-legend{width:16%}}

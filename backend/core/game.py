@@ -557,6 +557,7 @@ class Game:
         self.state.setdefault("danger", DANGER_MODEL.runtime_defaults())
         self.state.setdefault("recurrence", RECURRENCE_MODEL.runtime_defaults())
         self.state.setdefault("content_progression", CONTENT_MODEL.runtime_defaults())
+        CONTENT_MODEL.migrate_v040(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
         self.state.setdefault("economy", ECONOMY_MODEL.runtime_defaults())
@@ -773,6 +774,8 @@ class Game:
         for action_id, label in CONTENT_MODEL.cooking_actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
         for action_id, label in CONTENT_MODEL.repair_actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"life"})
+        for action_id, label in CONTENT_MODEL.home_actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
 
         # Part 6: applications and scheduled shifts use authored job definitions and real world locations.
@@ -1976,6 +1979,7 @@ class Game:
             s["location_state"]["ashcroft_cottage"]["garden_progress"]=min(100,s["location_state"]["ashcroft_cottage"].get("garden_progress",0)+2)
         self.record_player_activity("garden_"+verb,"working in the Ashcroft garden",minutes,{"garden_action":verb,"gardening_skill":rt["skills"]["gardening"]})
         self._social_consequences_from_life("garden")
+        if verb!="inspect": CONTENT_MODEL.note_activity(s,"garden")
         self.advance(minutes)
 
     def perform_job_action(self, action):
@@ -1993,6 +1997,7 @@ class Game:
         self.add("Narrator",message)
         if ok:
             self.record_player_activity("job_"+verb,message,minutes,{"job_id":jid,"money":s.get("money",0)})
+            if verb=="work": CONTENT_MODEL.note_activity(s,"work")
             self.advance(minutes)
 
     def perform_economy_action(self, action):
@@ -2018,10 +2023,12 @@ class Game:
         _,kind,item_id=parts
         if kind=="cook": ok,msg,minutes=CONTENT_MODEL.cook(self.state,item_id)
         elif kind=="repair": ok,msg,minutes=CONTENT_MODEL.repair(self.state,item_id)
+        elif kind=="home": ok,msg,minutes=CONTENT_MODEL.home_action(self.state,item_id)
         else:return
         self.add("Narrator",msg)
         if ok:
             self.record_player_activity(f"{kind}:{item_id}",msg,minutes,{"content":item_id})
+            if kind=="cook": CONTENT_MODEL.note_activity(self.state,"cooked")
             self.branch_score("care",1)
             self.advance(minutes)
             self.propagate_world_consequences("player_activity")
@@ -2277,6 +2284,11 @@ class Game:
             self.add("Narrator", "You stop for a while and listen. Bellwether is quiet, but never entirely still.")
 
         elif action == "sleep" and s["location"] == "ashcroft_cottage" and s["flags"]["read_letter"]:
+            day_summary=CONTENT_MODEL.close_day(s)
+            if day_summary["variety"] >= 3:
+                self.add("Narrator", "The day closes with the satisfying tiredness of a life made from several small things, each of them real.")
+            elif day_summary["activities"] == 0:
+                self.add("Narrator", "The cottage settles around an almost untouched day. Tomorrow is still open.")
             s["day"] += 1
             s["minute"] = 450
             s["day_events"] = []

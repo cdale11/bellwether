@@ -9,8 +9,15 @@ manifest=json.loads((ROOT/'frontend/static/assets/asset_manifest.json').read_tex
 html=(ROOT/'frontend/templates/index.html').read_text()
 js=(ROOT/'frontend/static/js/game.js').read_text()
 css=(ROOT/'frontend/static/css/game.css').read_text()
-ok('asset manifest validates', manifest['version']=='0.3.0-part2-dev' and isinstance(manifest['scenes'],dict))
-ok('approved art packaged', (ROOT/'frontend/static/assets/scenes/ashcroft_cottage_garden/approved_visual_reference.png').exists())
+ok('asset manifest validates', manifest['version']=='0.3.5' and isinstance(manifest['scenes'],dict))
+
+# v0.3.5 certification: validate the art the manifest actually declares, rather than a stale
+# pre-integration reference path that is neither referenced nor part of the accepted package.
+def packaged(url):
+    return isinstance(url, str) and url.startswith('/static/') and (ROOT/'frontend/static'/url.removeprefix('/static/')).exists()
+scene_art = [v.get('default') for v in manifest.get('scenes', {}).values()]
+portrait_art = [url for variants in manifest.get('characters', {}).values() for url in variants.values()]
+ok('approved art packaged', bool(scene_art) and bool(portrait_art) and all(packaged(u) for u in scene_art + portrait_art))
 ok('scene art stage integrated', 'id="scene-art"' in html and 'scene-atmosphere' in html)
 ok('state aware scene resolver present', 'applyVisualState' in js and 'slugifyLocation' in js)
 ok('missing art fallback preserved', "stage.classList.remove('has-art')" in js)

@@ -61,3 +61,69 @@ class ContentModel:
   return True,f"You {r['name']}. It takes patience, but afterward the change is tangible.",r['minutes']
  def seasonal_cottage_text(self,state):return SEASONAL_COTTAGE.get(state.get('season',{}).get('id'),'The cottage settles around you.')
 CONTENT_MODEL=ContentModel()
+
+# v0.4.0 ordinary-life layer. Kept in the existing content domain so cottage,
+# cooking and restoration share one persistent source of truth.
+DAILY_HOME_ACTIONS = {
+ 'air_rooms': {'label':'Open the Windows and Air the Rooms','minutes':15,'care':2,'comfort':3},
+ 'laundry': {'label':'Wash and Hang a Load of Laundry','minutes':55,'care':4,'comfort':4},
+ 'sweep_hearth': {'label':'Sweep the Hearth and Set the Room Right','minutes':25,'care':3,'comfort':3},
+ 'plan_day': {'label':'Plan the Day at the Kitchen Table','minutes':15,'care':0,'comfort':2},
+}
+
+def _v040_migrate(self, state):
+ rt=state.setdefault('content_progression', self.runtime_defaults())
+ rt.setdefault('schema_version',2)
+ daily=rt.setdefault('daily_life',{})
+ daily.setdefault('comfort',20)
+ daily.setdefault('routine_streak',0)
+ daily.setdefault('last_active_day',0)
+ daily.setdefault('today',{'day':state.get('day',1),'home':0,'garden':0,'cooked':0,'social':0,'work':0})
+ daily.setdefault('day_log',[])
+ daily.setdefault('chores_done',{})
+ return rt
+
+def _v040_home_actions(self,state):
+ if state.get('location')!='ashcroft_cottage': return []
+ rt=_v040_migrate(self,state); daily=rt['daily_life']; day=str(state.get('day',1)); done=set(daily['chores_done'].get(day,[]))
+ out=[]
+ for aid,spec in DAILY_HOME_ACTIONS.items():
+  if aid not in done: out.append((f'content:home:{aid}',spec['label']))
+ return out
+
+def _v040_home_action(self,state,aid):
+ if state.get('location')!='ashcroft_cottage' or aid not in DAILY_HOME_ACTIONS:return False,'You cannot do that here.',0
+ rt=_v040_migrate(self,state); daily=rt['daily_life']; day=str(state.get('day',1)); done=daily['chores_done'].setdefault(day,[])
+ if aid in done:return False,'You have already done that today.',0
+ spec=DAILY_HOME_ACTIONS[aid]; done.append(aid); daily['comfort']=min(100,daily['comfort']+spec['comfort']); daily['today']['home']+=1
+ state['player_life']['cottage_care']=min(100,state['player_life'].get('cottage_care',0)+spec['care'])
+ state['player_activities']['skills']['home_care']=min(100,state['player_activities']['skills'].get('home_care',0)+1)
+ prose={
+  'air_rooms':'You unlatch the windows one by one. Cool air moves through the cottage, carrying out the closed-up smell and bringing in birdsong and damp earth.',
+  'laundry':'You work through a basin of washing, wring each piece by hand, and hang the line in the garden. By the end, the cottage feels less borrowed.',
+  'sweep_hearth':'You sweep ash, straighten the chairs and clear the small drift of everyday clutter. The room answers care with comfort.',
+  'plan_day':'You sit with tea and a scrap of paper, balancing weather, errands, work and the garden. The day begins to have a shape.'}
+ return True,prose[aid],spec['minutes']
+
+def _v040_note_activity(self,state,kind):
+ rt=_v040_migrate(self,state); today=rt['daily_life']['today']
+ if today.get('day')!=state.get('day'):
+  rt['daily_life']['today']={'day':state.get('day',1),'home':0,'garden':0,'cooked':0,'social':0,'work':0}; today=rt['daily_life']['today']
+ if kind in today: today[kind]+=1
+
+def _v040_close_day(self,state):
+ rt=_v040_migrate(self,state); d=rt['daily_life']; today=d['today']; active=sum(today.get(k,0) for k in ('home','garden','cooked','social','work'))
+ varied=sum(1 for k in ('home','garden','cooked','social','work') if today.get(k,0)>0)
+ if active>=2: d['routine_streak']=d.get('routine_streak',0)+1; d['last_active_day']=today['day']
+ else: d['routine_streak']=0
+ d['comfort']=max(0,min(100,d['comfort'] + varied - 1))
+ summary={'day':today['day'],'activities':active,'variety':varied,'comfort':d['comfort'],'routine_streak':d['routine_streak']}
+ d['day_log'].append(summary); d['day_log']=d['day_log'][-14:]
+ d['today']={'day':state.get('day',1)+1,'home':0,'garden':0,'cooked':0,'social':0,'work':0}
+ return summary
+
+ContentModel.migrate_v040=_v040_migrate
+ContentModel.home_actions=_v040_home_actions
+ContentModel.home_action=_v040_home_action
+ContentModel.note_activity=_v040_note_activity
+ContentModel.close_day=_v040_close_day

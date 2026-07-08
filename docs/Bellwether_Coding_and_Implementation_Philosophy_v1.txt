@@ -1,0 +1,37 @@
+BELLWETHER — CODING AND IMPLEMENTATION PHILOSOPHY
+Version 1.0 | 2026-07-08 | Authoritative engineering philosophy
+
+PRIMARY PRINCIPLE
+BELLWETHER MUST EVOLVE ADDITIVELY. Existing working systems are assets, not disposable prototypes.
+
+Preferred workflow:
+INSPECT -> UNDERSTAND -> MAP DEPENDENCIES -> DEFINE INVARIANTS -> ADD OR EXTEND -> MIGRATE IF NECESSARY -> TEST OLD BEHAVIOUR -> TEST NEW BEHAVIOUR -> PLAYTEST -> PACKAGE A COMPLETE RUNNABLE BUILD
+
+The accepted v0.1.0 baseline and subsequently accepted working releases form a behavioural contract. Preserve simulation, conversations, persistence, Directors, weather, seasons, story, horror, relationships, investigation, branching, recovery, recurrence, endgame, tests, executable permissions, UI, maps, asset lookup, and deterministic LLM fallback unless an explicit design change says otherwise.
+
+READ BEFORE WRITING
+Inspect repository structure, owning models, services, content data, tests, persistence, entry points, callers, serialized field names, migration implications, extension points, fallback behaviour, and runtime behaviour before designing a patch. Never infer architecture from filenames alone. Never assume a system is absent because UI exposure is incomplete. Never build a duplicate system before checking the current implementation.
+
+STATE AUTHORITY
+Deterministic code owns game truth. LLMs may interpret, compose, adapt, summarize, or select among bounded legal possibilities. Validate before applying. Never let arbitrary model output mutate authoritative state, invent canon, create impossible knowledge, teleport actors, or bypass domain validators.
+
+PERSISTENCE
+Every persistent feature requires runtime defaults, migration-safe structures, JSON-serializable values, round-trip tests, and representative old-save compatibility checks. Prefer atomic save patterns. Do not hide corruption or invariant violations.
+
+UI
+Keep the interface readable, responsive, atmospheric, and API-driven. Show what the player needs now, provide deeper information through dedicated views, avoid raw simulation internals in player UI, and test maps, overlays, portraits, prose, controls, and resizing together.
+
+ASSETS
+Heavy visual assets may remain outside lightweight source distributions when workflow requires it, but paths and manifests must be stable. Do not duplicate heavy assets unnecessarily or silently rename keys. Optional missing art must fall back gracefully; required art should fail clearly in developer/testing mode. Recurring places must retain visual identity across variants.
+
+ERROR HANDLING AND OBSERVABILITY
+Player-facing mode should fail gracefully and developer mode informatively. Use clear logs, contextual errors, safe fallback, rollback where partial application is dangerous, and atomic persistence where practical. Logs should make consequential simulation and AI decisions auditable.
+
+TESTING PYRAMID
+Use unit tests, integration tests, deterministic simulation tests, LLM contract tests, save compatibility tests, UI smoke tests, and full player-perspective playtests. No single layer replaces the others.
+
+DEFINITION OF DONE
+A feature is done when requested behaviour works, integrates with authoritative state, handles persistence, preserves accepted behaviour, provides deterministic fallback where needed, validates LLM paths, has core and integration coverage, is usable at runtime, has been checked from the player perspective, contains no accidental debug shortcuts, updates versioning where appropriate, and can be delivered as a complete runnable build or complete replacement files.
+
+FINAL ENGINEERING STATEMENT
+PRESERVATION OVER REPLACEMENT. EXTENSION OVER REINVENTION. CAUSAL STATE OVER TEXTUAL ILLUSION. VALIDATION OVER TRUST. MEASURED EMERGENCE OVER RANDOMNESS. COMPLETE IMPLEMENTATION OVER DEMONSTRATION SNIPPETS. PLAYER-PERSPECTIVE TESTING OVER TEST-SUITE COMPLACENCY.

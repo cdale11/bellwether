@@ -39,15 +39,62 @@ function homeHtml(s){const rest=s.content_progression?.home_restoration||{},done
 function mapHtml(s){
  const current=currentGameData.location.id;
  const mapState=s.map_exploration||{};
- const discovered=new Set(mapState.discovered_locations||[current]); discovered.add(current);
- const anchors={bus_stop:[22,23],village_road:[47,29],bakery:[56.5,23.5],village_shop:[51,36.5],village_green:[55,43],churchyard:[66,36.5],ashcroft_cottage:[82.5,22],riverside_path:[57,58],railway_halt:[42.5,77.5]};
- const names={bus_stop:'Bus Stop',village_road:'Village Road',village_green:'Village Green',bakery:'Bakery',village_shop:'Village Shop',ashcroft_cottage:'Ashcroft Cottage',churchyard:'Churchyard',riverside_path:'Riverside Path',railway_halt:'Railway Halt'};
- const travel=(currentGameData.actions||[]).filter(a=>a.kind==='travel');
- const masks=[...discovered].filter(id=>anchors[id]).map(id=>{const [x,y]=anchors[id];return `radial-gradient(circle at ${x}% ${y}%, #000 0, #000 7%, transparent 15%)`;});
- const mask=masks.length?masks.join(','):'linear-gradient(transparent,transparent)';
- const markers=[...discovered].filter(id=>anchors[id]).map(id=>{const [x,y]=anchors[id],action=travel.find(a=>a.id===`move:${id}`);return `<div class="map-landmark ${id===current?'current':''}" style="left:${x}%;top:${y}%"><span>${escapeHtml(names[id]||cropName(id))}</span>${id===current?'<b>You are here</b>':action?`<button class="panel-action" data-action-id="${escapeHtml(action.id)}">Travel</button>`:''}</div>`;}).join('');
- return `<div class="exploration-map"><div class="map-image" style="-webkit-mask-image:${mask};mask-image:${mask}"></div><div class="map-fog"><p>Unexplored parts of Bellwether remain uncharted.</p></div><div class="map-markers">${markers}</div></div><p class="map-note">The map remembers only places you have reached. Travel farther to reveal more of Bellwether.</p>`;
+ const discovered=new Set(mapState.discovered_locations||[]); discovered.add(current);
+ const discoveredPaths=new Set(mapState.discovered_paths||[]);
+ // Coordinates are percentages of the canonical 1536x1024 illustrated map.
+ const anchors={
+  bus_stop:[25.0,73.5], village_road:[35.5,58.5], bakery:[33.8,39.5],
+  village_shop:[30.7,52.0], village_green:[43.2,49.0], churchyard:[51.0,26.0],
+  ashcroft_cottage:[41.8,81.0], riverside_path:[13.0,48.0], railway_halt:[18.0,84.0]
+ };
+ const regions={
+  bus_stop:'19,66 31,66 33,78 27,84 18,80 16,72',
+  village_road:'27,48 43,45 48,57 42,67 29,66 24,57',
+  bakery:'27,32 40,31 43,42 37,48 27,45 24,38',
+  village_shop:'24,45 37,44 39,56 33,63 22,59 20,51',
+  village_green:'35,40 52,39 57,51 50,61 37,61 32,51',
+  churchyard:'42,15 61,14 66,29 59,39 45,38 39,27',
+  ashcroft_cottage:'32,70 52,69 56,84 48,94 34,94 27,84',
+  riverside_path:'3,32 20,31 25,47 20,65 8,70 2,58',
+  railway_halt:'8,75 28,74 31,94 7,95'
+ };
+ const routePairs={
+  'bus_stop::village_road':['bus_stop','village_road'],
+  'bakery::village_road':['bakery','village_road'],
+  'village_green::village_road':['village_road','village_green'],
+  'village_road::village_shop':['village_road','village_shop'],
+  'churchyard::village_road':['village_road','churchyard'],
+  'churchyard::village_green':['village_green','churchyard'],
+  'ashcroft_cottage::village_green':['village_green','ashcroft_cottage'],
+  'riverside_path::village_green':['village_green','riverside_path'],
+  'railway_halt::riverside_path':['riverside_path','railway_halt']
+ };
+ const polygons=[...discovered].filter(id=>regions[id]).map(id=>`<polygon points="${regions[id]}"/>`).join('');
+ const paths=[...discoveredPaths].map(key=>routePairs[key]).filter(Boolean).map(([a,b])=>{const p1=anchors[a],p2=anchors[b];return `<line x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}"/>`;}).join('');
+ const [cx,cy]=anchors[current]||[50,50];
+ return `<div class="exploration-map">
+   <div class="map-unknown" aria-hidden="true"></div>
+   <svg class="map-revealed" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="Explored map of Bellwether">
+    <defs>
+     <filter id="bellwether-feather" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.65"/></filter>
+     <mask id="bellwether-exploration-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+      <rect width="100" height="100" fill="black"/>
+      <g class="map-mask-shapes" filter="url(#bellwether-feather)" fill="white" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">${paths}${polygons}</g>
+      <!-- Decorative reference graphics in the source artwork are never revealed as geography. -->
+      <rect x="2.4" y="72.5" width="13.8" height="23.5" fill="black" stroke="none"/>
+      <rect x="85.5" y="2.0" width="12.5" height="18.5" fill="black" stroke="none"/>
+     </mask>
+    </defs>
+    <image href="/static/assets/maps/Base_Map.png" x="0" y="0" width="100" height="100" preserveAspectRatio="none" mask="url(#bellwether-exploration-mask)"/>
+   </svg>
+   <div class="map-paper-grain" aria-hidden="true"></div>
+   <img class="map-reference map-compass" src="/static/assets/maps/map_compass.png" alt="North compass rose">
+   <img class="map-reference map-legend" src="/static/assets/maps/map_legend.png" alt="Map legend: main road, path, track, river, buildings, woods, fields and water">
+   <div class="map-vignette" aria-hidden="true"></div>
+   <div class="player-map-marker" style="left:${cx}%;top:${cy}%" aria-label="You are here"><i></i><span>You are here</span></div>
+  </div><p class="map-note">Bellwether is drawn into clarity as you travel. Unexplored country remains blank parchment.</p>`;
 }
+
 function panelHtml(type){const s=currentGameData.state;if(type==='history')return (s.history||[]).map(l=>`<p class="history-line"><span class="speaker">${escapeHtml(l.speaker)}</span><br>${escapeHtml(l.text)}</p>`).join('')||'<p>No history yet.</p>';
 if(type==='journal'){const block=(title,xs)=>`<h3>${title}</h3>`+(xs||[]).map(q=>`<div class="quest ${q.done?'done':''}"><strong>${escapeHtml(q.title)}</strong><br><small>${escapeHtml(q.objective)}</small></div>`).join('');return block('Main Story',s.quests.main)+block('Side Stories',s.quests.side);}
 if(type==='inventory'){const harvest=s.player_activities?.garden?.harvest_store||{},house=s.economy?.household||{};return `<h3>Carried</h3><ul>${(s.inventory||[]).map(i=>`<li>${escapeHtml(i)}</li>`).join('')||'<li>Nothing carried</li>'}</ul><h3>Pantry and Household</h3><div class="inventory-grid">${Object.entries(house).filter(([,n])=>Number(n)>0).map(([k,n])=>`<div><strong>${escapeHtml(cropName(k))}</strong><span>×${n}</span></div>`).join('')||'<p>The cupboards are bare.</p>'}</div><h3>Garden Produce</h3><div class="inventory-grid">${Object.entries(harvest).filter(([,n])=>Number(n)>0).map(([k,n])=>`<div><strong>${escapeHtml(cropName(k))}</strong><span>×${n}</span></div>`).join('')||'<p>No produce stored.</p>'}</div>`;}

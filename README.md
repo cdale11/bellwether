@@ -1,10 +1,38 @@
-# Bellwether v0.1.0 — Part 18
+# Bellwether v0.3.5 — Baseline Certification
 
-Run:
+Bellwether v0.3.5 is a certification and handoff-hygiene release built from the accepted v0.3.4 Map Correction baseline. It intentionally adds no major gameplay system.
+
+## Run
 
 ```bash
 ./run.sh
 ```
+
+The launcher is packaged executable. Bellwether uses the local Ollama model when available and retains deterministic fallback behaviour when AI is unavailable.
+
+## v0.3.5 certification scope
+
+- synchronized release metadata and README lineage;
+- corrected the Part 20 visual packaging diagnostic to audit manifest-declared assets instead of a stale, unreferenced pre-integration path;
+- audited all scene and portrait paths declared by the asset manifest;
+- restored executable packaging for `run.sh`;
+- verified save-state JSON round trip and migration through the cumulative diagnostics;
+- regression-tested world architecture, map-era UI architecture, and the full post-v0.1.0 cumulative suite;
+- retained the accepted v0.3.4 map correction behaviour;
+- packaged roadmap, handoff, design, visual-direction, and certification context documents under `docs/`.
+
+## Certification commands
+
+```bash
+python tools/part1_world_architecture_diagnostic.py
+python tools/part19_v030_ui_architecture_diagnostic.py
+python tools/part20_visual_identity_diagnostic.py
+python tools/post_v010_diagnostic.py
+```
+
+See `docs/V0.3.5_CERTIFICATION_REPORT.txt` for the release audit summary and `docs/BELLWETHER_DOCUMENT_INDEX_AND_HANDOFF.md` for project orientation.
+
+## Historical development notes
 
 ## Qwen3 generation fix
 

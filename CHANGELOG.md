@@ -1,3 +1,38 @@
+# Changelog
+
+## v0.3.5 — Baseline Certification
+
+- synchronized VERSION and README release metadata;
+- restored executable permission for `run.sh`;
+- investigated and corrected the stale Part 20 approved-art packaging expectation;
+- Part 20 now validates all manifest-declared scene and portrait files;
+- synchronized asset manifest metadata to v0.3.5;
+- packaged certification and project-direction text documents;
+- retained v0.3.4 map correction and existing gameplay behaviour.
+
+# Bellwether v0.3.4
+
+## Fixed
+- Corrected the permanent map reference layer: the bottom-left legend is now always visible.
+- Replaced the accidental top-right map crop with an isolated compass asset so no hidden geography is exposed.
+- Prevented exploration reveals near the Bus Stop from exposing the source map legend frame or other decorative reference graphics.
+- Preserved continuous feathered exploration, discovery persistence, route reveal, old-save compatibility, and the live “You are here” marker.
+
+# Bellwether v0.3.3
+
+## Fixed
+- Kept the illustrated map legend permanently visible above the exploration fog.
+- The legend is now treated as reference UI rather than explorable geography, while all world landmarks remain governed by the persistent feathered exploration mask.
+- Preserved discovery persistence, route reveal, old-save compatibility, and the live “You are here” marker.
+
+# Bellwether v0.3.2
+
+## Changed
+- Replaced hard-edged map cut-outs with a continuous feathered exploration mask.
+- Merged discovered location regions and route corridors into one softened reveal surface.
+- Replaced the blurred full-map fog layer with blank, subtly textured parchment so unexplored geography and labels no longer leak through.
+- Preserved authoritative discovery state, path reveal, save compatibility, and the live “You are here” marker.
+
 # Bellwether v0.3.1
 
 ## Added
@@ -407,3 +442,10 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Expanded Inventory, Relationships, and Investigation Notebook presentation.
 - Preserved qualitative relationship presentation; raw social dimensions remain developer-only.
 - Cumulative post-v0.1.0 diagnostic passes through Part 20.
+
+## v0.4.0 — Living Cottage and Daily Routine
+- Added persistent daily-life state with home comfort, routine streaks, daily variety tracking and a 14-day ordinary-life log.
+- Added four repeatable day-bounded cottage routines: airing rooms, laundry, hearth care and day planning.
+- Connected gardening, cooking and paid work to the shared daily-routine record.
+- Sleep now closes and evaluates the lived day, preserving consequences into following mornings.
+- Added migration-safe defaults and a focused v0.4.0 ordinary-life diagnostic.
