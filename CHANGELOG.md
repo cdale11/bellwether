@@ -532,3 +532,13 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Low-end routing automatically prefers qwen3.5:2b for foreground work and qwen3.5:4b for strategic work when both are installed.
 - If only one compatible model is available, routing degrades to the available model; deterministic fallback remains available when Ollama is offline.
 - README and launcher instructions simplified to pull model(s) once and run `./run.sh`.
+
+## v0.6.1 conversation reliability update
+- Reduced free-dialogue generation budget from 112 to 48 tokens.
+- Constrained NPC free dialogue to short one-sentence replies with a 24-word hard ceiling.
+- Replaced duplicated verbatim recent-reply injection with compact recent-conversation summaries.
+- Added near-verbatim repetition detection and one bounded corrective retry.
+- Added explicit anti-exposition guidance for greetings and casual weather talk.
+- Added engine-side trust/familiarity clamps for greetings and short weather small talk.
+- Improved diagnostics so repaired dialogue is distinguishable from cleanly formatted dialogue.
+- Added `tools/v061_conversation_reliability_diagnostic.py`.

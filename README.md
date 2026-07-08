@@ -126,3 +126,11 @@ python3 tools/release_candidate_diagnostic.py
 ```
 
 Use `--skip-qwen` only when certifying deterministic engineering layers without a running Ollama service.
+
+## v0.6.1 conversation reliability update
+
+Free-form NPC dialogue is intentionally concise on low-end local hardware. NPCs are instructed to answer in one short natural sentence, normally 4–18 words, and the engine enforces a hard 24-word display/storage ceiling. Conversation generation uses a reduced 48-token budget.
+
+Recent conversation context is compacted before it is sent to Ollama instead of injecting the same full NPC reply repeatedly. The provider detects near-verbatim reply loops and can perform one bounded corrective retry. Ordinary greetings and brief weather small talk are engine-clamped so they cannot create implausible trust or major familiarity gains.
+
+The normal Ollama workflow remains unchanged: pull the recommended models once, then run `./run.sh`. Bellwether automatically uses all CPU threads available to the process and routes local Ollama calls internally.

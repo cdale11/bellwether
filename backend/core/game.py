@@ -1391,29 +1391,26 @@ class Game:
         return "night"
 
     def _conversation_recent_exchange_context(self, npc_id):
-        """Exact recent turns annotated with elapsed game time for small-model chronology."""
-        now_day=int(self.state.get("day",1))
-        now_minute=int(self.state.get("minute",0))
-        now_abs=(now_day-1)*1440+now_minute
+        """Compact recent-turn continuity for small local models; never re-inject full NPC prose."""
+        now_day=int(self.state.get("day",1)); now_minute=int(self.state.get("minute",0)); now_abs=(now_day-1)*1440+now_minute
         out=[]
         for item in self.state.setdefault("conversation_sessions",{}).setdefault(npc_id,[])[-3:]:
             saved_abs=item.get("absolute_minute")
-            if saved_abs is None:
-                # Old Part 34 session entries have display time only; preserve them without guessing.
-                elapsed=None
-            else:
-                elapsed=max(0,now_abs-int(saved_abs))
-            row={
-                "PLAYER_SAID":item.get("player",""),
-                "YOU_SAID":item.get("npc",""),
-            }
-            if elapsed is not None:
-                row["elapsed_minutes"]=elapsed
-                row["when"]="just now" if elapsed==0 else f"{elapsed} minutes ago"
-            else:
-                row["time"]=item.get("time","")
-            out.append(row)
+            elapsed=None if saved_abs is None else max(0,now_abs-int(saved_abs))
+            player=" ".join(str(item.get("player","")).split())[:140]
+            npc=" ".join(str(item.get("npc","")).split())
+            # Topic/act summary plus a short reply fingerprint for repetition detection; prompt never sees full prior prose.
+            summary={"player_message":player,"npc_reply_summary":self._summarize_recent_npc_reply(npc)}
+            if elapsed is not None: summary["elapsed_minutes"]=elapsed
+            out.append(summary)
         return out
+
+    def _summarize_recent_npc_reply(self, text):
+        """Deterministic compact continuity summary, avoiding malformed character truncation."""
+        clean=" ".join((text or "").split())
+        if not clean: return "No substantive reply recorded."
+        words=clean.split()
+        return "NPC replied: "+" ".join(words[:12])+("…" if len(words)>12 else "")
 
     def _clamp_acknowledgement_social(self, player_text, social):
         """Small-model guardrail: trivial acknowledgements cannot create major familiarity."""
@@ -1421,8 +1418,18 @@ class Game:
             return social
         low=(player_text or "").strip().lower().strip(" .!?")
         acknowledgements={"ok","okay","perfect","fine","right","sure","great","good","yes","no","thanks","thank you","cheers","alright"}
+        social=dict(social)
         if low in acknowledgements:
-            social=dict(social)
+            social["familiarity"]=min(int(social.get("familiarity",0)),1)
+            social["trust"]=0
+        # Ordinary greetings and weather small talk cannot manufacture trust or major familiarity.
+        weather_words={"weather","day","rain","raining","sunny","sun","cloudy","overcast","cold","warm","fine","lovely"}
+        tokens=set(re.findall(r"[a-z']+",low))
+        greeting=low in {"hi","hello","hey","morning","good morning","good afternoon","good evening"}
+        weather_smalltalk=bool(tokens & weather_words) and len(tokens)<=12
+        if greeting or weather_smalltalk:
+            social["trust"]=0
+            social["affinity"]=max(-1,min(int(social.get("affinity",0)),1))
             social["familiarity"]=min(int(social.get("familiarity",0)),1)
         return social
 
@@ -1495,11 +1502,7 @@ class Game:
             "npc_memories": s.get("social_memory", {}).get(npc_id, [])[-3:],
             "structured_memory": MEMORY_MODEL.context(s,npc_id,limit=6),
             "social_consequences": SOCIAL_CONSEQUENCE_MODEL.context(s,npc_id,limit=6),
-            "recent_exchange": self._conversation_recent_exchange_context(npc_id),
-            "recent_npc_replies_to_avoid_repeating": [
-                x.get("npc","") for x in s.setdefault("conversation_sessions",{}).setdefault(npc_id,[])[-2:]
-            ],
-            "continuity_instruction": "Treat recent_exchange as one continuous conversation. PLAYER_SAID is what the player said; YOU_SAID is what you said. Never attribute YOU_SAID content to the player. Respect elapsed_minutes literally: a turn minutes ago was recent, never 'a while ago' or a long absence. Answer CURRENT_PLAYER_MESSAGE first; recent exchange is context, not a replacement topic. Avoid repeating recent_npc_replies_to_avoid_repeating.",
+            "recent_conversation": self._conversation_recent_exchange_context(npc_id),
             "npc_personality": self._npc_social_personality(npc_id),
             "npc_life_context": self.npc_life_context(npc_id),
             "relationship": {

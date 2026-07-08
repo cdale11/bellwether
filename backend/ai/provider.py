@@ -1,5 +1,5 @@
 
-import json, os, re, time, urllib.request, random, threading
+import json, os, re, time, urllib.request, random, threading, difflib
 
 class AIProvider:
     def __init__(self):
@@ -458,59 +458,28 @@ class AIProvider:
         }
         return any(term in text for term in terms.get(str(daypart).lower(),()))
 
-    def ask_player_reply(self, npc_name, player_text, context):
-        """One foreground inference: NPC reply plus bounded social interpretation."""
-        if not self.enabled:
-            return None
-        prompt=(
-            f"You are {npc_name}, a person in the fictional English village of Bellwether. "
-            "Your highest priority is to answer CURRENT_PLAYER_MESSAGE directly and naturally, then assess only that message's social effect. "
-            "Recent conversation is supporting context, never a replacement topic. "
-            "Continue the immediate conversation: if CONTEXT.recent_exchange exists, PLAYER_SAID means the player spoke those words and YOU_SAID means you spoke those words. Never swap or blur those speakers. "
-            "Do not restart with a greeting, contradict the recent chronology, or claim a long absence when the recent exchange was minutes ago. "
-            "CONTEXT.daypart is authoritative. Never describe sunset, evening, nightfall, dawn, or sunrise when that contradicts the stated daypart. "
-            "Stay in character and grounded in supplied facts. If the player asks for practical advice, answer from the current location, activity, and known visible story context; do not invent an invitation, shared plan, object, or off-screen event. Do not invent plot facts, reveal secrets, advance quests, "
-            "mention game systems, or expose numeric relationship values in the dialogue. "
-            "Output exactly two lines. Line 1 is the NPC reply. Line 2 is compact JSON metadata. "
-            f"Format:\n{npc_name}: <one short natural reply>\n"
-            'SOCIAL: {"affinity":0,"trust":0,"familiarity":1,"tone":["neutral"],"memory":"brief social meaning"}\n'
-            "Rules: affinity and trust must be integers -2..2; familiarity must be integer 0..2. "
-            "Judge the PLAYER message, not whether your own reply sounds friendly. "
-            "Use NPC personality and existing relationship context. Hostility, contempt, coercion or intrusive pressure may reduce affinity/trust. "
-            "Warmth, respect, honest openness, remembered details and appropriate concern may increase them. "
-            "Ordinary neutral conversation should usually be near zero. Familiarity may increase through meaningful contact even when affinity falls. "
-            "Brief acknowledgements such as okay, perfect, right, yes, thanks, or great should normally have familiarity 0 or 1, never 2 unless the message itself contains a genuinely significant disclosure. "
-            "Memory must describe CURRENT_PLAYER_MESSAGE only. Do not replace it with a topic from your own reply or an older exchange. "
-            "Do not repeat or closely paraphrase any line in CONTEXT.recent_npc_replies_to_avoid_repeating. "
-            "tone is 1-3 short labels. memory is one short factual sentence about the social meaning, not hidden thoughts or invented events.\n"
-            f"CONTEXT: {json.dumps(context,separators=(',',':'))}\n"
-            f"CURRENT_PLAYER_MESSAGE: {json.dumps((player_text or '')[:600])}\n"
-            "Answer CURRENT_PLAYER_MESSAGE now.\n"
-            f"{npc_name}:"
-        )
-        timeout=float(os.getenv("BELLWETHER_PLAYER_CONVERSATION_TIMEOUT","75"))
-        text=self._plain_request(
-            "player_conversation",prompt,max_tokens=112,temperature=.62,no_think=True,
-            tries_override=2,foreground=True,timeout_override=timeout
-        )
-        if not text:
-            return None
+    def _dialogue_repeats_recent(self, dialogue, recent_summaries):
+        """Detect near-verbatim conversational loops without treating shared topic words as repetition."""
+        def norm(text):
+            return " ".join(re.findall(r"[a-z0-9']+", (text or "").lower()))
+        current=norm(dialogue)
+        if not current:
+            return False
+        for item in recent_summaries or []:
+            prior=norm(item.get("npc_reply_summary", "") if isinstance(item,dict) else str(item))
+            if prior.startswith("npc replied "):
+                prior=prior[len("npc replied "):]
+            if not prior:
+                continue
+            if current == prior or (len(current) >= 28 and current in prior) or (len(prior) >= 28 and prior in current):
+                return True
+            if difflib.SequenceMatcher(None,current,prior).ratio() >= 0.78:
+                return True
+        return False
 
-        # A tiny deterministic validator catches only explicit daypart contradictions.
-        # Retry once with a corrective suffix rather than accepting impossible chronology.
-        first_line=next((line.strip() for line in text.splitlines() if line.strip()),"")
-        first_dialogue=first_line.split(":",1)[1].strip() if ":" in first_line else first_line
-        if self._obvious_daypart_contradiction(first_dialogue,context.get("daypart")):
-            corrected_prompt=prompt+f"\nCORRECTION: The daypart is {context.get('daypart')}. The previous answer contradicted it. Rewrite both required lines without any time-of-day contradiction.\n{npc_name}:"
-            retry=self._plain_request(
-                "player_conversation",corrected_prompt,max_tokens=112,temperature=.55,no_think=True,
-                tries_override=1,foreground=True,timeout_override=timeout
-            )
-            if retry:
-                text=retry
-
+    def _parse_player_reply(self, npc_name, text):
         result={"raw":text,"dialogue":None,"social":None}
-        lines=[line.strip() for line in text.splitlines() if line.strip()]
+        lines=[line.strip() for line in (text or "").splitlines() if line.strip()]
         for line in lines:
             if line.lower().startswith(npc_name.lower()+":") and result["dialogue"] is None:
                 candidate=line.split(":",1)[1].strip()
@@ -523,36 +492,73 @@ class AIProvider:
                 try:
                     meta=json.loads(raw)
                     if isinstance(meta,dict):
-                        aff=int(meta.get("affinity",0))
-                        trust=int(meta.get("trust",0))
-                        fam=int(meta.get("familiarity",0))
-                        tone=meta.get("tone",[])
-                        memory=str(meta.get("memory","")).strip()[:220]
+                        aff=int(meta.get("affinity",0)); trust=int(meta.get("trust",0)); fam=int(meta.get("familiarity",0))
+                        tone=meta.get("tone",[]); memory=str(meta.get("memory","")).strip()[:180]
                         if -2<=aff<=2 and -2<=trust<=2 and 0<=fam<=2:
-                            if not isinstance(tone,list):
-                                tone=[str(tone)]
-                            tone=[str(x).strip()[:32] for x in tone[:3] if str(x).strip()]
-                            result["social"]={
-                                "affinity":aff,"trust":trust,"familiarity":fam,
-                                "tone":tone,"memory":memory
-                            }
+                            if not isinstance(tone,list): tone=[str(tone)]
+                            result["social"]={"affinity":aff,"trust":trust,"familiarity":fam,
+                                "tone":[str(x).strip()[:32] for x in tone[:3] if str(x).strip()],"memory":memory}
                 except (ValueError,TypeError,json.JSONDecodeError):
                     pass
-        # Preserve useful dialogue even if metadata is malformed.
+        # Degraded-but-usable dialogue recovery remains available, but diagnostics mark it as repaired.
         if result["dialogue"] is None and lines:
             first=lines[0]
             if not first.upper().startswith("SOCIAL:"):
                 result["dialogue"]=first.split(":",1)[1].strip() if ":" in first else first
-        if result["dialogue"]:
-            self._annotate_last_trace(
-                parser_stage="player_reply_received",
-                parser_detail="Dedicated foreground reply received; social metadata parsed independently.",
-                result="accepted_player_reply"
-            )
-            self.remember_call("player_conversation",{
-                "type":"conversation","text":result["dialogue"][:180],
-                "social":result["social"]
-            })
+                result["format_repaired"]=True
+        return result
+
+    def ask_player_reply(self, npc_name, player_text, context):
+        """One short foreground reply plus bounded social interpretation."""
+        if not self.enabled:
+            return None
+        prompt=(
+            f"You are {npc_name}, a resident of the fictional English village of Bellwether. "
+            "Reply directly to CURRENT_PLAYER_MESSAGE in character. Keep the spoken reply to ONE short natural sentence, normally 4-18 words. "
+            "Do not narrate your location, weather, posture, activity, biography, or internal state unless the player explicitly asks. "
+            "Do not introduce yourself unless asked. Do not turn a greeting or weather remark into exposition. "
+            "RECENT_CONVERSATION is a compact continuity summary, not text to copy. Continue naturally and do not repeat an earlier reply. "
+            "DAYPART and WORLD_FACTS are authoritative. Do not invent plot facts, secrets, invitations, shared plans, objects, or off-screen events. "
+            "Do not mention game systems or numeric relationship values. Output exactly two lines.\n"
+            f"{npc_name}: <one short sentence>\n"
+            'SOCIAL: {"affinity":0,"trust":0,"familiarity":0,"tone":["neutral"],"memory":"brief social meaning"}\n'
+            "SOCIAL rules: judge only the current player message. Ordinary greetings, weather talk, and casual small talk normally give affinity 0, trust 0, familiarity 0 or 1. "
+            "Use familiarity 2 only for a significant disclosure or consequential exchange. Memory must describe only the current player message.\n"
+            f"CONTEXT: {json.dumps(context,separators=(',',':'))}\n"
+            f"CURRENT_PLAYER_MESSAGE: {json.dumps((player_text or '')[:400])}\n"
+            f"{npc_name}:"
+        )
+        timeout=float(os.getenv("BELLWETHER_PLAYER_CONVERSATION_TIMEOUT","75"))
+        text=self._plain_request("player_conversation",prompt,max_tokens=48,temperature=.58,no_think=True,
+            tries_override=2,foreground=True,timeout_override=timeout)
+        if not text:
+            return None
+        result=self._parse_player_reply(npc_name,text)
+        dialogue=result.get("dialogue")
+        contradiction=dialogue and self._obvious_daypart_contradiction(dialogue,context.get("daypart"))
+        repeated=dialogue and self._dialogue_repeats_recent(dialogue,context.get("recent_conversation",[]))
+        if contradiction or repeated:
+            reason="repeated an earlier reply" if repeated else f"contradicted the {context.get('daypart')} daypart"
+            correction=(prompt+f"\nCORRECTION: The previous answer {reason}. Give a fresh direct one-sentence reply to the CURRENT_PLAYER_MESSAGE. Do not reuse previous wording.\n{npc_name}:")
+            retry=self._plain_request("player_conversation",correction,max_tokens=48,temperature=.64,no_think=True,
+                tries_override=1,foreground=True,timeout_override=timeout)
+            if retry:
+                candidate=self._parse_player_reply(npc_name,retry)
+                if candidate.get("dialogue") and not self._dialogue_repeats_recent(candidate["dialogue"],context.get("recent_conversation",[])):
+                    result=candidate; dialogue=result.get("dialogue")
+                    result["repetition_repaired"]=bool(repeated)
+        if result.get("dialogue"):
+            # Hard display/storage bound: one line and at most 24 words. Prefer sentence boundary.
+            d=" ".join(result["dialogue"].split())
+            sentence=re.split(r"(?<=[.!?])\s+",d)[0]
+            words=sentence.split()
+            if len(words)>24: sentence=" ".join(words[:24]).rstrip(",;:")+"…"
+            result["dialogue"]=sentence
+            repaired=bool(result.get("format_repaired") or result.get("repetition_repaired"))
+            self._annotate_last_trace(parser_stage="player_reply_repaired" if repaired else "player_reply_received",
+                parser_detail="Foreground reply accepted after validation." if not repaired else "Foreground reply accepted after bounded repair.",
+                result="accepted_player_reply_repaired" if repaired else "accepted_player_reply")
+            self.remember_call("player_conversation",{"type":"conversation","text":result["dialogue"][:180],"social":result.get("social")})
             return result
         return None
 
