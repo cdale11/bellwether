@@ -104,11 +104,11 @@ class ActivityModel:
     def available_hobby_actions(self, state):
         loc=state.get("location")
         out=[]
-        if loc in {"riverside_path","churchyard","ashcroft_cottage"}: out.append(("hobby:birdwatch","Watch for Birds"))
-        if loc in {"riverside_path","churchyard"}: out.append(("hobby:forage","Go Foraging"))
+        if loc in {"riverside_path","churchyard","ashcroft_cottage","field_lane","calder_farm","north_woods","old_quarry"}: out.append(("hobby:birdwatch","Watch for Birds"))
+        if loc in {"riverside_path","churchyard","field_lane","calder_farm","north_woods"}: out.append(("hobby:forage","Go Foraging"))
         if loc == "riverside_path": out.append(("hobby:fish","Fish the River"))
-        if loc in {"churchyard","railway_halt","village_green"}: out.append(("hobby:history","Research Local History"))
-        if loc in {"riverside_path","churchyard","village_green","ashcroft_cottage"}: out.append(("hobby:sketch","Make a Sketch"))
+        if loc in {"churchyard","railway_halt","village_green","calder_farm","old_quarry","quarry_caves"}: out.append(("hobby:history","Research Local History"))
+        if loc in {"riverside_path","churchyard","village_green","ashcroft_cottage","field_lane","calder_farm","north_woods","old_quarry"}: out.append(("hobby:sketch","Make a Sketch"))
         return out
 
 HOBBY_DISCOVERIES = {
@@ -116,6 +116,10 @@ HOBBY_DISCOVERIES = {
         "ashcroft_cottage":["blackbird","robin","wren","blue_tit"],
         "churchyard":["robin","song_thrush","jackdaw","tawny_owl"],
         "riverside_path":["grey_wagtail","kingfisher","mallard","heron"],
+        "field_lane":["yellowhammer","skylark","kestrel","rook"],
+        "calder_farm":["barn_swallow","house_martin","rook","kestrel"],
+        "north_woods":["great_spotted_woodpecker","nuthatch","jay","tawny_owl"],
+        "old_quarry":["peregrine","raven","wheatear","kestrel"],
     },
     "foraged": {
         "early_spring":["nettles","wild_garlic"], "late_spring":["wild_garlic","elderflower"],
@@ -125,7 +129,7 @@ HOBBY_DISCOVERIES = {
     },
     "fish": ["brown_trout","chub","perch","roach"],
     "history": {
-        "churchyard":"churchyard_masons_marks", "railway_halt":"halt_freight_siding", "village_green":"green_old_market_charter"
+        "churchyard":"churchyard_masons_marks", "railway_halt":"halt_freight_siding", "village_green":"green_old_market_charter", "calder_farm":"farm_boundary_ledger", "old_quarry":"quarry_shift_register", "quarry_caves":"worked_passage_marks"
     }
 }
 

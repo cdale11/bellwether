@@ -618,6 +618,9 @@ class Game:
             place = self.state["location_state"].setdefault(loc_id, deepcopy(defaults))
             for key, value in defaults.items():
                 place.setdefault(key, deepcopy(value))
+        # Expansion locations receive generic persistent place state on both new and migrated saves.
+        for loc_id in WORLD:
+            self.state["location_state"].setdefault(loc_id, {"activity_level": 0, "last_change": self.time_label()})
         self.state.setdefault("conversation_sessions", deepcopy(INITIAL_STATE["conversation_sessions"]))
         for npc_id in self.state.get("npcs", {}):
             self.state["conversation_sessions"].setdefault(npc_id, [])
@@ -783,6 +786,11 @@ class Game:
                 ("life:watch_platform", "Wait on the Platform"),
                 ("life:read_timetable", "Study the Timetable and Notices"),
             ],
+            "field_lane": [("life:field_walk", "Walk the Hedgerow Lane"), ("life:watch_fields", "Watch the Fields for a While")],
+            "calder_farm": [("life:farm_observe", "Watch the Farm at Work"), ("life:orchard_walk", "Walk by the Orchard Boundary")],
+            "north_woods": [("life:woods_walk", "Follow the Woodland Track"), ("life:listen_woods", "Stop and Listen Beneath the Trees")],
+            "old_quarry": [("life:quarry_walk", "Walk the Safe Quarry Terrace"), ("life:study_stone", "Study the Exposed Stone")],
+            "quarry_caves": [("life:cave_listen", "Listen in the First Chamber"), ("life:study_passage", "Examine the Worked Passage")],
         }
         for action_id, label in life_actions.get(loc, []):
             actions.append({"id": action_id, "label": label, "kind": "life"})
@@ -1915,6 +1923,11 @@ class Game:
             "churchyard": ("churchyard_names", "Names that recur", "Several surnames repeat across old stones and current village notices."),
             "riverside_path": ("river_paths", "Paths beside the water", "Some meadow tracks are used daily while others vanish into reeds and nettles."),
             "railway_halt": ("halt_timing", "A sparse timetable", "With so few trains, arrivals and departures become memorable village events."),
+            "field_lane": ("field_lane_boundaries", "Hedges older than the road", "The lane follows boundaries that predate the modern road surface; gates and bends preserve an older division of the land."),
+            "calder_farm": ("farm_working_rhythm", "A farm clock", "Animal care, deliveries and machinery create a daily rhythm that shifts with weather more than the village timetable."),
+            "north_woods": ("woods_path_network", "Tracks beneath the canopy", "Forestry tracks, footpaths and animal trails overlap, but only some routes appear on the public waymarkers."),
+            "old_quarry": ("quarry_work_layers", "Work written in stone", "Different drill patterns and terrace cuts show that the quarry was expanded in distinct phases."),
+            "quarry_caves": ("cave_worked_natural", "Worked stone and natural passage", "Tool cuts interrupt natural solution channels, showing that quarry workers followed older voids beneath the face."),
         }
         deeper = {
             "bus_stop": ("stop_sightline", "A clear sightline", "From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."),
@@ -1926,6 +1939,11 @@ class Game:
             "churchyard": ("churchyard_recent_visits", "Fresh visits among old stones", "A few graves are tended with a regularity that contrasts sharply with their age."),
             "riverside_path": ("river_highwater_marks", "Old water lines", "Debris caught above the present bank shows how far the river can rise after sustained rain."),
             "railway_halt": ("halt_regular_waiting", "Signs of regular waiting", "Wear beneath the shelter suggests the same few positions are occupied often despite the sparse service."),
+            "field_lane": ("field_lane_repeated_turn", "A repeated turn", "One worn verge path leaves the lane and returns to it without offering an obvious shortcut."),
+            "calder_farm": ("farm_boundary_discrepancy", "A boundary that moved", "An old wall line and the working fence disagree by several metres, leaving a narrow strip nobody seems to cultivate."),
+            "north_woods": ("woods_waymarker_mismatch", "A missing route", "An old waymarker points toward a path that is absent from the current forestry map but still faintly worn under leaves."),
+            "old_quarry": ("quarry_shift_marks", "Marks beyond the last working face", "Numbered paint and tool scars continue farther than the documented final quarry terrace."),
+            "quarry_caves": ("cave_acoustic_return", "An echo from the wrong direction", "A sharp sound returns first from deeper in the passage rather than from the open quarry mouth behind you."),
         }
 
         evidence = ordinary[loc]
@@ -2062,7 +2080,7 @@ class Game:
             note=HOBBY_DISCOVERIES["history"].get(loc)
             if note and note not in coll["history_notes"]:
                 coll["history_notes"].append(note); found=note
-                self.add("Local History",{"churchyard_masons_marks":"Repeated mason's marks link several old stones to the same nineteenth-century workshop.","halt_freight_siding":"An old notice confirms that the halt once handled small agricultural freight consignments.","green_old_market_charter":"A copied parish notice refers to a much older seasonal market held on the green."}[note])
+                self.add("Local History",{"churchyard_masons_marks":"Repeated mason's marks link several old stones to the same nineteenth-century workshop.","halt_freight_siding":"An old notice confirms that the halt once handled small agricultural freight consignments.","green_old_market_charter":"A copied parish notice refers to a much older seasonal market held on the green.","farm_boundary_ledger":"A copied farm ledger describes a boundary strip that no longer matches the working fence line.","quarry_shift_register":"A surviving shift register records work crews assigned to a terrace beyond the documented final face.","worked_passage_marks":"Local notes describe worked passages following natural cavities beneath the quarry face."}[note])
             else:self.add("Narrator","You compare dates, names and small public records. No revelation arrives, but the village becomes a little less anonymous.")
         elif verb=="sketch":
             sketch=f"{loc}_day_{s['day']}"
@@ -2154,6 +2172,16 @@ class Game:
             "watch_water": ("watching the river and meadow", 20),
             "watch_platform": ("waiting on the quiet railway platform", 20),
             "read_timetable": ("studying the railway timetable and notices", 15),
+            "field_walk": ("walking the hedgerow lane", 25),
+            "watch_fields": ("watching the working fields", 20),
+            "farm_observe": ("watching the farm at work", 25),
+            "orchard_walk": ("walking the orchard boundary", 25),
+            "woods_walk": ("following the woodland track", 35),
+            "listen_woods": ("listening beneath the woodland canopy", 20),
+            "quarry_walk": ("walking the safe quarry terrace", 30),
+            "study_stone": ("studying the exposed limestone", 25),
+            "cave_listen": ("listening in the first cave chamber", 20),
+            "study_passage": ("examining the worked cave passage", 30),
         }
         allowed = {
             "ashcroft_cottage": {"tea","tidy","garden","read","post"},
@@ -2165,6 +2193,11 @@ class Game:
             "churchyard": {"churchyard_walk","sit_churchyard"},
             "riverside_path": {"river_walk","watch_water"},
             "railway_halt": {"watch_platform","read_timetable"},
+            "field_lane": {"field_walk","watch_fields"},
+            "calder_farm": {"farm_observe","orchard_walk"},
+            "north_woods": {"woods_walk","listen_woods"},
+            "old_quarry": {"quarry_walk","study_stone"},
+            "quarry_caves": {"cave_listen","study_passage"},
         }
         if activity_id not in allowed.get(loc, set()) or activity_id not in specs:
             return
@@ -2222,7 +2255,7 @@ class Game:
             life["errands_done"] += 1; effects["errands_done"] = life["errands_done"]
             self.add("Narrator", "You pick up a few ordinary household necessities. It is a small thing, but carrying them back makes your stay feel less temporary.")
 
-        elif activity_id in ("shop_browse","newspaper","churchyard_walk","sit_churchyard","river_walk","watch_water","watch_platform","read_timetable"):
+        elif activity_id in ("shop_browse","newspaper","churchyard_walk","sit_churchyard","river_walk","watch_water","watch_platform","read_timetable","field_walk","watch_fields","farm_observe","orchard_walk","woods_walk","listen_woods","quarry_walk","study_stone","cave_listen","study_passage"):
             life["attentiveness"] = min(100, life["attentiveness"] + 2)
             effects["attentiveness"] = life["attentiveness"]
             messages = {
@@ -2234,6 +2267,16 @@ class Game:
                 "watch_water":"The river looks slow until you fix your attention on leaves and foam moving beneath the footbridge.",
                 "watch_platform":"You wait without needing a train. The platform gathers distant sounds from fields, rails and the village beyond the meadow.",
                 "read_timetable":"The timetable is sparse enough to memorize. Missing one train here can change the shape of an entire day.",
+                "field_walk":"You follow the hedge line uphill. The village roofs vanish and reappear between gaps in the hawthorn.",
+                "watch_fields":"You stop at a gate. Wind moves differently across each crop and pasture, making the working landscape legible in layers.",
+                "farm_observe":"You keep clear of the work and watch the farm's practical rhythm: gates, feed, machinery, weather and unfinished jobs.",
+                "orchard_walk":"The orchard is modest and uneven-aged. Fallen fruit, pruning cuts and old boundary stones tell different versions of its history.",
+                "woods_walk":"The forestry track bends beneath beech and oak. Side paths are easy to miss until you have passed them.",
+                "listen_woods":"You stop moving. Birds, branches and distant machinery separate slowly from the general sound of the wood.",
+                "quarry_walk":"You keep to the stable terrace. Rust stains, drill marks and scrub show how quickly industry becomes landscape.",
+                "study_stone":"The quarry face preserves bands, fractures and tool scars that reward patient attention.",
+                "cave_listen":"Water ticks somewhere beyond the first chamber. Small sounds travel farther underground than you expect.",
+                "study_passage":"Worked cuts interrupt the natural limestone. Some are practical; others are harder to place in any obvious sequence.",
             }
             self.add("Narrator", messages[activity_id])
 
@@ -2241,7 +2284,7 @@ class Game:
             self.branch_score("care",1)
         if activity_id in ("bench","noticeboard","errand","shop_browse","newspaper"):
             self.branch_score("community",1)
-        if activity_id in ("watch_road","watch_water","read_timetable","churchyard_walk"):
+        if activity_id in ("watch_road","watch_water","read_timetable","churchyard_walk","watch_fields","listen_woods","study_stone","cave_listen","study_passage"):
             self.branch_score("inquiry",1)
 
         self.record_player_activity(activity_id, label, minutes, effects)

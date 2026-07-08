@@ -1,3 +1,13 @@
+# Changelog
+
+## v0.6.0 — World Expansion
+- Expanded the authored world graph from 9 to 14 locations.
+- Added Field Lane, Calder Farm, Bellwether Woods, Old Quarry, and Quarry Caves.
+- Added new districts, ecology, investigation, economy/job hooks, and bounded danger entries.
+- Integrated new regions with map discovery, route reveal, hobbies, ordinary-life actions, NPC adjacency, and migration-safe location state.
+- Preserved integrated Ollama model detection and deterministic fallback.
+- Added focused v0.6.0 diagnostic and exhaustive audit report.
+
 # v0.5.2 — Relationship Depth and Social Consequences
 
 - Added persistent structured social acts and per-NPC shared history.
@@ -8,7 +18,6 @@
 - Added auditable gossip logging tied to catalogue-backed knowledge propagation.
 - Added old-save migration and focused v0.5.2 diagnostics.
 
-# Changelog
 
 ## v0.5.1 — Village Population and Simulation Tiers
 

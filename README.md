@@ -1,6 +1,17 @@
-# Bellwether v0.5.2 — Relationship Depth and Social Consequences
+# Bellwether v0.6.0 — World Expansion
 
 Bellwether v0.5.2 deepens the six-person core cast with persistent structured social consequences, grievances, commitments, shared history, relationship stages, and auditable gossip propagation. It is an additive upgrade from v0.5.1 and preserves the 24-resident lightweight population tier and integrated local Ollama model detection.
+
+
+## v0.6.0 — World Expansion
+
+This release expands Bellwether from nine locations to fourteen with Field Lane, Calder Farm, Bellwether Woods, the Old Quarry, and the Quarry Caves. The new region is connected to the existing travel graph, parchment exploration map, hobbies, investigation tags, ecology hooks, danger system, NPC adjacency and old-save migration. New places contain ordinary-life actions and hobby opportunities rather than functioning as empty travel nodes. Existing local Ollama auto-detection is unchanged.
+
+Run the focused diagnostic with:
+
+```bash
+PYTHONPATH=. python tools/v060_world_expansion_diagnostic.py
+```
 
 ## v0.5.2 — Relationship Depth and Social Consequences
 

@@ -45,7 +45,8 @@ function mapHtml(s){
  const anchors={
   bus_stop:[25.0,73.5], village_road:[35.5,58.5], bakery:[33.8,39.5],
   village_shop:[30.7,52.0], village_green:[43.2,49.0], churchyard:[51.0,26.0],
-  ashcroft_cottage:[41.8,81.0], riverside_path:[13.0,48.0], railway_halt:[18.0,84.0]
+  ashcroft_cottage:[41.8,81.0], riverside_path:[13.0,48.0], railway_halt:[18.0,84.0],
+  field_lane:[58.0,45.0], calder_farm:[72.0,52.0], north_woods:[65.0,24.0], old_quarry:[82.0,30.0], quarry_caves:[89.0,39.0]
  };
  const regions={
   bus_stop:'19,66 31,66 33,78 27,84 18,80 16,72',
@@ -56,7 +57,12 @@ function mapHtml(s){
   churchyard:'42,15 61,14 66,29 59,39 45,38 39,27',
   ashcroft_cottage:'32,70 52,69 56,84 48,94 34,94 27,84',
   riverside_path:'3,32 20,31 25,47 20,65 8,70 2,58',
-  railway_halt:'8,75 28,74 31,94 7,95'
+  railway_halt:'8,75 28,74 31,94 7,95',
+  field_lane:'50,36 64,35 68,48 62,58 51,55 47,45',
+  calder_farm:'63,43 80,43 83,59 75,68 62,61 59,51',
+  north_woods:'54,10 76,9 80,27 73,39 57,38 50,25',
+  old_quarry:'74,16 93,15 98,31 91,43 77,41 70,29',
+  quarry_caves:'82,31 99,30 99,49 90,54 80,47'
  };
  const routePairs={
   'bus_stop::village_road':['bus_stop','village_road'],
@@ -67,7 +73,13 @@ function mapHtml(s){
   'churchyard::village_green':['village_green','churchyard'],
   'ashcroft_cottage::village_green':['village_green','ashcroft_cottage'],
   'riverside_path::village_green':['village_green','riverside_path'],
-  'railway_halt::riverside_path':['riverside_path','railway_halt']
+  'railway_halt::riverside_path':['riverside_path','railway_halt'],
+  'field_lane::village_green':['village_green','field_lane'],
+  'calder_farm::field_lane':['field_lane','calder_farm'],
+  'field_lane::north_woods':['field_lane','north_woods'],
+  'north_woods::old_quarry':['north_woods','old_quarry'],
+  'calder_farm::old_quarry':['calder_farm','old_quarry'],
+  'old_quarry::quarry_caves':['old_quarry','quarry_caves']
  };
  const polygons=[...discovered].filter(id=>regions[id]).map(id=>`<polygon points="${regions[id]}"/>`).join('');
  const paths=[...discoveredPaths].map(key=>routePairs[key]).filter(Boolean).map(([a,b])=>{const p1=anchors[a],p2=anchors[b];return `<line x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}"/>`;}).join('');
