@@ -1,3 +1,8 @@
+
+## Implementation status update — v0.5.0
+
+Completed in v0.5.0: six-person authored core cast, complete pairwise authored social web, first durable structured event/NPC-memory substrate, old-save migration for the expanded cast, and fast/deep Ollama task-routing readiness. Relationship consequence depth remains scheduled for v0.5.2; full Town Mind scheduling remains in v0.7.x.
+
 # BELLWETHER — POST-v0.3.4 DEVELOPMENT ROADMAP
 
 **Roadmap version:** 1.0  

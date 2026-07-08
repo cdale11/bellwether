@@ -5,7 +5,10 @@ class AIProvider:
     def __init__(self):
         self.enabled=os.getenv("BELLWETHER_AI","1").lower() in {"1","true","yes","on"}
         self.base_url=os.getenv("BELLWETHER_AI_URL","http://127.0.0.1:11434")
-        self.model=os.getenv("BELLWETHER_AI_MODEL","qwen3:1.7b")
+        self.fast_model=os.getenv("BELLWETHER_AI_FAST_MODEL",os.getenv("BELLWETHER_AI_MODEL","qwen3.5:2b"))
+        self.deep_model=os.getenv("BELLWETHER_AI_DEEP_MODEL","qwen3.5:4b")
+        self.model=self.fast_model  # compatibility: existing diagnostics and UI report the foreground model
+        self.num_ctx=max(1024,int(os.getenv("BELLWETHER_AI_NUM_CTX","4096")))
         self.timeout=float(os.getenv("BELLWETHER_AI_TIMEOUT","30"))
         detected_threads = os.cpu_count() or 1
         self.num_threads=max(1,int(os.getenv("BELLWETHER_AI_THREADS",str(detected_threads))))
@@ -26,6 +29,13 @@ class AIProvider:
         # authoritative game state and attached to every Director/dialogue request.
         self.overview_context = {}
         self.recent_call_memory = []
+
+    def model_for_task(self,director):
+        # v0.5.0 routing-ready boundary. Existing synchronous Directors stay fast;
+        # future strategic tasks can opt into the deep model without changing callers.
+        if director in {"town_mind","procedural_arc","recurrence_strategy","horror_strategy"}:
+            return self.deep_model
+        return self.fast_model
 
     def remember_call(self, director, result):
         self.recent_call_memory.append({"director": director, "result": result})
@@ -173,9 +183,9 @@ class AIProvider:
               f"\nDIRECTOR: {director}\nQUESTION: {question}{allowed_text}"
               f"\nCONTEXT: {json.dumps(context,separators=(',',':'))}"
             )
-            payload=json.dumps({"model":self.model,"prompt":prompt,"stream":False,
+            payload=json.dumps({"model":self.model_for_task(director),"prompt":prompt,"stream":False,
               "format":"json","keep_alive":"10m",
-              "options":{"temperature":0.55,"num_predict":80,"num_thread":self.num_threads}}).encode()
+              "options":{"temperature":0.55,"num_predict":80,"num_thread":self.num_threads,"num_ctx":self.num_ctx}}).encode()
             req=urllib.request.Request(self.base_url.rstrip("/")+"/api/generate",data=payload,
               headers={"Content-Type":"application/json"},method="POST")
             try:
@@ -203,8 +213,7 @@ class AIProvider:
             if attempt<tries:
                 # A timed-out Ollama request may still be unwinding server-side.
                 # Give it a short bounded cooldown instead of immediately piling on.
-                cooldown = min(2.0, 0.75 * attempt) if trace.get("parser_stage")=="transport_error" else 0.25 * attempt
-                trace["retry_cooldown_seconds"]=cooldown
+                cooldown = min(2.0, 0.75 * attempt) if self.last_status.get("state") in {"request_timeout","request_failed"} else 0.25 * attempt
                 time.sleep(cooldown)
         return None
 
@@ -227,8 +236,8 @@ class AIProvider:
             self.last_status["last_director"]=director
             started=time.time()
             payload_obj={
-                "model":self.model,"prompt":prompt,"stream":False,"keep_alive":"10m",
-                "options":{"temperature":temperature,"num_predict":current_tokens,"num_thread":self.num_threads}
+                "model":self.model_for_task(director),"prompt":prompt,"stream":False,"keep_alive":"10m",
+                "options":{"temperature":temperature,"num_predict":current_tokens,"num_thread":self.num_threads,"num_ctx":self.num_ctx}
             }
             if no_think:
                 # Qwen3 reasoning mode must be disabled through Ollama's top-level API field.
@@ -243,7 +252,7 @@ class AIProvider:
                 "attempt":attempt,
                 "max_attempts":tries,
                 "endpoint":"/api/generate",
-                "model":self.model,
+                "model":self.model_for_task(director),
                 "prompt":prompt,
                 "prompt_chars":len(prompt),
                 "prompt_words":len(prompt.split()),

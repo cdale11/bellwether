@@ -28,6 +28,7 @@ from backend.core.player_identity_model import PLAYER_IDENTITY_MODEL
 from backend.core.danger_model import DANGER_MODEL
 from backend.core.recurrence_model import RECURRENCE_MODEL
 from backend.core.content_model import CONTENT_MODEL
+from backend.core.memory_model import MEMORY_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -109,7 +110,10 @@ INITIAL_STATE = {
     "npcs": {
         "jonah": {"name": "Jonah", "location": "bakery", "activity": "baking", "visible": True},
         "mara": {"name": "Mara", "location": "ashcroft_cottage", "activity": "checking the neglected garden", "visible": False},
-        "mrs_ellis": {"name": "Mrs Ellis", "location": "village_road", "activity": "walking toward the shops", "visible": True}
+        "mrs_ellis": {"name": "Mrs Ellis", "location": "village_road", "activity": "walking toward the shops", "visible": True},
+        "asha": {"name": "Asha Patel", "location": "village_shop", "activity": "checking the morning delivery against her ledger", "visible": True},
+        "tom": {"name": "Tom Mercer", "location": "railway_halt", "activity": "checking the platform clock against the working timetable", "visible": True},
+        "ruth": {"name": "Ruth Calder", "location": "churchyard", "activity": "copying a weathered inscription into a notebook", "visible": True}
     },
     "traffic": {
         "bus_7": {"name": "Route 7 bus", "location": "away", "activity": "en route to the next village"},
@@ -118,24 +122,19 @@ INITIAL_STATE = {
     },
     "day_events": [],
     "dialogue": None,
-    "social_memory": {
-        "jonah": [],
-        "mara": [],
-        "mrs_ellis": []
-    },
-    "conversation_sessions": {
-        "jonah": [],
-        "mara": [],
-        "mrs_ellis": []
-    },
+    "social_memory": {nid: [] for nid in NPC_MODEL.npcs},
+    "conversation_sessions": {nid: [] for nid in NPC_MODEL.npcs},
     "relationships": {
         "jonah": {"affinity": 0, "familiarity": 0, "trust": 0, "talks": 0, "last_interaction": None, "impressions": []},
         "mara": {"affinity": 0, "familiarity": 0, "trust": 0, "talks": 0, "last_interaction": None, "impressions": []},
-        "mrs_ellis": {"affinity": 0, "familiarity": 0, "trust": 0, "talks": 0, "last_interaction": None, "impressions": []}
+        "mrs_ellis": {"affinity": 0, "familiarity": 0, "trust": 0, "talks": 0, "last_interaction": None, "impressions": []},
+        "asha": {"affinity": 0, "familiarity": 0, "trust": 0, "talks": 0, "last_interaction": None, "impressions": []},
+        "tom": {"affinity": 0, "familiarity": 0, "trust": 0, "talks": 0, "last_interaction": None, "impressions": []},
+        "ruth": {"affinity": 0, "familiarity": 0, "trust": 0, "talks": 0, "last_interaction": None, "impressions": []}
     },
     "overheard": [],
     "world_events": [],
-    "npc_action_history": {"jonah": [], "mara": [], "mrs_ellis": []},
+    "npc_action_history": {nid: [] for nid in NPC_MODEL.npcs},
     "traffic_action_history": {"bus_7": [], "delivery_van": [], "train": []},
     "location_state": {
         "bakery": {"open": True, "staffed": True, "bread_available": True, "last_change": "09:10"},
@@ -195,13 +194,14 @@ INITIAL_STATE = {
     "world_model": WORLD_MODEL.runtime_state_defaults(),
     "npc_lives": NPC_MODEL.runtime_defaults(),
     "npc_social_web": SOCIAL_MODEL.runtime_defaults(),
-    "npc_knowledge": KNOWLEDGE_MODEL.runtime_defaults(["jonah","mara","mrs_ellis"]),
+    "npc_knowledge": KNOWLEDGE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "mystery_investigation": INVESTIGATION_MODEL.runtime_defaults(),
     "systemic_horror": HORROR_MODEL.runtime_defaults(),
     "player_identity": PLAYER_IDENTITY_MODEL.runtime_defaults(),
     "danger": DANGER_MODEL.runtime_defaults(),
     "recurrence": RECURRENCE_MODEL.runtime_defaults(),
     "content_progression": CONTENT_MODEL.runtime_defaults(),
+    "memory_system": MEMORY_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -549,6 +549,9 @@ class Game:
             map_state["discovered_locations"].append(current_location)
         self.state.setdefault("world_model", WORLD_MODEL.runtime_state_defaults())
         self.state.setdefault("npc_lives", NPC_MODEL.runtime_defaults())
+        self.state.setdefault("npcs", {})
+        for npc_id, npc_defaults in INITIAL_STATE["npcs"].items():
+            self.state["npcs"].setdefault(npc_id, deepcopy(npc_defaults))
         self.state.setdefault("npc_social_web", SOCIAL_MODEL.runtime_defaults())
         self.state.setdefault("npc_knowledge", KNOWLEDGE_MODEL.runtime_defaults(list(self.state.get("npcs",{}))))
         self.state.setdefault("mystery_investigation", INVESTIGATION_MODEL.runtime_defaults())
@@ -557,6 +560,7 @@ class Game:
         self.state.setdefault("danger", DANGER_MODEL.runtime_defaults())
         self.state.setdefault("recurrence", RECURRENCE_MODEL.runtime_defaults())
         self.state.setdefault("content_progression", CONTENT_MODEL.runtime_defaults())
+        MEMORY_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         CONTENT_MODEL.migrate_v040(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
@@ -588,7 +592,8 @@ class Game:
             world_state.setdefault(key, deepcopy(value))
         for loc_id in WORLD:
             world_state.setdefault("location_modifiers", {}).setdefault(loc_id, [])
-        self.state.setdefault("social_memory", {"jonah": [], "mara": [], "mrs_ellis": []})
+        self.state.setdefault("social_memory", {})
+        for npc_id in self.state.get("npcs", {}): self.state["social_memory"].setdefault(npc_id, [])
         # Mara becomes physically available once Eleanor's letter opens her side story.
         if self.state.get("flags", {}).get("mara_intro_available") or self.state.get("flags", {}).get("met_mara"):
             self.state.setdefault("npcs", {}).setdefault("mara", deepcopy(INITIAL_STATE["npcs"]["mara"]))["visible"] = True
@@ -1461,6 +1466,7 @@ class Game:
             },
             "village_mood": s["village_brain"]["mood"],
             "npc_memories": s.get("social_memory", {}).get(npc_id, [])[-3:],
+            "structured_memory": MEMORY_MODEL.context(s,npc_id,limit=6),
             "recent_exchange": self._conversation_recent_exchange_context(npc_id),
             "recent_npc_replies_to_avoid_repeating": [
                 x.get("npc","") for x in s.setdefault("conversation_sessions",{}).setdefault(npc_id,[])[-2:]
@@ -1523,6 +1529,9 @@ class Game:
             f"The newcomer stopped to speak with {npc['name']} at {WORLD[s['location']]['name']}.",
             "conversation", npc_id
         )
+        event_id=MEMORY_MODEL.record(s,"conversation",f"The player spoke with {npc['name']} at {WORLD[s['location']]['name']}.",actors=[npc_id],location=s["location"],witnesses=[npc_id],importance=2,tags=["player_contact"])
+        if social and social.get("memory") and self._social_memory_supported_by_player(player_text,social.get("memory")):
+            MEMORY_MODEL.remember_impression(s,npc_id,social.get("memory"),event_id,0.65)
 
     def free_talk(self, npc_id, player_text):
         """Server-side entry point for player-authored ambient conversation."""

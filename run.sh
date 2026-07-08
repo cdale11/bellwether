@@ -6,9 +6,13 @@ cd "$(dirname "$0")"
 echo
 echo "Starting Bellwether using the active Conda environment..."
 export BELLWETHER_AI="${BELLWETHER_AI:-1}"
-export BELLWETHER_AI_MODEL="${BELLWETHER_AI_MODEL:-qwen3:1.7b}"
+export BELLWETHER_AI_FAST_MODEL="${BELLWETHER_AI_FAST_MODEL:-${BELLWETHER_AI_MODEL:-qwen3.5:2b}}"
+export BELLWETHER_AI_DEEP_MODEL="${BELLWETHER_AI_DEEP_MODEL:-qwen3.5:4b}"
+export BELLWETHER_AI_MODEL="$BELLWETHER_AI_FAST_MODEL"
+export BELLWETHER_AI_NUM_CTX="${BELLWETHER_AI_NUM_CTX:-4096}"
 export BELLWETHER_AI_THREADS="${BELLWETHER_AI_THREADS:-$(getconf _NPROCESSORS_ONLN 2>/dev/null || nproc 2>/dev/null || echo 1)}"
-echo "AI Directors: enabled by default (${BELLWETHER_AI_MODEL})"
+echo "AI foreground model: ${BELLWETHER_AI_FAST_MODEL}"
+echo "AI strategic model:  ${BELLWETHER_AI_DEEP_MODEL} (used only by strategic task classes)"
 echo "LLM inference threads: ${BELLWETHER_AI_THREADS}"
 echo "Optional thread benchmark: python3 tools/benchmark_llm_threads.py"
 echo "Bellwether will ask the local model to choose a season while the server starts."
@@ -18,6 +22,10 @@ if command -v ollama >/dev/null 2>&1; then
     if ! ollama list 2>/dev/null | awk '{print $1}' | grep -qx "${BELLWETHER_AI_MODEL}"; then
         echo "WARNING: ${BELLWETHER_AI_MODEL} is not installed in Ollama."
         echo "Install once with: ollama pull ${BELLWETHER_AI_MODEL}"
+    fi
+    if ! ollama list 2>/dev/null | awk '{print $1}' | grep -qx "${BELLWETHER_AI_DEEP_MODEL}"; then
+        echo "NOTICE: strategic model ${BELLWETHER_AI_DEEP_MODEL} is not installed."
+        echo "Install for future strategic task classes with: ollama pull ${BELLWETHER_AI_DEEP_MODEL}"
     fi
 else
     echo "WARNING: Ollama command not found. Bellwether will use baseline simulation."

@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.5.0 — Complete Core Cast and Memory Foundation
+
+- Expanded the authored core cast from three to six residents.
+- Added Asha Patel, Tom Mercer, and Ruth Calder as persistent core NPCs.
+- Completed all fifteen pairwise authored social-web edges for the six-person cast.
+- Added durable structured event memory, NPC event references, private impressions, unresolved slots, and bounded retrieval context.
+- Integrated structured memory into free NPC conversation context and conversation event recording.
+- Added migration of new NPCs and memory state into older saves.
+- Added fast/deep Ollama task routing configuration while preserving current foreground-priority serialization and fallback.
+- Changed recommended default foreground model to qwen3.5:2b and documented qwen3.5:4b strategic installation.
+- Added focused v0.5.0 diagnostics and release audit documentation.
+
+# Changelog
+
 ## v0.4.2 — Hobbies, Skills, and Personal Routine
 
 - added persistent foraging, birdwatching, fishing, local-history research, and sketching;

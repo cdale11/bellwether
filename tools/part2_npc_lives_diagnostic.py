@@ -10,7 +10,7 @@ def main():
     checks=[]
     def check(name,fn): fn(); checks.append(name); print("PASS",name)
     check("npc schema validates",NPC_MODEL.validate)
-    check("core cast profiles present",lambda: set(NPC_MODEL.npcs)=={"jonah","mara","mrs_ellis"} or (_ for _ in ()).throw(AssertionError()))
+    check("core cast profiles present",lambda: set(NPC_MODEL.npcs)>={"jonah","mara","mrs_ellis"} and len(NPC_MODEL.npcs)>=3 or (_ for _ in ()).throw(AssertionError()))
     check("authored identity query",lambda: "craft" in NPC_MODEL.dialogue_identity("jonah")["values"] or (_ for _ in ()).throw(AssertionError()))
     check("bounded obligation query",lambda: bool(NPC_MODEL.active_obligations("jonah",600)) or (_ for _ in ()).throw(AssertionError()))
     g=Game(); before=copy.deepcopy(g.state["npc_lives"]); g.advance(60)

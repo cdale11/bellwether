@@ -1,54 +1,54 @@
 {
-  "version": "0.4.2",
-  "started": "2026-07-08 15:23:13",
+  "version": "0.5.0",
+  "started": "2026-07-08 15:44:12",
   "checks": {
     "compile": {
       "ok": true,
-      "python_files": 64,
+      "python_files": 66,
       "run_sh_mode": "0o755"
     },
     "structural": {
       "ok": true,
-      "seconds": 7.36,
+      "seconds": 10.27,
       "summary": [
         "PASS   social       run=1 steps=180 day=1 locs=2 evidence=0 npc_rep=0.00 traffic_rep=0.00",
-        "PASS   social       run=2 steps=180 day=1 locs=3 evidence=0 npc_rep=0.00 traffic_rep=0.00",
-        "PASS   homebody     run=1 steps=180 day=4 locs=7 evidence=0 npc_rep=0.17 traffic_rep=0.22",
-        "PASS   homebody     run=2 steps=180 day=4 locs=6 evidence=0 npc_rep=0.06 traffic_rep=0.17",
-        "PASS   investigator run=1 steps=180 day=2 locs=1 evidence=2 npc_rep=0.00 traffic_rep=0.06",
-        "PASS   investigator run=2 steps=180 day=2 locs=1 evidence=2 npc_rep=0.00 traffic_rep=0.17",
-        "PASS   wanderer     run=1 steps=180 day=2 locs=9 evidence=0 npc_rep=0.06 traffic_rep=0.06",
+        "PASS   social       run=2 steps=180 day=1 locs=2 evidence=0 npc_rep=0.00 traffic_rep=0.00",
+        "PASS   homebody     run=1 steps=180 day=4 locs=7 evidence=0 npc_rep=0.06 traffic_rep=0.11",
+        "PASS   homebody     run=2 steps=180 day=4 locs=6 evidence=0 npc_rep=0.03 traffic_rep=0.17",
+        "PASS   investigator run=1 steps=180 day=2 locs=1 evidence=2 npc_rep=0.14 traffic_rep=0.06",
+        "PASS   investigator run=2 steps=180 day=2 locs=1 evidence=2 npc_rep=0.08 traffic_rep=0.00",
+        "PASS   wanderer     run=1 steps=180 day=2 locs=9 evidence=0 npc_rep=0.00 traffic_rep=0.00",
         "PASS   wanderer     run=2 steps=180 day=2 locs=9 evidence=0 npc_rep=0.06 traffic_rep=0.06",
-        "PASS   avoidant     run=1 steps=180 day=4 locs=9 evidence=0 npc_rep=0.11 traffic_rep=0.06",
-        "PASS   avoidant     run=2 steps=180 day=4 locs=8 evidence=0 npc_rep=0.00 traffic_rep=0.06",
-        "PASS   repetitive   run=1 steps=180 day=3 locs=1 evidence=0 npc_rep=0.11 traffic_rep=0.11",
+        "PASS   avoidant     run=1 steps=180 day=4 locs=9 evidence=0 npc_rep=0.14 traffic_rep=0.17",
+        "PASS   avoidant     run=2 steps=180 day=4 locs=8 evidence=0 npc_rep=0.03 traffic_rep=0.22",
+        "PASS   repetitive   run=1 steps=180 day=3 locs=1 evidence=0 npc_rep=0.03 traffic_rep=0.11",
         "PASS   repetitive   run=2 steps=180 day=3 locs=1 evidence=0 npc_rep=0.06 traffic_rep=0.11",
-        "PASS   random       run=1 steps=162 day=3 locs=8 evidence=15 npc_rep=0.11 traffic_rep=0.06",
-        "PASS   random       run=2 steps=180 day=5 locs=8 evidence=13 npc_rep=0.17 traffic_rep=0.17",
+        "PASS   random       run=1 steps=178 day=3 locs=6 evidence=12 npc_rep=0.08 traffic_rep=0.22",
+        "PASS   random       run=2 steps=180 day=3 locs=8 evidence=13 npc_rep=0.08 traffic_rep=0.11",
         "Structural passes: 14/14"
       ]
     },
     "blind_profiles": {
       "ok": true,
-      "seconds": 23.18,
+      "seconds": 18.8,
       "summary": [
-        "story_follower     run=1 steps=500 day=5 locs=9 life=0 evidence=0 anomaly=None complete=None",
-        "story_follower     run=2 steps=500 day=4 locs=9 life=0 evidence=0 anomaly=None complete=None",
-        "social_explorer    run=1 steps=500 day=3 locs=2 life=0 evidence=0 anomaly=None complete=None",
-        "social_explorer    run=2 steps=500 day=3 locs=2 life=0 evidence=0 anomaly=None complete=None",
-        "life_sim           run=1 steps=500 day=8 locs=1 life=30 evidence=0 anomaly=None complete=None",
-        "life_sim           run=2 steps=500 day=8 locs=1 life=30 evidence=0 anomaly=None complete=None",
-        "investigator       run=1 steps=500 day=4 locs=1 life=30 evidence=2 anomaly=None complete=None",
-        "investigator       run=2 steps=500 day=4 locs=1 life=30 evidence=2 anomaly=None complete=None",
-        "cautious_wanderer  run=1 steps=500 day=4 locs=9 life=0 evidence=0 anomaly=None complete=None",
-        "cautious_wanderer  run=2 steps=500 day=4 locs=9 life=0 evidence=0 anomaly=None complete=None",
-        "balanced_reader    run=1 steps=289 day=5 locs=9 life=30 evidence=17 anomaly=46 complete=289",
-        "balanced_reader    run=2 steps=113 day=2 locs=8 life=30 evidence=10 anomaly=77 complete=113"
+        "story_follower     run=1 steps=260 day=3 locs=9 life=0 evidence=0 anomaly=None complete=None",
+        "story_follower     run=2 steps=260 day=3 locs=9 life=0 evidence=0 anomaly=None complete=None",
+        "social_explorer    run=1 steps=260 day=2 locs=2 life=0 evidence=0 anomaly=None complete=None",
+        "social_explorer    run=2 steps=260 day=2 locs=2 life=0 evidence=0 anomaly=None complete=None",
+        "life_sim           run=1 steps=260 day=4 locs=1 life=30 evidence=0 anomaly=None complete=None",
+        "life_sim           run=2 steps=260 day=4 locs=1 life=30 evidence=0 anomaly=None complete=None",
+        "investigator       run=1 steps=260 day=3 locs=1 life=30 evidence=2 anomaly=None complete=None",
+        "investigator       run=2 steps=260 day=3 locs=1 life=30 evidence=2 anomaly=None complete=None",
+        "cautious_wanderer  run=1 steps=260 day=3 locs=9 life=0 evidence=0 anomaly=None complete=None",
+        "cautious_wanderer  run=2 steps=260 day=3 locs=9 life=0 evidence=0 anomaly=None complete=None",
+        "balanced_reader    run=1 steps=153 day=3 locs=8 life=30 evidence=7 anomaly=125 complete=153",
+        "balanced_reader    run=2 steps=260 day=4 locs=8 life=30 evidence=18 anomaly=None complete=None"
       ]
     },
     "save_load": {
       "ok": true,
-      "bytes": 12716
+      "bytes": 17988
     },
     "conversation_parser": {
       "ok": true,
@@ -86,9 +86,9 @@
     },
     "scheduler_weather": {
       "ok": true,
-      "start_temp": 11,
-      "end_temp": 15,
-      "season": "Late spring",
+      "start_temp": 16,
+      "end_temp": 19,
+      "season": "Late summer",
       "scheduler": {
         "advance_active": false,
         "pending_domains": [],
@@ -108,6 +108,6 @@
     }
   },
   "failures": [],
-  "finished": "2026-07-08 15:23:44",
+  "finished": "2026-07-08 15:44:41",
   "ok": true
 }
