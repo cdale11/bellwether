@@ -1,0 +1,52 @@
+BELLWETHER v0.8.2 — ADAPTIVE HORROR AUDIT REPORT
+
+Scope: adaptive horror selection/pacing, regression preservation, package integrity.
+
+Design invariants:
+- only authored catalogue anomalies may occur;
+- all legacy eligibility gates remain authoritative;
+- adaptation changes emphasis and timing, not truth or canon;
+- quiet periods are mandatory and auditable;
+- player preference is not constantly punished;
+- horror cannot directly mutate money, inventory, quests, evidence, relationships, or NPC knowledge.
+
+Verification includes the focused v0.8.2 diagnostic, all historical focused release diagnostics, cumulative regression suite, Python compilation, JSON parsing, JavaScript and shell syntax, image integrity, API/UI regression checks, runtime construction/view/serialization, package-file audit, and ZIP integrity.
+
+COMPLETED RESULTS
+- v0.8.2 focused adaptive-horror diagnostic: 14/14 PASS
+- v0.8.1 regression-integrity diagnostic: 19/19 PASS
+- v0.8.0 mystery diagnostic: 12/12 PASS
+- v0.7.2 procedural arcs: 13/13 PASS
+- v0.7.1 cognition: 12/12 PASS
+- v0.7.0 Town Mind: 10/10 PASS
+- v0.6.1 conversation reliability: 9/9 PASS
+- v0.6.1 travel: 11/11 PASS
+- v0.6.0 world expansion: 12/12 PASS
+- v0.5.2 relationships: 13/13 PASS
+- v0.5.1 population tiers: 11/11 PASS
+- v0.5.0 cast/memory: 12/12 PASS
+- v0.4.2 hobbies: 11/11 PASS
+- v0.4.1 economy/work: 15/15 PASS
+- v0.4.0 ordinary life: 5/5 PASS
+- cumulative post-v0.1.0 suite: all 20 stages PASS
+- Python compile pass completed before final pycache cleanup
+- all JSON parsed successfully
+- frontend JavaScript syntax PASS
+- run.sh shell syntax PASS
+- 17 packaged images integrity-checked PASS
+- runtime construction/view/state serialization PASS
+- Developer/Settings and core API regression checks PASS
+- baseline package inventory comparison: zero v0.8.1 source/content/doc files removed
+- final package file inventory: 319 files; only 3 intentional empty Python package initializers
+
+AUDIT FINDINGS AND CORRECTIONS
+1. Historical v0.8.1 regression diagnostic used an exact version equality assertion. It was generalized to assert v0.8.1-or-later lineage while preserving all behavioural checks.
+2. Compiled Python cache artifacts generated during testing were removed before packaging.
+3. No accidental source, content, documentation, frontend, asset, or tool deletion was found relative to the accepted v0.8.1 package.
+4. Developer / Settings access, Developer Console markup and JavaScript access path, developer-status endpoint, and core API routes were explicitly re-certified.
+
+KNOWN LIMITATIONS
+The authored anomaly catalogue is still intentionally small. Adaptation therefore changes emphasis only where more than one legal eligible option is available over play. Expanding the catalogue should remain authored and validator-backed rather than using free-form generated horror events.
+
+NEXT RELEASE
+v0.8.3 — Horror Consequence and Recovery Depth: deepen persistent aftermath, NPC reactions to witnessed anomalies, coping/recovery activities, and fair escalation consequences without granting the Horror Director new truth authority.

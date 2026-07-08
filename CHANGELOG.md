@@ -1,13 +1,62 @@
 # Changelog
 
+## v0.9.0 — Recurrence Expansion
+
+- Expanded recurrence runtime to schema v2 with migration from schema v1.
+- Added latent and returned memory fragments with bounded progressive return across in-game days.
+- Added cross-run home, community, inquiry, and institutional anchors derived from authoritative play state.
+- Added context-sensitive recurrence awakening locations driven by strong anchors.
+- Added richer asymmetric NPC echoes with independent strength, kind, activation day, and activation state.
+- Added bounded story residues that preserve selected continuity context without copying mutable quest state wholesale.
+- Preserved and strengthened danger instincts across runs.
+- Added recurrence developer diagnostics for anchors, latent/returned fragments, NPC echoes, story residues, and awakening history.
+- Added v0.9.0 focused recurrence-expansion certification.
+
+## v0.8.4 — Interface Horror
+
+- Added a presentation-only Interface Horror resolver with explicit authority boundaries.
+- Added controlled map contradictions that never alter authoritative geography or travel.
+- Added bounded text displacement/repetition, portrait tonal shifts, journal inconsistencies, and theme mismatch effects.
+- Effects are derived only from active validated horror overlays and expire with their source state.
+- Added Developer Console visibility for current presentation effects, provenance, and history.
+- Preserved Developer / Settings access and all accepted v0.8.3 systems.
+- Added reduced-motion handling for presentation effects.
+
+## v0.8.3 — Horror Consequence and Recovery Depth
+- Added persistent player horror strain and recovery state.
+- Added witness-gated NPC anomaly aftermath with structured memory and cognition ingestion.
+- Added temporary NPC place avoidance after witnessed anomalies and bounded routine filtering.
+- Added recovery effects from ordinary life activities without resetting story, inventory, or anomaly history.
+- Added gradual NPC recovery and Developer Console aftermath diagnostics.
+- Preserved adaptive-horror eligibility, authored anomaly authority, mystery systems, and Developer / Settings access.
+- Added focused v0.8.3 diagnostics and repository-wide regression certification.
+
+
+## v0.8.2 — Adaptive Horror
+- Added persistent adaptive-horror profile derived from authoritative player identity and coping style.
+- Added bounded domain preference routing for authored eligible anomalies.
+- Added mandatory quiet/recovery windows and auditable suppression counts.
+- Added domain-diversity scoring to reduce repetitive horror pressure.
+- Added adaptive selection logs and Developer Console visibility.
+- Preserved authored anomaly catalogue authority and deterministic eligibility gates.
+- Added old-save migration and focused v0.8.2 diagnostics.
+
+
+## v0.8.1 — Regression Integrity Release
+
+- Restored the always-accessible Developer / Settings gear button and preserved the Developer Console.
+- Preserved all v0.8.0 mystery expansion systems and content.
+- Added a regression-integrity diagnostic covering intentional developer access, API routes, UI anchors, packaged authoritative context, mystery catalogue integrity, and release metadata.
+- Packaged the authoritative World and Story Bible and LLM Role/Authority specification alongside the existing engineering/design context documents.
+- Re-ran Python compilation, JavaScript syntax validation, focused release diagnostics, cumulative diagnostics, static UI integrity checks, JSON catalogue validation, and save/load smoke checks.
+
+
 ## v0.8.0 — Full Mystery Expansion
 - Expanded investigation from 3 to 7 interconnected mystery threads.
 - Added dense cross-location evidence graph and seven multi-source hypotheses.
 - Added mystery progress states and cross-thread connections.
 - Added notebook mystery-thread UI and richer developer investigation diagnostics.
 - Preserved testimony/truth separation and optional player-driven investigation.
-
-# Bellwether Changelog
 
 ## v0.7.2 — Procedural Social Arcs
 - Added persistent validated multi-day social arc state and migration.
@@ -384,7 +433,6 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added persistent conversational memory of what the player said.
 - `run.sh` is executable in the packaged build.
 
-# Bellwether Changelog
 
 ## v0.1.0 — in development
 

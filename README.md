@@ -1,6 +1,44 @@
-# Bellwether v0.8.0 — Full Mystery Expansion
+# Bellwether v0.9.0 — Recurrence Expansion
+
+Bellwether is a text-first village life-sim, RPG, mystery, and psychological/supernatural horror game. v0.9.0 expands recurrence with progressive fragmented memory return, asymmetric NPC echoes, cross-run anchoring, story residues, danger instincts, and context-sensitive awakening locations while keeping mutable village state reset and authoritative.
+
+Bellwether is a text-first village life-sim, RPG, mystery, and psychological/supernatural horror game. v0.8.4 adds bounded, state-driven presentation contradictions while preserving authoritative game state. Map contradictions, subtle text displacement/repetition, portrait tonal shifts, journal inconsistencies, and theme mismatches are derived only from active validated anomaly overlays. Developer / Settings access remains directly available for inspection of true state and presentation effects.
 
 Bellwether is a persistent village life-sim/RPG and psychological-supernatural horror game. The deterministic engine owns truth and legality; local LLMs provide bounded dialogue, Director choices, and strategic proposals that are validated before application.
+
+
+## v0.8.3 — Horror Consequence and Recovery Depth
+
+Experienced anomalies now leave bounded, persistent aftermath. Core NPCs only react as witnesses when authoritative location state says they were present; witnessed anomalies enter structured memory and cognition without becoming new objective facts. NPCs can carry temporary strain and short-lived place avoidance into routine selection. The player gains a persistent strain/recovery layer, and ordinary activities such as tea, cottage care, gardening, walking and nature-based hobbies can support bounded recovery and reduce unease. Recovery is gradual, causal, inspectable in the Developer Console, and never erases story progress or anomaly history.
+
+Focused diagnostic:
+
+```bash
+python tools/v083_horror_aftermath_diagnostic.py
+```
+
+## v0.8.2 — Adaptive Horror
+
+Horror now adapts its **selection and pacing**, never its canon. The engine derives a bounded horror profile from authoritative player behaviour and coping patterns, then prioritizes only already-authored, already-eligible anomaly domains. Socially oriented play can make memory and information contradictions more salient; investigative play can emphasize records, routes, and spatial inconsistency; routine-heavy play can make learned rhythms and familiar spaces more vulnerable.
+
+Adaptive horror includes mandatory quiet/recovery windows, anti-spam suppression, domain-diversity pressure, persistent selection logs, old-save migration, and Developer Console visibility. The system cannot invent anomalies, bypass eligibility, alter money or inventory, reveal hidden truth, or directly mutate relationships, quests, evidence, or NPC knowledge.
+
+Focused diagnostic:
+
+```bash
+python tools/v082_adaptive_horror_diagnostic.py
+```
+
+## v0.8.1 — Regression Integrity Release
+
+This release restores the intentional Developer / Settings access button, preserves the complete v0.8.0 mystery expansion, packages the authoritative project context text files, and adds explicit regression-integrity diagnostics. No accepted gameplay system is intentionally removed or simplified.
+
+Focused v0.8.1 diagnostic:
+
+```bash
+python tools/v081_regression_integrity_diagnostic.py
+```
+
 
 ## v0.8.0 — Full Mystery Expansion
 

@@ -1,104 +1,104 @@
 {
-  "version": "0.8.0",
-  "generated_unix": 1783533022,
+  "version": "0.9.0",
+  "generated_unix": 1783536164,
   "stages": [
     {
       "name": "compile_all_python",
       "passed": true,
-      "count": 81,
+      "count": 88,
       "errors": []
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part1_world_architecture_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.51,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\nPASS world schema validates\nPASS legacy WORLD compatibility\nPASS route query\nPASS opening hours access\nPASS purpose suitability\nPASS frozen NPC adjacency preserved\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\nPASS game integration and travel compatibility\nPASS old-save world migration\nPASS runtime overlay isolation\nPart 1 passes: 9/9\n",
+      "seconds": 1.28,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS world schema validates\nPASS legacy WORLD compatibility\nPASS route query\nPASS opening hours access\nPASS purpose suitability\nPASS frozen NPC adjacency preserved\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS game integration and travel compatibility\nPASS old-save world migration\nPASS runtime overlay isolation\nPart 1 passes: 9/9\n",
       "stderr": "",
       "name": "part1_world_architecture_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part2_npc_lives_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.56,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS npc schema validates\nPASS core cast profiles present\nPASS authored identity query\nPASS bounded obligation query\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS personal needs evolve with game time\nPASS dialogue life context available\nPASS old-save npc-life migration\nPASS runtime state cannot mutate authored identity\nPASS conversation identity integration\nPart 2 passes: 9/9\n",
+      "seconds": 1.2,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\nPASS npc schema validates\nPASS core cast profiles present\nPASS authored identity query\nPASS bounded obligation query\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS personal needs evolve with game time\nPASS dialogue life context available\nPASS old-save npc-life migration\nPASS runtime state cannot mutate authored identity\nPASS conversation identity integration\nPart 2 passes: 9/9\n",
       "stderr": "",
       "name": "part2_npc_lives_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part3_social_web_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.24,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early summer\nPASS social schema validates\nPASS complete core cast graph\nPASS authored edge query\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\nPASS co-location creates autonomous encounter\nPASS encounter cooldown prevents pulse inflation\nPASS bounded relationship effect\nPASS runtime cannot mutate authored social canon\nPASS bounded topic sharing hook\nPASS old-save social-web migration\nPASS director dialogue social context available\nPart 3 passes: 10/10\n",
+      "seconds": 1.26,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\nPASS social schema validates\nPASS complete core cast graph\nPASS authored edge query\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS co-location creates autonomous encounter\nPASS encounter cooldown prevents pulse inflation\nPASS bounded relationship effect\nPASS runtime cannot mutate authored social canon\nPASS bounded topic sharing hook\nPASS old-save social-web migration\nPASS director dialogue social context available\nPart 3 passes: 10/10\n",
       "stderr": "",
       "name": "part3_social_web_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part4_player_activities_diagnostic.py"
       ],
       "returncode": 0,
       "seconds": 1.44,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS activity schema present\nPASS unprepared garden offers preparation\nPASS preparation persists\nPASS prepared garden offers crop choice\nPASS sowing creates persistent crop\nPASS crop growth advances with time\nPASS watering affects growth rate\nPASS tending reduces weeds\nPASS harvest moves produce to store\nPASS old-save activity migration\nPASS legacy garden progress retained\nPart 4 passes: 11/11\n",
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\nPASS activity schema present\nPASS unprepared garden offers preparation\nPASS preparation persists\nPASS prepared garden offers crop choice\nPASS sowing creates persistent crop\nPASS crop growth advances with time\nPASS watering affects growth rate\nPASS tending reduces weeds\nPASS harvest moves produce to store\nPASS old-save activity migration\nPASS legacy garden progress retained\nPart 4 passes: 11/11\n",
       "stderr": "",
       "name": "part4_player_activities_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part5_economy_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.29,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early summer\nPASS economy schema present\nPASS shop exposes bounded catalogue\nPASS purchase deducts money\nPASS seed purchase feeds gardening\nPASS produce sale pays player\nPASS produce sale removes stock\nPASS ledger records transactions\nPASS insufficient funds blocks purchase\nPASS opening hours hide trade\nPASS old-save economy migration\nPASS runtime stock does not mutate catalogue\nPart 5 passes: 11/11\n",
+      "seconds": 1.18,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\nPASS economy schema present\nPASS shop exposes bounded catalogue\nPASS purchase deducts money\nPASS seed purchase feeds gardening\nPASS produce sale pays player\nPASS produce sale removes stock\nPASS ledger records transactions\nPASS insufficient funds blocks purchase\nPASS opening hours hide trade\nPASS old-save economy migration\nPASS runtime stock does not mutate catalogue\nPart 5 passes: 11/11\n",
       "stderr": "",
       "name": "part5_economy_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part6_jobs_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.29,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\nPASS fresh game has zero garden seed stock\nPASS empty inventory exposes no sow actions\nPASS direct sow without seed is rejected\nPASS purchased seeds enter garden inventory\nPASS sowing consumes one owned seed\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS job can be discovered at workplace\nPASS application creates persistent employment\nPASS completed shift pays wage\nPASS wage enters economy ledger\nPASS duplicate same-day shift blocked\nPASS old-save jobs migration\nPASS runtime work state cannot mutate job canon\nPart 6 passes: 12/12\n",
+      "seconds": 1.52,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\nPASS fresh game has zero garden seed stock\nPASS empty inventory exposes no sow actions\nPASS direct sow without seed is rejected\nPASS purchased seeds enter garden inventory\nPASS sowing consumes one owned seed\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS job can be discovered at workplace\nPASS application creates persistent employment\nPASS completed shift pays wage\nPASS wage enters economy ledger\nPASS duplicate same-day shift blocked\nPASS old-save jobs migration\nPASS runtime work state cannot mutate job canon\nPart 6 passes: 12/12\n",
       "stderr": "",
       "name": "part6_jobs_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part7_dynamic_events_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.25,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\nPASS event runtime schema present\nPASS event activation persists\nPASS event creates world overlay\nPASS delivery event changes shop supply\nPASS location exposes active event context\nPASS event expires through simulation time\nPASS event cleanup removes world overlay\nPASS delivery completion restocks affected goods\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\nPASS event blocks affected job action\nPASS server rejects stale blocked shift\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS NPC activity responds to event\nPASS old-save dynamic-event migration\nPASS runtime events cannot mutate authored event canon\nPart 7 passes: 13/13\n",
+      "seconds": 1.53,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\nPASS event runtime schema present\nPASS event activation persists\nPASS event creates world overlay\nPASS delivery event changes shop supply\nPASS location exposes active event context\nPASS event expires through simulation time\nPASS event cleanup removes world overlay\nPASS delivery completion restocks affected goods\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early summer\nPASS event blocks affected job action\nPASS server rejects stale blocked shift\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS NPC activity responds to event\nPASS old-save dynamic-event migration\nPASS runtime events cannot mutate authored event canon\nPart 7 passes: 13/13\n",
       "stderr": "",
       "name": "part7_dynamic_events_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part8_seasonal_life_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.49,
+      "seconds": 1.5,
       "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\nPASS seasonal runtime schema present\nPASS season selects authored ecology\nPASS wildlife ambience responds to season\nPASS village rhythm responds to season\nPASS weather changes ecology activity level\nPASS location ecology context available\nPASS daily seasonal snapshot persists\nPASS seasonal state advances with simulation\nPASS old-save seasonal-life migration\nPASS runtime cannot mutate authored seasonal canon\nPart 8 passes: 10/10\n",
       "stderr": "",
       "name": "part8_seasonal_life_diagnostic",
@@ -106,143 +106,143 @@
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part9_npc_autonomy_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.22,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\nPASS purpose model available\nPASS obligation influences ranking\nPASS ranking remains authored and bounded\nPASS runtime need influences purpose\nPASS place avoidance influences purpose\nPASS weather influences movement purpose\nPASS opening hours constrain purpose\nPASS director purpose context bounded\nPASS runtime purpose state is reactive\nPASS authored npc canon remains isolated\nPASS purpose cannot bypass topology\nPart 9 passes: 11/11\n",
+      "seconds": 1.17,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\nPASS purpose model available\nPASS obligation influences ranking\nPASS ranking remains authored and bounded\nPASS runtime need influences purpose\nPASS place avoidance influences purpose\nPASS weather influences movement purpose\nPASS opening hours constrain purpose\nPASS director purpose context bounded\nPASS runtime purpose state is reactive\nPASS authored npc canon remains isolated\nPASS purpose cannot bypass topology\nPart 9 passes: 11/11\n",
       "stderr": "",
       "name": "part9_npc_autonomy_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part10_knowledge_gossip_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.24,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\nPASS knowledge schema validates\nPASS authored initial knowledge present\nPASS unknown facts rejected\nPASS catalogue fact learning works\nPASS encounter propagates bounded knowledge\nPASS propagation log records provenance\nPASS shared topic hook integrated\nPASS knowledge context is text-resolved\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS sensitive knowledge respects trust gate\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS old-save knowledge migration\nPASS runtime cannot mutate authored fact canon\nPart 10 passes: 11/11\n",
+      "seconds": 1.3,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS knowledge schema validates\nPASS authored initial knowledge present\nPASS unknown facts rejected\nPASS catalogue fact learning works\nPASS encounter propagates bounded knowledge\nPASS propagation log records provenance\nPASS shared topic hook integrated\nPASS knowledge context is text-resolved\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early summer\nPASS sensitive knowledge respects trust gate\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\nPASS old-save knowledge migration\nPASS runtime cannot mutate authored fact canon\nPart 10 passes: 11/11\n",
       "stderr": "",
       "name": "part10_knowledge_gossip_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part11_investigation_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.23,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS mystery schema validates\nPASS evidence enters investigation graph\nPASS evidence links to bounded mystery\nPASS eligible hypothesis emerges from support\nPASS hypothesis initially tentative\nPASS independent support can strengthen hypothesis\nPASS unknown hypothesis rejected\nPASS unknown testimony fact rejected\nPASS conflicting testimony creates contradiction\nPASS testimony remains distinct from observation\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\nPASS old-save investigation migration\nPASS runtime cannot mutate authored mystery canon\nPart 11 passes: 12/12\n",
+      "seconds": 1.2,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS mystery schema validates\nPASS evidence enters investigation graph\nPASS evidence links to bounded mystery\nPASS eligible hypothesis emerges from support\nPASS hypothesis initially tentative\nPASS independent support can strengthen hypothesis\nPASS unknown hypothesis rejected\nPASS unknown testimony fact rejected\nPASS conflicting testimony creates contradiction\nPASS testimony remains distinct from observation\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\nPASS old-save investigation migration\nPASS runtime cannot mutate authored mystery canon\nPart 11 passes: 12/12\n",
       "stderr": "",
       "name": "part11_investigation_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part12_systemic_horror_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.23,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS horror schema validates\nPASS fresh run has no eligible anomaly\nPASS learned normality exposes bounded anomaly\nPASS eligible anomaly triggers\nPASS anomaly creates world overlay\nPASS legacy psychological consequence retained\nPASS experienced anomaly cannot repeat\nPASS active corruption visible in bounded world context\nPASS temporary overlay expires\nPASS experienced history persists after overlay expiry\nPASS unknown anomaly rejected\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS old-save horror migration\nPASS runtime cannot mutate authored horror canon\nPart 12 passes: 13/13\n",
+      "seconds": 1.3,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\nPASS horror schema validates\nPASS fresh run has no eligible anomaly\nPASS learned normality exposes bounded anomaly\nPASS eligible anomaly triggers\nPASS anomaly creates world overlay\nPASS legacy psychological consequence retained\nPASS experienced anomaly cannot repeat\nPASS active corruption visible in bounded world context\nPASS temporary overlay expires\nPASS experienced history persists after overlay expiry\nPASS unknown anomaly rejected\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\nPASS old-save horror migration\nPASS runtime cannot mutate authored horror canon\nPart 12 passes: 13/13\n",
       "stderr": "",
       "name": "part12_systemic_horror_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part13_player_identity_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.28,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\nPASS identity schema present\nPASS fresh identity is unformed\nPASS repeated behaviour shapes identity\nPASS investigation and exposure shape coping\nPASS meaningful identity evolution is recorded\nPASS bounded public identity context\nPASS town read responds to social history\nPASS dialogue receives evolving identity\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early summer\nPASS old-save identity migration\nPASS identity derivation does not mutate behaviour history\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS identity state persists across state round trip\nPart 13 passes: 11/11\n",
+      "seconds": 1.26,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\nPASS identity schema present\nPASS fresh identity is unformed\nPASS repeated behaviour shapes identity\nPASS investigation and exposure shape coping\nPASS meaningful identity evolution is recorded\nPASS bounded public identity context\nPASS town read responds to social history\nPASS dialogue receives evolving identity\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS old-save identity migration\nPASS identity derivation does not mutate behaviour history\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS identity state persists across state round trip\nPart 13 passes: 11/11\n",
       "stderr": "",
       "name": "part13_player_identity_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part14_danger_death_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.22,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\nPASS danger schema validates\nPASS fresh player alive\nPASS causal hazard becomes eligible\nPASS first exposure produces warning not injury\nPASS repeated risk can injure\nPASS injury creates visible treatment action\nPASS treatment changes injury state\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\nPASS severe causal hazard can terminate run\nPASS terminal state blocks ordinary actions\nPASS invented hazard rejected\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS old-save danger migration\nPASS runtime danger cannot mutate authored catalogue\nPart 14 passes: 12/12\n",
+      "seconds": 1.34,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS danger schema validates\nPASS fresh player alive\nPASS causal hazard becomes eligible\nPASS first exposure produces warning not injury\nPASS repeated risk can injure\nPASS injury creates visible treatment action\nPASS treatment changes injury state\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\nPASS severe causal hazard can terminate run\nPASS terminal state blocks ordinary actions\nPASS invented hazard rejected\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS old-save danger migration\nPASS runtime danger cannot mutate authored catalogue\nPart 14 passes: 12/12\n",
       "stderr": "",
       "name": "part14_danger_death_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part15_recurrence_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.3,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS recurrence schema migrates\nPASS fresh game begins first run\nPASS completed run archived\nPASS new run index advances\nPASS memory is bounded and lossy\nPASS danger instinct survives recurrence\nPASS npc memory is asymmetric\nPASS new world state resets while recurrence persists\nPASS instinct becomes bounded learned warning\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\nPASS terminal action creates recurrent run\nPASS opening echoes are surfaced\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\nPASS old-save recurrence migration\nPASS applying recurrence does not mutate archive\nPart 15 passes: 13/13\n",
+      "seconds": 1.32,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\nPASS recurrence schema migrates\nPASS fresh game begins first run\nPASS completed run archived\nPASS new run index advances\nPASS memory is bounded and lossy\nPASS danger instinct survives recurrence\nPASS npc memory is asymmetric\nPASS new world state resets while recurrence persists\nPASS instinct becomes bounded learned warning\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\nPASS terminal action creates recurrent run\nPASS opening echoes are surfaced\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\nPASS old-save recurrence migration\nPASS applying recurrence does not mutate archive\nPart 15 passes: 13/13\n",
       "stderr": "",
       "name": "part15_recurrence_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part16_content_integration_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.29,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\nPASS content runtime schema present\nPASS all seasonal cottage prose present\nPASS cooking unavailable without ingredients\nPASS recipe appears from real inventory\nPASS cooking consumes produce\nPASS cooking advances meal progression\nPASS repair appears with supplies\nPASS repair persists\nPASS repair consumes supplies\nPASS repair improves cottage care\nPASS old save content migration\nPASS authored recipe catalogue isolated\nPart 16 passes: 12/12\n",
+      "seconds": 1.3,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\nPASS content runtime schema present\nPASS all seasonal cottage prose present\nPASS cooking unavailable without ingredients\nPASS recipe appears from real inventory\nPASS cooking consumes produce\nPASS cooking advances meal progression\nPASS repair appears with supplies\nPASS repair persists\nPASS repair consumes supplies\nPASS repair improves cottage care\nPASS old save content migration\nPASS authored recipe catalogue isolated\nPart 16 passes: 12/12\n",
       "stderr": "",
       "name": "part16_content_integration_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part17_release_certification_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 5.98,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Deep winter\nPASS all project Python compiles\nPASS all authored JSON catalogues parse\nPASS launch script executable\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\nPASS ordinary visible action schema complete\nPASS injury treatment action has complete schema\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS terminal action schema complete\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\nPASS death-to-recurrence handoff playable\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS visible-action fuzz play remains valid\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\nPASS full state JSON round-trip and migration\nPASS all Parts 1-16 state substrates coexist\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early winter\nPASS fresh garden cannot sow unowned seeds\nPASS release lineage valid\nPart 17 passes: 12/12\n",
+      "seconds": 6.81,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late spring\nPASS all project Python compiles\nPASS all authored JSON catalogues parse\nPASS launch script executable\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS ordinary visible action schema complete\nPASS injury treatment action has complete schema\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\nPASS terminal action schema complete\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late autumn\nPASS death-to-recurrence handoff playable\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early autumn\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\nPASS visible-action fuzz play remains valid\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS full state JSON round-trip and migration\nPASS all Parts 1-16 state substrates coexist\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\nPASS fresh garden cannot sow unowned seeds\nPASS release lineage valid\nPart 17 passes: 12/12\n",
       "stderr": "",
       "name": "part17_release_certification_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part18_weather_ui_mara_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.2,
-      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early summer\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS Mara visible after side-story unlock\nPASS Mara talk action appears when co-located\nPASS snow weather state registered\nPASS storm weather state registered\nPASS snow parser accepted\nPASS storm parser accepted\nPASS snow has environment effect\nPASS storm has environment effect\nWeather/UI/Mara passes: 8/8\n",
+      "seconds": 1.63,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS Mara visible after side-story unlock\nPASS Mara talk action appears when co-located\nPASS snow weather state registered\nPASS storm weather state registered\nPASS snow parser accepted\nPASS storm parser accepted\nPASS snow has environment effect\nPASS storm has environment effect\nWeather/UI/Mara passes: 8/8\n",
       "stderr": "",
       "name": "part18_weather_ui_mara_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part19_v030_ui_architecture_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.18,
-      "stdout": "PASS old Village Mind player control removed\nPASS developer console hidden behind dev mode\nPASS five shallow action categories\nPASS dedicated information panels\nPASS scene stage and environment line\nPASS responsive mobile breakpoint\nPASS relationship numbers hidden from player rendering\nPASS expanded developer endpoint\nPASS frontend remains API driven\nPASS part version marked\nPart 19 / v0.3 Part 1 passes: 10/10\n",
+      "seconds": 1.44,
+      "stdout": "PASS old Village Mind player control removed\nPASS developer/settings access and console preserved\nPASS five shallow action categories\nPASS dedicated information panels\nPASS scene stage and environment line\nPASS responsive mobile breakpoint\nPASS relationship numbers hidden from player rendering\nPASS expanded developer endpoint\nPASS frontend remains API driven\nPASS part version marked\nPart 19 / v0.3 Part 1 passes: 10/10\n",
       "stderr": "",
       "name": "part19_v030_ui_architecture_diagnostic",
       "passed": true
     },
     {
       "command": [
-        "/opt/pyvenv/bin/python",
+        "/opt/pyvenv/bin/python3",
         "tools/part20_visual_identity_diagnostic.py"
       ],
       "returncode": 0,
-      "seconds": 1.13,
+      "seconds": 1.25,
       "stdout": "PASS asset manifest validates\nPASS approved art packaged\nPASS scene art stage integrated\nPASS state aware scene resolver present\nPASS missing art fallback preserved\nPASS semantic warm palette present\nPASS weather atmosphere treatments present\nPASS night treatment present\nPASS reduced motion support present\nPASS side stories retained in journal\nPASS asset bible packaged\nPart 2 visual passes: 11/11\n",
       "stderr": "",
       "name": "part20_visual_identity_diagnostic",

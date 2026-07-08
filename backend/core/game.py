@@ -24,6 +24,8 @@ from backend.core.seasonal_model import SEASONAL_MODEL, SEASONAL_PROFILES
 from backend.core.knowledge_model import KNOWLEDGE_MODEL
 from backend.core.investigation_model import INVESTIGATION_MODEL
 from backend.core.horror_model import HORROR_MODEL
+from backend.core.horror_aftermath_model import HORROR_AFTERMATH_MODEL
+from backend.core.interface_horror_model import INTERFACE_HORROR_MODEL
 from backend.core.player_identity_model import PLAYER_IDENTITY_MODEL
 from backend.core.danger_model import DANGER_MODEL
 from backend.core.recurrence_model import RECURRENCE_MODEL
@@ -203,6 +205,8 @@ INITIAL_STATE = {
     "npc_knowledge": KNOWLEDGE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "mystery_investigation": INVESTIGATION_MODEL.runtime_defaults(),
     "systemic_horror": HORROR_MODEL.runtime_defaults(),
+    "horror_aftermath": HORROR_AFTERMATH_MODEL.runtime_defaults(),
+    "interface_horror": INTERFACE_HORROR_MODEL.runtime_defaults(),
     "player_identity": PLAYER_IDENTITY_MODEL.runtime_defaults(),
     "danger": DANGER_MODEL.runtime_defaults(),
     "recurrence": RECURRENCE_MODEL.runtime_defaults(),
@@ -480,8 +484,11 @@ class Game:
         if not elig["eligible"] or pulse-int(rt.get("last_trigger_pulse",-999))<8: return False
         candidates=HORROR_MODEL.eligible(s)
         if not candidates:return False
-        event=HORROR_MODEL.apply(s,candidates[0])
+        chosen=HORROR_MODEL.choose(s,candidates)
+        if not chosen:return False
+        event=HORROR_MODEL.apply(s,chosen)
         if not event:return False
+        HORROR_AFTERMATH_MODEL.register_anomaly(s,event,list(s.get("npcs",{})),MEMORY_MODEL,COGNITION_MODEL)
         self.add("Narrator",event["text"])
         legacy={"id":event["id"],"day":s["day"],"time":self.time_label(),"location":s["location"],"summary":event["summary"],"domain":event["domain"]}
         ps["recent_anomalies"].append(legacy); ps["recent_anomalies"]=ps["recent_anomalies"][-8:]; ps["last_anomaly_pulse"]=pulse; ps["familiarity_disruptions"]+=1; ps["unease"]=min(100,ps["unease"]+6); ps["certainty"]=max(0,ps["certainty"]-3); ps["stage"]="first_doubts" if ps["familiarity_disruptions"]<3 else "pattern_doubt"
@@ -568,7 +575,9 @@ class Game:
         self.state.setdefault("npc_knowledge", KNOWLEDGE_MODEL.runtime_defaults(list(self.state.get("npcs",{}))))
         self.state.setdefault("mystery_investigation", INVESTIGATION_MODEL.runtime_defaults())
         INVESTIGATION_MODEL.refresh(self.state["mystery_investigation"])
-        self.state.setdefault("systemic_horror", HORROR_MODEL.runtime_defaults())
+        HORROR_MODEL.migrate(self.state)
+        HORROR_AFTERMATH_MODEL.migrate(self.state)
+        INTERFACE_HORROR_MODEL.migrate(self.state)
         self.state.setdefault("player_identity", PLAYER_IDENTITY_MODEL.runtime_defaults())
         self.state.setdefault("danger", DANGER_MODEL.runtime_defaults())
         self.state.setdefault("recurrence", RECURRENCE_MODEL.runtime_defaults())
@@ -693,6 +702,7 @@ class Game:
         state["new_messages"] = deepcopy(self.state["history"][cursor:])
         state["time"] = self.time_label()
         state["mystery_overview"] = self.investigation_overview()
+        state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
         state["quests"] = {
             "main": self.visible_quests("main"),
             "side": self.visible_quests("side"),
@@ -880,6 +890,8 @@ class Game:
             while s["minute"] >= 1440:
                 s["minute"] -= 1440
                 s["day"] += 1
+                HORROR_AFTERMATH_MODEL.daily_recovery(s)
+                for echo in RECURRENCE_MODEL.advance_day(s): self.add(echo["speaker"], echo["text"])
             self.update_temperature_for_time()
             self.update_npc_personal_lives(step)
             ACTIVITY_MODEL.advance(s, step)
@@ -2135,6 +2147,7 @@ class Game:
         if verb!="inspect":
             s["location_state"]["ashcroft_cottage"]["garden_progress"]=min(100,s["location_state"]["ashcroft_cottage"].get("garden_progress",0)+2)
         self.record_player_activity("garden_"+verb,"working in the Ashcroft garden",minutes,{"garden_action":verb,"gardening_skill":rt["skills"]["gardening"]})
+        HORROR_AFTERMATH_MODEL.note_recovery_activity(s, "garden")
         self._social_consequences_from_life("garden")
         if verb!="inspect": CONTENT_MODEL.note_activity(s,"garden")
         self.advance(minutes)
@@ -2384,6 +2397,7 @@ class Game:
             self.branch_score("inquiry",1)
 
         self.record_player_activity(activity_id, label, minutes, effects)
+        HORROR_AFTERMATH_MODEL.note_recovery_activity(s, activity_id)
         self._social_consequences_from_life(activity_id)
         self.advance(minutes)
         self.propagate_world_consequences("player_activity")
@@ -2545,6 +2559,8 @@ class Game:
             elif day_summary["activities"] == 0:
                 self.add("Narrator", "The cottage settles around an almost untouched day. Tomorrow is still open.")
             s["day"] += 1
+            HORROR_AFTERMATH_MODEL.daily_recovery(s)
+            for echo in RECURRENCE_MODEL.advance_day(s): self.add(echo["speaker"], echo["text"])
             s["minute"] = 450
             market_update=ECONOMY_MODEL.daily_tick(s)
             JOB_MODEL.daily_recovery(s)

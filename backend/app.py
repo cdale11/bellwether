@@ -7,6 +7,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from backend.core.game import game
+from backend.core.horror_model import HORROR_MODEL
+from backend.core.horror_aftermath_model import HORROR_AFTERMATH_MODEL
+from backend.core.interface_horror_model import INTERFACE_HORROR_MODEL
 from backend.ai.provider import provider
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -44,11 +47,11 @@ def developer_status():
         "version": version,
         "clock": {"day": s.get("day"), "time": game.time_label(), "season": s.get("season"), "weather": s.get("weather"), "daypart": s.get("daypart")},
         "player": {"location": s.get("location"), "money": s.get("money"), "inventory": s.get("inventory", []), "identity": s.get("player_identity", {}), "danger": s.get("danger", {})},
-        "run": {"index": s.get("recurrence", {}).get("run_index", 1), "recurrence": s.get("recurrence", {})},
+        "run": {"index": s.get("recurrence", {}).get("run_index", 1), "recurrence": s.get("recurrence", {}), "expanded": __import__("backend.core.recurrence_model", fromlist=["RECURRENCE_MODEL"]).RECURRENCE_MODEL.developer_context(game.state)},
         "simulation": {"director_status": s.get("director_status", {}), "traffic": s.get("traffic", {}), "world_runtime": s.get("world_runtime", {}), "ecology": s.get("ecology", {})},
         "npcs": npcs,
         "events": {"dynamic_events": s.get("dynamic_events", {}), "recent_world_events": s.get("world_events", [])[-20:]},
-        "horror": {"pressure": s.get("supernatural_pressure", 0), "state": s.get("horror", {}), "psychology": s.get("psychology", {}), "anomaly_history": s.get("anomaly_history", [])[-20:]},
+        "horror": {"pressure": s.get("supernatural_pressure", 0), "state": s.get("horror", {}), "psychology": s.get("psychology", {}), "anomaly_history": s.get("anomaly_history", [])[-20:], "adaptive": HORROR_MODEL.developer_context(game.state), "aftermath": HORROR_AFTERMATH_MODEL.developer_context(game.state), "interface": INTERFACE_HORROR_MODEL.developer_context(game.state)},
         "investigation": {"notebook": s.get("investigation", {}), "mysteries": game.investigation_overview()},
         "economy": {"money": s.get("money"), "economy": s.get("economy", {}), "employment": s.get("employment", {}), "activities": s.get("activities", {})},
         "provider": provider.last_status, "ai_runtime": s.get("ai_runtime", {}),

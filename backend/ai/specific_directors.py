@@ -266,6 +266,11 @@ def npc_round(s):
     npc=s["npcs"][npc_id]
     history=s.get("npc_action_history",{}).get(npc_id,[])
     plausible=_npc_transition_candidates(npc, npc_candidates(npc_id,npc,s))
+    # v0.8.3: witnessed anomalies can cause short-lived, bounded place avoidance.
+    aftermath=s.get("horror_aftermath",{}).get("npc_aftermath",{}).get(npc_id,{})
+    avoid=aftermath.get("avoid_locations",{}); day=int(s.get("day",1))
+    filtered=[c for c in plausible if int(avoid.get(c.get("destination"),0)) < day or c.get("destination")==npc.get("location")]
+    if filtered: plausible=filtered
     purpose_ranked=PURPOSE_MODEL.shortlist(npc_id, plausible, s, limit=12) if npc_id in NPC_MODEL.npcs else plausible
     candidates=_shortlist_candidates(
         purpose_ranked, history, npc["activity"], npc["location"]
@@ -287,7 +292,8 @@ def npc_round(s):
          "personal_life":s.get("npc_lives",{}).get(npc_id,{}),
          "purpose_constraints":NPC_MODEL.purpose_context(npc_id,s["minute"],s["weather"]["state"]) if npc_id in NPC_MODEL.npcs else {},
          "purpose_plan":PURPOSE_MODEL.context(npc_id,s,plausible) if npc_id in NPC_MODEL.npcs else {},
-         "town_mind_intentions":TOWN_MIND_MODEL.director_context(s)}
+         "town_mind_intentions":TOWN_MIND_MODEL.director_context(s),
+         "horror_aftermath":{"strain":aftermath.get("strain",0),"temporary_avoidance":avoid}}
     instruction=(f"Choose what {npc['name']} should do next. Pick one plausible action that makes the village feel alive. "
                  "Respect authored identity, personal needs, obligations, occupation, location, time, memories and continuity, but introduce grounded variety. "
                  "Strongly avoid repeating recent action IDs or generic loops unless circumstances clearly demand it.")

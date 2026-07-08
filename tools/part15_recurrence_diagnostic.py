@@ -8,7 +8,7 @@ from backend.core.recurrence_model import RECURRENCE_MODEL
 
 def check(n,c): print(('PASS ' if c else 'FAIL ')+n); return bool(c)
 r=[]; g=Game();g.state=deepcopy(INITIAL_STATE);g.migrate_state()
-r.append(check('recurrence schema migrates',RECURRENCE_MODEL.migrate(g.state['recurrence'])['schema_version']==1))
+r.append(check('recurrence schema migrates',RECURRENCE_MODEL.migrate(g.state['recurrence'])['schema_version']==2))
 r.append(check('fresh game begins first run',g.state['recurrence']['run_index']==1 and not g.state['recurrence']['completed_runs']))
 # Construct a completed run with several sources of lossy memory.
 g.state['danger']['status']='dead';g.state['danger']['terminal_reason']='death';g.state['danger']['death']={'hazard_id':'night_road_collision'};g.state['danger']['warnings_seen']=['riverbank_slip']

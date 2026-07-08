@@ -810,3 +810,11 @@ Completed through v0.7.2: baseline certification, ordinary-life foundation, econ
 ## Implementation status update — v0.8.0
 
 Completed through v0.8.0: the mystery architecture has expanded from three initial threads into seven interconnected player-driven investigations spanning village routine, Eleanor's methods, railway avoidance, land boundaries, contradictory records, returning routes, and synchronised ecology. Evidence and testimony remain distinct from truth; hypotheses require independent support; active threads can reveal cross-mystery relationships without exposition. The next planned release is v0.8.1 — Adaptive Horror.
+
+## Implementation status update — v0.8.3
+
+v0.8.3 implements bounded horror consequence and recovery depth: witness-gated NPC aftermath, structured anomaly memory/cognition ingestion, temporary place avoidance affecting legal routine selection, persistent player strain/recovery, and recovery through ordinary life. Adaptive horror remains authored-catalogue bounded. Future work should deepen authored anomaly families, social support consequences, and recovery-specific dialogue without granting generated prose direct state authority.
+
+## Implementation status update — v0.8.4
+
+The originally planned Interface Horror milestone was not discarded: after v0.8.2 Adaptive Horror and v0.8.3 Horror Consequence/Recovery were accepted as additive systems, v0.8.4 implements the missed presentation milestone. It adds bounded, state-driven map contradictions, text displacement/repetition, portrait tonal shifts, journal inconsistencies, and theme mismatch effects. All are presentation-only, derive from authoritative active anomaly overlays, expire with their source state, and remain auditable through Developer / Settings. The actual accepted sequence is therefore v0.8.2 Adaptive Horror → v0.8.3 Horror Consequence and Recovery Depth → v0.8.4 Interface Horror. v0.9.0 Recurrence Expansion is implemented: fragmented memory returns progressively, NPC echoes are asymmetric, anchoring affects cross-run context, selected story continuity is retained as bounded residue, and danger instincts persist. The next planned release is v0.9.1 — Failure and Recovery.

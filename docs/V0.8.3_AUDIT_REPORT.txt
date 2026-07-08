@@ -1,0 +1,13 @@
+BELLWETHER v0.8.3 — HORROR CONSEQUENCE AND RECOVERY DEPTH
+AUDIT REPORT
+
+Scope: additive horror aftermath, witness-gated NPC reaction, temporary routine avoidance, player recovery through ordinary life, migration, developer diagnostics, and regression preservation.
+
+Authority invariants:
+- aftermath never creates anomaly canon;
+- only authoritative co-location creates direct NPC witnesses;
+- cognition receives subjective witnessed-event interpretation, not objective truth mutation;
+- ordinary recovery never erases story progress, inventory, mystery evidence, anomaly history, or recurrence history;
+- Developer / Settings access and Developer Console remain preserved.
+
+See tool output and release diagnostics for executable certification results.
