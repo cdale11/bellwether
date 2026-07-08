@@ -31,6 +31,7 @@ from backend.core.content_model import CONTENT_MODEL
 from backend.core.memory_model import MEMORY_MODEL
 from backend.core.population_model import POPULATION_MODEL
 from backend.core.social_consequence_model import SOCIAL_CONSEQUENCE_MODEL
+from backend.core.travel_model import TRAVEL_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -206,6 +207,7 @@ INITIAL_STATE = {
     "memory_system": MEMORY_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "population": POPULATION_MODEL.runtime_defaults(),
     "social_consequences": SOCIAL_CONSEQUENCE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
+    "travel": TRAVEL_MODEL.runtime_defaults(),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -567,6 +569,7 @@ class Game:
         MEMORY_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         POPULATION_MODEL.migrate(self.state)
         SOCIAL_CONSEQUENCE_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
+        TRAVEL_MODEL.migrate(self.state)
         CONTENT_MODEL.migrate_v040(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
@@ -2321,7 +2324,9 @@ class Game:
             target = action.split(":", 1)[1]
             if target in WORLD[s["location"]]["exits"].values():
                 origin = s["location"]
-                self.advance(WORLD[origin]["travel_minutes"])
+                journey_plan = TRAVEL_MODEL.plan(s, origin, target, WORLD)
+                self.advance(journey_plan["minutes"])
+                first_journey = TRAVEL_MODEL.complete(s, origin, target, journey_plan)
                 s["location"] = target
                 map_state = s.setdefault("map_exploration", deepcopy(INITIAL_STATE["map_exploration"]))
                 discovered = map_state.setdefault("discovered_locations", [])
@@ -2331,7 +2336,14 @@ class Game:
                 paths = map_state.setdefault("discovered_paths", [])
                 if path_key not in paths:
                     paths.append(path_key)
-                self.add("Narrator", f"You make your way to {WORLD[target]['name']}.")
+                self.add("Narrator", f"You make your way to {WORLD[target]['name']}. The journey takes about {journey_plan['minutes']} minutes.")
+                if first_journey:
+                    self.add("Narrator", TRAVEL_MODEL.first_observation(origin, target))
+                journey_encounter = TRAVEL_MODEL.encounter(s, origin, target)
+                if journey_encounter:
+                    self.add("Narrator", journey_encounter["text"])
+                    s.setdefault("encounters", []).append({**journey_encounter, "day":s.get("day"), "minute":s.get("minute"), "origin":origin, "target":target})
+                    s["encounters"] = s["encounters"][-60:]
                 self.surface_location_consequence(target)
                 if target == "village_green" and s["day"] >= 2:
                     for q in s["quests"]["main"]:

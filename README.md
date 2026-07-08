@@ -1,6 +1,17 @@
-# Bellwether v0.6.0 — World Expansion
+# Bellwether v0.6.1 — Travel and Journey Depth
 
 Bellwether v0.5.2 deepens the six-person core cast with persistent structured social consequences, grievances, commitments, shared history, relationship stages, and auditable gossip propagation. It is an additive upgrade from v0.5.1 and preserves the 24-resident lightweight population tier and integrated local Ollama model detection.
+
+
+## v0.6.1 — Travel and Journey Depth
+
+Travel is now a persistent simulation system rather than a fixed location switch. Routes remember journey count and familiarity, first journeys produce route observations, weather and route condition alter travel time, repeated use modestly improves journey efficiency, and occasional bounded journey encounters can surface NPC movement, ecology, or weather texture. Journey history is saved and migrated safely.
+
+### Ollama CPU usage
+
+Bellwether now automatically sends Ollama the full number of CPU threads available to the game process. On Linux it uses the process CPU-affinity set, so a normal unrestricted launch uses every logical CPU thread (4 on the i3-4160), while containers or deliberately pinned processes respect their allowed CPU set. No environment-variable fiddling is required. `BELLWETHER_AI_THREADS` remains an optional developer override.
+
+Normal setup remains: pull the recommended models once, then run `./run.sh`.
 
 
 ## v0.6.0 — World Expansion

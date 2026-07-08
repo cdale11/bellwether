@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.1 — Travel and Journey Depth
+
+- Added persistent route familiarity, journey counts and journey history.
+- Added first-time route observations.
+- Added weather-sensitive and route-condition-sensitive travel duration.
+- Added modest familiarity-based route efficiency.
+- Added bounded journey encounters using authoritative NPC, weather and ecology state.
+- Added safe migration for older saves without travel state.
+- Ollama requests now default to all CPU threads available to the Bellwether process, using Linux CPU affinity when available.
+- Added focused v0.6.1 diagnostics and audit report.
+
 ## v0.6.0 — World Expansion
 - Expanded the authored world graph from 9 to 14 locations.
 - Added Field Lane, Calder Farm, Bellwether Woods, Old Quarry, and Quarry Caves.

@@ -8,7 +8,7 @@ Completed through v0.5.2: six-person authored core cast, complete pairwise autho
 **Roadmap version:** 1.0  
 **Baseline:** Bellwether v0.3.4 Map Correction build  
 **Date:** 2026-07-08  
-**Implementation status:** v0.6.0 World Expansion completed; next planned release v0.6.1 Travel and Journey Depth.  
+**Implementation status:** v0.6.1 Travel and Journey Depth completed; next planned release v0.7.0 Town Mind architecture.  
 **Status:** Strategic implementation roadmap for development after the v0.3.4 baseline
 
 ---

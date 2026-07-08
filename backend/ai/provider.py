@@ -20,7 +20,12 @@ class AIProvider:
         self.model=self.fast_model  # compatibility: existing diagnostics and UI report the foreground model
         self.num_ctx=max(1024,int(os.getenv("BELLWETHER_AI_NUM_CTX","4096")))
         self.timeout=float(os.getenv("BELLWETHER_AI_TIMEOUT","30"))
-        detected_threads = os.cpu_count() or 1
+        # v0.6.1: default to every CPU thread available to this process. sched_getaffinity
+        # respects containers/cgroups and CPU affinity; os.cpu_count is the portable fallback.
+        try:
+            detected_threads = len(os.sched_getaffinity(0))
+        except (AttributeError, OSError):
+            detected_threads = os.cpu_count() or 1
         self.num_threads=max(1,int(os.getenv("BELLWETHER_AI_THREADS",str(detected_threads))))
         self._health_cache=None
         self._health_cache_at=0.0
