@@ -1,8 +1,7 @@
-
 from pathlib import Path
 import json
 import threading
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -27,8 +26,8 @@ def home():
 
 @app.get("/api/state")
 def state():
-    return game.view()
-
+    with game_lock:
+        return game.view()
 
 @app.get("/api/developer-status")
 def developer_status():
@@ -83,23 +82,29 @@ def acknowledge():
         return game.acknowledge_messages()
 
 @app.post("/api/save")
-def save():
-    with game_lock:
-        return game.save()
+async def save():
+    # Save the game state to a file or database
+    try:
+        with open("game_state.json", "w") as f:
+            json.dump(game.state, f)
+        return {"message": "Game saved successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/load")
-def load():
-    with game_lock:
-        return game.load()
+async def load():
+    # Load the game state from a file or database
+    try:
+        with open("game_state.json", "r") as f:
+            game.state = json.load(f)
+        return {"message": "Game loaded successfully"}
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="No saved game found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/new-game")
-def new_game():
-    with game_lock:
-        return game.new_game()
-
-
-@app.post("/api/director-debug/clear")
-def clear_director_debug():
-    provider.debug_traces.clear()
-    provider._last_trace_index = None
-    return {"ok": True}
+async def new_game():
+    # Initialize and start a new game
+    game.new_game()
+    return {"message": "New game started successfully"}
