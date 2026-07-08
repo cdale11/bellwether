@@ -1,3 +1,11 @@
+# Bellwether v0.3.1
+
+## Added
+- Illustrated exploration map using the canonical Bellwether base map.
+- Persistent discovered-location and discovered-path state with old-save migration.
+- Fog-of-war style regional reveal and a live “You are here” marker.
+- Map keyboard shortcut (`M`) and travel buttons for currently reachable discovered locations.
+
 ## v0.2.0 Part 1 — World Expansion Architecture
 - Added a validated, data-driven world catalog with districts and rich location metadata.
 - Added shared world-model queries for routes, access, suitability, ecology/economy/job hooks, and bounded NPC adjacency.

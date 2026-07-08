@@ -207,6 +207,11 @@ INITIAL_STATE = {
     "jobs": JOB_MODEL.runtime_defaults(),
     "dynamic_events": EVENT_MODEL.runtime_defaults(),
     "seasonal_life": SEASONAL_MODEL.runtime_defaults(),
+    "map_exploration": {
+        "schema_version": 1,
+        "discovered_locations": ["bus_stop"],
+        "discovered_paths": [],
+    },
     "ui": {
         "message_cursor": 0
     },
@@ -535,6 +540,13 @@ class Game:
     def migrate_state(self):
         """Make older Part 6 saves compatible with this build."""
         self.state.setdefault("ui", {"message_cursor": 0})
+        map_state = self.state.setdefault("map_exploration", deepcopy(INITIAL_STATE["map_exploration"]))
+        map_state.setdefault("schema_version", 1)
+        map_state.setdefault("discovered_locations", [])
+        map_state.setdefault("discovered_paths", [])
+        current_location = self.state.get("location", "bus_stop")
+        if current_location not in map_state["discovered_locations"]:
+            map_state["discovered_locations"].append(current_location)
         self.state.setdefault("world_model", WORLD_MODEL.runtime_state_defaults())
         self.state.setdefault("npc_lives", NPC_MODEL.runtime_defaults())
         self.state.setdefault("npc_social_web", SOCIAL_MODEL.runtime_defaults())
@@ -2162,8 +2174,17 @@ class Game:
         elif action.startswith("move:"):
             target = action.split(":", 1)[1]
             if target in WORLD[s["location"]]["exits"].values():
-                self.advance(WORLD[s["location"]]["travel_minutes"])
+                origin = s["location"]
+                self.advance(WORLD[origin]["travel_minutes"])
                 s["location"] = target
+                map_state = s.setdefault("map_exploration", deepcopy(INITIAL_STATE["map_exploration"]))
+                discovered = map_state.setdefault("discovered_locations", [])
+                if target not in discovered:
+                    discovered.append(target)
+                path_key = "::".join(sorted((origin, target)))
+                paths = map_state.setdefault("discovered_paths", [])
+                if path_key not in paths:
+                    paths.append(path_key)
                 self.add("Narrator", f"You make your way to {WORLD[target]['name']}.")
                 self.surface_location_consequence(target)
                 if target == "village_green" and s["day"] >= 2:
