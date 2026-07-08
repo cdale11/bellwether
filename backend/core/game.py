@@ -30,6 +30,7 @@ from backend.core.recurrence_model import RECURRENCE_MODEL
 from backend.core.content_model import CONTENT_MODEL
 from backend.core.memory_model import MEMORY_MODEL
 from backend.core.population_model import POPULATION_MODEL
+from backend.core.social_consequence_model import SOCIAL_CONSEQUENCE_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -204,6 +205,7 @@ INITIAL_STATE = {
     "content_progression": CONTENT_MODEL.runtime_defaults(),
     "memory_system": MEMORY_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "population": POPULATION_MODEL.runtime_defaults(),
+    "social_consequences": SOCIAL_CONSEQUENCE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -564,6 +566,7 @@ class Game:
         self.state.setdefault("content_progression", CONTENT_MODEL.runtime_defaults())
         MEMORY_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         POPULATION_MODEL.migrate(self.state)
+        SOCIAL_CONSEQUENCE_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         CONTENT_MODEL.migrate_v040(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
@@ -1185,6 +1188,8 @@ class Game:
             "affinity": rel["affinity"], "familiarity": rel["familiarity"],
             "trust": rel["trust"], "talks": rel["talks"],
             "recent_impressions": rel["impressions"][-5:],
+            "stage": SOCIAL_CONSEQUENCE_MODEL.relationship_stage(rel),
+            "social_consequences": SOCIAL_CONSEQUENCE_MODEL.context(self.state,npc_id,limit=5),
         }
 
     def _update_relationship(self, npc_id, reason, affinity=0, familiarity=0, trust=0):
@@ -1310,6 +1315,7 @@ class Game:
                 event={"absolute_minute":now,"day":self.state.get("day"),"time":self.time_label(),"location":loc,"activities":{a:na.get("activity"),b:nb.get("activity")},"effect":effect}
                 rt["encounter_count"]+=1; rt["last_encounter_minute"]=now; rt["encounter_history"].append(event); rt["encounter_history"]=rt["encounter_history"][-24:]
                 rt["recent_effects"].append(effect); rt["recent_effects"]=rt["recent_effects"][-8:]
+                MEMORY_MODEL.record(self.state,"encounter",f"{na.get('name',a)} and {nb.get('name',b)} crossed paths at {WORLD[loc]['name']}.",actors=[a,b],location=loc,witnesses=[a,b],importance=1,tags=["npc_social_encounter"])
 
     def npc_social_context(self, npc_id):
         """Return bounded relationship context for Directors/dialogue without exposing canon mutation."""
@@ -1364,6 +1370,7 @@ class Game:
                 runtime["propagation_log"].append(event); runtime["propagation_log"]=runtime["propagation_log"][-100:]
                 target_rt["transmission_log"].append(event); target_rt["transmission_log"]=target_rt["transmission_log"][-30:]
                 self.share_npc_topic(source,target,fid)
+                SOCIAL_CONSEQUENCE_MODEL.record_gossip(self.state,source,target,fid,belief["variant"],belief["confidence"])
 
     def _daypart(self):
         minute=int(self.state.get("minute",0))%1440
@@ -1476,6 +1483,7 @@ class Game:
             "village_mood": s["village_brain"]["mood"],
             "npc_memories": s.get("social_memory", {}).get(npc_id, [])[-3:],
             "structured_memory": MEMORY_MODEL.context(s,npc_id,limit=6),
+            "social_consequences": SOCIAL_CONSEQUENCE_MODEL.context(s,npc_id,limit=6),
             "recent_exchange": self._conversation_recent_exchange_context(npc_id),
             "recent_npc_replies_to_avoid_repeating": [
                 x.get("npc","") for x in s.setdefault("conversation_sessions",{}).setdefault(npc_id,[])[-2:]
@@ -1541,6 +1549,18 @@ class Game:
         event_id=MEMORY_MODEL.record(s,"conversation",f"The player spoke with {npc['name']} at {WORLD[s['location']]['name']}.",actors=[npc_id],location=s["location"],witnesses=[npc_id],importance=2,tags=["player_contact"])
         if social and social.get("memory") and self._social_memory_supported_by_player(player_text,social.get("memory")):
             MEMORY_MODEL.remember_impression(s,npc_id,social.get("memory"),event_id,0.65)
+        # v0.5.2: only explicit, conservatively recognized social acts become structured consequences.
+        explicit_act=SOCIAL_CONSEQUENCE_MODEL.extract_explicit_player_act(player_text)
+        if explicit_act:
+            act_type,act_summary=explicit_act
+            act_id=SOCIAL_CONSEQUENCE_MODEL.record_act(s,npc_id,act_type,act_summary,explicit=True)
+            if act_id:
+                MEMORY_MODEL.record(s,"commitment" if act_type in {"promise","invitation","request"} else "relationship",act_summary,actors=[npc_id],location=s["location"],witnesses=[npc_id],importance=3,tags=["social_act",act_type],metadata={"social_act_id":act_id})
+                if act_type=="insult": self._update_relationship(npc_id,"remembered a direct insult",-2,0,-2)
+                elif act_type=="apology":
+                    resolved=SOCIAL_CONSEQUENCE_MODEL.resolve_grievance(s,npc_id,act_summary)
+                    self._update_relationship(npc_id,"received an explicit apology",1,0,1 if resolved else 0)
+                elif act_type in {"promise","invitation"}: self._update_relationship(npc_id,"received an explicit social commitment",0,1,1)
 
     def free_talk(self, npc_id, player_text):
         """Server-side entry point for player-authored ambient conversation."""

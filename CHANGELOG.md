@@ -1,3 +1,13 @@
+# v0.5.2 — Relationship Depth and Social Consequences
+
+- Added persistent structured social acts and per-NPC shared history.
+- Added conservative explicit-act extraction for promises, invitations, requests, apologies, insults, agreements, and refusals.
+- Added persistent grievances and apology-based grievance resolution.
+- Added open commitment retrieval in NPC dialogue context.
+- Added relationship-stage derivation without collapsing multidimensional relationship state.
+- Added auditable gossip logging tied to catalogue-backed knowledge propagation.
+- Added old-save migration and focused v0.5.2 diagnostics.
+
 # Changelog
 
 ## v0.5.1 — Village Population and Simulation Tiers

@@ -1,7 +1,7 @@
 
-## Implementation status update — v0.5.1
+## Implementation status update — v0.5.2
 
-Completed through v0.5.1: six-person authored core cast, complete pairwise authored social web, first durable structured event/NPC-memory substrate, fast/deep Ollama task-routing readiness, and a separate 24-resident lightweight population tier with stable identities, households, occupations, schedules, batched simulation, and cheap persistent social links. Relationship consequence depth remains scheduled for v0.5.2; full Town Mind scheduling remains in v0.7.x.
+Completed through v0.5.2: six-person authored core cast, complete pairwise authored social web, durable structured event/NPC-memory substrate, fast/deep Ollama task-routing readiness, a separate 24-resident lightweight population tier, and persistent structured player social consequences including explicit commitments, grievances, apology resolution, shared history, relationship stages, and auditable catalogue-backed gossip propagation. Full regional expansion remains scheduled for v0.6.x; full Town Mind scheduling remains in v0.7.x.
 
 # BELLWETHER — POST-v0.3.4 DEVELOPMENT ROADMAP
 

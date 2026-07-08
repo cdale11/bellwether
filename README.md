@@ -1,6 +1,13 @@
-# Bellwether v0.5.1 — Village Population and Simulation Tiers
+# Bellwether v0.5.2 — Relationship Depth and Social Consequences
 
-Bellwether v0.5.1 expands the village beyond the six-person core cast with 24 persistent lightweight residents. They have stable identities, households, occupations, interests, routines, location schedules, social links, and bounded histories, while remaining outside expensive core-NPC LLM and social-web loops. This is an additive upgrade from v0.5.0.
+Bellwether v0.5.2 deepens the six-person core cast with persistent structured social consequences, grievances, commitments, shared history, relationship stages, and auditable gossip propagation. It is an additive upgrade from v0.5.1 and preserves the 24-resident lightweight population tier and integrated local Ollama model detection.
+
+## v0.5.2 — Relationship Depth and Social Consequences
+
+This release adds a persistent structured social-consequence layer on top of the existing relationship and memory systems. Explicit promises, invitations, requests, apologies, insults, agreements, and refusals can now become validated social acts. Ordinary conversation is deliberately not mechanized. Core-NPC dialogue context receives unresolved commitments, grievances, favour state, and shared history, allowing local Ollama models to respond to specific past interactions instead of only numeric relationship scores.
+
+Apologies can resolve existing grievances; direct insults create persistent grievances and bounded trust/affinity consequences; explicit commitments are stored as open social obligations. NPC-to-NPC catalogue-backed information propagation is now mirrored into an auditable gossip log while retaining the existing knowledge-boundary rules. Relationship context also exposes a derived stage (`new`, `acquainted`, `friendly`, `close`, `strained`, or `hostile`) without replacing the underlying multidimensional values. Old saves migrate additively.
+
 
 ## v0.5.1 scope
 
@@ -16,7 +23,7 @@ Bellwether v0.5.1 expands the village beyond the six-person core cast with 24 pe
 Run the focused diagnostic with:
 
 ```bash
-python tools/v051_population_tiers_diagnostic.py
+PYTHONPATH=. python tools/v052_relationship_depth_diagnostic.py
 ```
 
 
