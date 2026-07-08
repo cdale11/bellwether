@@ -562,6 +562,8 @@ class Game:
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
         self.state.setdefault("economy", ECONOMY_MODEL.runtime_defaults())
         self.state.setdefault("jobs", JOB_MODEL.runtime_defaults())
+        ECONOMY_MODEL.migrate(self.state)
+        JOB_MODEL.migrate(self.state)
         self.state.setdefault("dynamic_events", EVENT_MODEL.runtime_defaults())
         self.state.setdefault("seasonal_life", SEASONAL_MODEL.runtime_defaults())
         econ_defaults=ECONOMY_MODEL.runtime_defaults()
@@ -1990,9 +1992,11 @@ class Game:
         if verb=="apply":
             ok,message=JOB_MODEL.apply(s,jid); minutes=15
         elif verb=="work":
-            ok,message,minutes=JOB_MODEL.work(s,jid)
+            ok,message,minutes,wage=JOB_MODEL.work(s,jid)
             if ok:
-                wage=JOBS[jid]["wage"]; s["money"]+=wage; ECONOMY_MODEL.record(s,"wage",wage,jid)
+                s["money"]+=wage; ECONOMY_MODEL.record(s,"wage",wage,jid)
+        elif verb=="leave":
+            ok,message=JOB_MODEL.leave(s,jid); minutes=15
         else:return
         self.add("Narrator",message)
         if ok:
@@ -2291,6 +2295,11 @@ class Game:
                 self.add("Narrator", "The cottage settles around an almost untouched day. Tomorrow is still open.")
             s["day"] += 1
             s["minute"] = 450
+            market_update=ECONOMY_MODEL.daily_tick(s)
+            JOB_MODEL.daily_recovery(s)
+            if market_update:
+                fav=market_update.get("favoured_produce","").replace("_"," ")
+                self.add("Village", f"The shop board mentions stronger local demand for {fav} today.")
             s["day_events"] = []
             s["village_brain"]["mood"] = "still"
             s["village_brain"]["focus"] = "waking"

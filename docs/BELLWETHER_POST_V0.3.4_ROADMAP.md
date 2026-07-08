@@ -131,6 +131,8 @@ A player can spend at least one satisfying in-game week focused primarily on hom
 
 ## Milestone B2 — v0.4.1 Economy, Work, and Village Interdependence
 
+**Implementation status:** Completed in v0.4.1 foundation release. Further economic content and LLM-governed validated trends remain additive expansion targets.
+
 **Primary objective:** turn economy and jobs from isolated action sources into causal village systems.
 
 ### Work

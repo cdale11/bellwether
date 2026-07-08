@@ -1,6 +1,6 @@
-# Bellwether v0.3.5 — Baseline Certification
+# Bellwether v0.4.1 — Economy and Work
 
-Bellwether v0.3.5 is a certification and handoff-hygiene release built from the accepted v0.3.4 Map Correction baseline. It intentionally adds no major gameplay system.
+Bellwether v0.4.1 deepens the ordinary-life loop by making work and local trade persistent, progressive systems rather than isolated transactions. It is an additive upgrade from v0.4.0.
 
 ## Run
 
@@ -8,29 +8,24 @@ Bellwether v0.3.5 is a certification and handoff-hygiene release built from the 
 ./run.sh
 ```
 
-The launcher is packaged executable. Bellwether uses the local Ollama model when available and retains deterministic fallback behaviour when AI is unavailable.
+Bellwether uses the local Ollama model when available and retains deterministic fallback behaviour when AI is unavailable.
 
-## v0.3.5 certification scope
+## v0.4.1 scope
 
-- synchronized release metadata and README lineage;
-- corrected the Part 20 visual packaging diagnostic to audit manifest-declared assets instead of a stale, unreferenced pre-integration path;
-- audited all scene and portrait paths declared by the asset manifest;
-- restored executable packaging for `run.sh`;
-- verified save-state JSON round trip and migration through the cumulative diagnostics;
-- regression-tested world architecture, map-era UI architecture, and the full post-v0.1.0 cumulative suite;
-- retained the accepted v0.3.4 map correction behaviour;
-- packaged roadmap, handoff, design, visual-direction, and certification context documents under `docs/`.
+- persistent village market state with bounded produce demand cycles;
+- business pressure and trend state for the shop and bakery;
+- gradual stock recovery through daily deliveries, affected by severe weather;
+- demand-sensitive produce selling prices;
+- bounded retail pressure pricing;
+- persistent job reliability, career history, shift progression and modest wage growth;
+- voluntary job resignation and a cooldown before reapplying;
+- daily fatigue recovery;
+- save migration for v0.4.0 economy and job state;
+- focused v0.4.1 economy/work diagnostic and cumulative regression audit.
 
-## Certification commands
+## Design boundary
 
-```bash
-python tools/part1_world_architecture_diagnostic.py
-python tools/part19_v030_ui_architecture_diagnostic.py
-python tools/part20_visual_identity_diagnostic.py
-python tools/post_v010_diagnostic.py
-```
-
-See `docs/V0.3.5_CERTIFICATION_REPORT.txt` for the release audit summary and `docs/BELLWETHER_DOCUMENT_INDEX_AND_HANDOFF.md` for project orientation.
+The economy remains deterministic and authoritative. Future Town Mind or Economy Director work may propose validated pressure changes, but LLM output must never directly edit money, stock, employment or prices.
 
 ## Historical development notes
 

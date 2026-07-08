@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.4.1 — Economy and Work
+
+- added persistent market demand and business pressure state;
+- added daily stock deliveries with bounded weather effects;
+- added demand-sensitive produce sale prices and bounded pressure pricing;
+- added job reliability, career history, progression and modest wage increases;
+- added voluntary resignation and reapplication cooldown;
+- added daily work-fatigue recovery;
+- added v0.4.0 save migration for new economy and job fields;
+- added focused economy/work diagnostic and regression checks.
+
+
 ## v0.3.5 — Baseline Certification
 
 - synchronized VERSION and README release metadata;
