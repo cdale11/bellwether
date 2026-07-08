@@ -1,6 +1,8 @@
 
 import json, os, re, time, urllib.request, random, threading, difflib
 
+_OPTION_TOKEN_RE = re.compile(r'(?<![A-Z])([A-Z])(?![A-Z])')
+
 class AIProvider:
     def __init__(self):
         self.enabled=os.getenv("BELLWETHER_AI","1").lower() in {"1","true","yes","on"}
@@ -278,7 +280,7 @@ class AIProvider:
                 # Qwen3 reasoning mode must be disabled through Ollama's top-level API field.
                 # A /no_think prompt prefix is not reliable for /api/generate.
                 payload_obj["think"] = False
-            payload=json.dumps(payload_obj).encode()
+            payload=json.dumps(payload_obj,separators=(",",":")).encode()
             req=urllib.request.Request(self.base_url.rstrip("/")+"/api/generate",data=payload,
                 headers={"Content-Type":"application/json"},method="POST")
             trace={
@@ -409,7 +411,7 @@ class AIProvider:
             parsed=upper
             method="exact_token"
         else:
-            tokens=re.findall(r'(?<![A-Z])([A-Z])(?![A-Z])',upper)
+            tokens=_OPTION_TOKEN_RE.findall(upper)
             for token in tokens:
                 if token in letters:
                     parsed=token

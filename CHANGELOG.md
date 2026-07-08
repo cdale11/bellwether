@@ -1,3 +1,11 @@
+# v0.9.1 — Failure, Recovery, and Runtime Performance
+
+- Added single-worker asynchronous background LLM execution for Town Mind and procedural arcs.
+- Added legal-result revalidation and stale-result rejection.
+- Added preparation checks, injury mitigation, persistent setbacks, and authored recovery routes.
+- Reduced parser overhead with precompiled choice-token parsing and compact request serialization.
+- Preserved foreground dialogue priority and all-available-thread Ollama requests.
+
 # Changelog
 
 ## v0.9.0 — Recurrence Expansion

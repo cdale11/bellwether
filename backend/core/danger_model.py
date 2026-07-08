@@ -2,6 +2,7 @@
 from copy import deepcopy
 import json
 from pathlib import Path
+from backend.core.failure_recovery_model import FAILURE_RECOVERY_MODEL
 ROOT=Path(__file__).resolve().parents[2]
 PATH=ROOT/'content'/'danger'/'hazard_catalogue.json'
 class DangerModel:
@@ -33,16 +34,18 @@ class DangerModel:
         if hid not in self.hazards:return None
         rt=state.setdefault('danger',self.runtime_defaults())
         if rt.get('status')!='alive':return None
-        h=self.hazards[hid]; pulse=int(state.get('village_brain',{}).get('pulse_count',0)); injury=h['injury']; idef=self.injuries[injury]
+        h=deepcopy(self.hazards[hid]); pulse=int(state.get('village_brain',{}).get('pulse_count',0)); injury=h['injury']; idef=self.injuries[injury]
+        effective_severity,prep=FAILURE_RECOVERY_MODEL.mitigate(state,hid,h['severity']); h['effective_severity']=effective_severity
         prior=sum(int(v.get('severity',0)) for v in rt.get('injuries',{}).values()); risk=int(rt.get('risk',0)); warned=hid in rt.get('warnings_seen',[])
-        fatal = bool(h['severity']>=4 and (prior+risk)>=5 and not warned)
+        fatal = bool(effective_severity>=4 and (prior+risk)>=5 and not warned and prep.get('score',0)<2)
         entry={'hazard_id':hid,'day':state.get('day'),'minute':state.get('minute'),'location':state.get('location'),'injury':injury,'fatal':fatal,'pulse':pulse}
         rt['hazard_history'].append(entry); rt['last_hazard_pulse']=pulse
         if fatal:
             rt['status']='dead'; rt['death']=deepcopy(entry); rt['terminal_reason']='death'; state.setdefault('branch_state',{})['run_complete']=True
         else:
             rt['injuries'][injury]={'label':idef['label'],'severity':idef['severity'],'acquired_day':state.get('day'),'recovery_days':idef['recovery_days'],'treated':False}
-            rt['risk']=min(10,risk+int(h['severity']))
+            rt['risk']=min(10,risk+int(effective_severity))
+            FAILURE_RECOVERY_MODEL.record_setback(state,entry)
         return {'id':hid,**deepcopy(h),'fatal':fatal}
     def recover_day(self,state):
         rt=state.setdefault('danger',self.runtime_defaults()); day=int(state.get('day',1)); healed=[]

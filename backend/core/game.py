@@ -28,6 +28,8 @@ from backend.core.horror_aftermath_model import HORROR_AFTERMATH_MODEL
 from backend.core.interface_horror_model import INTERFACE_HORROR_MODEL
 from backend.core.player_identity_model import PLAYER_IDENTITY_MODEL
 from backend.core.danger_model import DANGER_MODEL
+from backend.core.failure_recovery_model import FAILURE_RECOVERY_MODEL
+from backend.ai.async_runtime import ASYNC_AI_RUNTIME
 from backend.core.recurrence_model import RECURRENCE_MODEL
 from backend.core.content_model import CONTENT_MODEL
 from backend.core.memory_model import MEMORY_MODEL
@@ -209,6 +211,7 @@ INITIAL_STATE = {
     "interface_horror": INTERFACE_HORROR_MODEL.runtime_defaults(),
     "player_identity": PLAYER_IDENTITY_MODEL.runtime_defaults(),
     "danger": DANGER_MODEL.runtime_defaults(),
+    "failure_recovery": FAILURE_RECOVERY_MODEL.runtime_defaults(),
     "recurrence": RECURRENCE_MODEL.runtime_defaults(),
     "content_progression": CONTENT_MODEL.runtime_defaults(),
     "memory_system": MEMORY_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
@@ -580,6 +583,7 @@ class Game:
         INTERFACE_HORROR_MODEL.migrate(self.state)
         self.state.setdefault("player_identity", PLAYER_IDENTITY_MODEL.runtime_defaults())
         self.state.setdefault("danger", DANGER_MODEL.runtime_defaults())
+        FAILURE_RECOVERY_MODEL.migrate(self.state)
         self.state.setdefault("recurrence", RECURRENCE_MODEL.runtime_defaults())
         self.state.setdefault("content_progression", CONTENT_MODEL.runtime_defaults())
         MEMORY_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
@@ -730,7 +734,7 @@ class Game:
         s = self.state
         loc = s["location"]
         if s.setdefault("danger", DANGER_MODEL.runtime_defaults()).get("status") == "dead":
-            return [{"id":"new_run","label":"Begin another run","kind":"story"}]
+            return [{"id":"failure:recover","label":"Accept recovery","kind":"life"},{"id":"new_run","label":"Begin another run","kind":"story"}]
 
         if s.get("dialogue"):
             return [
@@ -950,6 +954,8 @@ class Game:
         self.apply_tick_consequence()
         COGNITION_MODEL.fade(s)
         self.propagate_world_consequences("pulse")
+
+        self.harvest_async_ai_results()
 
         # Universal AI World round: ordinary movement, dialogue, rest, quests,
         # and sleep all reach this path through time advancement.
@@ -1649,6 +1655,35 @@ class Game:
         if not visible and not nearby:
             self.add("Bellwether", s["ambient"].get("village","The village carries on around you."))
 
+    def _async_state_revision(self):
+        s=self.state
+        return int(s.get("village_brain",{}).get("pulse_count",0))
+
+    def harvest_async_ai_results(self):
+        """Apply completed background choices only on the game thread and only if still legal."""
+        s=self.state; applied=0; stale=0
+        for job in ASYNC_AI_RUNTIME.harvest():
+            kind=job.get("kind"); choice=job.get("result")
+            if kind=="town_mind":
+                candidates=TOWN_MIND_MODEL.candidates(s); legal={x.get("id") for x in candidates}
+                if choice and choice.get("id") in legal:
+                    if TOWN_MIND_MODEL.validate_and_apply(s,choice,provider.model_for_task("town_mind"),"async_review"): applied+=1
+                else: stale+=1
+            elif kind=="procedural_arc":
+                root=PROCEDURAL_ARC_MODEL.migrate(s); legal={x.get("id") for x in PROCEDURAL_ARC_MODEL.candidates(s)}
+                if choice and choice.get("id") in legal and len(root.get("active",[]))<PROCEDURAL_ARC_MODEL.MAX_ACTIVE:
+                    if PROCEDURAL_ARC_MODEL.start(s,choice.get("id"),provider.model_for_task("procedural_arc")): applied+=1
+                else: stale+=1
+        rt=s.setdefault("ai_runtime",{}); rt["async_applied"]=rt.get("async_applied",0)+applied; rt["async_stale_or_rejected"]=rt.get("async_stale_or_rejected",0)+stale
+        rt["background_worker"]=ASYNC_AI_RUNTIME.status(); return applied
+
+    def queue_town_mind_review(self, reason="scheduled"):
+        s=self.state; tm=s.setdefault("town_mind",TOWN_MIND_MODEL.runtime_defaults()); pulse=self._async_state_revision(); candidates=TOWN_MIND_MODEL.candidates(s); context=TOWN_MIND_MODEL.compact_context(s)
+        if not candidates:return False
+        tm["review_count"]+=1; tm["last_review_pulse"]=pulse
+        frozen_candidates=deepcopy(candidates); frozen_context=deepcopy(context)
+        return ASYNC_AI_RUNTIME.submit("town_mind","town_mind",pulse,tuple(sorted(x.get("id") for x in candidates)),lambda: provider.ask_choice("town_mind","Choose one strategic intention for the village simulation. Prefer an intention justified by current state and player pacing. Do not invent facts or events; choose only a direction for specialist systems to consider.",frozen_context,frozen_candidates))
+
     def run_town_mind_review(self, reason="scheduled"):
         """One bounded strategic review. Town Mind creates intentions, never direct world mutations."""
         s=self.state
@@ -1680,9 +1715,16 @@ class Game:
         tm=s.setdefault("town_mind",TOWN_MIND_MODEL.runtime_defaults())
         due=(tm.get("review_count",0)==0 and pulse>=1) or (pulse-tm.get("last_review_pulse",-999)>=18)
         if due:
-            return self.run_town_mind_review("opening_review" if tm.get("review_count",0)==0 else "periodic_review")
+            return self.queue_town_mind_review("opening_review" if tm.get("review_count",0)==0 else "periodic_review")
         TOWN_MIND_MODEL.expire(s)
         return False
+
+    def queue_procedural_arc_proposal(self, reason="scheduled"):
+        s=self.state; root=PROCEDURAL_ARC_MODEL.migrate(s); candidates=PROCEDURAL_ARC_MODEL.candidates(s); pulse=self._async_state_revision()
+        if not candidates or len(root.get("active",[]))>=PROCEDURAL_ARC_MODEL.MAX_ACTIVE:return False
+        root["proposal_count"]+=1; root["last_proposal_pulse"]=pulse
+        frozen_candidates=deepcopy(candidates); frozen_context=deepcopy(PROCEDURAL_ARC_MODEL.compact_context(s))
+        return ASYNC_AI_RUNTIME.submit("procedural_arc","procedural_arc",pulse,tuple(sorted(x.get("id") for x in candidates)),lambda: provider.ask_choice("procedural_arc","Choose one grounded multi-day village social situation that fits current pressures. Select only from the legal templates; do not invent facts, residents, outcomes, or stages.",frozen_context,frozen_candidates))
 
     def run_procedural_arc_proposal(self, reason="scheduled"):
         """Choose one legal multi-day social arc template; no free-form state mutation."""
@@ -1709,7 +1751,7 @@ class Game:
             if eid: self.record_world_event(stage["text"],"procedural_arc")
         pulse=s.get("village_brain",{}).get("pulse_count",0)
         due=(not root.get("active") and pulse>=3) or (len(root.get("active",[]))<PROCEDURAL_ARC_MODEL.MAX_ACTIVE and pulse-root.get("last_proposal_pulse",-999)>=24)
-        if due: return self.run_procedural_arc_proposal("opening_arc" if root.get("proposal_count",0)==0 else "periodic_arc")
+        if due: return self.queue_procedural_arc_proposal("opening_arc" if root.get("proposal_count",0)==0 else "periodic_arc")
         return False
 
     def run_ai_directors(self, domains, reason="scheduled"):
@@ -2417,7 +2459,7 @@ class Game:
     def perform(self, action):
         s = self.state
         if action == "new_run": return self.new_game()
-        if s.setdefault("danger",DANGER_MODEL.runtime_defaults()).get("status") == "dead": return self.view()
+        if s.setdefault("danger",DANGER_MODEL.runtime_defaults()).get("status") == "dead" and action != "failure:recover": return self.view()
 
         if action == "look":
             self.add("Narrator", WORLD[s["location"]]["description"])
@@ -2539,6 +2581,8 @@ class Game:
             self.describe_current_village_activity()
             self.advance(10)
 
+        elif action == "failure:recover":
+            row=FAILURE_RECOVERY_MODEL.recover_from_terminal_failure(s); self.add("Narrator",row["text"])
         elif action == "danger:treat":
             self.treat_injury()
 

@@ -18,7 +18,7 @@ r.append(check('treatment changes injury state',g.treat_injury() and g.state['da
 # fatality requires accumulated vulnerability and unwarned severe hazard
 g2=Game();g2.state=deepcopy(INITIAL_STATE);g2.migrate_state();g2.state['location']='village_road';g2.state['village_brain']['supernatural_pressure']=10;g2.state['systemic_horror']['experienced']=['a','b'];g2.state['danger']['risk']=6;g2.state['village_brain']['pulse_count']=20
 e=DANGER_MODEL.apply(g2.state,'night_road_collision');r.append(check('severe causal hazard can terminate run',e['fatal'] and g2.state['danger']['status']=='dead' and g2.state['branch_state']['run_complete']))
-r.append(check('terminal state blocks ordinary actions',g2.actions()==[{'id':'new_run','label':'Begin another run','kind':'story'}]))
+r.append(check('terminal state blocks ordinary actions',{a['id'] for a in g2.actions()}=={'new_run','failure:recover'} and all(a['id'] in {'new_run','failure:recover'} for a in g2.actions())))
 r.append(check('invented hazard rejected',DANGER_MODEL.apply(g.state,'invented_hazard') is None))
 old=deepcopy(INITIAL_STATE);old.pop('danger',None);g3=Game();g3.state=old;g3.migrate_state();r.append(check('old-save danger migration','danger' in g3.state and g3.state['danger']['status']=='alive'))
 before=deepcopy(DANGER_MODEL.hazards);DANGER_MODEL.apply(g.state,'riverbank_slip');r.append(check('runtime danger cannot mutate authored catalogue',before==DANGER_MODEL.hazards))

@@ -1,4 +1,4 @@
-# Bellwether v0.9.0 — Recurrence Expansion
+# Bellwether v0.9.1 — Failure, Recovery, and Runtime Performance
 
 Bellwether is a text-first village life-sim, RPG, mystery, and psychological/supernatural horror game. v0.9.0 expands recurrence with progressive fragmented memory return, asymmetric NPC echoes, cross-run anchoring, story residues, danger instincts, and context-sensitive awakening locations while keeping mutable village state reset and authoritative.
 
@@ -133,3 +133,9 @@ Use `--skip-qwen` only for deterministic engineering certification when Ollama i
 - **v0.5.0** — six-person core cast, durable memory substrate, and local Ollama auto-detection.
 
 See `CHANGELOG.md`, the roadmap, handoff guide, and version audit reports in `docs/` for full development context.
+
+## v0.9.1: Failure, recovery, and asynchronous AI
+
+Bellwether now runs strategic Town Mind and procedural-arc deliberation on a single background LLM worker. Gameplay remains responsive while the worker uses the available Ollama CPU threads. Foreground dialogue retains priority at the shared inference gate. Results are returned to the game thread and revalidated against current legal candidates before application; stale or illegal results are discarded. On low-memory systems Bellwether deliberately keeps one inference active at a time rather than making competing models fight for RAM and CPU.
+
+Failure and recovery now include bounded preparation checks, mitigation from health/warnings/equipment, persistent setbacks, and authored recovery routes. Recurrence remains the responsibility of v0.9.0; this release does not merge recurrence with failure mechanics.

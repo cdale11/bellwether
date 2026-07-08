@@ -31,7 +31,7 @@ r.append(check('ordinary visible action schema complete',action_contract(g)))
 g.state['location']='riverside_path'; g.state['village_brain']['supernatural_pressure']=4; g.state['systemic_horror']['experienced']=['a']; g.state['village_brain']['pulse_count']=10; g.evaluate_danger(); g.state['village_brain']['pulse_count']=20; g.evaluate_danger()
 r.append(check('injury treatment action has complete schema',action_contract(g) and any(a['id']=='danger:treat' and a['kind']=='life' for a in g.view()['actions'])))
 gd=Game(); gd.state=deepcopy(INITIAL_STATE); gd.migrate_state(); gd.state['location']='village_road'; gd.state['village_brain']['supernatural_pressure']=10; gd.state['systemic_horror']['experienced']=['road_repetition']; gd.state['systemic_horror']['domain_counts']={'geography':1}; gd.state['danger']['risk']=6; gd.state['village_brain']['pulse_count']=20; DANGER_MODEL.apply(gd.state,'night_road_collision')
-r.append(check('terminal action schema complete',gd.actions()==[{'id':'new_run','label':'Begin another run','kind':'story'}]))
+r.append(check('terminal action schema complete',{a['id'] for a in gd.actions()}=={'new_run','failure:recover'} and action_contract(gd)))
 v=gd.perform('new_run'); r.append(check('death-to-recurrence handoff playable',v['state']['danger']['status']=='alive' and v['state']['recurrence']['run_index']==2 and action_contract(gd)))
 # Random visible-action fuzz: player can only choose what the UI exposes.
 rng=random.Random(1702); fuzz_ok=True
