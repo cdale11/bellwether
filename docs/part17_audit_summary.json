@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "part17_focused": {"passed": true, "checks": 12},
+  "release_candidate_reduced": {"passed": true, "qwen_skipped": true},
+  "structural_matrix": {"passed": true, "checks": 14},
+  "long_blind_profiles": {"profiles": 6, "max_actions": 700, "balanced_reader_completed": true},
+  "additional_checks": ["all authored JSON parsed", "frontend JavaScript syntax valid", "project Python compiled", "visible-action fuzz passed", "actual anomaly to death to recurrence passed"],
+  "corrected_defects": [
+    "missing kind field on injury treatment action",
+    "missing kind field on terminal new-run action",
+    "recurrence crash after real string-form anomaly experience",
+    "Part 9 diagnostic denominator 11/10 corrected to 11/11"
+  ]
+}

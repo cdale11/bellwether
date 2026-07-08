@@ -1,0 +1,228 @@
+{
+  "runs": 6,
+  "profiles": [
+    "story_follower",
+    "social_explorer",
+    "life_sim",
+    "investigator",
+    "cautious_wanderer",
+    "balanced_reader"
+  ],
+  "results": [
+    {
+      "profile": "story_follower",
+      "seed": 5200,
+      "steps": 250,
+      "days_elapsed": 3,
+      "visited_locations": [
+        "Ashcroft Cottage",
+        "Bellwether Bakery",
+        "Bellwether Halt",
+        "Bus Stop",
+        "Riverside Path",
+        "St Bartholomew's Churchyard",
+        "Village Green",
+        "Village Road",
+        "Village Shop"
+      ],
+      "location_count": 9,
+      "action_kinds": {
+        "travel": 247,
+        "story": 1,
+        "talk": 1,
+        "choice": 1
+      },
+      "completed_main": [
+        "A House Left Waiting",
+        "In Eleanor's Hand",
+        "The Morning After"
+      ],
+      "active_visible_main": [],
+      "evidence_count": 0,
+      "talk_count": 0,
+      "life_activity_count": 0,
+      "first_anomaly_step": null,
+      "first_horror_stage_step": null,
+      "endgame_unlocked": false,
+      "run_complete": false,
+      "completion_step": null,
+      "ending": null,
+      "transcript_entries": 370
+    },
+    {
+      "profile": "social_explorer",
+      "seed": 5300,
+      "steps": 250,
+      "days_elapsed": 2,
+      "visited_locations": [
+        "Bus Stop",
+        "Village Road"
+      ],
+      "location_count": 2,
+      "action_kinds": {
+        "travel": 1,
+        "free_talk": 249
+      },
+      "completed_main": [],
+      "active_visible_main": [
+        "A House Left Waiting"
+      ],
+      "evidence_count": 0,
+      "talk_count": 249,
+      "life_activity_count": 0,
+      "first_anomaly_step": null,
+      "first_horror_stage_step": null,
+      "endgame_unlocked": false,
+      "run_complete": false,
+      "completion_step": null,
+      "ending": null,
+      "transcript_entries": 370
+    },
+    {
+      "profile": "life_sim",
+      "seed": 5400,
+      "steps": 250,
+      "days_elapsed": 4,
+      "visited_locations": [
+        "Bus Stop"
+      ],
+      "location_count": 1,
+      "action_kinds": {
+        "life": 250
+      },
+      "completed_main": [],
+      "active_visible_main": [
+        "A House Left Waiting"
+      ],
+      "evidence_count": 0,
+      "talk_count": 0,
+      "life_activity_count": 30,
+      "first_anomaly_step": null,
+      "first_horror_stage_step": null,
+      "endgame_unlocked": false,
+      "run_complete": false,
+      "completion_step": null,
+      "ending": null,
+      "transcript_entries": 370
+    },
+    {
+      "profile": "investigator",
+      "seed": 5500,
+      "steps": 250,
+      "days_elapsed": 3,
+      "visited_locations": [
+        "Bus Stop"
+      ],
+      "location_count": 1,
+      "action_kinds": {
+        "investigate": 250
+      },
+      "completed_main": [],
+      "active_visible_main": [
+        "A House Left Waiting"
+      ],
+      "evidence_count": 2,
+      "talk_count": 0,
+      "life_activity_count": 30,
+      "first_anomaly_step": null,
+      "first_horror_stage_step": null,
+      "endgame_unlocked": false,
+      "run_complete": false,
+      "completion_step": null,
+      "ending": null,
+      "transcript_entries": 370
+    },
+    {
+      "profile": "cautious_wanderer",
+      "seed": 5600,
+      "steps": 250,
+      "days_elapsed": 3,
+      "visited_locations": [
+        "Ashcroft Cottage",
+        "Bellwether Bakery",
+        "Bellwether Halt",
+        "Bus Stop",
+        "Riverside Path",
+        "St Bartholomew's Churchyard",
+        "Village Green",
+        "Village Road",
+        "Village Shop"
+      ],
+      "location_count": 9,
+      "action_kinds": {
+        "travel": 250
+      },
+      "completed_main": [
+        "A House Left Waiting"
+      ],
+      "active_visible_main": [
+        "In Eleanor's Hand"
+      ],
+      "evidence_count": 0,
+      "talk_count": 0,
+      "life_activity_count": 0,
+      "first_anomaly_step": null,
+      "first_horror_stage_step": null,
+      "endgame_unlocked": false,
+      "run_complete": false,
+      "completion_step": null,
+      "ending": null,
+      "transcript_entries": 370
+    },
+    {
+      "profile": "balanced_reader",
+      "seed": 5700,
+      "steps": 131,
+      "days_elapsed": 2,
+      "visited_locations": [
+        "Ashcroft Cottage",
+        "Bellwether Bakery",
+        "Bellwether Halt",
+        "Bus Stop",
+        "Riverside Path",
+        "St Bartholomew's Churchyard",
+        "Village Green",
+        "Village Road",
+        "Village Shop"
+      ],
+      "location_count": 9,
+      "action_kinds": {
+        "life": 55,
+        "investigate": 16,
+        "travel": 32,
+        "observe": 16,
+        "talk": 1,
+        "choice": 1,
+        "free_talk": 8,
+        "story": 2
+      },
+      "completed_main": [
+        "A House Left Waiting",
+        "In Eleanor's Hand",
+        "The Morning After"
+      ],
+      "active_visible_main": [],
+      "evidence_count": 11,
+      "talk_count": 8,
+      "life_activity_count": 30,
+      "first_anomaly_step": 85,
+      "first_horror_stage_step": 85,
+      "endgame_unlocked": true,
+      "run_complete": true,
+      "completion_step": 131,
+      "ending": {
+        "id": "leave",
+        "title": "The Road Beyond Bellwether",
+        "day": 2,
+        "time": "14:55",
+        "scores": {
+          "care": 2,
+          "community": 22,
+          "inquiry": 15,
+          "avoidance": 1
+        }
+      },
+      "transcript_entries": 251
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: High summer
+PASS world schema validates
+PASS legacy WORLD compatibility
+PASS route query
+PASS opening hours access
+PASS purpose suitability
+PASS frozen NPC adjacency preserved
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Late winter
+PASS game integration and travel compatibility
+PASS old-save world migration
+PASS runtime overlay isolation
+Part 1 passes: 9/9

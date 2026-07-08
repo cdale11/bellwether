@@ -1,0 +1,1466 @@
+{
+  "result": {
+    "profile": "balanced_reader",
+    "seed": 2106,
+    "steps": 100,
+    "days_elapsed": 2,
+    "visited_locations": [
+      "Ashcroft Cottage",
+      "Bellwether Bakery",
+      "Bus Stop",
+      "Riverside Path",
+      "St Bartholomew's Churchyard",
+      "Village Green",
+      "Village Road",
+      "Village Shop"
+    ],
+    "location_count": 8,
+    "action_kinds": {
+      "life": 36,
+      "investigate": 13,
+      "travel": 24,
+      "observe": 12,
+      "talk": 1,
+      "choice": 1,
+      "free_talk": 13
+    },
+    "completed_main": [
+      "A House Left Waiting"
+    ],
+    "active_visible_main": [
+      "In Eleanor's Hand"
+    ],
+    "evidence_count": 9,
+    "talk_count": 13,
+    "life_activity_count": 30,
+    "first_anomaly_step": null,
+    "first_horror_stage_step": null,
+    "endgame_unlocked": false,
+    "run_complete": false,
+    "completion_step": null,
+    "ending": null,
+    "transcript_entries": 220
+  },
+  "transcript": [
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "It is late autumn in Bellwether: damp, windy and changeable with misty mornings."
+    },
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "The bus leaves you at Bellwether just after nine. Its engine noise thins along the road until the village is quiet again."
+    },
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "For now, there is the road ahead, your suitcase at your feet, and Eleanor's key in your pocket."
+    },
+    {
+      "step": 1,
+      "type": "action",
+      "label": "Wait and Watch the Road",
+      "kind": "life",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 2,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You wait beneath the shelter. Traffic is sparse enough that every engine can be heard before it appears."
+    },
+    {
+      "step": 2,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 3,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You stop for a while and listen. Bellwether is quiet, but never entirely still."
+    },
+    {
+      "step": 3,
+      "type": "action",
+      "label": "Wait and Watch the Road",
+      "kind": "life",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 4,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You wait beneath the shelter. Traffic is sparse enough that every engine can be heard before it appears."
+    },
+    {
+      "step": 4,
+      "type": "message",
+      "speaker": "Observation",
+      "text": "The road beyond the bus stop has begun to feel less like the way out and more like one edge of Bellwether."
+    },
+    {
+      "step": 4,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 5,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 5,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm: Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 5,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 6,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 6,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road is busy with passing traffic."
+    },
+    {
+      "step": 6,
+      "type": "action",
+      "label": "Run a Small Household Errand",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You pick up a few ordinary household necessities. It is a small thing, but carrying them back makes your stay feel less temporary."
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Route 7 bus is nearby, approaching Bellwether on the return service."
+    },
+    {
+      "step": 7,
+      "type": "action",
+      "label": "Look Around",
+      "kind": "observe",
+      "location": "Village Road"
+    },
+    {
+      "step": 8,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "Stone cottages lean toward the narrow road. Shop windows, garden gates and the turn toward the church give the village its daily rhythm."
+    },
+    {
+      "step": 8,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Bellwether is settling into its morning rhythm. The road is quiet between scheduled buses. A robin patrols the hedges while rooks call beyond the church."
+    },
+    {
+      "step": 8,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 8,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 9,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 9,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 2 familiar villagers moving around the green."
+    },
+    {
+      "step": 9,
+      "type": "action",
+      "label": "Talk to Jonah",
+      "kind": "talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 10,
+      "type": "message",
+      "speaker": "Jonah",
+      "text": "You must be Eleanor's relation. I had a loaf riding on whether you'd take the morning bus."
+    },
+    {
+      "step": 10,
+      "type": "action",
+      "label": "\u201cPeople talk about strangers here, then?\u201d",
+      "kind": "choice",
+      "location": "Village Green"
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "You",
+      "text": "People talk about strangers here, then?"
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "Jonah",
+      "text": "Only until they stop being strangers. Around here, that rarely takes long."
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "Jonah",
+      "text": "Here. Bread. Consider it an apology from the village gossip network."
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "Journal",
+      "text": "Side Story completed: A Warm Welcome."
+    },
+    {
+      "step": 11,
+      "type": "action",
+      "label": "Sit on the Bench and Watch the Green",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 12,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You sit beneath the old oak. People cross the green on errands that make sense to them and, slowly, begin to make sense to you."
+    },
+    {
+      "step": 12,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The weather has shifted: heavy rain, 9\u00b0C, with brisk wind."
+    },
+    {
+      "step": 12,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Jonah is taking a short break on the village green."
+    },
+    {
+      "step": 12,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Village Green"
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The green and the bell: From one side of the oak the church is hidden, but its bell carries across the whole green with surprising clarity."
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Recent activity at Village Green: There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 13,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 14,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to St Bartholomew's Churchyard."
+    },
+    {
+      "step": 14,
+      "type": "action",
+      "label": "Sit Quietly by the Yews",
+      "kind": "life",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 15,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "The yews keep the air still. Beyond the wall, Bellwether continues with errands, doors and distant engines."
+    },
+    {
+      "step": 15,
+      "type": "action",
+      "label": "Wait and Observe the Village",
+      "kind": "observe",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 16,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You linger without a destination and watch Bellwether carry on around you."
+    },
+    {
+      "step": 16,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The village has grown busier around the green and shops."
+    },
+    {
+      "step": 16,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 17,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 17,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 17,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Road"
+    },
+    {
+      "step": 18,
+      "type": "message",
+      "speaker": "You",
+      "text": "How has your day been?"
+    },
+    {
+      "step": 18,
+      "type": "message",
+      "speaker": "Mrs Ellis",
+      "text": "Forgive me, dear, my mind wandered. Go on."
+    },
+    {
+      "step": 18,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Road"
+    },
+    {
+      "step": 19,
+      "type": "message",
+      "speaker": "You",
+      "text": "Good to see you. Take care."
+    },
+    {
+      "step": 19,
+      "type": "message",
+      "speaker": "Mrs Ellis",
+      "text": "Goodbye, dear. Mind how you go."
+    },
+    {
+      "step": 19,
+      "type": "action",
+      "label": "Walk the Road Without Hurrying",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 20,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You walk without a destination. Familiar doors and hedges begin to separate themselves from the blur of arrival."
+    },
+    {
+      "step": 20,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is having a brief chat with a neighbour."
+    },
+    {
+      "step": 20,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mrs Ellis is continuing her ordinary morning round."
+    },
+    {
+      "step": 20,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Route 7 bus is nearby, waiting briefly to keep to the timetable."
+    },
+    {
+      "step": 20,
+      "type": "message",
+      "speaker": "Observation",
+      "text": "You can now place several houses by their gates, gardens, and the sounds that come from behind them."
+    },
+    {
+      "step": 20,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Village Road"
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The green and the bell \u2014 From one side of the oak the church is hidden, but its bell carries across the whole green with surprising clarity."
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Recent activity at Village Green \u2014 There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 21,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 22,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Shop."
+    },
+    {
+      "step": 22,
+      "type": "action",
+      "label": "Read the Local Newspaper",
+      "kind": "life",
+      "location": "Village Shop"
+    },
+    {
+      "step": 23,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You read the local pages over twice. Parish notices and small advertisements reveal more about the surrounding villages than the headlines do."
+    },
+    {
+      "step": 23,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The weather has shifted: light rain, 10\u00b0C, with gentle wind."
+    },
+    {
+      "step": 23,
+      "type": "action",
+      "label": "Wait and Observe the Village",
+      "kind": "observe",
+      "location": "Village Shop"
+    },
+    {
+      "step": 24,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You linger without a destination and watch Bellwether carry on around you."
+    },
+    {
+      "step": 24,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The village has grown busier around the green and shops."
+    },
+    {
+      "step": 24,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 25,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 25,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 2 familiar villagers moving around the green."
+    },
+    {
+      "step": 25,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 26,
+      "type": "message",
+      "speaker": "You",
+      "text": "Morning. How are you?"
+    },
+    {
+      "step": 26,
+      "type": "message",
+      "speaker": "Mrs Ellis",
+      "text": "Hello, dear. How are you getting on?"
+    },
+    {
+      "step": 26,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 27,
+      "type": "message",
+      "speaker": "You",
+      "text": "How has your day been?"
+    },
+    {
+      "step": 27,
+      "type": "message",
+      "speaker": "Mrs Ellis",
+      "text": "Forgive me, dear, my mind wandered. Go on."
+    },
+    {
+      "step": 27,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Nearby",
+      "text": "You catch part of a conversation."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Mara",
+      "text": "Morning. You're out early."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Mrs Ellis",
+      "text": "So are you. I thought I'd take the air while it's quiet."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Mara",
+      "text": "It won't stay quiet for long."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Mrs Ellis",
+      "text": "No. It never seems to, once everyone gets moving."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is taking a quiet walk across the village green."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mrs Ellis is walking at an unhurried pace across the green."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You stop for a while and listen. Bellwether is quiet, but never entirely still."
+    },
+    {
+      "step": 28,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Village Green"
+    },
+    {
+      "step": 29,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 29,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Recent activity at Village Green: There are 2 familiar villagers moving around the green."
+    },
+    {
+      "step": 29,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Jonah is carrying a bread delivery across the village."
+    },
+    {
+      "step": 29,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is taking a quiet walk across the village green."
+    },
+    {
+      "step": 29,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Route 7 bus is nearby, passing the road beside the village green."
+    },
+    {
+      "step": 29,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 30,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Ashcroft Cottage."
+    },
+    {
+      "step": 30,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Freshly disturbed soil and a growing cleared patch show that someone has been working in the garden."
+    },
+    {
+      "step": 30,
+      "type": "message",
+      "speaker": "Journal",
+      "text": "Main Story completed: A House Left Waiting."
+    },
+    {
+      "step": 30,
+      "type": "message",
+      "speaker": "Journal",
+      "text": "Main Story added: In Eleanor's Hand."
+    },
+    {
+      "step": 30,
+      "type": "action",
+      "label": "Read from Eleanor's Shelves",
+      "kind": "life",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 31,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You choose a book from Eleanor's shelves and read until the sounds outside become part of the room."
+    },
+    {
+      "step": 31,
+      "type": "action",
+      "label": "Look Around",
+      "kind": "observe",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 32,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "Ivy frames the small windows. Inside, dust hangs in shafts of light and the rooms smell of lavender, books, and a house kept closed too long."
+    },
+    {
+      "step": 32,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The day's movement is beginning to turn homeward. A delivery van passes through the village. Blackbirds work through the wet grass."
+    },
+    {
+      "step": 32,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Freshly disturbed soil and a growing cleared patch show that someone has been working in the garden."
+    },
+    {
+      "step": 32,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 33,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is checking the cottage garden boundary and hedges."
+    },
+    {
+      "step": 33,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 33,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 33,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 34,
+      "type": "message",
+      "speaker": "You",
+      "text": "Good to see you. Take care."
+    },
+    {
+      "step": 34,
+      "type": "message",
+      "speaker": "Mrs Ellis",
+      "text": "Goodbye, dear. Mind how you go."
+    },
+    {
+      "step": 34,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 35,
+      "type": "message",
+      "speaker": "You",
+      "text": "Morning. How are you?"
+    },
+    {
+      "step": 35,
+      "type": "message",
+      "speaker": "Mrs Ellis",
+      "text": "Hello, dear. How are you getting on?"
+    },
+    {
+      "step": 35,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 36,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mrs Ellis is walking at an unhurried pace across the green."
+    },
+    {
+      "step": 36,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You stop for a while and listen. Bellwether is quiet, but never entirely still."
+    },
+    {
+      "step": 36,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Village Green"
+    },
+    {
+      "step": 37,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 37,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 38,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Riverside Path."
+    },
+    {
+      "step": 38,
+      "type": "action",
+      "label": "Watch the Water for a While",
+      "kind": "life",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 39,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "The river looks slow until you fix your attention on leaves and foam moving beneath the footbridge."
+    },
+    {
+      "step": 39,
+      "type": "action",
+      "label": "Wait and Observe the Village",
+      "kind": "observe",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 40,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You linger without a destination and watch Bellwether carry on around you."
+    },
+    {
+      "step": 40,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The day's movement is beginning to turn homeward."
+    },
+    {
+      "step": 40,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 41,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 41,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 41,
+      "type": "action",
+      "label": "Take a Slow Walk Around the Green",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 42,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You follow the worn paths around the green, learning which gate sticks and where the ground stays damp."
+    },
+    {
+      "step": 42,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Route 7 bus is nearby, passing the road beside the village green."
+    },
+    {
+      "step": 42,
+      "type": "message",
+      "speaker": "Observation",
+      "text": "The green no longer feels like a landmark on a map. You are beginning to recognize its rhythms."
+    },
+    {
+      "step": 42,
+      "type": "action",
+      "label": "Read the Noticeboard Carefully",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 43,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You read the notices instead of merely glancing at them: a jumble sale, a lost glove, choir practice, someone offering ladder repairs."
+    },
+    {
+      "step": 43,
+      "type": "message",
+      "speaker": "Observation",
+      "text": "A few surnames recur across unrelated notices. Bellwether's clubs, errands, and favours seem to run through the same small circle of households."
+    },
+    {
+      "step": 43,
+      "type": "action",
+      "label": "Sit on the Bench and Watch the Green",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 44,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You sit beneath the old oak. People cross the green on errands that make sense to them and, slowly, begin to make sense to you."
+    },
+    {
+      "step": 44,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The weather has shifted: clear, 9\u00b0C, with light wind."
+    },
+    {
+      "step": 44,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Village Green"
+    },
+    {
+      "step": 45,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 45,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Paths across the green: The palest tracks do not simply cross the grass; they connect the bench, noticeboard, road and cottage path in a practiced circuit."
+    },
+    {
+      "step": 45,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Recent activity at Village Green: For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 45,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 46,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Riverside Path."
+    },
+    {
+      "step": 46,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 47,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You stop for a while and listen. Bellwether is quiet, but never entirely still."
+    },
+    {
+      "step": 47,
+      "type": "action",
+      "label": "Look Around",
+      "kind": "observe",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 48,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "A narrow path follows a shallow river below the village. Alders lean over dark water and a footbridge joins the meadow paths."
+    },
+    {
+      "step": 48,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The day's movement is beginning to turn homeward. The road is quiet between scheduled buses. A robin patrols the hedges while rooks call beyond the church."
+    },
+    {
+      "step": 48,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 49,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 49,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 49,
+      "type": "action",
+      "label": "Read the Noticeboard Carefully",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 50,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You read the notices instead of merely glancing at them: a jumble sale, a lost glove, choir practice, someone offering ladder repairs."
+    },
+    {
+      "step": 50,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 51,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You stop for a while and listen. Bellwether is quiet, but never entirely still."
+    },
+    {
+      "step": 51,
+      "type": "action",
+      "label": "Take a Slow Walk Around the Green",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 52,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You follow the worn paths around the green, learning which gate sticks and where the ground stays damp."
+    },
+    {
+      "step": 52,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is asking a villager what they remember about the cottage garden."
+    },
+    {
+      "step": 52,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Village Green"
+    },
+    {
+      "step": 53,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Recent activity at Village Green \u2014 There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 53,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Recent activity at Village Green \u2014 There are 2 familiar villagers moving around the green."
+    },
+    {
+      "step": 53,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Paths across the green \u2014 The palest tracks do not simply cross the grass; they connect the bench, noticeboard, road and cottage path in a practiced circuit."
+    },
+    {
+      "step": 53,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "Recent activity at Village Green \u2014 For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 53,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 54,
+      "type": "action",
+      "label": "Tidy a Room",
+      "kind": "life",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 55,
+      "type": "action",
+      "label": "Look Around",
+      "kind": "observe",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 56,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 57,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 58,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 59,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 60,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Village Green"
+    },
+    {
+      "step": 61,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 62,
+      "type": "action",
+      "label": "Walk Among the Old Stones",
+      "kind": "life",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 63,
+      "type": "action",
+      "label": "Look Around",
+      "kind": "observe",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 64,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 65,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 66,
+      "type": "action",
+      "label": "Run a Small Household Errand",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 67,
+      "type": "action",
+      "label": "Walk the Road Without Hurrying",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 68,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Village Road"
+    },
+    {
+      "step": 69,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 70,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 71,
+      "type": "action",
+      "label": "Look Around",
+      "kind": "observe",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 72,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 73,
+      "type": "action",
+      "label": "Run a Small Household Errand",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 74,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Road"
+    },
+    {
+      "step": 75,
+      "type": "action",
+      "label": "Walk the Road Without Hurrying",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 76,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Village Road"
+    },
+    {
+      "step": 77,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 78,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Village Shop"
+    },
+    {
+      "step": 79,
+      "type": "action",
+      "label": "Wait and Observe the Village",
+      "kind": "observe",
+      "location": "Village Shop"
+    },
+    {
+      "step": 80,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 81,
+      "type": "action",
+      "label": "Speak to Jonah",
+      "kind": "free_talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 82,
+      "type": "action",
+      "label": "Speak to Jonah",
+      "kind": "free_talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 83,
+      "type": "action",
+      "label": "Read the Noticeboard Carefully",
+      "kind": "life",
+      "location": "Village Green"
+    },
+    {
+      "step": 84,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Village Green"
+    },
+    {
+      "step": 85,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 86,
+      "type": "action",
+      "label": "Sit Quietly by the Yews",
+      "kind": "life",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 87,
+      "type": "action",
+      "label": "Wait and Observe the Village",
+      "kind": "observe",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 88,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 89,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Road"
+    },
+    {
+      "step": 90,
+      "type": "action",
+      "label": "Speak to Mrs Ellis",
+      "kind": "free_talk",
+      "location": "Village Road"
+    },
+    {
+      "step": 91,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 92,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Village Road"
+    },
+    {
+      "step": 93,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 94,
+      "type": "action",
+      "label": "Sit by the Window and Watch the Street",
+      "kind": "life",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 95,
+      "type": "action",
+      "label": "Wait and Observe the Village",
+      "kind": "observe",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 96,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 97,
+      "type": "action",
+      "label": "Walk the Road Without Hurrying",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 98,
+      "type": "action",
+      "label": "Take a Moment",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 99,
+      "type": "action",
+      "label": "Run a Small Household Errand",
+      "kind": "life",
+      "location": "Village Road"
+    },
+    {
+      "step": 100,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Village Road"
+    }
+  ]
+}

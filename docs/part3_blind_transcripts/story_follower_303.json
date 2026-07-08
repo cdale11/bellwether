@@ -1,0 +1,2514 @@
+{
+  "result": {
+    "profile": "story_follower",
+    "seed": 303,
+    "steps": 250,
+    "days_elapsed": 3,
+    "visited_locations": [
+      "Ashcroft Cottage",
+      "Bellwether Bakery",
+      "Bellwether Halt",
+      "Bus Stop",
+      "Riverside Path",
+      "St Bartholomew's Churchyard",
+      "Village Green",
+      "Village Road",
+      "Village Shop"
+    ],
+    "location_count": 9,
+    "action_kinds": {
+      "travel": 247,
+      "story": 1,
+      "talk": 1,
+      "choice": 1
+    },
+    "completed_main": [
+      "A House Left Waiting",
+      "In Eleanor's Hand",
+      "The Morning After"
+    ],
+    "active_visible_main": [],
+    "evidence_count": 0,
+    "talk_count": 0,
+    "life_activity_count": 0,
+    "first_anomaly_step": null,
+    "first_horror_stage_step": null,
+    "endgame_unlocked": false,
+    "run_complete": false,
+    "completion_step": null,
+    "ending": null,
+    "transcript_entries": 370
+  },
+  "transcript": [
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "It is early spring in Bellwether: chilly mornings, showers, bright intervals and occasional late frost."
+    },
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "The bus leaves you at Bellwether just after nine. Its engine noise thins along the road until the village is quiet again."
+    },
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "For now, there is the road ahead, your suitcase at your feet, and Eleanor's key in your pocket."
+    },
+    {
+      "step": 1,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 2,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 2,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 2,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 3,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bus Stop."
+    },
+    {
+      "step": 3,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 4,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 4,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 4,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 5,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to St Bartholomew's Churchyard."
+    },
+    {
+      "step": 5,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 6,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 6,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 6,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Jonah is carrying a bread delivery across the village."
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Ashcroft Cottage."
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Freshly disturbed soil and a growing cleared patch show that someone has been working in the garden."
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Journal",
+      "text": "Main Story completed: A House Left Waiting."
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Journal",
+      "text": "Main Story added: In Eleanor's Hand."
+    },
+    {
+      "step": 7,
+      "type": "action",
+      "label": "Read Eleanor's Letter",
+      "kind": "story",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 8,
+      "type": "message",
+      "speaker": "Eleanor's Letter",
+      "text": "If you are reading this, then you came. Put the kettle on before you decide anything important. The house is kinder when it is warm."
+    },
+    {
+      "step": 8,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "Below the signature, in different ink, is a final line: Do not worry if the bells wake you."
+    },
+    {
+      "step": 8,
+      "type": "message",
+      "speaker": "Journal",
+      "text": "Main Story completed: In Eleanor's Hand."
+    },
+    {
+      "step": 8,
+      "type": "message",
+      "speaker": "Journal",
+      "text": "Side Story added: The Cottage Garden."
+    },
+    {
+      "step": 8,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 9,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is having a brief chat with a neighbour."
+    },
+    {
+      "step": 9,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 9,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 9,
+      "type": "action",
+      "label": "Talk to Jonah",
+      "kind": "talk",
+      "location": "Village Green"
+    },
+    {
+      "step": 10,
+      "type": "message",
+      "speaker": "Jonah",
+      "text": "You must be Eleanor's relation. I had a loaf riding on whether you'd take the morning bus."
+    },
+    {
+      "step": 10,
+      "type": "action",
+      "label": "\u201cPeople talk about strangers here, then?\u201d",
+      "kind": "choice",
+      "location": "Village Green"
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "You",
+      "text": "People talk about strangers here, then?"
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "Jonah",
+      "text": "Only until they stop being strangers. Around here, that rarely takes long."
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "Jonah",
+      "text": "Here. Bread. Consider it an apology from the village gossip network."
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "Journal",
+      "text": "Side Story completed: A Warm Welcome."
+    },
+    {
+      "step": 11,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 12,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Ashcroft Cottage."
+    },
+    {
+      "step": 12,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Freshly disturbed soil and a growing cleared patch show that someone has been working in the garden."
+    },
+    {
+      "step": 12,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is clearing weeds from an overgrown garden bed."
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 13,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 14,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Riverside Path."
+    },
+    {
+      "step": 14,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 15,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The weather has shifted: light rain, 8\u00b0C, with gentle wind."
+    },
+    {
+      "step": 15,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bellwether Halt."
+    },
+    {
+      "step": 15,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 16,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Riverside Path."
+    },
+    {
+      "step": 16,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 17,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 17,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 17,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 18,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 18,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road is busy with passing traffic."
+    },
+    {
+      "step": 18,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 19,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mrs Ellis is checking items from a folded shopping list."
+    },
+    {
+      "step": 19,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bus Stop."
+    },
+    {
+      "step": 19,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 20,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 20,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road is busy with passing traffic."
+    },
+    {
+      "step": 20,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mrs Ellis is checking items from a folded shopping list."
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Route 7 bus is nearby, moving slowly through pedestrian traffic."
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bellwether Bakery."
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The bakery counter is staffed and warm with work."
+    },
+    {
+      "step": 21,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 22,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 22,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road is busy with passing traffic."
+    },
+    {
+      "step": 22,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 23,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to St Bartholomew's Churchyard."
+    },
+    {
+      "step": 23,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 24,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 24,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 24,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 25,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Ashcroft Cottage."
+    },
+    {
+      "step": 25,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Freshly disturbed soil and a growing cleared patch show that someone has been working in the garden."
+    },
+    {
+      "step": 25,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 26,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is working on the sticking garden gate."
+    },
+    {
+      "step": 26,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 26,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 26,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 27,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to St Bartholomew's Churchyard."
+    },
+    {
+      "step": 27,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The weather has shifted: soft overcast, 11\u00b0C, with light wind."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 28,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 29,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bus Stop."
+    },
+    {
+      "step": 29,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 30,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 30,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 30,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 31,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Route 7 bus is nearby, approaching Bellwether on the return service."
+    },
+    {
+      "step": 31,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to St Bartholomew's Churchyard."
+    },
+    {
+      "step": 31,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 32,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 32,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 32,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 33,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Riverside Path."
+    },
+    {
+      "step": 33,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 34,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bellwether Halt."
+    },
+    {
+      "step": 34,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 35,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Riverside Path."
+    },
+    {
+      "step": 35,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 36,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 36,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "For the moment, the green has fallen quiet."
+    },
+    {
+      "step": 36,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 37,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 37,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 37,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 38,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Shop."
+    },
+    {
+      "step": 38,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 39,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 39,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 39,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 40,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to St Bartholomew's Churchyard."
+    },
+    {
+      "step": 40,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 41,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The weather has shifted: clear, 13\u00b0C, with light wind."
+    },
+    {
+      "step": 41,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 41,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 41,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 42,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bellwether Bakery."
+    },
+    {
+      "step": 42,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The bakery counter is staffed and warm with work."
+    },
+    {
+      "step": 42,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 43,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 43,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 43,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 44,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mrs Ellis is helping a neighbour carry a small parcel."
+    },
+    {
+      "step": 44,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 44,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 44,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 45,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Riverside Path."
+    },
+    {
+      "step": 45,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 46,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bellwether Halt."
+    },
+    {
+      "step": 46,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 47,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Riverside Path."
+    },
+    {
+      "step": 47,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 48,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 48,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 48,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 49,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Ashcroft Cottage."
+    },
+    {
+      "step": 49,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Freshly disturbed soil and a growing cleared patch show that someone has been working in the garden."
+    },
+    {
+      "step": 49,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 50,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mara is resting on the cottage step with a cup of tea."
+    },
+    {
+      "step": 50,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 50,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 50,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 51,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 51,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road is busy with passing traffic."
+    },
+    {
+      "step": 51,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 52,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mrs Ellis is doubling back along the road for a forgotten item."
+    },
+    {
+      "step": 52,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bellwether Bakery."
+    },
+    {
+      "step": 52,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The bakery is open, but the counter is unattended for the moment."
+    },
+    {
+      "step": 52,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 53,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 53,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road is busy with passing traffic."
+    },
+    {
+      "step": 53,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 54,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bus Stop."
+    },
+    {
+      "step": 54,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 55,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 55,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 55,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 56,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Bellwether Bakery."
+    },
+    {
+      "step": 56,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The bakery is open, but the counter is unattended for the moment."
+    },
+    {
+      "step": 56,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 57,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Road."
+    },
+    {
+      "step": 57,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The road has settled into a quieter interval."
+    },
+    {
+      "step": 57,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 58,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Mrs Ellis is taking care of a small postal errand."
+    },
+    {
+      "step": 58,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to St Bartholomew's Churchyard."
+    },
+    {
+      "step": 58,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 59,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You make your way to Village Green."
+    },
+    {
+      "step": 59,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "There are 1 familiar villager moving around the green."
+    },
+    {
+      "step": 59,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 60,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "Freshly disturbed soil and a growing cleared patch show that someone has been working in the garden."
+    },
+    {
+      "step": 60,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 61,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 62,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 63,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 64,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 65,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 66,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 67,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 68,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 69,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 70,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 71,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 72,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 73,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 74,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 75,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 76,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 77,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 78,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 79,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 80,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 81,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 82,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 83,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 84,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 85,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 86,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 87,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 88,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 89,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 90,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 91,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 92,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 93,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 94,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 95,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 96,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 97,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 98,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 99,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 100,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 101,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 102,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 103,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 104,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 105,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 106,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 107,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 108,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 109,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 110,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 111,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 112,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 113,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 114,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 115,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 116,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 117,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 118,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 119,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 120,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 121,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 122,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 123,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 124,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 125,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 126,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 127,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 128,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 129,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 130,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 131,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 132,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 133,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 134,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 135,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 136,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 137,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 138,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 139,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 140,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 141,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 142,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 143,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 144,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 145,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 146,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 147,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 148,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 149,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 150,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 151,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 152,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 153,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 154,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 155,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 156,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 157,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 158,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 159,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 160,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 161,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 162,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 163,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 164,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 165,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 166,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 167,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 168,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 169,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 170,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 171,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 172,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 173,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 174,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 175,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 176,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 177,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 178,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 179,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 180,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 181,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 182,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 183,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 184,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 185,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 186,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 187,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 188,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 189,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 190,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 191,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 192,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 193,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 194,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 195,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 196,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 197,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 198,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 199,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 200,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 201,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 202,
+      "type": "action",
+      "label": "Take the lane to the churchyard",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 203,
+      "type": "action",
+      "label": "Cross to the village green",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 204,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 205,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 206,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 207,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 208,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 209,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 210,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 211,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 212,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 213,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 214,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 215,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 216,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 217,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 218,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 219,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 220,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 221,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 222,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 223,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 224,
+      "type": "action",
+      "label": "Visit the bakery",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 225,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Bellwether Bakery"
+    },
+    {
+      "step": 226,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 227,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 228,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 229,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 230,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 231,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    },
+    {
+      "step": 232,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 233,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 234,
+      "type": "action",
+      "label": "Walk down to the riverside path",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 235,
+      "type": "action",
+      "label": "Follow the meadow path to the station",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 236,
+      "type": "action",
+      "label": "Follow the meadow path to the river",
+      "kind": "travel",
+      "location": "Bellwether Halt"
+    },
+    {
+      "step": 237,
+      "type": "action",
+      "label": "Climb back to the village green",
+      "kind": "travel",
+      "location": "Riverside Path"
+    },
+    {
+      "step": 238,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 239,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 240,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 241,
+      "type": "action",
+      "label": "Return to the bus stop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 242,
+      "type": "action",
+      "label": "Walk toward the village",
+      "kind": "travel",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 243,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 244,
+      "type": "action",
+      "label": "Walk to Ashcroft Cottage",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 245,
+      "type": "action",
+      "label": "Walk to the village green",
+      "kind": "travel",
+      "location": "Ashcroft Cottage"
+    },
+    {
+      "step": 246,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 247,
+      "type": "action",
+      "label": "Visit the village shop",
+      "kind": "travel",
+      "location": "Village Road"
+    },
+    {
+      "step": 248,
+      "type": "action",
+      "label": "Walk to the green",
+      "kind": "travel",
+      "location": "Village Shop"
+    },
+    {
+      "step": 249,
+      "type": "action",
+      "label": "Follow the path to the churchyard",
+      "kind": "travel",
+      "location": "Village Green"
+    },
+    {
+      "step": 250,
+      "type": "action",
+      "label": "Return to Village Road",
+      "kind": "travel",
+      "location": "St Bartholomew's Churchyard"
+    }
+  ]
+}

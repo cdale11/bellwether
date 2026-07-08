@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "facts": {
+    "bakery_morning_rhythm": {"truth":"The bakery begins work early and is busiest in the morning.","domains":["work","routine"],"sensitivity":0.05,"distortions":["The bakery sometimes starts before dawn."]},
+    "ashcroft_garden_restored": {"truth":"The Ashcroft Cottage garden has been brought back into use.","domains":["garden","player"],"sensitivity":0.15,"distortions":["Someone has started working the Ashcroft garden again."]},
+    "railway_halt_avoided": {"truth":"Some residents avoid lingering at the railway halt after dark.","domains":["place","routine"],"sensitivity":0.45,"distortions":["Nobody sensible waits at the railway halt after dark.","People say the last train is not always the last arrival."]},
+    "green_workday_custom": {"truth":"Residents sometimes organise a workday on the village green.","domains":["event","community"],"sensitivity":0.1,"distortions":["The village green workday is practically compulsory."]}
+  },
+  "initial_knowledge": {
+    "mara":{"ashcroft_garden_restored":0.85,"green_workday_custom":0.8},
+    "jonah":{"bakery_morning_rhythm":0.95,"green_workday_custom":0.7},
+    "mrs_ellis":{"railway_halt_avoided":0.9,"green_workday_custom":0.9},
+    "tomas":{"railway_halt_avoided":0.7,"bakery_morning_rhythm":0.6}
+  }
+}

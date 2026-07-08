@@ -1,0 +1,31 @@
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: High summer
+PASS all project Python compiles
+PASS all authored JSON catalogues parse
+PASS launch script executable
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Early summer
+PASS ordinary visible action schema complete
+PASS injury treatment action has complete schema
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Deep winter
+PASS terminal action schema complete
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Early autumn
+PASS death-to-recurrence handoff playable
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Early autumn
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Late autumn
+PASS visible-action fuzz play remains valid
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Late winter
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Early winter
+PASS full state JSON round-trip and migration
+PASS all Parts 1-16 state substrates coexist
+[Bellwether] Asking the local model to choose this playthrough's season...
+[Bellwether] Season selected by local fallback: Late autumn
+PASS fresh garden cannot sow unowned seeds
+PASS release version finalized
+Part 17 passes: 12/12

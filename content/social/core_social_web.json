@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "edges": {
+    "jonah|mara": {
+      "history": "They have known one another through ordinary village work and practical favours.",
+      "baseline": {"affinity": 18, "trust": 20, "familiarity": 35, "tension": 4},
+      "compatibility": ["practicality", "reliability", "care_through_action"],
+      "friction": ["both avoid asking for help"],
+      "meeting_contexts": ["bakery", "village_green", "ashcroft_cottage"],
+      "conversation_topics": ["work", "weather", "gardens", "village_needs"]
+    },
+    "jonah|mrs_ellis": {
+      "history": "Mrs Ellis has been a regular bakery customer for years and expects Jonah's steadiness.",
+      "baseline": {"affinity": 24, "trust": 28, "familiarity": 55, "tension": 2},
+      "compatibility": ["continuity", "neighbourliness", "reliability"],
+      "friction": ["Mrs Ellis notices changes Jonah would rather smooth over"],
+      "meeting_contexts": ["bakery", "village_green", "village_road"],
+      "conversation_topics": ["bakery", "errands", "village_routines", "weather"]
+    },
+    "mara|mrs_ellis": {
+      "history": "They share a quiet respect built through years of small practical encounters.",
+      "baseline": {"affinity": 14, "trust": 16, "familiarity": 32, "tension": 6},
+      "compatibility": ["attention", "continuity", "care"],
+      "friction": ["Mara dislikes questions that Mrs Ellis considers ordinary concern"],
+      "meeting_contexts": ["village_green", "village_road", "ashcroft_cottage"],
+      "conversation_topics": ["gardens", "neighbours", "weather", "local_changes"]
+    }
+  }
+}

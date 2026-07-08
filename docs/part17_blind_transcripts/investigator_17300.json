@@ -1,0 +1,5651 @@
+{
+  "result": {
+    "profile": "investigator",
+    "seed": 17300,
+    "steps": 700,
+    "days_elapsed": 6,
+    "visited_locations": [
+      "Bus Stop"
+    ],
+    "location_count": 1,
+    "action_kinds": {
+      "investigate": 700
+    },
+    "completed_main": [],
+    "active_visible_main": [
+      "A House Left Waiting"
+    ],
+    "evidence_count": 2,
+    "talk_count": 0,
+    "life_activity_count": 30,
+    "first_anomaly_step": null,
+    "first_horror_stage_step": null,
+    "endgame_unlocked": false,
+    "run_complete": false,
+    "completion_step": null,
+    "ending": null,
+    "transcript_entries": 820
+  },
+  "transcript": [
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "It is late autumn in Bellwether: damp, windy and changeable with misty mornings."
+    },
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "The bus leaves you at Bellwether just after nine. Its engine noise thins along the road until the village is quiet again."
+    },
+    {
+      "step": 1,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "For now, there is the road ahead, your suitcase at your feet, and Eleanor's key in your pocket."
+    },
+    {
+      "step": 1,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 2,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 2,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm: Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 2,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 3,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 3,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 3,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 4,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 4,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 4,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 5,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 5,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 5,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 6,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 6,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 7,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline: From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 7,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 8,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 8,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 9,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 9,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 9,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 9,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 10,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 10,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 11,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 11,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 12,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 12,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 13,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 13,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 14,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 14,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 15,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 15,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 16,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 16,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 17,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 17,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 17,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 17,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 18,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 18,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 18,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 18,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 19,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 19,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 20,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 20,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 21,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 21,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 22,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 22,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 22,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 22,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 23,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 23,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 24,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 24,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 25,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 25,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 26,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 26,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 26,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 26,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 27,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 27,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 28,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 28,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 29,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 29,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The weather has shifted: clear, 12\u00b0C, with light wind."
+    },
+    {
+      "step": 29,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 30,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 30,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 31,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 31,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 32,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 32,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 32,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 32,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 33,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 33,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 34,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 34,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 35,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 35,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 36,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 36,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 36,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 36,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 37,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 37,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 38,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 38,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 38,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 38,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 39,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 39,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 40,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 40,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 40,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 40,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 41,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 41,
+      "type": "message",
+      "speaker": "Bellwether",
+      "text": "The weather has shifted: soft overcast, 13\u00b0C, with light wind."
+    },
+    {
+      "step": 41,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 42,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 42,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 43,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 43,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 44,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 44,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 44,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 44,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 45,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 45,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 46,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 46,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 47,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 47,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 48,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 48,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 48,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 48,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 49,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 49,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 50,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 50,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 51,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 51,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 51,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 51,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 52,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 52,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 53,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 53,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 54,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 54,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 55,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 55,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 55,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 55,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 56,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 56,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 56,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 56,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 57,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 57,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 58,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 58,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 59,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 59,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 59,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 59,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 60,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 60,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 61,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 61,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 62,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 62,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 63,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 63,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 63,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 63,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 64,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 64,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 65,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 65,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 66,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 66,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 66,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 66,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 67,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "You review the last few things you thought worth remembering."
+    },
+    {
+      "step": 67,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "The road has a rhythm \u2014 Long quiet gaps separate the traffic; regular vehicles are easy to distinguish from unfamiliar ones."
+    },
+    {
+      "step": 67,
+      "type": "message",
+      "speaker": "Notebook",
+      "text": "A clear sightline \u2014 From the shelter, anyone waiting can see traffic from the village before the driver can clearly see them."
+    },
+    {
+      "step": 67,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 68,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 68,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 69,
+      "type": "message",
+      "speaker": "Narrator",
+      "text": "You slow down and pay attention to the place rather than merely passing through it."
+    },
+    {
+      "step": 69,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 70,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 71,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 72,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 73,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 74,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 75,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 76,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 77,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 78,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 79,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 80,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 81,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 82,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 83,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 84,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 85,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 86,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 87,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 88,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 89,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 90,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 91,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 92,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 93,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 94,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 95,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 96,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 97,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 98,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 99,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 100,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 101,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 102,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 103,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 104,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 105,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 106,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 107,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 108,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 109,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 110,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 111,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 112,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 113,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 114,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 115,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 116,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 117,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 118,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 119,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 120,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 121,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 122,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 123,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 124,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 125,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 126,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 127,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 128,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 129,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 130,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 131,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 132,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 133,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 134,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 135,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 136,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 137,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 138,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 139,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 140,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 141,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 142,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 143,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 144,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 145,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 146,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 147,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 148,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 149,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 150,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 151,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 152,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 153,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 154,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 155,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 156,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 157,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 158,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 159,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 160,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 161,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 162,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 163,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 164,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 165,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 166,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 167,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 168,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 169,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 170,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 171,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 172,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 173,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 174,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 175,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 176,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 177,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 178,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 179,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 180,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 181,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 182,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 183,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 184,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 185,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 186,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 187,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 188,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 189,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 190,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 191,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 192,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 193,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 194,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 195,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 196,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 197,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 198,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 199,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 200,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 201,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 202,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 203,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 204,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 205,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 206,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 207,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 208,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 209,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 210,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 211,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 212,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 213,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 214,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 215,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 216,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 217,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 218,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 219,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 220,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 221,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 222,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 223,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 224,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 225,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 226,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 227,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 228,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 229,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 230,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 231,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 232,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 233,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 234,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 235,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 236,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 237,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 238,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 239,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 240,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 241,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 242,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 243,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 244,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 245,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 246,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 247,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 248,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 249,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 250,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 251,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 252,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 253,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 254,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 255,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 256,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 257,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 258,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 259,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 260,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 261,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 262,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 263,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 264,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 265,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 266,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 267,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 268,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 269,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 270,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 271,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 272,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 273,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 274,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 275,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 276,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 277,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 278,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 279,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 280,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 281,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 282,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 283,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 284,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 285,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 286,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 287,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 288,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 289,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 290,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 291,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 292,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 293,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 294,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 295,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 296,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 297,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 298,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 299,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 300,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 301,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 302,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 303,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 304,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 305,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 306,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 307,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 308,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 309,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 310,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 311,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 312,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 313,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 314,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 315,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 316,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 317,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 318,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 319,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 320,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 321,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 322,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 323,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 324,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 325,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 326,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 327,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 328,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 329,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 330,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 331,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 332,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 333,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 334,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 335,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 336,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 337,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 338,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 339,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 340,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 341,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 342,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 343,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 344,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 345,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 346,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 347,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 348,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 349,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 350,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 351,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 352,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 353,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 354,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 355,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 356,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 357,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 358,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 359,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 360,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 361,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 362,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 363,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 364,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 365,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 366,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 367,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 368,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 369,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 370,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 371,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 372,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 373,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 374,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 375,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 376,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 377,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 378,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 379,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 380,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 381,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 382,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 383,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 384,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 385,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 386,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 387,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 388,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 389,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 390,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 391,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 392,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 393,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 394,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 395,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 396,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 397,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 398,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 399,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 400,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 401,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 402,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 403,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 404,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 405,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 406,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 407,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 408,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 409,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 410,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 411,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 412,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 413,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 414,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 415,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 416,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 417,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 418,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 419,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 420,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 421,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 422,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 423,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 424,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 425,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 426,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 427,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 428,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 429,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 430,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 431,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 432,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 433,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 434,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 435,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 436,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 437,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 438,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 439,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 440,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 441,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 442,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 443,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 444,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 445,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 446,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 447,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 448,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 449,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 450,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 451,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 452,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 453,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 454,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 455,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 456,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 457,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 458,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 459,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 460,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 461,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 462,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 463,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 464,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 465,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 466,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 467,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 468,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 469,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 470,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 471,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 472,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 473,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 474,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 475,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 476,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 477,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 478,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 479,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 480,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 481,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 482,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 483,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 484,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 485,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 486,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 487,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 488,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 489,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 490,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 491,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 492,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 493,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 494,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 495,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 496,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 497,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 498,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 499,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 500,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 501,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 502,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 503,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 504,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 505,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 506,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 507,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 508,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 509,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 510,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 511,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 512,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 513,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 514,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 515,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 516,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 517,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 518,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 519,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 520,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 521,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 522,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 523,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 524,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 525,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 526,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 527,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 528,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 529,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 530,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 531,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 532,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 533,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 534,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 535,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 536,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 537,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 538,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 539,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 540,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 541,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 542,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 543,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 544,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 545,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 546,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 547,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 548,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 549,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 550,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 551,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 552,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 553,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 554,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 555,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 556,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 557,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 558,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 559,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 560,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 561,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 562,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 563,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 564,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 565,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 566,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 567,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 568,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 569,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 570,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 571,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 572,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 573,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 574,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 575,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 576,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 577,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 578,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 579,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 580,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 581,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 582,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 583,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 584,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 585,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 586,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 587,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 588,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 589,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 590,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 591,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 592,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 593,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 594,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 595,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 596,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 597,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 598,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 599,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 600,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 601,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 602,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 603,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 604,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 605,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 606,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 607,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 608,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 609,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 610,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 611,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 612,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 613,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 614,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 615,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 616,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 617,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 618,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 619,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 620,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 621,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 622,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 623,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 624,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 625,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 626,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 627,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 628,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 629,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 630,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 631,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 632,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 633,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 634,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 635,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 636,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 637,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 638,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 639,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 640,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 641,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 642,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 643,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 644,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 645,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 646,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 647,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 648,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 649,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 650,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 651,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 652,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 653,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 654,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 655,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 656,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 657,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 658,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 659,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 660,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 661,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 662,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 663,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 664,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 665,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 666,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 667,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 668,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 669,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 670,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 671,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 672,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 673,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 674,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 675,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 676,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 677,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 678,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 679,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 680,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 681,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 682,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 683,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 684,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 685,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 686,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 687,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 688,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 689,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 690,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 691,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 692,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 693,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 694,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 695,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 696,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 697,
+      "type": "action",
+      "label": "Examine the Area Closely",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 698,
+      "type": "action",
+      "label": "Observe Carefully",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 699,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    },
+    {
+      "step": 700,
+      "type": "action",
+      "label": "Review What You Have Noticed",
+      "kind": "investigate",
+      "location": "Bus Stop"
+    }
+  ]
+}

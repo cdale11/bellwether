@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "mysteries": {
+    "village_routines": {
+      "title": "The Village That Knows Its Rhythms",
+      "summary": "Bellwether routines overlap in ways that make information and movement unusually legible.",
+      "related_mysteries": [
+        "eleanor_patterns",
+        "railway_after_dark"
+      ]
+    },
+    "eleanor_patterns": {
+      "title": "Eleanor's Repeated Patterns",
+      "summary": "Eleanor left behind routines, marks and relationships that can be reconstructed from independent sources.",
+      "related_mysteries": [
+        "village_routines",
+        "railway_after_dark"
+      ]
+    },
+    "railway_after_dark": {
+      "title": "The Railway Halt After Dark",
+      "summary": "Avoidance, sparse service and local testimony around the halt do not entirely agree.",
+      "related_mysteries": [
+        "village_routines",
+        "eleanor_patterns"
+      ]
+    }
+  },
+  "evidence_links": {
+    "green_worn_paths": [
+      "village_routines"
+    ],
+    "noticeboard_names": [
+      "village_routines"
+    ],
+    "bakery_regulars": [
+      "village_routines"
+    ],
+    "road_repeated_routes": [
+      "village_routines"
+    ],
+    "cottage_lived_patterns": [
+      "eleanor_patterns"
+    ],
+    "eleanor_bookmarks": [
+      "eleanor_patterns"
+    ],
+    "cottage_threshold_marks": [
+      "eleanor_patterns"
+    ],
+    "halt_timing": [
+      "railway_after_dark"
+    ],
+    "halt_regular_waiting": [
+      "railway_after_dark"
+    ]
+  },
+  "fact_links": {
+    "bakery_morning_rhythm": [
+      "village_routines"
+    ],
+    "green_workday_custom": [
+      "village_routines"
+    ],
+    "ashcroft_garden_restored": [
+      "eleanor_patterns"
+    ],
+    "railway_halt_avoided": [
+      "railway_after_dark"
+    ]
+  },
+  "hypotheses": {
+    "routines_carry_information": {
+      "title": "Routine is Bellwether\u2019s information network",
+      "mystery": "village_routines",
+      "requires_any": [
+        "green_worn_paths",
+        "bakery_regulars",
+        "fact:bakery_morning_rhythm",
+        "fact:green_workday_custom"
+      ],
+      "confirm_threshold": 3
+    },
+    "eleanor_was_methodical": {
+      "title": "Eleanor deliberately repeated a small set of routines",
+      "mystery": "eleanor_patterns",
+      "requires_any": [
+        "cottage_lived_patterns",
+        "cottage_threshold_marks",
+        "fact:ashcroft_garden_restored"
+      ],
+      "confirm_threshold": 2
+    },
+    "halt_avoidance_is_shared": {
+      "title": "Avoidance of the halt after dark is a shared local pattern",
+      "mystery": "railway_after_dark",
+      "requires_any": [
+        "halt_timing",
+        "halt_regular_waiting",
+        "fact:railway_halt_avoided"
+      ],
+      "confirm_threshold": 2
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0-part2-dev",
+  "generated_unix": 1783423765,
+  "stages": [
+    {
+      "name": "compile_all_python",
+      "passed": true,
+      "count": 28,
+      "errors": []
+    },
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "tools/part1_world_architecture_diagnostic.py"
+      ],
+      "returncode": 0,
+      "seconds": 2.06,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: High summer\nPASS world schema validates\nPASS legacy WORLD compatibility\nPASS route query\nPASS opening hours access\nPASS purpose suitability\nPASS frozen NPC adjacency preserved\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late winter\nPASS game integration and travel compatibility\nPASS old-save world migration\nPASS runtime overlay isolation\nPart 1 passes: 9/9\n",
+      "stderr": "",
+      "name": "part1_world_architecture_diagnostic",
+      "passed": true
+    },
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "tools/part2_npc_lives_diagnostic.py"
+      ],
+      "returncode": 0,
+      "seconds": 2.13,
+      "stdout": "[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Early spring\nPASS npc schema validates\nPASS core cast profiles present\nPASS authored identity query\nPASS bounded obligation query\n[Bellwether] Asking the local model to choose this playthrough's season...\n[Bellwether] Season selected by local fallback: Late summer\nPASS personal needs evolve with game time\nPASS dialogue life context available\nPASS old-save npc-life migration\nPASS runtime state cannot mutate authored identity\nPASS conversation identity integration\nPart 2 passes: 9/9\n",
+      "stderr": "",
+      "name": "part2_npc_lives_diagnostic",
+      "passed": true
+    }
+  ],
+  "passed": true
+}
