@@ -49,7 +49,7 @@ def developer_status():
         "npcs": npcs,
         "events": {"dynamic_events": s.get("dynamic_events", {}), "recent_world_events": s.get("world_events", [])[-20:]},
         "horror": {"pressure": s.get("supernatural_pressure", 0), "state": s.get("horror", {}), "psychology": s.get("psychology", {}), "anomaly_history": s.get("anomaly_history", [])[-20:]},
-        "investigation": s.get("investigation", {}),
+        "investigation": {"notebook": s.get("investigation", {}), "mysteries": game.investigation_overview()},
         "economy": {"money": s.get("money"), "economy": s.get("economy", {}), "employment": s.get("employment", {}), "activities": s.get("activities", {})},
         "provider": provider.last_status, "ai_runtime": s.get("ai_runtime", {}),
         "ai_events": s.get("ai_events", [])[-20:], "traces": provider.debug_traces[-40:]

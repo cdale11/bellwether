@@ -1,3 +1,12 @@
+# Changelog
+
+## v0.8.0 — Full Mystery Expansion
+- Expanded investigation from 3 to 7 interconnected mystery threads.
+- Added dense cross-location evidence graph and seven multi-source hypotheses.
+- Added mystery progress states and cross-thread connections.
+- Added notebook mystery-thread UI and richer developer investigation diagnostics.
+- Preserved testimony/truth separation and optional player-driven investigation.
+
 # Bellwether Changelog
 
 ## v0.7.2 — Procedural Social Arcs
@@ -72,7 +81,6 @@
 - Changed recommended default foreground model to qwen3.5:2b and documented qwen3.5:4b strategic installation.
 - Added focused v0.5.0 diagnostics and release audit documentation.
 
-# Changelog
 
 ## v0.4.2 — Hobbies, Skills, and Personal Routine
 

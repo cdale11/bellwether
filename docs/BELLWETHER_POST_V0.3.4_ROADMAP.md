@@ -805,3 +805,8 @@ The roadmap should be revised when implementation evidence demands it, but revis
 ## Implementation status update — v0.7.2
 
 Completed through v0.7.2: baseline certification, ordinary-life foundation, economy/work, hobbies/skills, six-person core cast, durable memory foundation, lightweight population tiers, relationship consequences, world expansion, journey depth, Town Mind architecture, bounded core-NPC cognition/long-term memory interpretation, and persistent validated multi-day procedural social arcs with bounded player involvement. The next planned release is v0.8.0 — Full Mystery Expansion.
+
+
+## Implementation status update — v0.8.0
+
+Completed through v0.8.0: the mystery architecture has expanded from three initial threads into seven interconnected player-driven investigations spanning village routine, Eleanor's methods, railway avoidance, land boundaries, contradictory records, returning routes, and synchronised ecology. Evidence and testimony remain distinct from truth; hypotheses require independent support; active threads can reveal cross-mystery relationships without exposition. The next planned release is v0.8.1 — Adaptive Horror.

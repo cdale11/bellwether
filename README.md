@@ -1,6 +1,10 @@
-# Bellwether v0.7.2 — Procedural Social Arcs
+# Bellwether v0.8.0 — Full Mystery Expansion
 
 Bellwether is a persistent village life-sim/RPG and psychological-supernatural horror game. The deterministic engine owns truth and legality; local LLMs provide bounded dialogue, Director choices, and strategic proposals that are validated before application.
+
+## v0.8.0 — Full Mystery Expansion
+
+Bellwether now contains seven interconnected investigation threads spanning village routines, Eleanor's patterns, the railway halt, disputed land boundaries, contradictory records, returning routes, and synchronised ecological behaviour. Investigation remains optional and player-driven. Evidence is gathered from authored places and testimony, hypotheses require multiple independent supports, testimony remains distinct from truth, and cross-mystery connections emerge only from accumulated evidence. The notebook now exposes active mystery threads without revealing hidden canon.
 
 ## Run
 
@@ -31,16 +35,17 @@ Bellwether automatically prefers `qwen3.5:2b` for foreground dialogue and routin
 
 For a faster computer that still has 8 GB RAM, `qwen3.5:4b` can be used as the single installed model. Larger models are not required by this release.
 
-## v0.7.2 highlights
+## v0.8.0 highlights
 
-- Persistent multi-day procedural social arcs composed only from legal authored templates.
-- Deep-model routing for infrequent arc selection, with deterministic fallback when Ollama is unavailable.
-- Five initial causal arc families spanning shop pressure, cottage-garden cooperation, railway routine disagreement, bakery workload, and local-history questions.
-- Stage timing across multiple in-game days, persistent active/history state, bounded location-specific player involvement, and safe old-save migration.
-- Arc stages create structured memory events and bounded NPC concerns without turning generated prose into objective truth.
-- Maximum two simultaneous arcs and infrequent proposal scheduling to protect low-end hardware.
-- Town Mind intentions can inform arc selection context but cannot directly create facts, residents, relationships, evidence, or story outcomes.
-- v0.7.1 cognition, v0.7.0 Town Mind, concise dialogue, travel depth, and all earlier systems remain intact.
+- Seven interconnected mystery threads, expanded from the original three.
+- Evidence links across geography, Eleanor's habits, institutional records, route behaviour, village routines, and ecology.
+- Seven multi-source hypotheses with tentative and supported states.
+- Persistent mystery progress states: unopened, active, and deepening.
+- Cross-thread connections emerge only when related mysteries have actually been activated by evidence or testimony.
+- New bounded testimony facts concerning disputed boundaries, a missing woodland route, and synchronised animal behaviour.
+- Investigation Notebook now shows active mystery threads without exposing hidden canon.
+- Developer diagnostics now separate notebook state from the richer mystery graph.
+- Existing Town Mind, cognition, procedural arcs, concise dialogue, travel, life-sim, social, economy, horror, and recurrence systems remain intact.
 
 ## AI authority boundary
 
@@ -56,10 +61,10 @@ Free NPC dialogue is intentionally concise for both tone and low-end hardware. N
 
 ## Diagnostics
 
-Focused v0.7.2 diagnostic:
+Focused v0.8.0 diagnostic:
 
 ```bash
-PYTHONPATH=. python3 tools/v072_procedural_social_arcs_diagnostic.py
+PYTHONPATH=. python3 tools/v080_full_mystery_expansion_diagnostic.py
 ```
 
 Cumulative regression suite:
@@ -78,6 +83,7 @@ Use `--skip-qwen` only for deterministic engineering certification when Ollama i
 
 ## Recent release line
 
+- **v0.8.0** — seven interconnected mystery threads, multi-source hypotheses, cross-thread connections, and expanded testimony.
 - **v0.7.2** — persistent validated multi-day procedural social arcs and causal stage progression.
 
 - **v0.7.1** — NPC cognition, subjective beliefs, concerns, goals, ambitions, revision and bounded retrieval.

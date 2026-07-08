@@ -567,6 +567,7 @@ class Game:
         self.state.setdefault("npc_social_web", SOCIAL_MODEL.runtime_defaults())
         self.state.setdefault("npc_knowledge", KNOWLEDGE_MODEL.runtime_defaults(list(self.state.get("npcs",{}))))
         self.state.setdefault("mystery_investigation", INVESTIGATION_MODEL.runtime_defaults())
+        INVESTIGATION_MODEL.refresh(self.state["mystery_investigation"])
         self.state.setdefault("systemic_horror", HORROR_MODEL.runtime_defaults())
         self.state.setdefault("player_identity", PLAYER_IDENTITY_MODEL.runtime_defaults())
         self.state.setdefault("danger", DANGER_MODEL.runtime_defaults())
@@ -691,6 +692,7 @@ class Game:
         cursor = min(self.state["ui"].get("message_cursor", 0), len(self.state["history"]))
         state["new_messages"] = deepcopy(self.state["history"][cursor:])
         state["time"] = self.time_label()
+        state["mystery_overview"] = self.investigation_overview()
         state["quests"] = {
             "main": self.visible_quests("main"),
             "side": self.visible_quests("side"),
@@ -1896,6 +1898,7 @@ class Game:
         for mid in INVESTIGATION_MODEL.links_for_evidence(eid):
             prog=runtime["mystery_progress"].setdefault(mid,{"evidence":[],"testimony":[],"hypotheses":[]})
             if eid not in prog["evidence"]: prog["evidence"].append(eid)
+        INVESTIGATION_MODEL.refresh(runtime)
         return True
 
     def record_testimony(self, npc_id, fact_id):
@@ -1917,6 +1920,7 @@ class Game:
         variants={x.get("variant") for x in runtime["testimony"] if x.get("fact_id")==fact_id}
         if len(variants)>1 and not any(x.get("fact_id")==fact_id for x in runtime["contradictions"]):
             runtime["contradictions"].append({"fact_id":fact_id,"variants":sorted(variants),"status":"unresolved"})
+        INVESTIGATION_MODEL.refresh(runtime)
         return True
 
     def assess_hypothesis(self, hypothesis_id):
@@ -1926,11 +1930,12 @@ class Game:
         runtime["hypotheses"][hypothesis_id]=result
         mid=result["mystery"]; prog=runtime["mystery_progress"].setdefault(mid,{"evidence":[],"testimony":[],"hypotheses":[]})
         if hypothesis_id not in prog["hypotheses"]: prog["hypotheses"].append(hypothesis_id)
+        INVESTIGATION_MODEL.refresh(runtime)
         return deepcopy(result)
 
     def investigation_overview(self):
         runtime=self.state.setdefault("mystery_investigation",INVESTIGATION_MODEL.runtime_defaults())
-        return {"eligible_hypotheses":[{"id":hid,"support":support} for hid,support in INVESTIGATION_MODEL.eligible_hypotheses(runtime)],"hypotheses":deepcopy(runtime["hypotheses"]),"contradictions":deepcopy(runtime["contradictions"]),"mystery_progress":deepcopy(runtime["mystery_progress"])}
+        return INVESTIGATION_MODEL.public_overview(runtime)
 
     def record_evidence(self, evidence_id, title, text, location=None, source="observation"):
         """Add one durable, player-facing observation without duplicating it."""
