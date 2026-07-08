@@ -3,6 +3,7 @@ from backend.ai.repair import LABEL
 from backend.core.world_model import WORLD_MODEL
 from backend.core.npc_model import NPC_MODEL
 from backend.core.purpose_model import PURPOSE_MODEL
+from backend.core.town_mind_model import TOWN_MIND_MODEL
 import random
 
 WEATHER_TRANSITIONS={
@@ -38,7 +39,8 @@ def weather_round(s):
         "diurnal_position":"warming toward afternoon" if 6 <= hour < 15 else "cooling toward night",
         "current_weather":cur,
         "village_mood":s["village_brain"]["mood"],
-        "recent_events":s.get("world_events",[])[-1:]
+        "recent_events":s.get("world_events",[])[-1:],
+        "town_mind_intentions":TOWN_MIND_MODEL.director_context(s)
     }
     choice=provider.ask_choice(
         "weather",
@@ -284,7 +286,8 @@ def npc_round(s):
          "authored_identity":NPC_MODEL.dialogue_identity(npc_id) if npc_id in NPC_MODEL.npcs else {},
          "personal_life":s.get("npc_lives",{}).get(npc_id,{}),
          "purpose_constraints":NPC_MODEL.purpose_context(npc_id,s["minute"],s["weather"]["state"]) if npc_id in NPC_MODEL.npcs else {},
-         "purpose_plan":PURPOSE_MODEL.context(npc_id,s,plausible) if npc_id in NPC_MODEL.npcs else {}}
+         "purpose_plan":PURPOSE_MODEL.context(npc_id,s,plausible) if npc_id in NPC_MODEL.npcs else {},
+         "town_mind_intentions":TOWN_MIND_MODEL.director_context(s)}
     instruction=(f"Choose what {npc['name']} should do next. Pick one plausible action that makes the village feel alive. "
                  "Respect authored identity, personal needs, obligations, occupation, location, time, memories and continuity, but introduce grounded variety. "
                  "Strongly avoid repeating recent action IDs or generic loops unless circumstances clearly demand it.")

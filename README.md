@@ -134,3 +134,9 @@ Free-form NPC dialogue is intentionally concise on low-end local hardware. NPCs 
 Recent conversation context is compacted before it is sent to Ollama instead of injecting the same full NPC reply repeatedly. The provider detects near-verbatim reply loops and can perform one bounded corrective retry. Ordinary greetings and brief weather small talk are engine-clamped so they cannot create implausible trust or major familiarity gains.
 
 The normal Ollama workflow remains unchanged: pull the recommended models once, then run `./run.sh`. Bellwether automatically uses all CPU threads available to the process and routes local Ollama calls internally.
+
+## v0.7.0 Town Mind architecture
+
+Bellwether now includes the first strategic Town Mind layer. It performs an opening strategic review and infrequent periodic reviews, using the locally installed deep Ollama model when available. On the recommended low-end profile, routine and foreground tasks use `qwen3.5:2b`, while Town Mind reviews route to `qwen3.5:4b` automatically. No environment variables are required.
+
+Town Mind cannot directly change weather, move NPCs, create facts, alter quests, or mutate resources. It chooses only from a validated catalogue of strategic intentions. Accepted intentions are persistent, expire or are revised, and are supplied as context to specialist systems. The authority chain remains: Town Mind proposes direction; specialist systems make bounded proposals; validators enforce legality; the deterministic engine applies accepted changes.

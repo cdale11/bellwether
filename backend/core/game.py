@@ -32,6 +32,7 @@ from backend.core.memory_model import MEMORY_MODEL
 from backend.core.population_model import POPULATION_MODEL
 from backend.core.social_consequence_model import SOCIAL_CONSEQUENCE_MODEL
 from backend.core.travel_model import TRAVEL_MODEL
+from backend.core.town_mind_model import TOWN_MIND_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -208,6 +209,7 @@ INITIAL_STATE = {
     "population": POPULATION_MODEL.runtime_defaults(),
     "social_consequences": SOCIAL_CONSEQUENCE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "travel": TRAVEL_MODEL.runtime_defaults(),
+    "town_mind": TOWN_MIND_MODEL.runtime_defaults(),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -653,6 +655,9 @@ class Game:
             "world_rounds": 0,
             "failed_rounds": 0
         })
+        self.state.setdefault("town_mind", TOWN_MIND_MODEL.runtime_defaults())
+        for key, value in TOWN_MIND_MODEL.runtime_defaults().items():
+            self.state["town_mind"].setdefault(key, deepcopy(value))
         self.state.setdefault("director_status", {
             "mode": "deterministic",
             "last_ai_domains": [],
@@ -923,6 +928,8 @@ class Game:
         # Universal AI World round: ordinary movement, dialogue, rest, quests,
         # and sleep all reach this path through time advancement.
         self.maybe_run_ai_directors(run_now=run_directors)
+        if run_directors:
+            self.maybe_run_town_mind()
 
     def record_world_event(self, text, domain="village", actor=None):
         event = {"time": self.time_label(), "domain": domain, "text": text}
@@ -1612,6 +1619,41 @@ class Game:
             self.add("Bellwether", f"{vehicle['name']} is nearby, {vehicle['activity']}.")
         if not visible and not nearby:
             self.add("Bellwether", s["ambient"].get("village","The village carries on around you."))
+
+    def run_town_mind_review(self, reason="scheduled"):
+        """One bounded strategic review. Town Mind creates intentions, never direct world mutations."""
+        s=self.state
+        tm=s.setdefault("town_mind", TOWN_MIND_MODEL.runtime_defaults())
+        pulse=s.get("village_brain",{}).get("pulse_count",0)
+        TOWN_MIND_MODEL.expire(s)
+        candidates=TOWN_MIND_MODEL.candidates(s)
+        context=TOWN_MIND_MODEL.compact_context(s)
+        choice=provider.ask_choice(
+            "town_mind",
+            "Choose one strategic intention for the village simulation. Prefer an intention justified by current state and player pacing. Do not invent facts or events; choose only a direction for specialist systems to consider.",
+            context,candidates
+        )
+        tm["review_count"]+=1; tm["last_review_pulse"]=pulse
+        if choice is None:
+            # Deterministic fallback keeps the architecture active without pretending AI succeeded.
+            choice=candidates[pulse % len(candidates)] if candidates else None
+            model_name="deterministic_fallback"
+        else:
+            model_name=provider.model_for_task("town_mind")
+        accepted=TOWN_MIND_MODEL.validate_and_apply(s,choice,model_name,reason) if choice else False
+        if accepted:
+            self.record_world_event("The village's underlying pressures have been reconsidered.","town_mind")
+        return accepted
+
+    def maybe_run_town_mind(self):
+        """Review at the beginning of a run and then infrequently to protect low-end hardware."""
+        s=self.state; pulse=s.get("village_brain",{}).get("pulse_count",0)
+        tm=s.setdefault("town_mind",TOWN_MIND_MODEL.runtime_defaults())
+        due=(tm.get("review_count",0)==0 and pulse>=1) or (pulse-tm.get("last_review_pulse",-999)>=18)
+        if due:
+            return self.run_town_mind_review("opening_review" if tm.get("review_count",0)==0 else "periodic_review")
+        TOWN_MIND_MODEL.expire(s)
+        return False
 
     def run_ai_directors(self, domains, reason="scheduled"):
         """Run one non-reentrant Director batch."""

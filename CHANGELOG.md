@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.7.0 — Town Mind Architecture
+
+- Added persistent Town Mind strategic state with bounded, revisable intentions.
+- Added infrequent opening and periodic strategic reviews routed to the deep Ollama model.
+- Added compact strategic context construction for low-end hardware.
+- Added strict predefined intention catalogue, validation, expiry, replacement, history, and deterministic fallback.
+- Town Mind intentions influence specialist Director context but cannot directly mutate world state.
+- Added migration-safe Town Mind state and focused diagnostics.
+
+
 ## v0.6.1 — Travel and Journey Depth
 
 - Added persistent route familiarity, journey counts and journey history.
