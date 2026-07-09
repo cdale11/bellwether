@@ -1,0 +1,31 @@
+BELLWETHER v1.0 RC1 — COMPLETE STORY AUDIT REPORT
+
+Scope: complete authored narrative architecture from arrival through ending eligibility, README/documentation repair, and regression certification.
+
+The RC1 story spine is deterministic and validator-owned. LLM output cannot advance chapters or create revelations. Eight authored stages connect arrival, ordinary life, Eleanor's distributed archive, incompatible witness memory, geographic/record contradictions, recognition of the Chorus-like network pattern, Eleanor's anchoring method, and convergence. Gates accept multiple investigation orders by evaluating accumulated authoritative state.
+
+RC1 intentionally stops at ending eligibility. Legacy generic placeholder ending actions are no longer exposed; the canonical ending families remain scheduled for RC2. Existing branch-state data and migration compatibility are preserved.
+
+README.md was rewritten rather than appended to. Version heading, opening summary, model setup, async runtime description, story architecture, diagnostics, and roadmap sequence now agree with the package version.
+
+Repository audit requirements: compile every Python file; parse every JSON file; validate JavaScript and shell syntax; inspect duplicate HTML ids; inspect duplicate top-level documentation headings; remove pyc/cache artifacts; preserve Developer/Settings access and API endpoints; run focused release diagnostics and cumulative regression; verify archive integrity and run.sh executable permission.
+
+FINAL CERTIFICATION RESULTS
+- RC1 focused story diagnostic: 13/13 PASS.
+- Every focused diagnostic from v0.4.0 through v1.0 RC1: PASS.
+- Cumulative post-v0.1.0 Parts 1–20 suite: PASS.
+- Python compilation: PASS.
+- All packaged JSON parsing: PASS.
+- Frontend JavaScript syntax: PASS.
+- Shell syntax: PASS.
+- 17 packaged images integrity verification: PASS.
+- Duplicate static HTML ids: none.
+- README current-version and single-heading consistency: PASS.
+- CHANGELOG single top-level heading consistency: PASS.
+- Accepted v0.9.1 baseline file-removal comparison: 0 files removed.
+- Developer / Settings UI marker and /api/developer-status endpoint: preserved.
+- Runtime construction, public view, JSON serialization, and action generation: PASS.
+- Stale pyc/__pycache__ artifacts removed before packaging.
+- run.sh executable permission: 755.
+
+Known boundary: RC1 provides the complete authored central-story architecture and deterministic convergence to ending eligibility. The six canonical ending families remain deliberately unimplemented until RC2, as required by the agreed roadmap.

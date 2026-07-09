@@ -39,6 +39,8 @@ from backend.core.travel_model import TRAVEL_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
 from backend.core.cognition_model import COGNITION_MODEL
 from backend.core.procedural_arc_model import PROCEDURAL_ARC_MODEL, ARC_TEMPLATES
+from backend.core.story_model import STORY_MODEL
+from backend.core.ending_model import ENDING_MODEL, FAMILIES
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -221,6 +223,7 @@ INITIAL_STATE = {
     "town_mind": TOWN_MIND_MODEL.runtime_defaults(),
     "npc_cognition": COGNITION_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "procedural_arcs": PROCEDURAL_ARC_MODEL.runtime_defaults(),
+    "authored_story": STORY_MODEL.runtime_defaults(),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -443,25 +446,16 @@ class Game:
         return b["endgame_unlocked"]
 
     def resolve_ending(self, ending_id):
-        """Authored ending families; branch scores alter framing, not canon."""
-        s=self.state; b=s["branch_state"]
-        if not b["endgame_unlocked"] or b["run_complete"]: return
-        endings={
-          "stay":{"title":"The House Kept Warm","text":"You decide to stay. Not because every question has been answered, but because Bellwether has become a place in which your choices have weight. You put the kettle on."},
-          "leave":{"title":"The Road Beyond Bellwether","text":"You pack deliberately and leave by daylight. The village does not stop you. From the road, Ashcroft Cottage looks smaller than you expected, but not empty."},
-          "share":{"title":"What the Village Knows","text":"You decide not to carry your observations alone. You begin with the people who have earned your trust, comparing memories carefully and refusing easy explanations."},
-          "keep":{"title":"A Private Pattern","text":"You keep the notebook close and say little. Bellwether continues around you while you preserve the pattern exactly as you experienced it."},
-        }
-        if ending_id not in endings:return
-        data=endings[ending_id]
-        b["ending"]={"id":ending_id,"title":data["title"],"day":s["day"],"time":self.time_label(),
-                     "scores":{k:b[k] for k in ("care","community","inquiry","avoidance")}}
-        b["run_complete"]=True
-        self.add("Ending",data["title"])
-        self.add("Narrator",data["text"])
-        self.add("Journal","Run complete. You may save this run, continue observing its final state, or begin a new run.")
-        self.record_world_event(f"Run ending reached: {data['title']}.","ending","player")
-        self.compile_llm_overview()
+        """Resolve one deterministic canonical ending family after eligibility validation."""
+        s=self.state; rt=ENDING_MODEL.migrate(s)
+        if rt.get("resolved") or ending_id not in ENDING_MODEL.refresh(s): return False
+        data=FAMILIES[ending_id]
+        rt["resolved"]={"id":ending_id,"title":data["title"],"day":s["day"],"time":self.time_label(),"metrics":ENDING_MODEL.metrics(s)}
+        b=s.setdefault("branch_state",{}); b["run_complete"]=True; b["ending"]=deepcopy(rt["resolved"])
+        self.add("Ending",data["title"]); self.add("Narrator",data["text"])
+        self.add("Journal","Run complete. Bellwether's post-resolution life will be expanded in v1.0 RC3.")
+        self.record_world_event(f"Canonical ending reached: {data['title']}.","ending","player")
+        self.compile_llm_overview(); return True
 
     def horror_eligibility(self):
         """Horror requires learned normality; time alone cannot force escalation."""
@@ -550,6 +544,15 @@ class Game:
         if s["flags"].get("read_letter") and s["weather"].get("state")=="heavy_rain" and s["location"]=="ashcroft_cottage":
             unlock("first_storm_at_ashcroft","The player experienced heavy rain at Ashcroft Cottage after reading Eleanor's letter.",
                    "Narrator","Rain works across the cottage in layers: roof, glass, gutter, leaves. For a while, every sound has an ordinary source.")
+        story_step=STORY_MODEL.advance_if_ready(s)
+        if story_step:
+            self.add("Story", story_step["text"])
+            if story_step.get("next"):
+                nxt=STORY_MODEL.current(s)
+                self.add("Journal", f"Main Story added: {nxt['title']} — {nxt['objective']}")
+            elif story_step.get("ending_eligible"):
+                self.add("Journal", "The central story has reached ending eligibility. The ending families are reserved for v1.0 RC2.")
+            self.record_world_event(f"Authored story gate completed: {story_step['completed']}","authored_story")
         self.compile_llm_overview()
 
     def time_label(self):
@@ -590,6 +593,8 @@ class Game:
         COGNITION_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         COGNITION_MODEL.bootstrap_authoritative_context(self.state, NPC_MODEL, KNOWLEDGE_MODEL)
         PROCEDURAL_ARC_MODEL.migrate(self.state)
+        STORY_MODEL.migrate(self.state)
+        ENDING_MODEL.migrate(self.state)
         POPULATION_MODEL.migrate(self.state)
         SOCIAL_CONSEQUENCE_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         TRAVEL_MODEL.migrate(self.state)
@@ -706,9 +711,15 @@ class Game:
         state["new_messages"] = deepcopy(self.state["history"][cursor:])
         state["time"] = self.time_label()
         state["mystery_overview"] = self.investigation_overview()
+        state["authored_story_overview"] = STORY_MODEL.public(self.state)
+        state["ending_families_overview"] = ENDING_MODEL.public(self.state)
         state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
+        story_public=STORY_MODEL.public(self.state)
+        main_quests=self.visible_quests("main")
+        if not story_public.get("ending_eligible"):
+            main_quests=main_quests + [{"id":"rc1:"+story_public["chapter"],"title":story_public["title"],"objective":story_public["objective"],"done":False}]
         state["quests"] = {
-            "main": self.visible_quests("main"),
+            "main": main_quests,
             "side": self.visible_quests("side"),
         }
         present_npcs = [
@@ -855,13 +866,10 @@ class Game:
         if "short_of_money" in setbacks:
             actions.append({"id":"recover:help","label":"Ask Around for Practical Work","kind":"life"})
 
-        if loc=="ashcroft_cottage" and s.get("branch_state",{}).get("endgame_unlocked") and not s["branch_state"].get("run_complete"):
-            actions.extend([
-                {"id":"ending:stay","label":"Choose to Stay in Bellwether","kind":"story"},
-                {"id":"ending:leave","label":"Prepare to Leave Bellwether","kind":"story"},
-                {"id":"ending:share","label":"Share What You Know with Trusted People","kind":"story"},
-                {"id":"ending:keep","label":"Keep the Pattern to Yourself","kind":"story"},
-            ])
+        # v1.0 RC2: expose only deterministic ending families earned by authoritative play state.
+        if STORY_MODEL.public(s).get("ending_eligible") and not s.get("ending_families",{}).get("resolved"):
+            for ending_id in ENDING_MODEL.refresh(s):
+                actions.append({"id":f"ending:{ending_id}","label":f"Choose: {FAMILIES[ending_id]['title']}","kind":"story"})
 
         for label, target in WORLD[loc]["exits"].items():
             actions.append({"id": f"move:{target}", "label": label, "kind": "travel"})
@@ -914,7 +922,7 @@ class Game:
         domains=list(scheduler.get("pending_domains",[]))
         scheduler["pending_domains"]=[]
         if domains:
-            self.run_ai_directors(domains, "coalesced_player_action")
+            self.queue_ai_directors(domains, "coalesced_player_action")
 
 
     def village_pulse(self, run_directors=True):
@@ -1674,6 +1682,11 @@ class Game:
                 if choice and choice.get("id") in legal and len(root.get("active",[]))<PROCEDURAL_ARC_MODEL.MAX_ACTIVE:
                     if PROCEDURAL_ARC_MODEL.start(s,choice.get("id"),provider.model_for_task("procedural_arc")): applied+=1
                 else: stale+=1
+            elif kind=="director_batch":
+                proposals=choice if isinstance(choice,dict) else {}
+                if proposals:
+                    self.apply_director_proposals(proposals); self.propagate_world_consequences("async_director"); s["ai_runtime"]["world_rounds"]+=1; applied+=1
+                else: stale+=1
         rt=s.setdefault("ai_runtime",{}); rt["async_applied"]=rt.get("async_applied",0)+applied; rt["async_stale_or_rejected"]=rt.get("async_stale_or_rejected",0)+stale
         rt["background_worker"]=ASYNC_AI_RUNTIME.status(); return applied
 
@@ -1754,6 +1767,21 @@ class Game:
         if due: return self.queue_procedural_arc_proposal("opening_arc" if root.get("proposal_count",0)==0 else "periodic_arc")
         return False
 
+    def queue_ai_directors(self, domains, reason="scheduled"):
+        """Queue ordinary Director inference without blocking deterministic gameplay."""
+        domains=list(dict.fromkeys(domains)); s=self.state
+        if not domains: return False
+        self.compile_llm_overview()
+        frozen_state=deepcopy(s); frozen_overview=deepcopy(getattr(provider,"overview_context",{}))
+        revision=self._async_state_revision(); signature=tuple(domains)
+        def work():
+            with provider.scoped_overview_context(frozen_overview):
+                return run_specific_round(frozen_state,domains)
+        ok=ASYNC_AI_RUNTIME.submit("director_batch","director_batch",revision,signature,work)
+        if ok:
+            s.setdefault("ai_runtime",{})["last_async_director_reason"]=reason
+        return ok
+
     def run_ai_directors(self, domains, reason="scheduled"):
         """Run one non-reentrant Director batch."""
         s = self.state
@@ -1802,7 +1830,7 @@ class Game:
                 if domain not in pending:
                     pending.append(domain)
             return False
-        return self.run_ai_directors(due,"normal_gameplay")
+        return self.queue_ai_directors(due,"normal_gameplay")
 
 
     def apply_director_proposals(self, proposals):

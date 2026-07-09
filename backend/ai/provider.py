@@ -1,5 +1,6 @@
 
 import json, os, re, time, urllib.request, random, threading, difflib
+from contextlib import contextmanager
 
 _OPTION_TOKEN_RE = re.compile(r'(?<![A-Z])([A-Z])(?![A-Z])')
 
@@ -45,6 +46,7 @@ class AIProvider:
         # It is not model-hidden state: it is explicit saveable metadata rebuilt from
         # authoritative game state and attached to every Director/dialogue request.
         self.overview_context = {}
+        self._thread_context = threading.local()
         self.recent_call_memory = []
 
 
@@ -81,9 +83,23 @@ class AIProvider:
     def set_overview_context(self, overview):
         self.overview_context = overview or {}
 
+    @contextmanager
+    def scoped_overview_context(self, overview):
+        """Use a detached overview for one worker thread without racing the game thread."""
+        previous = getattr(self._thread_context, "overview", None)
+        self._thread_context.overview = overview or {}
+        try:
+            yield
+        finally:
+            if previous is None:
+                try: del self._thread_context.overview
+                except AttributeError: pass
+            else:
+                self._thread_context.overview = previous
+
     def _context_projection(self, director):
         """Route compact global memory; bounded calls get only non-duplicated essentials."""
-        o=self.overview_context or {}
+        o=getattr(self._thread_context, "overview", self.overview_context) or {}
         world=o.get("world_now",{})
         if director=="weather":
             return {

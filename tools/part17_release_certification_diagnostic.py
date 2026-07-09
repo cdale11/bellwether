@@ -60,6 +60,6 @@ from backend.core.activity_model import ACTIVITY_MODEL
 acts=ACTIVITY_MODEL.available_garden_actions(gseed.state)
 r.append(check('fresh garden cannot sow unowned seeds',not any(a.startswith('garden:sow:') for a,_ in acts)))
 # Version and no dev suffix.
-version=(ROOT/'VERSION').read_text().strip(); r.append(check('release lineage valid',version.startswith(('0.2.','0.3.','0.4.','0.5.','0.6.','0.7.','0.8.','0.9.'))))
+version=(ROOT/'VERSION').read_text().strip(); r.append(check('release lineage valid',version.startswith(('0.2.','0.3.','0.4.','0.5.','0.6.','0.7.','0.8.','0.9.','1.0'))))
 print(f'Part 17 passes: {sum(r)}/{len(r)}')
 raise SystemExit(0 if all(r) else 1)

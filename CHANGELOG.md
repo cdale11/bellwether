@@ -8,6 +8,16 @@
 
 # Changelog
 
+## v1.0 RC1 — Complete Story
+
+- Added an eight-stage deterministic authored story spine from arrival to ending eligibility.
+- Connected story progression to ordinary life, place familiarity, investigation breadth, mystery depth, trusted relationships, experienced contradictions, story beats, and recurrence anchors.
+- Added protected authored revelations and persistent story-gate history.
+- Added current story chapter/objective to the public game view and Developer Console.
+- Preserved multiple investigation orders by using accumulated-state gates rather than a brittle single clue path.
+- Removed exposure of legacy placeholder ending choices; canonical ending families are reserved for RC2.
+- Rewrote README.md as a single coherent current-version document and removed accumulated release drift.
+
 ## v0.9.0 — Recurrence Expansion
 
 - Expanded recurrence runtime to schema v2 with migration from schema v1.
@@ -635,3 +645,12 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added daily fading of low-confidence subjective beliefs without degrading authoritative facts.
 - Added old-save migration and focused v0.7.1 diagnostics.
 - Rebuilt README.md to accurately describe the current release, direct Ollama setup, CPU-thread behaviour, AI authority, conversation limits and diagnostic commands.
+
+## v1.0 RC2 — Ending Families and Runtime Optimisation
+
+- Added six deterministic canonical ending families.
+- Added state-derived ending eligibility and Developer Console inspection.
+- Moved ordinary NPC, traffic, weather, and ambient conversation Director inference to the background worker.
+- Added thread-local prompt overview snapshots so background inference cannot race foreground context.
+- Preserved one-inference-at-a-time scheduling for low-memory systems.
+- Rewrote README in simpler current-state language.

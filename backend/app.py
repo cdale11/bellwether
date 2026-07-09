@@ -13,6 +13,8 @@ from backend.core.interface_horror_model import INTERFACE_HORROR_MODEL
 from backend.ai.provider import provider
 from backend.ai.async_runtime import ASYNC_AI_RUNTIME
 from backend.core.failure_recovery_model import FAILURE_RECOVERY_MODEL
+from backend.core.story_model import STORY_MODEL
+from backend.core.ending_model import ENDING_MODEL
 
 ROOT = Path(__file__).resolve().parent.parent
 app = FastAPI(title="Bellwether")
@@ -55,6 +57,7 @@ def developer_status():
         "events": {"dynamic_events": s.get("dynamic_events", {}), "recent_world_events": s.get("world_events", [])[-20:]},
         "horror": {"pressure": s.get("supernatural_pressure", 0), "state": s.get("horror", {}), "psychology": s.get("psychology", {}), "anomaly_history": s.get("anomaly_history", [])[-20:], "adaptive": HORROR_MODEL.developer_context(game.state), "aftermath": HORROR_AFTERMATH_MODEL.developer_context(game.state), "interface": INTERFACE_HORROR_MODEL.developer_context(game.state)},
         "investigation": {"notebook": s.get("investigation", {}), "mysteries": game.investigation_overview()},
+        "authored_story": STORY_MODEL.public(game.state), "ending_families": ENDING_MODEL.public(game.state),
         "economy": {"money": s.get("money"), "economy": s.get("economy", {}), "employment": s.get("employment", {}), "activities": s.get("activities", {})},
         "provider": provider.last_status, "ai_runtime": {**s.get("ai_runtime", {}), "background": ASYNC_AI_RUNTIME.status()}, "failure_recovery": FAILURE_RECOVERY_MODEL.developer_context(game.state),
         "ai_events": s.get("ai_events", [])[-20:], "traces": provider.debug_traces[-40:]

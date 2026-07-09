@@ -12,7 +12,7 @@ js=(ROOT/'frontend/static/js/game.js').read_text()
 app=(ROOT/'backend/app.py').read_text()
 version=(ROOT/'VERSION').read_text().strip()
 
-check('version lineage is v0.8.1 or later', tuple(map(int,version.split('.'))) >= (0,8,1))
+check('version lineage is v0.8.1 or later', version.startswith('1.') or (version.startswith('0.') and tuple(map(int,version.split('.')[:3])) >= (0,8,1)))
 check('developer/settings button exists', 'id="dev-button"' in html and 'Developer / Settings' in html)
 check('developer/settings button is not hidden by default', 'id="dev-button" class="dev-only hidden"' not in html)
 check('developer console remains packaged', 'id="developer-modal"' in html and 'openDeveloperConsole()' in html)
