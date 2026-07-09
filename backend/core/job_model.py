@@ -21,17 +21,21 @@ class JobModel:
    emp.setdefault("active",True); emp.setdefault("accepted_day",state.get("day",1)); emp.setdefault("last_shift_day",None); emp.setdefault("shifts",0); emp.setdefault("earned",0); emp.setdefault("reliability",50); emp.setdefault("level",1)
   return rt
  def current_wage(self,state,jid):
+  from backend.core.economy_model import ECONOMY_MODEL
   rt=self.migrate(state); emp=rt["employment"].get(jid,{})
   # Modest progression: +¤1 after 5 shifts, another after 12; capped.
   shifts=int(emp.get("shifts",0)); bonus=2 if shifts>=12 else (1 if shifts>=5 else 0)
-  return JOBS[jid]["wage"]+bonus
+  base=JOBS[jid]["wage"]+bonus
+  mod=ECONOMY_MODEL.job_modifier(state,jid)
+  return max(1,round(base*mod.get("wage_factor",1.0)))
  def available_actions(self,state):
   from backend.core.event_model import EVENT_MODEL
   rt=self.migrate(state); out=[]; loc=state.get("location"); minute=int(state.get("minute",0)); dow=((int(state.get("day",1))-1)%7)+1
   for jid,j in JOBS.items():
    emp=rt["employment"].get(jid)
    if not emp:
-    if loc==j["location"]: out.append((f"job:apply:{jid}",f"Ask About Work: {j['name']}"))
+    from backend.core.economy_model import ECONOMY_MODEL
+    if loc==j["location"] and ECONOMY_MODEL.job_modifier(state,jid).get("available",True): out.append((f"job:apply:{jid}",f"Ask About Work: {j['name']}"))
    elif emp.get("active"):
     if EVENT_MODEL.job_available(state,jid) and loc==j["location"] and dow in j["days"] and j["start"]<=minute<j["end"] and emp.get("last_shift_day")!=state.get("day"):
      wage=self.current_wage(state,jid); out.append((f"job:work:{jid}",f"Work Shift: {j['name']} ({j['shift_minutes']//60}h, ¤{wage})"))
@@ -39,6 +43,8 @@ class JobModel:
   return out
  def apply(self,state,jid):
   if jid not in JOBS:return False,"That work does not exist."
+  from backend.core.economy_model import ECONOMY_MODEL
+  if not ECONOMY_MODEL.job_modifier(state,jid).get("available",True): return False,"The business cannot take on another worker while conditions are this strained."
   rt=self.migrate(state); j=JOBS[jid]
   if state.get("location")!=j["location"]:return False,"You need to ask about that work in person."
   existing=rt["employment"].get(jid)

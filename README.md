@@ -1,35 +1,39 @@
-# Bellwether v1.0.12
+# Bellwether v1.1.0
 
-Bellwether is a local-first village life simulation and psychological horror RPG. The deterministic engine owns authoritative state; local LLMs make bounded proposals and player-like choices through legal public actions.
+Bellwether is a narrative village life-sim and psychological-horror RPG. The simulation is authoritative and deterministic; local LLMs make bounded decisions, interpret changing conditions, drive NPC/world responses, and support autonomous testing without being allowed to rewrite canonical state.
+
+## v1.1.0 — Economy and Village Change
+
+This release adds persistent business health, cash reserves, staffing, supply routes, demand, stock pressure, bounded dynamic pricing, employment consequences, village economic outlook, player support for strained businesses, and economic history. Weather and world-runtime delivery disruption now propagate into supply conditions. Business health can affect hiring and wages, while accounting remains deterministic.
+
+The release also folds in the v1.0.12 playtest findings. The autonomous player now uses compact task-specific state, numeric low-token choices, goal-aware ranking, direct execution of obvious prerequisite steps, goal-stall replanning, and goal-aware fallbacks. High-frequency action selection no longer receives the broad world context projection used by Directors. Provider traces already record prompt size, queue wait, inference duration and Ollama token/duration fields for performance diagnosis.
+
+Full diagnostics remain isolated from the live save. They continuously checkpoint and now also write append-only per-run decision traces under `diagnostics/runs/`, so interrupted long tests retain evidence. Simulation-duration certification and player-action coverage remain separately visible in the report.
 
 ## Run
 
-Install Ollama and pull the configured models, then run `./run.sh` and open the local address printed in the terminal.
+Requirements: Python 3.10+ and the packages in `requirements.txt`. Ollama is optional for deterministic play but required for real AI-assisted runtime and full AI stress certification.
 
-## v1.0.12 corrective certification release
+```bash
+./run.sh
+```
 
-v1.0.12 corrects issues exposed by the v1.0.11 113-minute playtest. The diagnostic AI player now tracks LLM successes, timeouts, invalid responses, fallbacks and no-effect actions separately. Repeated ineffective actions are temporarily blocked until the plan/state changes, coverage goals bias candidate ranking toward relevant prerequisite chains, and the UI no longer displays misleading counters such as `AI 68/63`.
+Open the local address printed by the server. Developer diagnostics are available from the in-game developer panel.
 
-The full diagnostic now verifies that its advertised seven-day simulation actually reaches the required day span, reports a failure if it does not, and has a larger bounded action allowance. Natural horror pacing is not distorted for test coverage: ordinary play records natural exposure while a separate isolated certification checks authored anomaly application, overlay authority and expiry. Procedural content receives a separate controlled lifecycle certification covering start, public involvement and resolution.
+## Local AI
 
-Diagnostic state is checkpointed continuously and atomically to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`. If the browser closes, the server stops, or a long test is interrupted, the most recent trace, phase, counters and feed remain available for examination. The Developer Console restores the interrupted checkpoint summary on restart.
+Bellwether automatically discovers supported locally installed Ollama models. Environment overrides remain optional. The runtime uses all CPU threads available to the process by default. Stable specialist contracts, compact domain projections and bounded output budgets reduce unnecessary prompt evaluation and generation.
 
-The Economy diagnostic cards now render the fictional Bellwether currency mark as markup instead of showing raw HTML. Live AI-player status distinguishes successful model choices from timeout/invalid fallbacks.
+Useful overrides include `BELLWETHER_AI_THREADS`, `BELLWETHER_AI_NUM_CTX`, `BELLWETHER_AUTOPLAYER_TIMEOUT`, `BELLWETHER_BOUNDED_AI_TIMEOUT`, `BELLWETHER_AI_FAST_MODEL`, and `BELLWETHER_AI_DEEP_MODEL`.
 
-## Full diagnosis
+## Save and diagnostics
 
-Open the Developer Console and choose **Run Full Game Diagnosis**. This uses an isolated disposable world and does not replace the real save. It performs real specialist calls, a coverage-driven LLM playtest through public actions, climate/ecology checks, persistence checks, controlled procedural lifecycle certification and controlled horror-pipeline certification.
+The normal save/export flow produces copyable JSON. Diagnostic checkpoint files are written to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`; detailed run traces are stored under `diagnostics/runs/`.
 
-Progress is saved throughout the run. When complete, use **Copy Diagnostic Report** or **Export Report**. If interrupted, provide either checkpoint file from the `diagnostics/` directory.
+## Design rule
 
-## Autonomous play
+LLMs may propose or choose bounded actions. Money, inventory, business health transitions, stock, jobs, crop growth, story gates, horror authority and save state remain validated by game systems.
 
-Choose **Let the Village Play** to let the local LLM advance only ordinary, non-authored gameplay in the current run. The live display reports action count, successful LLM choices, timeouts and fallbacks. **Stop AI Player** is cooperative: an in-flight local inference may finish, but its result is discarded and no post-stop action is applied.
+### Bounded working sessions
 
-## Saving
-
-Menu provides quick save/load and portable JSON export/import. A browser reload reconnects to the running server state. Use **Reset to Fresh Game** for a new run.
-
-## Roadmap
-
-After v1.0.12 certification stabilisation, the next major milestone remains **v1.1.0 — Economy and Village Change**: persistent business health, supply effects, prices, employment changes, business crises, player intervention and longer causal chains connecting weather, ecology, businesses, jobs, NPC routines and social consequences.
+The compact autonomous-player paths can reuse Ollama context tokens for bounded 24-turn working sessions, then rebase. This cache is disposable acceleration only: canonical state, memories, relationships and economy remain in the save and are recompiled from authoritative state.

@@ -821,3 +821,17 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added controlled procedural arc lifecycle certification: start, player involvement and resolution.
 - Fixed Economy diagnostic currency markup being escaped as literal HTML.
 - Improved mobile diagnostic layout and live AI-player status detail.
+
+## v1.1.0 — Economy and Village Change
+- Added persistent business health, cash reserve, staffing, supply, demand, pressure and recovery state.
+- Added deterministic supply routes affected by weather and delivery disruption.
+- Added bounded scarcity/pressure pricing and produce-demand feedback.
+- Connected business health to hiring availability and bounded wage pressure.
+- Added player support actions for strained businesses and persistent economic consequences.
+- Added village economic outlook, richer market history and longer economy ledger retention.
+- Reworked autonomous-player prompts into compact task-specific numeric-choice requests.
+- Added goal-aware direct steps, prerequisite bias, stall detection, replanning and goal-aware fallback selection.
+- Added shorter autonomous-player timeout defaults and preserved explicit timeout/fallback accounting.
+- Added append-only per-run diagnostic decision traces alongside atomic live checkpoints.
+- Fixed diagnostic live-feed currency rendering to use the shared crossed-B component.
+- Updated README and release metadata.

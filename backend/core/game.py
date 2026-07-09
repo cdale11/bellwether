@@ -2415,6 +2415,8 @@ class Game:
             ok,message=ECONOMY_MODEL.buy(s,sid,parts[3])
         elif verb=="sell" and len(parts)==3 and SHOPS[sid].get("buys_produce"):
             ok,message=ECONOMY_MODEL.sell_produce(s,parts[2])
+        elif verb=="support" and len(parts)==4 and parts[2]==sid:
+            ok,message=ECONOMY_MODEL.support_business(s,sid,int(parts[3]))
         self.add("Narrator",message)
         if ok:
             self.record_player_activity("economy_"+verb, message, 10, {"money":s.get("money",0)})

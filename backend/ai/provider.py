@@ -50,6 +50,10 @@ class AIProvider:
         self.overview_context = {}
         self._thread_context = threading.local()
         self.recent_call_memory = []
+        # v1.1.0 bounded local-model working sessions. Authoritative memory stays in save state.
+        # Ollama context tokens are reused only for compact high-frequency agents and rebased periodically.
+        self._session_contexts = {}
+        self._session_turns = {}
 
 
     def _installed_ollama_models(self):
@@ -300,7 +304,7 @@ class AIProvider:
         if self._last_trace_index is not None and 0 <= self._last_trace_index < len(self.debug_traces):
             self.debug_traces[self._last_trace_index].update(fields)
 
-    def _plain_request(self, director, prompt, max_tokens=120, temperature=0.5, no_think=False, tries_override=None, foreground=False, timeout_override=None):
+    def _plain_request(self, director, prompt, max_tokens=120, temperature=0.5, no_think=False, tries_override=None, foreground=False, timeout_override=None, session_key=None):
         """Raw Ollama request with complete observability and adaptive length recovery."""
         tries=max(1, int(tries_override if tries_override is not None else os.getenv("BELLWETHER_AI_RETRIES","3")))
         request_timeout=float(timeout_override if timeout_override is not None else self.timeout)
@@ -312,6 +316,8 @@ class AIProvider:
                 "model":self.model_for_task(director),"prompt":prompt,"stream":False,"keep_alive":"10m",
                 "options":{"temperature":temperature,"num_predict":current_tokens,"num_thread":self.num_threads,"num_ctx":self.num_ctx}
             }
+            if session_key and self._session_turns.get(session_key,0) < 24 and self._session_contexts.get(session_key):
+                payload_obj["context"] = self._session_contexts[session_key]
             if no_think:
                 # Qwen3 reasoning mode must be disabled through Ollama's top-level API field.
                 # A /no_think prompt prefix is not reliable for /api/generate.
@@ -359,6 +365,11 @@ class AIProvider:
                     text=str(outer.get("response",""))
                     trace["raw_response"]=text
                     trace["http_inference_ms"]=int((time.perf_counter()-http_started)*1000)
+                    if session_key and outer.get("context"):
+                        self._session_contexts[session_key]=outer.get("context")
+                        self._session_turns[session_key]=self._session_turns.get(session_key,0)+1
+                        if self._session_turns[session_key] >= 24:
+                            self._session_contexts.pop(session_key,None); self._session_turns[session_key]=0
                     trace["ollama_fields"]={
                         k:outer.get(k) for k in
                         ("model","created_at","done","done_reason","total_duration",
@@ -420,6 +431,24 @@ class AIProvider:
                     self._release_ai_slot()
             if attempt<tries: time.sleep(.25*attempt)
         return None
+
+
+    def ask_compact_choice(self, director, goal, state_line, candidates, timeout_override=None):
+        """v1.1.0 low-overhead choice protocol for high-frequency agents.
+        Stable prefix + compact delta + numeric action IDs minimizes prompt evaluation and output.
+        """
+        if not self.enabled or not candidates: return None
+        rows="\n".join(f"{i} {c.get('label','')[:90]}" for i,c in enumerate(candidates))
+        prompt=("BELLWETHER ACTION SELECTOR v1\nChoose one legal action that advances GOAL. "
+                "Avoid repetition and passive actions when a direct goal action exists. "
+                "Reply with one integer only.\n"
+                f"GOAL {goal}\nSTATE {state_line}\nACTIONS\n{rows}\nANSWER ")
+        timeout=float(timeout_override if timeout_override is not None else os.getenv("BELLWETHER_AUTOPLAYER_TIMEOUT","45"))
+        text=self._plain_request(director,prompt,max_tokens=4,temperature=.2,no_think=True,tries_override=1,foreground=True,timeout_override=timeout,session_key=director)
+        if not text:return None
+        m=re.search(r"\b(\d+)\b",text)
+        if not m:return None
+        idx=int(m.group(1));return candidates[idx] if 0<=idx<len(candidates) else None
 
     def ask_choice(self,director,question,context,candidates):
         """Choose one Director candidate and record every parser decision."""
