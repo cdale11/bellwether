@@ -49,7 +49,8 @@ def home():
 
 @app.get("/api/state")
 def state():
-    return game.view()
+    with game_lock:
+        return game.view()
 
 
 @app.get("/api/developer-status")
@@ -119,6 +120,11 @@ def load():
 def new_game():
     with game_lock:
         return game.new_game()
+
+@app.post("/api/reset-fresh")
+def reset_fresh():
+    with game_lock:
+        return game.reset_fresh()
 
 
 @app.post("/api/director-debug/clear")

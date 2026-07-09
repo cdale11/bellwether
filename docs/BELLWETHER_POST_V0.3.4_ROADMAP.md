@@ -828,3 +828,8 @@ v1.0 RC1 completes the authored central-story architecture from arrival through 
 v1.0 RC2 implements the six canonical ending families: Incorporation, False Escape, Rupture, Accommodation, Containment, and True Liberation-Coexistence. Eligibility is deterministic and derived from authoritative play state. RC2 also moves ordinary non-player-facing Director inference onto the validated background queue and keeps one local inference active at a time on low-memory systems. The next planned release is v1.0 RC3 — Postgame.
 
 RC3 implementation note: v1.0 RC3 adds persistent postgame life after ending resolution, while preserving farming, jobs, relationships, hobbies, side investigation and ending-specific changed village state. Background AI result harvesting and queue diagnostics were also repaired as release engineering work.
+
+
+## v1.0 Certification status
+
+v1.0 completes the certification milestone: UI decluttering, save/reload/reset clarity, recoverable atomic saves with provenance, repetition suppression, location-card presentation cleanup, long-session memory bounds, race-condition checks, language cleanup, regression testing, and distribution-package validation. The accepted roadmap through v1.0 is complete; future work must remain additive and preserve the certified behavioural baseline.

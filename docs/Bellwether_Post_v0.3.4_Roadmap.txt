@@ -797,7 +797,7 @@ v0.8.3 implements bounded horror consequence and recovery depth: witness-gated N
 
 ## Implementation status update — v0.8.4
 
-The originally planned Interface Horror milestone was not discarded: after v0.8.2 Adaptive Horror and v0.8.3 Horror Consequence/Recovery were accepted as additive systems, v0.8.4 implements the missed presentation milestone. It adds bounded, state-driven map contradictions, text displacement/repetition, portrait tonal shifts, journal inconsistencies, and theme mismatch effects. All are presentation-only, derive from authoritative active anomaly overlays, expire with their source state, and remain auditable through Developer / Settings. The actual accepted sequence is therefore v0.8.2 Adaptive Horror -> v0.8.3 Horror Consequence and Recovery Depth -> v0.8.4 Interface Horror. The next major planned release is v0.9.0 — Failure, Recovery, and Recurrence Expansion.
+The originally planned Interface Horror milestone was not discarded: after v0.8.2 Adaptive Horror and v0.8.3 Horror Consequence/Recovery were accepted as additive systems, v0.8.4 implements the missed presentation milestone. It adds bounded, state-driven map contradictions, text displacement/repetition, portrait tonal shifts, journal inconsistencies, and theme mismatch effects. All are presentation-only, derive from authoritative active anomaly overlays, expire with their source state, and remain auditable through Developer / Settings. The actual accepted sequence is therefore v0.8.2 Adaptive Horror -> v0.8.3 Horror Consequence and Recovery Depth -> v0.8.4 Interface Horror. The agreed sequence was v0.9.0 — Recurrence Expansion, followed by v0.9.1 — Failure and Recovery. Both milestones are now implemented.
 
 ## v1.0 RC1 implementation status
 
@@ -808,3 +808,8 @@ v1.0 RC2 IMPLEMENTATION STATUS
 v1.0 RC2 implements the six canonical ending families: Incorporation, False Escape, Rupture, Accommodation, Containment, and True Liberation-Coexistence. Eligibility is deterministic and derived from authoritative play state. RC2 also moves ordinary non-player-facing Director inference onto the validated background queue and keeps one local inference active at a time on low-memory systems. The next planned release is v1.0 RC3 — Postgame.
 
 RC3 implementation note: v1.0 RC3 adds persistent postgame life after ending resolution, while preserving farming, jobs, relationships, hobbies, side investigation and ending-specific changed village state. Background AI result harvesting and queue diagnostics were also repaired as release engineering work.
+
+
+## v1.0 Certification status
+
+v1.0 completes the certification milestone: UI decluttering, save/reload/reset clarity, recoverable atomic saves with provenance, repetition suppression, location-card presentation cleanup, long-session memory bounds, race-condition checks, language cleanup, regression testing, and distribution-package validation. The accepted roadmap through v1.0 is complete; future work must remain additive and preserve the certified behavioural baseline.

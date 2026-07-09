@@ -633,7 +633,9 @@ class Game:
         for loc_id in WORLD:
             world_state.setdefault("location_modifiers", {}).setdefault(loc_id, [])
         self.state.setdefault("social_memory", {})
-        for npc_id in self.state.get("npcs", {}): self.state["social_memory"].setdefault(npc_id, [])
+        for npc_id in self.state.get("npcs", {}):
+            memories=self.state["social_memory"].setdefault(npc_id, [])
+            self.state["social_memory"][npc_id]=memories[-40:]
         # Mara becomes physically available once Eleanor's letter opens her side story.
         if self.state.get("flags", {}).get("mara_intro_available") or self.state.get("flags", {}).get("met_mara"):
             self.state.setdefault("npcs", {}).setdefault("mara", deepcopy(INITIAL_STATE["npcs"]["mara"]))["visible"] = True
@@ -659,6 +661,7 @@ class Game:
         for npc_id in self.state.get("npcs", {}):
             self.state["conversation_sessions"].setdefault(npc_id, [])
         self.state.setdefault("encounters", [])
+        self.state["encounters"] = self.state["encounters"][-30:]
         self.state.setdefault("location_observations", {})
         self.state.setdefault("player_life", deepcopy(INITIAL_STATE["player_life"]))
         life = self.state["player_life"]
@@ -679,6 +682,7 @@ class Game:
             inv.setdefault("place_notes", {}).setdefault(loc_id, [])
             inv.setdefault("observation_counts", {}).setdefault(loc_id, 0)
         self.state.setdefault("ai_events", [])
+        self.state["ai_events"] = self.state["ai_events"][-100:]
         self.state.setdefault("ai_runtime", {
             "last_world_pulse": -999,
             "world_rounds": 0,
@@ -885,8 +889,14 @@ class Game:
         return actions
 
     def add(self, speaker, text):
-        self.state["history"].append({"speaker": speaker, "text": text})
-        self.state["history"] = self.state["history"][-120:]
+        """Add player-facing prose with conservative consecutive deduplication."""
+        row={"speaker": str(speaker), "text": str(text).strip()}
+        if not row["text"]: return
+        history=self.state.setdefault("history", [])
+        if history and history[-1].get("speaker")==row["speaker"] and history[-1].get("text")==row["text"]:
+            return
+        history.append(row)
+        self.state["history"] = history[-120:]
 
     def advance(self, minutes):
         """Advance chronologically and coalesce AI work into one batch per player action.
@@ -982,8 +992,11 @@ class Game:
     def record_world_event(self, text, domain="village", actor=None):
         event = {"time": self.time_label(), "domain": domain, "text": text}
         if actor: event["actor"] = actor
-        self.state.setdefault("world_events", []).append(event)
-        self.state["world_events"] = self.state["world_events"][-40:]
+        events=self.state.setdefault("world_events", [])
+        if events and events[-1].get("text")==event["text"] and events[-1].get("domain")==event["domain"]:
+            return
+        events.append(event)
+        self.state["world_events"] = events[-40:]
 
     def apply_tick_consequence(self):
         """Give every Village Pulse a lightweight stateful consequence."""
@@ -2688,28 +2701,50 @@ class Game:
         return {"ok": True}
 
     def save(self):
-        """Atomic save: write complete JSON to a sibling temp file, then replace."""
+        """Atomic, recoverable save with provenance metadata and one last-good backup."""
         SAVE_PATH.parent.mkdir(parents=True, exist_ok=True)
         self.compile_llm_overview()
+        version=(ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        self.state.setdefault("save_meta", {}).update({"schema": 1, "game_version": version, "saved_day": self.state.get("day",1), "saved_minute": self.state.get("minute",0)})
         tmp=SAVE_PATH.with_suffix(SAVE_PATH.suffix+".tmp")
+        backup=SAVE_PATH.with_suffix(SAVE_PATH.suffix+".bak")
         payload=json.dumps(self.state,indent=2)
         tmp.write_text(payload,encoding="utf-8")
-        # Validate before replacing the last good save.
         json.loads(tmp.read_text(encoding="utf-8"))
+        if SAVE_PATH.exists():
+            backup.write_bytes(SAVE_PATH.read_bytes())
         os.replace(tmp,SAVE_PATH)
-        return {"ok": True, "message": "Game saved.", "view": self.view()}
+        return {"ok": True, "message": "Game saved safely.", "view": self.view()}
 
     def load(self):
-        if not SAVE_PATH.exists():
+        backup=SAVE_PATH.with_suffix(SAVE_PATH.suffix+".bak")
+        source=SAVE_PATH
+        if not source.exists():
             return {"ok": False, "message": "No save exists yet.", "view": self.view()}
-        self.state = json.loads(SAVE_PATH.read_text(encoding="utf-8"))
+        try:
+            loaded=json.loads(source.read_text(encoding="utf-8"))
+            recovered=False
+        except (json.JSONDecodeError, OSError):
+            if not backup.exists():
+                return {"ok": False, "message": "The save is damaged and no backup is available.", "view": self.view()}
+            loaded=json.loads(backup.read_text(encoding="utf-8")); recovered=True
+        self.state = loaded
         self._overview_cache_key=None; self._overview_cache=None
         self.migrate_state()
         provider.recent_call_memory = deepcopy(self.state.get("llm_context",{}).get("session_summary",[]))[-12:]
         # Loaded games show their latest scene, not the entire lifetime transcript.
         self.state["ui"]["message_cursor"] = max(0, len(self.state["history"]) - 3)
         self.compile_llm_overview()
-        return {"ok": True, "message": "Game loaded.", "view": self.view()}
+        return {"ok": True, "message": "Game loaded from backup." if recovered else "Game loaded.", "view": self.view()}
+
+    def reset_fresh(self):
+        """Start a genuinely fresh game without recurrence carry-over."""
+        self.state=deepcopy(INITIAL_STATE)
+        self._overview_cache_key=None; self._overview_cache=None
+        provider.recent_call_memory=[]
+        self.initialize_season()
+        self.compile_llm_overview()
+        return {"ok": True, "message": "Fresh game started.", "view": self.view()}
 
     def new_game(self):
         previous_state = deepcopy(self.state)

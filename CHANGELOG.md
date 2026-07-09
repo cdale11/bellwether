@@ -1,3 +1,16 @@
+# Changelog
+
+## v1.0 — Certification
+
+- Decluttered the main utility and action UI without removing game capabilities.
+- Added an explicit confirmed fresh-reset path and documented browser reload behaviour.
+- Added save provenance metadata, atomic writes, a last-good backup, and backup recovery.
+- Added conservative consecutive message and world-event deduplication.
+- Removed the generic “village keeps its own quiet rhythm” display fallback in favour of authored location text.
+- Prevented immediate actions from being duplicated in category trays.
+- Bounded long-session social memory, encounter, AI event, trace, queue-event, and other runtime histories.
+- Added certification diagnostics for save semantics, UI preservation, deduplication, story continuity, and package integrity.
+
 # v0.9.1 — Failure, Recovery, and Runtime Performance
 
 - Added single-worker asynchronous background LLM execution for Town Mind and procedural arcs.
@@ -5,8 +18,6 @@
 - Added preparation checks, injury mitigation, persistent setbacks, and authored recovery routes.
 - Reduced parser overhead with precompiled choice-token parsing and compact request serialization.
 - Preserved foreground dialogue priority and all-available-thread Ollama requests.
-
-# Changelog
 
 ## v1.0 RC1 — Complete Story
 
