@@ -11,7 +11,7 @@ def check(name, ok, detail=""):
     checks.append({"name":name,"passed":bool(ok),"detail":detail})
 
 rt=AsyncAIRuntime()
-check("priority runtime policy exposed", rt.status().get("policy")=="single_worker_priority_queue")
+check("priority runtime policy exposed", rt.status().get("policy") in {"single_worker_priority_queue","single_worker_priority_queue_lossless_running_results"})
 check("domain queue observability exposed", "queued_by_domain" in rt.status())
 check("event counters exposed", "event_counts" in rt.status())
 check("timing summaries exposed", "timing_by_kind" in rt.status())

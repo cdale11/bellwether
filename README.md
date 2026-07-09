@@ -1,127 +1,62 @@
-# Bellwether v1.0.6
+# Bellwether v1.0.8
 
-Bellwether is a village life-sim, RPG, mystery, and psychological horror game. You can work, garden, cook, explore, build relationships, investigate the village, or ignore the main story for long stretches.
+Bellwether is a local-first village life-sim, RPG, mystery, and psychological horror game. The deterministic engine owns authoritative state; local LLMs may propose dialogue and bounded decisions, which are validated before application.
 
+## Run
 
-
-## v1.0.6: Responsive and Visual Life
-
-v1.0.6 adds a presentation-only visual-state framework driven by existing authoritative game state. Scene artwork now receives restrained seasonal, time-of-day, weather, and horror-stage treatment without changing simulation state. Rain, snow, and mist use lightweight CSS layers rather than JavaScript animation loops, and reduced-motion preferences disable movement. Horror presentation progresses gradually from pastoral to subtle, uneasy, disturbed, and severe states according to existing pressure.
-
-The responsive layout is also strengthened. On tablets and phones the scene remains the first and largest surface, secondary rails move below it in compact layouts, action targets are touch-sized, and the dialogue/action surfaces remain usable on narrow screens. This release deliberately avoids multiplying the scene asset library: approved art is reused with bounded presentation treatment so future dedicated variants can be added selectively.
-
-## v1.0.5: UI Completion and Diagnostic UX
-
-v1.0.5 completes the interaction work that was only partially delivered in v1.0.3. The duplicated left-rail location description is removed; location title and prose remain on the scene. People Here is now a compact clickable list. Selecting a person opens a focused NPC panel with portrait, visible activity, relationship impression where known, and legal contextual interactions. Action category trays now open as bounded overlays rather than extending the page vertically. Narration, dialogue, and Bellwether/world messages have distinct presentation weight.
-
-The Developer Console now opens as a readable diagnostic dashboard rather than a wall of JSON. Living World, Horror, Economy, and AI Runtime receive cards, health indicators, tables, meaningful empty states, queue/debt visibility, and recent lifecycle summaries. Full raw JSON remains available under Raw State and can be copied for bug reports.
-
-The release also strengthens responsive behavior for narrow screens and ensures keyboard shortcuts do not fire while the user is typing in editable controls. Existing simulation, save, AI, pacing, story, recurrence, and Developer capabilities are preserved.
-
-## v1.0.4: Temporal Pacing and Simulation Debt
-
-Bellwether now tracks whether simulated time is moving faster than the background AI can meaningfully cover. Normal play remains responsive. Long time-advancing actions can trigger a short, visible settling interval such as **Between Hours** or **The Village Turns**. The UI explains what is happening; this is not an indefinite loading screen. The wait is bounded to 6 seconds for high debt and 10 seconds for critical debt, after which play continues.
-
-Meaningful world changes are kept in a bounded AI opportunity journal. The next Director snapshot receives a compact recent-change summary, so fast play is compressed into useful context rather than silently discarded. Applied Director work advances a coverage marker and clears events it has covered. Developer status exposes the pacing band, debt score, uncovered pulses, meaningful events waiting, active jobs, and worker state.
-
-The design rule is: real-world LLM speed may delay when AI influence appears, but should not silently determine how much meaningful village life occurs. Immediate actions are never intentionally delayed. The pacing hold is only considered before longer actions such as sleep, shifts, long hobbies, recovery, and other large time advances.
-
-## Run the game
-
-Bellwether uses Ollama on your own computer. Install the recommended models once:
+Install Ollama and pull the recommended models once:
 
 ```bash
 ollama pull qwen3.5:2b
 ollama pull qwen3.5:4b
 ```
 
-Then start Bellwether:
+Then run:
 
 ```bash
 ./run.sh
 ```
 
-Open the local address printed in the terminal.
+Open the local address printed in the terminal. Bellwether detects available CPU threads. The 2B model handles routine bounded work and short dialogue; the 4B model is reserved for infrequent strategic work. One inference runs at a time to protect 8 GB systems from RAM and zram pressure.
 
-Bellwether detects the CPU threads available to it. Normal setup does not require extra environment variables.
+## What changed in v1.0.8
 
-## What the AI does
+This is a corrective release before v1.1.0. Narrator text has moved out of the scene artwork into a quieter transcript strip. The catch-up banner now observes the real background runtime in wall-clock time and disappears as soon as AI work and simulation debt clear; it no longer depends on another game tick.
 
-The game engine owns the real game state. The AI can propose dialogue and bounded village decisions, but validators decide what is legal.
+AI scheduler diagnostics now distinguish **merged before inference** from **deferred while a same-key inference is already running**. Completed inference is never discarded merely because a newer request appeared, and the runtime exposes a `wasted_after_inference` invariant that should remain zero.
 
-The 2B model handles short dialogue and routine village decisions. The 4B model handles slower strategic work.
+Procedural village arcs are now surfaced as player-visible side-story opportunities while active. Gardening records growth gain and update timing for diagnosis. Currency uses Bellwether's fictional `¤` mark consistently in runtime UI and economy text.
 
-Most AI work runs in the background. Walking, gardening, jobs, hobbies, travel, and other ordinary actions should not wait for background AI. Free-form NPC conversation still waits because the reply is needed immediately.
+The Raw State **Copy JSON** button now uses the Clipboard API with a legacy fallback and visible result feedback.
 
-Only one Ollama inference runs at a time on low-memory systems. This avoids unnecessary RAM and zram pressure. Each inference can use all CPU threads available to Bellwether.
+## One-click automatic playtest
 
-## Saving, loading, and browser reloads
+Open **Developer / Settings** with the gear button and press **Run Full Game Diagnosis**. The test runs in an isolated disposable world and does not replace your real save. It simulates seven in-game days with mixed, home-focused, exploratory, social, economy, and investigation-oriented behaviour, using legal game action pathways. It audits public view integrity, world runtime, ecology, crop growth, story visibility, procedural arc scheduling, economy structure, horror structure, save serialization, and AI scheduler efficiency.
 
-Use **Menu** in the top bar to Quick Save/Quick Load, export a portable save file, load a portable save file, view history, or reset the game. **Export Save File** downloads `bellwether-save.json`, a plain JSON file that can be copied, backed up, and loaded into another Bellwether installation.
+The percentage is real phase completion, not decorative animation. When it reaches 100%, press **Copy Diagnostic Report** and paste the report into ChatGPT. If clipboard access is blocked by the browser, use **Export Report** and upload the text file instead.
 
-A browser reload reconnects to the game already running on the server. It does not create a fresh game. If you want to start completely over, use **Menu → Reset to Fresh Game**. Reset asks for confirmation and does not carry recurrence memory forward.
+The compact report is intentionally spoiler-minimised. It reports failed checks, warnings, causal summaries, scheduler efficiency, crop lifecycle evidence, and subsystem state without dumping story prose. Raw State remains available for exact debugging when necessary.
 
-Saves are written atomically. Bellwether keeps one last-good backup and can recover from it if the main save file is damaged. Save metadata records the game version that wrote the save.
+## Saving and browser reloads
 
-## Interface
+**Menu** provides Quick Save/Quick Load, portable save export/import, history, and fresh reset. Exported saves are ordinary JSON files that can be copied and backed up. A browser reload reconnects to the game already running on the server; it does not start a fresh run. Use **Reset to Fresh Game** when you want a new game.
 
-The main screen keeps common choices visible and groups the rest under People, Activities, Explore, Investigate, and Travel. Actions shown as immediate choices are not repeated inside those category trays.
+## Interface and diagnostics
 
-The Developer / Settings button remains available in the top bar. It shows simulation state, AI queue activity, running jobs, completed jobs waiting for validation, timing traces, and other debugging information.
+The scene is the main visual surface. People Here is compact and clickable; portraits and relationship context appear when focusing on a person. Immediate choices are shown first, while routine actions are grouped under People, Activities, Explore, Investigate, and Travel.
 
-## v1.0 certification work
+Developer diagnostics provide readable Living World, NPC, Events, Horror, Investigation, Economy, and AI Runtime views. Raw State is retained for exact state inspection. For ordinary QA, prefer the automatic playtest so you do not need to inspect spoiler-heavy state manually.
 
-This release focuses on the whole game rather than adding another large system. It includes:
+## Focused validation
 
-- UI and action-list cleanup;
-- clearer save, load, reload, and fresh-reset behaviour;
-- save backup and provenance metadata;
-- repeated-message suppression and cleaner recent-event presentation;
-- location-card presentation cleanup;
-- bounded long-session histories and cache checks;
-- race-condition checks around state access and background AI application;
-- story, ending, recurrence, failure, and postgame regression testing;
-- language and documentation cleanup;
-- package, asset, JSON, Python, JavaScript, and shell validation.
+Run the v1.0.8 structural diagnostic with:
 
-## Project files
+```bash
+BELLWETHER_AI=0 python tools/v108_corrective_diagnostic.py
+```
 
-Diagnostics are in `tools/`. Design documents and audit reports are in `docs/`.
+Older focused diagnostics remain in `tools/`. Canonical design and engineering context are in `docs/Bellwether_Consolidated_Master_Context.txt` and `docs/Bellwether_Post_v1_Design_Direction_and_Context.txt`.
 
-## v1.0.1 living-world runtime
+## Next milestone
 
-v1.0.1 activates a persistent environmental runtime beneath the existing season and weather systems. Bellwether now remembers recent weather and carries slow environmental conditions forward: wet periods, drying pressure, soil saturation, river pressure, pollinator activity, and bird activity. These conditions can affect garden growth, local observations, river state, and bounded delivery pressure.
-
-The runtime is deterministic and save-compatible. AI remains bounded: it can handle dialogue and legal strategic choices, while authoritative environmental consequences are calculated and validated by the engine. The Developer / Settings simulation view exposes the living-world runtime and ecology tendencies.
-
-Run the focused check with `python tools/v101_living_world_runtime_diagnostic.py`; run the cumulative suite with `BELLWETHER_AI=0 python tools/post_v010_diagnostic.py`.
-
-## v1.0.3 interaction redesign and timeout efficiency
-
-v1.0.3 strengthens progressive contextual disclosure in the action surface: immediate story, danger, and conversation choices remain visible, while routine life, exploration, investigation, and travel actions stay grouped behind category trays. Repetitive simulation-tick boilerplate is filtered from the Recent Events rail so authored and player-relevant moments carry more visual weight.
-
-The local-AI timeout policy is now role-aware. Routine bounded Directors receive a 75-second single attempt by default, while strategic 4B Town Mind and Procedural Arc decisions receive a 120-second single attempt. This is intentionally not a blind increase plus retry: an HTTP timeout does not reliably cancel an Ollama generation already consuming CPU, so retrying can duplicate computation. Environment overrides remain available through `BELLWETHER_BOUNDED_AI_TIMEOUT` and `BELLWETHER_STRATEGIC_AI_TIMEOUT`.
-
-## v1.0.2 AI runtime architecture
-
-v1.0.2 keeps Bellwether's low-memory rule of one local-model inference at a time, but background work is no longer a simple FIFO line. The background runtime now uses domain-aware priorities: routine Director batches are serviced ahead of infrequent strategic Town Mind work, while the provider's existing foreground dialogue gate continues to give waiting player conversation precedence at the Ollama boundary.
-
-The Developer / Settings AI view now exposes queue policy, queued domains, job priority, queue-wait time, rolling duration summaries, and lifecycle counters. This makes it possible to see whether AI is running, what is waiting, how long work takes, and whether results are applied, rejected as stale, or fail.
-
-A review of real v1.0.1 traces also found that routine 2B bounded calls were parsing and applying correctly, while 4B Town Mind and Procedural Arc calls were receiving unnecessarily large overview payloads, timing out, and becoming stale. v1.0.2 now gives those strategic Directors compact global projections while retaining their purpose-built local context.
-
-Diagnostics are also easier to read. `python tools/post_v010_diagnostic.py` prints compact per-stage progress and writes a JSON report containing elapsed time, pass/fail totals, and the slowest stages. Focused checks are available as `python tools/v101_living_world_runtime_diagnostic.py` and `python tools/v102_ai_runtime_architecture_diagnostic.py`.
-
-### Package hygiene
-
-Release packages retain source diagnostics and authored audit/design documents, but no longer ship obsolete generated diagnostic snapshots or large historical playtest transcript payloads. This reduces package clutter without removing executable diagnostics or gameplay content.
-
-## v1.0.7 runtime UX and diagnostics
-
-v1.0.7 fixes the pacing-notification lifecycle and completes the readable Developer Console pass. Events, NPCs, and Investigation now have dedicated views instead of serialized JSON walls. Ecology values are human-formatted, AI activity is easier to inspect, and the diagnostic palette has accessible contrast. Raw State remains available for copying exact state into bug reports.
-
-Run `python tools/v107_runtime_ux_diagnostic.py` for the focused structural check. For useful reports, capture the Developer Console AI Runtime, Living World, Events, Horror, and Economy tabs after several in-game hours, plus Raw State when an exact bug needs reproduction.
-
-### Next planned update: v1.1.0
-
-The next major milestone is **Economy and Village Change**: persistent business health, supply and price consequences, employment changes, ecology-to-economy causality, business crises, player intervention opportunities, and longer causal chains linking weather, land, businesses, jobs, NPC routines, and social consequences.
+The next planned major release is **v1.1.0 — Economy and Village Change**: persistent business health, supply and price consequences, employment changes, ecology-to-economy causality, business crises, player intervention opportunities, and longer causal chains linking weather, land, businesses, jobs, NPC routines, and social consequences.

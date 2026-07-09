@@ -74,6 +74,8 @@ class ActivityModel:
             ecology_factor=0.92 + 0.08*pollinator
             gain=minutes*water_factor*season_factor*(1-0.5*weed_penalty)*ecology_factor
             p["growth"]=min(p["growth_required"],p.get("growth",0)+gain)
+            p["last_growth_gain"]=round(gain,3)
+            p["last_growth_absolute_minute"]=self.absolute_minute(state)
             p["health"]=max(0,min(100,p.get("health",100) - (0.012*minutes if moisture<10 else 0) - weed_penalty*.004*minutes))
         g["last_update_absolute_minute"]=self.absolute_minute(state)
 

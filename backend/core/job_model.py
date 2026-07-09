@@ -22,7 +22,7 @@ class JobModel:
   return rt
  def current_wage(self,state,jid):
   rt=self.migrate(state); emp=rt["employment"].get(jid,{})
-  # Modest progression: +£1 after 5 shifts, another after 12; capped.
+  # Modest progression: +¤1 after 5 shifts, another after 12; capped.
   shifts=int(emp.get("shifts",0)); bonus=2 if shifts>=12 else (1 if shifts>=5 else 0)
   return JOBS[jid]["wage"]+bonus
  def available_actions(self,state):
@@ -34,7 +34,7 @@ class JobModel:
     if loc==j["location"]: out.append((f"job:apply:{jid}",f"Ask About Work: {j['name']}"))
    elif emp.get("active"):
     if EVENT_MODEL.job_available(state,jid) and loc==j["location"] and dow in j["days"] and j["start"]<=minute<j["end"] and emp.get("last_shift_day")!=state.get("day"):
-     wage=self.current_wage(state,jid); out.append((f"job:work:{jid}",f"Work Shift: {j['name']} ({j['shift_minutes']//60}h, £{wage})"))
+     wage=self.current_wage(state,jid); out.append((f"job:work:{jid}",f"Work Shift: {j['name']} ({j['shift_minutes']//60}h, ¤{wage})"))
     if loc==j["location"]: out.append((f"job:leave:{jid}",f"Leave Job: {j['name']}"))
   return out
  def apply(self,state,jid):
@@ -64,7 +64,7 @@ class JobModel:
   wage=self.current_wage(state,jid); emp["last_shift_day"]=state.get("day"); emp["shifts"]+=1; emp["earned"]+=wage; emp["reliability"]=min(100,emp.get("reliability",50)+3); emp["level"]=3 if emp["shifts"]>=12 else (2 if emp["shifts"]>=5 else 1)
   rt["total_shifts"]+=1; rt["work_reputation"]=min(100,rt["work_reputation"]+2); rt["fatigue"]=min(100,rt["fatigue"]+12)
   rt["shift_history"].append({"job_id":jid,"day":state.get("day"),"start_minute":minute,"minutes":j["shift_minutes"],"wage":wage});rt["shift_history"]=rt["shift_history"][-80:]
-  return True,f"You spend the shift {j['task']}. At the end of it, you are paid £{wage}.",j["shift_minutes"],wage
+  return True,f"You spend the shift {j['task']}. At the end of it, you are paid ¤{wage}.",j["shift_minutes"],wage
  def daily_recovery(self,state):
   rt=self.migrate(state); rt["fatigue"]=max(0,rt.get("fatigue",0)-18)
 JOB_MODEL=JobModel()

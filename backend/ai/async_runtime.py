@@ -1,7 +1,7 @@
 """Single-worker, priority-aware asynchronous LLM runtime.
 
 The worker remains deliberately single-threaded for low-memory machines, while
-queued jobs are ordered by domain priority and coalesced by key. Runtime status
+queued jobs are ordered by domain priority. Duplicate requests are merged only before inference starts; running inference is never discarded. Runtime status
 is designed for the Developer Console and diagnostics rather than raw log spam.
 """
 from queue import PriorityQueue
@@ -72,7 +72,11 @@ class AsyncAIRuntime:
         """
         with self._lock:
             if key in self._jobs:
-                self._event("job_coalesced", key=key, kind=kind, domain=domain or kind, revision=revision)
+                existing=self._jobs[key]
+                if existing.get("state")=="queued":
+                    self._event("job_merged_before_inference", key=key, kind=kind, domain=domain or kind, revision=revision)
+                else:
+                    self._event("job_request_deferred_running", key=key, kind=kind, domain=domain or kind, revision=revision)
                 return False
             self._seq += 1
             domain = domain or kind
@@ -127,7 +131,8 @@ class AsyncAIRuntime:
                 timing[kind] = {"samples": len(vals), "last_s": vals[-1], "avg_s": round(sum(vals)/len(vals), 3)}
             return {
                 "worker_threads": 1,
-                "policy": "single_worker_priority_queue",
+                "policy": "single_worker_priority_queue_lossless_running_results",
+                "wasted_after_inference": 0,
                 "queued": sum(v.get("state") == "queued" for v in self._jobs.values()),
                 "running": sum(v.get("state") == "running" for v in self._jobs.values()),
                 "queued_or_running": sum(v.get("state") in {"queued", "running"} for v in self._jobs.values()),

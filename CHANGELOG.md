@@ -1,3 +1,16 @@
+# Changelog
+
+## v1.0.8 — Corrective Runtime and Automatic Playtest
+
+- Moved narration outside scene artwork into a quiet transcript strip.
+- Made catch-up notification wall-clock/runtime aware.
+- Split scheduler merge/defer diagnostics and protected completed inference from supersession.
+- Surfaced active procedural arcs as side-story opportunities.
+- Added crop growth audit metadata and fictional currency mark.
+- Fixed Raw State copy with fallback handling.
+- Added one-click isolated seven-day integration playtest with real progress and compact report.
+- Rewrote README around current operation and removed stale release accumulation.
+
 # Bellwether Changelog
 
 ## v1.0.7 — Visual Life Polish and Runtime UX Correction

@@ -1,0 +1,12 @@
+Bellwether v1.0.8 corrective scope
+
+- Narration moved to a lower-priority transcript strip outside scene artwork.
+- Catch-up banner observes real background runtime in wall-clock time.
+- Scheduler metrics distinguish pre-inference merging from requests arriving during running inference.
+- Running inference results are not superseded or discarded by same-key requests.
+- Fictional currency mark applied to runtime economy and UI text.
+- Active procedural arcs surface as player-visible side-story opportunities.
+- Crop growth gains and update timing are recorded for diagnosis.
+- Raw State copy has Clipboard API and fallback copy paths.
+- One-click isolated seven-day automatic integration playtest added with real progress and compact spoiler-minimised report.
+- README rewritten around current operation and diagnostics; stale release-by-release accumulation removed.

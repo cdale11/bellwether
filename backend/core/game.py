@@ -759,9 +759,12 @@ class Game:
         main_quests=self.visible_quests("main")
         if not story_public.get("ending_eligible"):
             main_quests=main_quests + [{"id":"rc1:"+story_public["chapter"],"title":story_public["title"],"objective":story_public["objective"],"done":False}]
+        procedural_opportunities=[]
+        for arc in self.state.get("procedural_arcs",{}).get("active",[]):
+            procedural_opportunities.append({"id":"arc:"+str(arc.get("id")),"title":arc.get("label","Village opportunity"),"objective":"Follow the situation where it is unfolding in Bellwether.","location":arc.get("location"),"done":False,"procedural":True})
         state["quests"] = {
             "main": main_quests,
-            "side": self.visible_quests("side"),
+            "side": self.visible_quests("side") + procedural_opportunities,
         }
         present_npcs = [
             npc for npc in self.state.get("npcs", {}).values()
@@ -976,6 +979,11 @@ class Game:
         scheduler["pending_domains"]=[]
         if domains:
             self.queue_ai_directors(domains, "coalesced_player_action")
+        # Strategic systems must also be considered after ordinary time advancement.
+        # Earlier builds only called these from village_pulse(run_directors=True), while
+        # advance() deliberately uses False, making procedural arcs unreachable in normal play.
+        self.maybe_run_town_mind()
+        self.maybe_run_procedural_arcs()
 
 
     def village_pulse(self, run_directors=True):
@@ -1770,6 +1778,7 @@ class Game:
         rt["background_worker"]=ASYNC_AI_RUNTIME.status(); return applied
 
     def queue_town_mind_review(self, reason="scheduled"):
+        if self.state.get("diagnostic_mode"): return False
         s=self.state; tm=s.setdefault("town_mind",TOWN_MIND_MODEL.runtime_defaults()); pulse=self._async_state_revision(); candidates=TOWN_MIND_MODEL.candidates(s); context=TOWN_MIND_MODEL.compact_context(s)
         if not candidates:return False
         tm["review_count"]+=1; tm["last_review_pulse"]=pulse
@@ -1812,6 +1821,7 @@ class Game:
         return False
 
     def queue_procedural_arc_proposal(self, reason="scheduled"):
+        if self.state.get("diagnostic_mode"): return False
         s=self.state; root=PROCEDURAL_ARC_MODEL.migrate(s); candidates=PROCEDURAL_ARC_MODEL.candidates(s); pulse=self._async_state_revision()
         if not candidates or len(root.get("active",[]))>=PROCEDURAL_ARC_MODEL.MAX_ACTIVE:return False
         root["proposal_count"]+=1; root["last_proposal_pulse"]=pulse
@@ -1847,6 +1857,7 @@ class Game:
         return False
 
     def queue_ai_directors(self, domains, reason="scheduled"):
+        if self.state.get("diagnostic_mode"): return False
         """Queue ordinary Director inference without blocking deterministic gameplay."""
         domains=list(dict.fromkeys(domains)); s=self.state
         if not domains: return False
@@ -2491,7 +2502,7 @@ class Game:
         elif activity_id == "breakfast":
             if s["money"] >= 2:
                 s["money"] -= 2; life["meals"] += 1; effects["money"] = s["money"]
-                self.add("Narrator", "You spend £2 on something warm and eat without rushing.")
+                self.add("Narrator", "You spend ¤2 on something warm and eat without rushing.")
             else:
                 self.add("Narrator", "You check your pockets and decide to save what little money you have.")
                 return

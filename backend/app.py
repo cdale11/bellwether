@@ -82,7 +82,7 @@ def developer_status():
         "events": {"dynamic_events": s.get("dynamic_events", {}), "recent_world_events": s.get("world_events", [])[-20:]},
         "horror": {"pressure": s.get("supernatural_pressure", 0), "state": s.get("horror", {}), "psychology": s.get("psychology", {}), "anomaly_history": s.get("anomaly_history", [])[-20:], "adaptive": HORROR_MODEL.developer_context(game.state), "aftermath": HORROR_AFTERMATH_MODEL.developer_context(game.state), "interface": INTERFACE_HORROR_MODEL.developer_context(game.state)},
         "investigation": {"notebook": s.get("investigation", {}), "mysteries": game.investigation_overview()},
-        "authored_story": STORY_MODEL.public(game.state), "ending_families": ENDING_MODEL.public(game.state), "postgame": POSTGAME_MODEL.public(game.state),
+        "authored_story": STORY_MODEL.public(game.state), "procedural_arcs": s.get("procedural_arcs", {}), "ending_families": ENDING_MODEL.public(game.state), "postgame": POSTGAME_MODEL.public(game.state),
         "economy": {"money": s.get("money"), "economy": s.get("economy", {}), "employment": s.get("employment", {}), "activities": s.get("activities", {})},
         "provider": provider.last_status, "ai_runtime": {**s.get("ai_runtime", {}), "background": ASYNC_AI_RUNTIME.status(), "pacing": game.simulation_pacing_status()}, "failure_recovery": FAILURE_RECOVERY_MODEL.developer_context(game.state),
         "ai_events": s.get("ai_events", [])[-20:], "traces": provider.debug_traces[-40:]
@@ -156,3 +156,14 @@ def clear_director_debug():
     provider.debug_traces.clear()
     provider._last_trace_index = None
     return {"ok": True}
+
+@app.post('/api/diagnostic/full/start')
+def diagnostic_full_start():
+    from backend.core.full_diagnostic import FULL_DIAGNOSTIC
+    started=FULL_DIAGNOSTIC.start()
+    return {'started':started, **FULL_DIAGNOSTIC.snapshot()}
+
+@app.get('/api/diagnostic/full/status')
+def diagnostic_full_status():
+    from backend.core.full_diagnostic import FULL_DIAGNOSTIC
+    return FULL_DIAGNOSTIC.snapshot()
