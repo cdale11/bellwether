@@ -104,3 +104,13 @@ body.horror-portrait-shift .npc-portrait{filter:saturate(.78) contrast(1.06);tra
 .map-ghost-contradiction path{fill:none;stroke:#705f43;stroke-width:.45;stroke-dasharray:1.2 1.8;}
 .presentation-contradiction{opacity:.78;font-style:italic;}
 @media (prefers-reduced-motion:reduce){body.horror-text-dislocation .dialogue .line:last-child{transform:none}.horror-portrait-shift .npc-portrait{transform:none}}
+
+
+/* v1.0.3 — interaction hierarchy and progressive contextual disclosure */
+.command-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:0 0 10px;color:#4b4538}
+.command-heading strong{font-size:1rem}.command-heading span{font-size:.78rem;color:#766d5d}
+.quick-actions:empty{display:none}.quick-actions button{font-weight:650;box-shadow:0 2px 7px rgba(68,50,24,.08)}
+.action-dock button{min-height:42px}.action-tray:not(.hidden){animation:tray-reveal .14s ease-out}
+@keyframes tray-reveal{from{opacity:.35;transform:translateY(-3px)}to{opacity:1;transform:none}}
+@media(max-width:720px){.command-heading{align-items:flex-start;flex-direction:column;gap:3px}.command-heading span{line-height:1.3}}
+@media(prefers-reduced-motion:reduce){.action-tray:not(.hidden){animation:none}}

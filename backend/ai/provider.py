@@ -424,9 +424,18 @@ class AIProvider:
             f"DIRECTOR: {director}\nCONTEXT: {json.dumps(context,separators=(',',':'))}\n"
             f"QUESTION: {question}\nOPTIONS:\n{options}\nANSWER:"
         )
-        bounded_timeout=float(os.getenv("BELLWETHER_BOUNDED_AI_TIMEOUT","45"))
+        # v1.0.3 timeout policy: a timed-out HTTP client does not reliably cancel the
+        # already-running Ollama generation. Retrying a slow bounded choice can therefore
+        # duplicate CPU work on low-end machines. Give strategic 4B work one long window
+        # and no transport retry; fast bounded Directors also get one generous window.
+        # Empty/invalid output still falls back safely through the existing caller path.
+        strategic = director in {"town_mind", "procedural_arc", "recurrence_strategy", "horror_strategy"}
+        if strategic:
+            bounded_timeout=float(os.getenv("BELLWETHER_STRATEGIC_AI_TIMEOUT","120"))
+        else:
+            bounded_timeout=float(os.getenv("BELLWETHER_BOUNDED_AI_TIMEOUT","75"))
         text=self._plain_request(director,prompt,max_tokens=8,temperature=.5,no_think=True,
-                                 tries_override=2,timeout_override=bounded_timeout)
+                                 tries_override=1,timeout_override=bounded_timeout)
         if not text:
             return None
 

@@ -1,4 +1,4 @@
-# Bellwether v1.0.2
+# Bellwether v1.0.3
 
 Bellwether is a village life-sim, RPG, mystery, and psychological horror game. You can work, garden, cook, explore, build relationships, investigate the village, or ignore the main story for long stretches.
 
@@ -71,6 +71,12 @@ v1.0.1 activates a persistent environmental runtime beneath the existing season 
 The runtime is deterministic and save-compatible. AI remains bounded: it can handle dialogue and legal strategic choices, while authoritative environmental consequences are calculated and validated by the engine. The Developer / Settings simulation view exposes the living-world runtime and ecology tendencies.
 
 Run the focused check with `python tools/v101_living_world_runtime_diagnostic.py`; run the cumulative suite with `BELLWETHER_AI=0 python tools/post_v010_diagnostic.py`.
+
+## v1.0.3 interaction redesign and timeout efficiency
+
+v1.0.3 strengthens progressive contextual disclosure in the action surface: immediate story, danger, and conversation choices remain visible, while routine life, exploration, investigation, and travel actions stay grouped behind category trays. Repetitive simulation-tick boilerplate is filtered from the Recent Events rail so authored and player-relevant moments carry more visual weight.
+
+The local-AI timeout policy is now role-aware. Routine bounded Directors receive a 75-second single attempt by default, while strategic 4B Town Mind and Procedural Arc decisions receive a 120-second single attempt. This is intentionally not a blind increase plus retry: an HTTP timeout does not reliably cancel an Ollama generation already consuming CPU, so retrying can duplicate computation. Environment overrides remain available through `BELLWETHER_BOUNDED_AI_TIMEOUT` and `BELLWETHER_STRATEGIC_AI_TIMEOUT`.
 
 ## v1.0.2 AI runtime architecture
 

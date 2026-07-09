@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.3 — UI Interaction Redesign and Timeout Efficiency
+
+- Added stronger progressive contextual disclosure to the main action surface.
+- Kept immediate story, danger, and conversation choices prominent while routine actions remain category-grouped.
+- Filtered repetitive generic simulation ticks from the Recent Events rail.
+- Added role-aware bounded inference timeouts: 75 seconds for fast bounded Directors and 120 seconds for strategic deep-model work.
+- Changed bounded choice transport policy to one attempt, preventing a timeout from immediately launching duplicate local-model computation while the prior Ollama generation may still be finishing.
+- Preserved environment overrides, deterministic fallback paths, parser validation, async legality revalidation, save compatibility, and all v1.0.2 runtime architecture.
+
 ## v1.0 — Certification
 
 - Decluttered the main utility and action UI without removing game capabilities.
