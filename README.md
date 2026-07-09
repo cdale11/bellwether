@@ -23,3 +23,8 @@ The game save is stored as a local JSON file under `saves/`. Full diagnostic run
 ## Development principle
 
 Gameplay and automated certification evolve together. New systems should ship with deterministic invariants plus AI-player coverage, naturalistic play, adversarial play and long-horizon testing where appropriate. Diagnostic reports should expose enough evidence to diagnose failures without requiring spoiler-heavy manual inspection.
+
+### v1.3.0: Society and Generational Time
+Bellwether now tracks slow village continuity across the lightweight resident population: households, employment composition, social connectivity, isolation, migration pressure, weekly society snapshots and long-horizon elapsed time. Background residents can be met through inexpensive ordinary social contact without turning every resident into a full LLM-driven core character.
+
+The autonomous tester now certifies society and employment-change surfaces and reports more diagnostic dimensions, including invalid-response, timeout, no-effect, behavioural diversity, goal completion and society continuity metrics.

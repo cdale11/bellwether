@@ -849,3 +849,10 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added compact-choice parser telemetry for raw invalid output, rejected index and candidate count.
 - Restored a configurable 90-second default autonomous-player timeout and added session reset after timeout health failures.
 - Expanded full diagnostics with cooking, hobbies, community and life-progression coverage plus separate quality dimensions.
+
+## 1.3.0 — Society and Generational Time
+- Added deterministic slow social change for lightweight residents: household summaries, employment composition, migration pressure, social connectivity, isolation metrics, weekly snapshots, and long-horizon time accounting.
+- Added ordinary player contact with lightweight residents without multiplying expensive core-NPC cognition calls.
+- Expanded autonomous playtesting with society and employment-change goals, stronger cooking/community prerequisite scoring, richer quality dimensions, and society telemetry.
+- Preserved compact AI-player prompts and no-timeout regression architecture while improving goal-specific action ranking.
+- Expanded diagnostic output with timeout, invalid-response, no-effect, behavioural-diversity, goal-completion, society-connectivity, migration-pressure, and weekly-continuity metrics.

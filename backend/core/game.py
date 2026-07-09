@@ -45,6 +45,7 @@ from backend.core.story_model import STORY_MODEL
 from backend.core.ending_model import ENDING_MODEL, FAMILIES
 from backend.core.postgame_model import POSTGAME_MODEL
 from backend.core.life_simulation_model import LIFE_SIMULATION_MODEL
+from backend.core.society_model import SOCIETY_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -223,6 +224,7 @@ INITIAL_STATE = {
     "life_simulation": LIFE_SIMULATION_MODEL.runtime_defaults(),
     "memory_system": MEMORY_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "population": POPULATION_MODEL.runtime_defaults(),
+    "society": SOCIETY_MODEL.runtime_defaults(),
     "social_consequences": SOCIAL_CONSEQUENCE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "travel": TRAVEL_MODEL.runtime_defaults(),
     "town_mind": TOWN_MIND_MODEL.runtime_defaults(),
@@ -608,6 +610,7 @@ class Game:
         TRAVEL_MODEL.migrate(self.state)
         CONTENT_MODEL.migrate_v040(self.state)
         LIFE_SIMULATION_MODEL.migrate(self.state)
+        SOCIETY_MODEL.migrate(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
         ACTIVITY_MODEL.migrate(self.state)
@@ -759,6 +762,7 @@ class Game:
         state["ending_families_overview"] = ENDING_MODEL.public(self.state)
         state["postgame_overview"] = POSTGAME_MODEL.public(self.state)
         state["life_simulation_overview"] = LIFE_SIMULATION_MODEL.public(self.state)
+        state["society_overview"] = SOCIETY_MODEL.public(self.state)
         state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
         story_public=STORY_MODEL.public(self.state)
         main_quests=self.visible_quests("main")
@@ -903,6 +907,8 @@ class Game:
             actions.append({"id":action_id,"label":label,"kind":"life"})
         for action_id, label in LIFE_SIMULATION_MODEL.actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
+        for resident in POPULATION_MODEL.present(s, s.get("location"))[:6]:
+            actions.append({"id":"society:greet:"+resident["id"],"label":"Exchange a Few Words with "+resident["name"],"kind":"social"})
 
         # Part 6: applications and scheduled shifts use authored job definitions and real world locations.
         for action_id, label in JOB_MODEL.available_actions(s):
@@ -973,6 +979,7 @@ class Game:
             SEASONAL_MODEL.refresh(s)
             WORLD_RUNTIME_MODEL.advance(s, step)
             POPULATION_MODEL.advance_batch(s)
+            SOCIETY_MODEL.advance_day(s, POPULATION_MODEL)
             HORROR_MODEL.expire(s)
             for event_kind,event_id,message in EVENT_MODEL.advance(s):
                 self.add("Bellwether", message)
@@ -2714,6 +2721,12 @@ class Game:
 
         elif action.startswith("content:"):
             self.perform_content_action(action)
+
+        elif action.startswith("society:greet:"):
+            rid=action.split(":",2)[2]; resident=POPULATION_MODEL.migrate(s)["residents"].get(rid)
+            if resident and resident.get("location")==s.get("location"):
+                self.advance(5); SOCIETY_MODEL.note_encounter(s,rid); LIFE_SIMULATION_MODEL.award(s,2,"ordinary resident contact")
+                self.add(resident.get("name",rid),"You exchange a few ordinary words about the day and the village around you.")
 
         elif action.startswith("lifesim:"):
             ok,msg,minutes=LIFE_SIMULATION_MODEL.perform(s,action)

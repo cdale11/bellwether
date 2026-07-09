@@ -6,7 +6,7 @@ import time
 from backend.ai.provider import provider
 BLOCKED_PREFIXES=("story:","ending:","horror:","recurrence:")
 BLOCKED_KINDS={"story","choice","talk"}
-GOAL_WORDS={"movement":("travel","walk","visit","return","go to"),"npc_interaction":("talk","speak","help","conversation"),"relationships":("talk","speak","help","conversation"),"economy":("buy","sell","shop","purchase","support"),"jobs":("job","work","shift","apply"),"gardening":("garden","soil","weed","water","plant","sow","harvest","cottage"),"investigation":("observe","examine","review","lead","investigat"),"procedural_content":("offer to help","errand","opportunity","favour","favor"),"cooking":("cook","preserve","meal","food"),"hobbies":("hobby","fish","forage","bird","sketch","history"),"community":("community","workday","care walk","churchyard upkeep","share a simple meal") }
+GOAL_WORDS={"movement":("travel","walk","visit","return","go to"),"npc_interaction":("talk","speak","help","conversation"),"relationships":("talk","speak","help","conversation"),"economy":("buy","sell","shop","purchase","support"),"jobs":("job","work","shift","apply"),"gardening":("garden","soil","weed","water","plant","sow","harvest","cottage"),"investigation":("observe","examine","review","lead","investigat"),"procedural_content":("offer to help","errand","opportunity","favour","favor"),"cooking":("cook","preserve","meal","food"),"hobbies":("hobby","fish","forage","bird","sketch","history"),"community":("community","workday","care walk","churchyard upkeep","share a simple meal"),"society":("exchange a few words","resident","community","social"),"employment_change":("job","work","shift","apply","leave job") }
 PASSIVE=("look around","take a moment","wait and observe","sit by","review what","observe carefully","watch for birds","make a sketch","research local history","go foraging")
 
 def safe_actions(game,allow_investigation=True):
@@ -33,6 +33,11 @@ def _score(a,target,recent,blocked):
   if any(x in text for x in ('plant','water','weed','harvest','soil')):score-=50
  if target in {'npc_interaction','relationships'} and (aid.startswith('social:greet:') or any(x in text for x in ('talk','speak','offer to help','exchange a few words'))):score-=80
  if target=='procedural_content' and any(x in text for x in ('offer to help','opportunity','errand')):score-=60
+ if target=='cooking':
+  if any(x in text for x in ('basic groceries','food','cook','preserve','meal')):score-=55
+  if 'ashcroft_cottage' in text:score-=35
+ if target=='community' and any(x in text for x in ('village green','churchyard','riverside','community','workday','care walk','upkeep','share a simple meal')):score-=45
+ if target=='society' and ('society:greet:' in aid or 'exchange a few words' in text):score-=80
  return score
 
 def _direct_progress_action(actions,target,recent,blocked):
