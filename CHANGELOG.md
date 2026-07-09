@@ -1,3 +1,15 @@
+# Bellwether Changelog
+
+## v1.0.4 — Temporal Pacing and Simulation Debt
+- Added bounded simulation-debt accounting based on uncovered pulses, meaningful pending changes, and active AI work.
+- Added a bounded AI opportunity journal for meaningful world changes; repetitive tick boilerplate is excluded.
+- Added compact catch-up context to Director snapshots so fast time advancement is summarized rather than silently lost.
+- Added visible UI pacing states: Between Hours, Bellwether Stirs, and The Village Turns.
+- Long time-advancing actions may wait briefly when AI debt is high; immediate actions remain responsive.
+- Holds are strictly bounded (6 seconds high, 10 seconds critical) and never become indefinite loading gates.
+- Added `/api/pacing-status` and Developer Console pacing observability.
+- Preserved single-worker low-memory inference, stale-result validation, portable saves, and v1.0.3 interaction redesign.
+
 # Changelog
 
 ## v1.0.3 — UI Interaction Redesign and Timeout Efficiency

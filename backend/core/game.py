@@ -712,6 +712,36 @@ class Game:
         }
         return effects.get(state,"")
 
+    def simulation_pacing_status(self):
+        """Return bounded simulation-debt state used for adaptive, diegetic pacing.
+
+        Real-world inference speed may delay AI influence, but should not silently
+        determine how much meaningful village life occurs.  The game therefore
+        tracks uncovered pulses and meaningful opportunities while the single
+        background worker is busy.  This method is advisory: deterministic play
+        remains authoritative and the UI only pauses *large time advances* for a
+        short, strictly bounded interval.
+        """
+        s=self.state
+        rt=s.setdefault("ai_runtime", {})
+        coverage=rt.setdefault("coverage", {"last_applied_revision":0, "opportunity_journal":[], "compressed_events":0})
+        worker=ASYNC_AI_RUNTIME.status()
+        revision=self._async_state_revision()
+        last=int(coverage.get("last_applied_revision",0) or 0)
+        uncovered=max(0, revision-last)
+        opportunities=len(coverage.get("opportunity_journal",[]))
+        active=int(worker.get("queued_or_running",0) or 0)+int(worker.get("completed_waiting",0) or 0)
+        score=uncovered + min(12, opportunities) + min(6, active*2)
+        if score>=24 and active: band="critical"
+        elif score>=14 and active: band="high"
+        elif score>=7 and active: band="moderate"
+        else: band="low"
+        hold_seconds={"low":0,"moderate":0,"high":6,"critical":10}[band]
+        label={"low":"The village is keeping pace.","moderate":"The village is gathering its threads.","high":"Bellwether is catching up with the passing hours.","critical":"The Village Turns — recent hours are settling into consequence."}[band]
+        return {"band":band,"score":score,"hold_seconds":hold_seconds,"message":label,
+                "uncovered_pulses":uncovered,"meaningful_events_waiting":opportunities,
+                "active_ai_jobs":active,"worker":worker}
+
     def view(self):
         self.migrate_state()
         PLAYER_IDENTITY_MODEL.refresh(self.state, "view_refresh")
@@ -750,6 +780,7 @@ class Game:
             "world_context": {**WORLD_MODEL.public_location_context(self.state["location"]), "active_events": EVENT_MODEL.location_context(self.state, self.state["location"]), "supernatural_overlay": HORROR_MODEL.location_context(self.state, self.state["location"]), "weather_effect": self.weather_environment_effect()},
             "actions": self.actions() + ([{"id":"danger:treat","label":"Treat your injury","kind":"life"}] if self.state.get("danger",{}).get("injuries") and self.state.get("danger",{}).get("status")=="alive" else []),
             "present": {"npcs": present_npcs, "traffic": present_traffic},
+            "simulation_pacing": self.simulation_pacing_status(),
         }
 
     def actions(self):
@@ -1002,6 +1033,18 @@ class Game:
             return
         events.append(event)
         self.state["world_events"] = events[-40:]
+        # v1.0.4: retain a bounded journal of meaningful changes that occurred
+        # while AI may have been busy. Tick boilerplate is intentionally excluded.
+        if domain not in {"tick", "ai_pacing"}:
+            rt=self.state.setdefault("ai_runtime", {})
+            coverage=rt.setdefault("coverage", {"last_applied_revision":0, "opportunity_journal":[], "compressed_events":0})
+            journal=coverage.setdefault("opportunity_journal", [])
+            compact={"revision":self._async_state_revision(),"day":self.state.get("day"),"time":self.time_label(),"domain":domain,"text":str(text)[:220]}
+            if not journal or (journal[-1].get("domain"),journal[-1].get("text")) != (compact["domain"],compact["text"]):
+                journal.append(compact)
+            if len(journal)>40:
+                coverage["compressed_events"]=int(coverage.get("compressed_events",0))+len(journal)-40
+                coverage["opportunity_journal"]=journal[-40:]
 
     def apply_tick_consequence(self):
         """Give every Village Pulse a lightweight stateful consequence."""
@@ -1717,6 +1760,9 @@ class Game:
                     stale+=1
                 elif proposals:
                     self.apply_director_proposals(proposals); self.propagate_world_consequences("async_director"); s["ai_runtime"]["world_rounds"]+=1; applied+=1
+                    coverage=s.setdefault("ai_runtime",{}).setdefault("coverage", {"last_applied_revision":0,"opportunity_journal":[],"compressed_events":0})
+                    covered=int(job.get("revision",0) or 0); coverage["last_applied_revision"]=max(int(coverage.get("last_applied_revision",0) or 0),covered)
+                    coverage["opportunity_journal"]=[e for e in coverage.get("opportunity_journal",[]) if int(e.get("revision",0) or 0)>covered]
                 else: stale+=1
             if applied>before_applied: ASYNC_AI_RUNTIME.record_application(job,"applied")
             elif stale>before_stale: ASYNC_AI_RUNTIME.record_application(job,"rejected_or_stale")
@@ -1806,6 +1852,8 @@ class Game:
         if not domains: return False
         self.compile_llm_overview()
         frozen_state=deepcopy(s); frozen_overview=deepcopy(getattr(provider,"overview_context",{}))
+        coverage=s.setdefault("ai_runtime",{}).setdefault("coverage", {"last_applied_revision":0,"opportunity_journal":[],"compressed_events":0})
+        frozen_state["ai_catchup_context"]={"covered_from_revision":coverage.get("last_applied_revision",0),"through_revision":self._async_state_revision(),"meaningful_changes":deepcopy(coverage.get("opportunity_journal",[])[-12:])}
         revision=self._async_state_revision(); signature=tuple(domains)
         def work():
             with provider.scoped_overview_context(frozen_overview):

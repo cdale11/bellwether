@@ -40,7 +40,8 @@ def weather_round(s):
         "current_weather":cur,
         "village_mood":s["village_brain"]["mood"],
         "recent_events":s.get("world_events",[])[-1:],
-        "town_mind_intentions":TOWN_MIND_MODEL.director_context(s)
+        "town_mind_intentions":TOWN_MIND_MODEL.director_context(s),
+        "catchup_changes":s.get("ai_catchup_context",{}).get("meaningful_changes",[])[-4:]
     }
     choice=provider.ask_choice(
         "weather",
@@ -293,7 +294,8 @@ def npc_round(s):
          "purpose_constraints":NPC_MODEL.purpose_context(npc_id,s["minute"],s["weather"]["state"]) if npc_id in NPC_MODEL.npcs else {},
          "purpose_plan":PURPOSE_MODEL.context(npc_id,s,plausible) if npc_id in NPC_MODEL.npcs else {},
          "town_mind_intentions":TOWN_MIND_MODEL.director_context(s),
-         "horror_aftermath":{"strain":aftermath.get("strain",0),"temporary_avoidance":avoid}}
+         "horror_aftermath":{"strain":aftermath.get("strain",0),"temporary_avoidance":avoid},
+         "catchup_changes":s.get("ai_catchup_context",{}).get("meaningful_changes",[])[-5:]}
     instruction=(f"Choose what {npc['name']} should do next. Pick one plausible action that makes the village feel alive. "
                  "Respect authored identity, personal needs, obligations, occupation, location, time, memories and continuity, but introduce grounded variety. "
                  "Strongly avoid repeating recent action IDs or generic loops unless circumstances clearly demand it.")
@@ -378,7 +380,8 @@ def traffic_round(s):
     )
     ctx={"vehicle_id":vid,"name":v["name"],"current_location":v["location"],"current_activity":v["activity"],"time_minute":s["minute"],
          "weather":s["weather"],"recent_route_states":history[-4:],
-         "recent_world_events":s.get("world_events",[])[-2:],"road_state":s.get("location_state",{}).get("village_road",{})}
+         "recent_world_events":s.get("world_events",[])[-2:],"road_state":s.get("location_state",{}).get("village_road",{}),
+         "catchup_changes":s.get("ai_catchup_context",{}).get("meaningful_changes",[])[-3:]}
     choice=_bounded_choice("traffic",f"Choose the next plausible route state for {v['name']}. Keep route continuity but avoid repetitive loops; choose grounded variation when several states are plausible.",ctx,candidates)
     if not choice:return None
     return {"vehicle":vid,"choice":choice["id"],"label":choice["label"]},{"changes":[{"vehicle":vid,"choice":choice["id"],"label":choice["label"],"activity":choice["activity"],"destination":choice["destination"]}]}
@@ -392,7 +395,8 @@ def conversation_round(s):
     ctx={"participants":[{"id":a,"name":na["name"],"activity":na["activity"],"memories":s.get("social_memory",{}).get(a,[])[-3:]},
                          {"id":b,"name":nb["name"],"activity":nb["activity"],"memories":s.get("social_memory",{}).get(b,[])[-3:]}],
          "location":na["location"],"time_minute":s["minute"],"weather":s["weather"],"village_mood":s["village_brain"]["mood"],
-         "supernatural_pressure":s["village_brain"]["supernatural_pressure"],"recent_village_events":s.get("world_events",[])[-4:]}
+         "supernatural_pressure":s["village_brain"]["supernatural_pressure"],"recent_village_events":s.get("world_events",[])[-4:],
+         "catchup_changes":s.get("ai_catchup_context",{}).get("meaningful_changes",[])[-4:]}
     instruction=(f"Write exactly 4 dialogue lines between {na['name']} and {nb['name']}. Alternate speakers. "
                  "Format every line exactly as Name: dialogue. Keep the exchange ordinary, character-grounded, concise, and free of exposition dumps.")
     dialogue=provider.ask_text("conversation",instruction,ctx,max_tokens=120)

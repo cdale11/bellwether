@@ -1,0 +1,38 @@
+Bellwether v1.0.4 — Temporal Pacing and Simulation Debt
+=======================================================
+
+Scope
+-----
+This release addresses fast player time advancement outrunning slow local LLM inference.
+
+Implemented
+-----------
+- Bounded simulation-debt accounting.
+- Meaningful AI opportunity journal; generic tick boilerplate excluded.
+- Compact catch-up context attached to Director snapshots.
+- AI coverage revision marker advanced after accepted Director application.
+- Player-visible pacing states: Between Hours, Bellwether Stirs, The Village Turns.
+- Pacing is considered only before long time-advancing actions.
+- High debt hold: maximum 6 seconds. Critical debt hold: maximum 10 seconds.
+- Immediate actions are not deliberately delayed.
+- Read-only /api/pacing-status endpoint.
+- Developer AI runtime includes pacing state and worker telemetry.
+
+Safety properties
+-----------------
+- Deterministic simulation remains authoritative.
+- Background worker still cannot mutate game state directly.
+- Existing stale-result validation remains in place.
+- Pacing holds are bounded and cannot become indefinite loading gates.
+- If AI remains behind after the maximum hold, play continues.
+- Opportunity history is bounded to prevent memory growth.
+
+Validation
+----------
+- v1.0.4 temporal pacing diagnostic: 6/6 PASS.
+- v1.0.3 UI/timeout diagnostic: 10/10 PASS after making its version assertion forward-compatible.
+- v1.0.2 AI runtime diagnostic: 14/14 PASS.
+- Python compileall: PASS.
+- JavaScript syntax: PASS.
+- Shell syntax: PASS.
+- Packaged JSON parsing: PASS.

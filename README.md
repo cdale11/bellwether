@@ -1,6 +1,14 @@
-# Bellwether v1.0.3
+# Bellwether v1.0.4
 
 Bellwether is a village life-sim, RPG, mystery, and psychological horror game. You can work, garden, cook, explore, build relationships, investigate the village, or ignore the main story for long stretches.
+
+## v1.0.4: Temporal Pacing and Simulation Debt
+
+Bellwether now tracks whether simulated time is moving faster than the background AI can meaningfully cover. Normal play remains responsive. Long time-advancing actions can trigger a short, visible settling interval such as **Between Hours** or **The Village Turns**. The UI explains what is happening; this is not an indefinite loading screen. The wait is bounded to 6 seconds for high debt and 10 seconds for critical debt, after which play continues.
+
+Meaningful world changes are kept in a bounded AI opportunity journal. The next Director snapshot receives a compact recent-change summary, so fast play is compressed into useful context rather than silently discarded. Applied Director work advances a coverage marker and clears events it has covered. Developer status exposes the pacing band, debt score, uncovered pulses, meaningful events waiting, active jobs, and worker state.
+
+The design rule is: real-world LLM speed may delay when AI influence appears, but should not silently determine how much meaningful village life occurs. Immediate actions are never intentionally delayed. The pacing hold is only considered before longer actions such as sleep, shifts, long hobbies, recovery, and other large time advances.
 
 ## Run the game
 
@@ -92,6 +100,6 @@ Diagnostics are also easier to read. `python tools/post_v010_diagnostic.py` prin
 
 Release packages retain source diagnostics and authored audit/design documents, but no longer ship obsolete generated diagnostic snapshots or large historical playtest transcript payloads. This reduces package clutter without removing executable diagnostics or gameplay content.
 
-### Next planned update: v1.0.3
+### Next planned update: v1.0.5
 
-The next update is the UI Interaction Redesign: reduce action clutter through progressive contextual disclosure, strengthen the narrative hierarchy, make NPC interaction panels more useful, remove duplicated contextual information, and improve keyboard/input safety while preserving the scene-first, API-driven interface.
+The next planned update is **Responsive and Visual Life**: genuine mobile composition, time-of-day and weather presentation foundations, seasonal visual treatment, restrained ambient movement where performance permits, reduced-motion support, and gradual state-driven visual progression from pastoral warmth toward horror. It should build on the pacing and interaction work without adding a new major simulation subsystem.

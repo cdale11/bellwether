@@ -5,7 +5,7 @@ js=(ROOT/'frontend/static/js/game.js').read_text()
 html=(ROOT/'frontend/templates/index.html').read_text()
 version=(ROOT/'VERSION').read_text().strip()
 checks={
- 'version': version=='1.0.3',
+ 'version_compatible': tuple(map(int,version.split('.'))) >= (1,0,3),
  'strategic_timeout_env': 'BELLWETHER_STRATEGIC_AI_TIMEOUT","120"' in provider,
  'fast_timeout_env': 'BELLWETHER_BOUNDED_AI_TIMEOUT","75"' in provider,
  'single_bounded_attempt': 'tries_override=1,timeout_override=bounded_timeout' in provider,
