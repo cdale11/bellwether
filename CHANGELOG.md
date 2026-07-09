@@ -654,3 +654,13 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added thread-local prompt overview snapshots so background inference cannot race foreground context.
 - Preserved one-inference-at-a-time scheduling for low-memory systems.
 - Rewrote README in simpler current-state language.
+
+## v1.0 RC3
+
+- Added persistent postgame life after all six canonical ending families.
+- Preserved farming, jobs, relationships, hobbies, exploration and side investigation after resolution.
+- Added ending-specific postgame village conditions and ongoing postgame activity tracking.
+- Added automatic safe harvesting of completed background AI results under the game lock.
+- Added detailed queued/running/completed AI job diagnostics and lifecycle event logs.
+- Added stale Director-result rejection and explicit applied/rejected/failed result logging.
+- Simplified and rewrote README.md for the current release.

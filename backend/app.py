@@ -15,10 +15,25 @@ from backend.ai.async_runtime import ASYNC_AI_RUNTIME
 from backend.core.failure_recovery_model import FAILURE_RECOVERY_MODEL
 from backend.core.story_model import STORY_MODEL
 from backend.core.ending_model import ENDING_MODEL
+from backend.core.postgame_model import POSTGAME_MODEL
 
 ROOT = Path(__file__).resolve().parent.parent
 app = FastAPI(title="Bellwether")
 game_lock = threading.RLock()
+_harvest_stop = threading.Event()
+def _ai_result_harvester():
+    # Results are applied under the same lock as player actions; the worker itself never mutates game state.
+    while not _harvest_stop.wait(0.5):
+        status=ASYNC_AI_RUNTIME.status()
+        if status.get("completed_waiting"):
+            with game_lock:
+                game.harvest_async_ai_results()
+@app.on_event("startup")
+def _start_ai_harvester():
+    if not any(t.name=="bellwether-ai-harvest" and t.is_alive() for t in threading.enumerate()):
+        threading.Thread(target=_ai_result_harvester,name="bellwether-ai-harvest",daemon=True).start()
+@app.on_event("shutdown")
+def _stop_ai_harvester(): _harvest_stop.set()
 app.mount("/static", StaticFiles(directory=ROOT / "frontend" / "static"), name="static")
 
 class ActionRequest(BaseModel):
@@ -57,7 +72,7 @@ def developer_status():
         "events": {"dynamic_events": s.get("dynamic_events", {}), "recent_world_events": s.get("world_events", [])[-20:]},
         "horror": {"pressure": s.get("supernatural_pressure", 0), "state": s.get("horror", {}), "psychology": s.get("psychology", {}), "anomaly_history": s.get("anomaly_history", [])[-20:], "adaptive": HORROR_MODEL.developer_context(game.state), "aftermath": HORROR_AFTERMATH_MODEL.developer_context(game.state), "interface": INTERFACE_HORROR_MODEL.developer_context(game.state)},
         "investigation": {"notebook": s.get("investigation", {}), "mysteries": game.investigation_overview()},
-        "authored_story": STORY_MODEL.public(game.state), "ending_families": ENDING_MODEL.public(game.state),
+        "authored_story": STORY_MODEL.public(game.state), "ending_families": ENDING_MODEL.public(game.state), "postgame": POSTGAME_MODEL.public(game.state),
         "economy": {"money": s.get("money"), "economy": s.get("economy", {}), "employment": s.get("employment", {}), "activities": s.get("activities", {})},
         "provider": provider.last_status, "ai_runtime": {**s.get("ai_runtime", {}), "background": ASYNC_AI_RUNTIME.status()}, "failure_recovery": FAILURE_RECOVERY_MODEL.developer_context(game.state),
         "ai_events": s.get("ai_events", [])[-20:], "traces": provider.debug_traces[-40:]
@@ -70,7 +85,7 @@ def director_status():
         "simulation": game.state.get("director_status", {}),
         "provider": provider.last_status,
         "events": game.state.get("ai_events", [])[-10:],
-        "runtime": game.state.get("ai_runtime", {}),
+        "runtime": {**game.state.get("ai_runtime", {}), "background": ASYNC_AI_RUNTIME.status()},
         "traces": provider.debug_traces[-40:]
     }
 

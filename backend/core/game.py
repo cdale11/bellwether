@@ -41,6 +41,7 @@ from backend.core.cognition_model import COGNITION_MODEL
 from backend.core.procedural_arc_model import PROCEDURAL_ARC_MODEL, ARC_TEMPLATES
 from backend.core.story_model import STORY_MODEL
 from backend.core.ending_model import ENDING_MODEL, FAMILIES
+from backend.core.postgame_model import POSTGAME_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -453,7 +454,8 @@ class Game:
         rt["resolved"]={"id":ending_id,"title":data["title"],"day":s["day"],"time":self.time_label(),"metrics":ENDING_MODEL.metrics(s)}
         b=s.setdefault("branch_state",{}); b["run_complete"]=True; b["ending"]=deepcopy(rt["resolved"])
         self.add("Ending",data["title"]); self.add("Narrator",data["text"])
-        self.add("Journal","Run complete. Bellwether's post-resolution life will be expanded in v1.0 RC3.")
+        POSTGAME_MODEL.activate(s,ending_id)
+        self.add("Journal","The central crisis has resolved, but life in Bellwether continues. Work, relationships, hobbies, farming and remaining mysteries are still yours to pursue.")
         self.record_world_event(f"Canonical ending reached: {data['title']}.","ending","player")
         self.compile_llm_overview(); return True
 
@@ -595,6 +597,7 @@ class Game:
         PROCEDURAL_ARC_MODEL.migrate(self.state)
         STORY_MODEL.migrate(self.state)
         ENDING_MODEL.migrate(self.state)
+        POSTGAME_MODEL.migrate(self.state)
         POPULATION_MODEL.migrate(self.state)
         SOCIAL_CONSEQUENCE_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         TRAVEL_MODEL.migrate(self.state)
@@ -713,6 +716,7 @@ class Game:
         state["mystery_overview"] = self.investigation_overview()
         state["authored_story_overview"] = STORY_MODEL.public(self.state)
         state["ending_families_overview"] = ENDING_MODEL.public(self.state)
+        state["postgame_overview"] = POSTGAME_MODEL.public(self.state)
         state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
         story_public=STORY_MODEL.public(self.state)
         main_quests=self.visible_quests("main")
@@ -870,6 +874,9 @@ class Game:
         if STORY_MODEL.public(s).get("ending_eligible") and not s.get("ending_families",{}).get("resolved"):
             for ending_id in ENDING_MODEL.refresh(s):
                 actions.append({"id":f"ending:{ending_id}","label":f"Choose: {FAMILIES[ending_id]['title']}","kind":"story"})
+
+        for action_id, label in POSTGAME_MODEL.actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"life"})
 
         for label, target in WORLD[loc]["exits"].items():
             actions.append({"id": f"move:{target}", "label": label, "kind": "travel"})
@@ -1672,6 +1679,9 @@ class Game:
         s=self.state; applied=0; stale=0
         for job in ASYNC_AI_RUNTIME.harvest():
             kind=job.get("kind"); choice=job.get("result")
+            if job.get("error"):
+                stale+=1; ASYNC_AI_RUNTIME.record_application(job,"failed"); continue
+            before_applied=applied; before_stale=stale
             if kind=="town_mind":
                 candidates=TOWN_MIND_MODEL.candidates(s); legal={x.get("id") for x in candidates}
                 if choice and choice.get("id") in legal:
@@ -1684,9 +1694,14 @@ class Game:
                 else: stale+=1
             elif kind=="director_batch":
                 proposals=choice if isinstance(choice,dict) else {}
-                if proposals:
+                revision_age=max(0,self._async_state_revision()-int(job.get("revision",0)))
+                if revision_age>8:
+                    stale+=1
+                elif proposals:
                     self.apply_director_proposals(proposals); self.propagate_world_consequences("async_director"); s["ai_runtime"]["world_rounds"]+=1; applied+=1
                 else: stale+=1
+            if applied>before_applied: ASYNC_AI_RUNTIME.record_application(job,"applied")
+            elif stale>before_stale: ASYNC_AI_RUNTIME.record_application(job,"rejected_or_stale")
         rt=s.setdefault("ai_runtime",{}); rt["async_applied"]=rt.get("async_applied",0)+applied; rt["async_stale_or_rejected"]=rt.get("async_stale_or_rejected",0)+stale
         rt["background_worker"]=ASYNC_AI_RUNTIME.status(); return applied
 
@@ -2620,6 +2635,16 @@ class Game:
         elif action.startswith("ending:"):
             self.resolve_ending(action.split(":",1)[1])
 
+        elif action.startswith("postgame:"):
+            kind=action.split(":",1)[1]
+            POSTGAME_MODEL.record(s,kind)
+            if kind=="community":
+                self.advance(45); self.branch_score("community",1,"Continued contributing to Bellwether after resolution."); self.add("Narrator","You spend part of the day helping with the village's changed routines. Resolution did not make ordinary work disappear.")
+            elif kind=="side_mystery":
+                self.advance(35); self.add("Journal","A remaining loose end yields another small connection. Not every mystery belonged to the central crisis.")
+            else:
+                self.advance(40); s["player_life"]["cottage_care"]+=1; self.add("Narrator","You work on the cottage with no crisis forcing your hand. The difference matters.")
+
         elif action == "rest":
             self.advance(20)
             self.add("Narrator", "You stop for a while and listen. Bellwether is quiet, but never entirely still.")
@@ -2631,6 +2656,7 @@ class Game:
             elif day_summary["activities"] == 0:
                 self.add("Narrator", "The cottage settles around an almost untouched day. Tomorrow is still open.")
             s["day"] += 1
+            POSTGAME_MODEL.daily_tick(s)
             HORROR_AFTERMATH_MODEL.daily_recovery(s)
             for echo in RECURRENCE_MODEL.advance_day(s): self.add(echo["speaker"], echo["text"])
             s["minute"] = 450

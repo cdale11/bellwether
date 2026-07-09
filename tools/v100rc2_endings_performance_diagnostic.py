@@ -38,7 +38,7 @@ try:
     ok('ordinary director batch submits asynchronously',submitted)
     ok('async director result harvested',g2.state['ai_runtime'].get('async_applied',0)+g2.state['ai_runtime'].get('async_stale_or_rejected',0)>=1)
 finally: provider.enabled=old
-ok('README current version', 'Bellwether v1.0 RC2' in open('README.md').read())
+ok('README current version', ('Bellwether v'+open('VERSION').read().strip()) in open('README.md').read())
 ok('developer control preserved','developer' in open('frontend/templates/index.html').read().lower())
 print(f'{sum(x for _,x in checks)}/{len(checks)} passed')
 raise SystemExit(0 if all(x for _,x in checks) else 1)

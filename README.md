@@ -1,59 +1,63 @@
-# Bellwether v1.0 RC2
+# Bellwether v1.0 RC3
 
-Bellwether is a text-first village life-sim, RPG, mystery, and psychological horror game. You can work, garden, cook, explore, investigate, build relationships, and follow the main story at your own pace. The village continues to change around you.
+Bellwether is a text-first village life-sim, RPG, mystery and psychological horror game. You can live in the village at your own pace: work, garden, cook, explore, build relationships, investigate mysteries, or follow the main story.
 
-## Quick start
+RC3 adds postgame life. Reaching an ending no longer means the simulation stops. The village changes according to the ending, and you can continue farming, working, socialising, following hobbies and investigating remaining side mysteries.
 
-Bellwether runs on Debian/Linux and uses a local Ollama model when one is available.
+## Start the game
 
-Install Ollama, then pull these models once:
+Bellwether is designed for Debian/Linux and uses Ollama locally.
+
+Install the two recommended models once:
 
 ```bash
 ollama pull qwen3.5:2b
 ollama pull qwen3.5:4b
 ```
 
-Start the game:
+Then run:
 
 ```bash
 ./run.sh
 ```
 
-Open the local address printed in the terminal.
+Open the local address shown in the terminal.
 
-You do not need to set model names or CPU thread counts. Bellwether detects the installed models and the CPU threads available to the process.
+Bellwether detects available CPU threads automatically. You do not need to set thread counts or model names.
 
-## Which model does what?
+## How AI is used
 
-- `qwen3.5:2b` handles short player-facing dialogue and routine AI work.
-- `qwen3.5:4b` handles slower strategic work such as Town Mind reviews and procedural social arcs.
-- If only one supported model is installed, Bellwether uses that model where possible.
-- If Ollama is unavailable, deterministic fallbacks keep the game playable.
+The deterministic engine owns the real game state. The LLM proposes bounded choices; validators decide whether they are legal.
 
-On low-memory systems, Bellwether runs one Ollama inference at a time. Each inference can use all CPU threads available to the process. Background AI jobs are queued so ordinary gameplay does not wait for routine Director decisions.
+The 2B model handles short dialogue and routine village decisions. The 4B model handles slower strategic work such as Town Mind reviews and procedural social arcs.
 
-## Performance behaviour
+Routine AI work runs in a background queue. Walking, gardening, jobs, hobbies and other normal actions do not wait for it. Free-form NPC conversation still waits because the reply is needed immediately.
 
-Most gameplay systems are deterministic and should remain responsive while background AI is thinking. Free-form NPC conversation is the main action that still waits for a model response because the reply is needed immediately.
+Only one Ollama inference runs at a time on low-memory systems. This avoids making the 2B and 4B models fight for RAM and CPU. Each inference can use all CPU threads available to Bellwether.
 
-The AI system uses:
+## AI debugging
 
-- one background inference worker;
-- foreground dialogue priority;
-- asynchronous routine Directors;
-- asynchronous Town Mind reviews;
-- asynchronous procedural-arc planning;
-- compact task-specific prompts;
-- cached overview context;
-- bounded output lengths;
-- deterministic fallbacks;
-- validation before AI results change game state.
+The Developer / Settings button is intentionally part of the game.
 
-The Developer Console shows AI queue state, recent traces, prompt size, latency, and Ollama timing fields.
+The Developer Console shows:
 
-## RC2: ending families
+- queued AI jobs;
+- the currently running job;
+- completed jobs waiting for validation;
+- recent queue, start, finish, failure, harvest and apply events;
+- job age and running time;
+- accepted, rejected, stale and failed results;
+- Ollama traces and timing information.
 
-RC2 adds the six canonical ending families:
+Completed background results are harvested automatically. They do not have to wait for another player action before validation and application.
+
+## RC3 postgame
+
+After one of the six canonical endings, Bellwether remains playable. Existing farming, jobs, relationships, hobbies and exploration systems stay available.
+
+The postgame also records continued village life and applies an ending-specific village condition. Remaining loose ends can be investigated without reopening the resolved central crisis.
+
+The six ending families are:
 
 - Incorporation
 - False Escape
@@ -62,30 +66,15 @@ RC2 adds the six canonical ending families:
 - Containment
 - True Liberation-Coexistence
 
-Endings are not chosen from a universal final menu. The game only offers endings that your play has made possible. Eligibility can depend on investigation, relationships, recurrence, anchors, familiarity with the village, preparation, and the way you have lived in Bellwether.
-
-The LLM cannot create, unlock, or resolve an ending. Ending eligibility is controlled by deterministic game state.
-
-## Important game systems
-
-The current build includes ordinary village life, jobs and economy, gardening and cooking, hobbies and skills, a persistent population, core NPC relationships and memory, NPC cognition, procedural social arcs, expanded exploration, travel depth, mystery investigation, adaptive horror, horror aftermath, Interface Horror, recurrence, failure and recovery, Town Mind strategy, and the complete authored story path through ending resolution.
-
-## Developer / Settings
-
-The Developer / Settings control is intentionally part of the game. It is used for debugging and inspection and must not be removed from release builds without an explicit project decision.
-
-The console can inspect simulation state, AI traces, background jobs, Town Mind state, horror systems, recurrence, story progress, and ending eligibility.
-
 ## Save compatibility
 
-The game migrates older saves forward. Keep a backup of important saves when testing release candidates.
+Older saves are migrated forward. Keep backups of important saves while testing release candidates.
 
-## Diagnostics
+## Project files
 
-Release diagnostics are in `tools/` and audit reports are in `docs/`. RC2 must preserve the behaviour of accepted earlier releases while adding ending families and performance work.
+Diagnostics are in `tools/`. Audit reports and the design documents are in `docs/`.
 
 ## Roadmap
 
-- **v1.0 RC2 — Ending Families:** current release.
-- **v1.0 RC3 — Postgame:** farming, jobs, relationships, hobbies, side mysteries, and changed village state after resolution.
-- **v1.0 — Certification:** audio, accessibility, performance, distribution, full playtesting, and release certification.
+- **v1.0 RC3 — Postgame:** current release.
+- **v1.0 — Certification:** audio, accessibility, performance, distribution, full playtesting and release certification.
