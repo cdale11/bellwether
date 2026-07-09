@@ -206,6 +206,13 @@ class AIProvider:
             self._ai_active = False
             self._ai_gate.notify_all()
 
+    def reset_session(self, session_key=None):
+        """Discard disposable working context after timeout/parser health failures."""
+        if session_key is None:
+            self._session_contexts.clear(); self._session_turns.clear()
+        else:
+            self._session_contexts.pop(session_key,None); self._session_turns[session_key]=0
+
     def telemetry(self):
         with self._ai_gate:
             active=dict(self._active_call) if self._active_call else None
@@ -443,12 +450,21 @@ class AIProvider:
                 "Avoid repetition and passive actions when a direct goal action exists. "
                 "Reply with one integer only.\n"
                 f"GOAL {goal}\nSTATE {state_line}\nACTIONS\n{rows}\nANSWER ")
-        timeout=float(timeout_override if timeout_override is not None else os.getenv("BELLWETHER_AUTOPLAYER_TIMEOUT","45"))
-        text=self._plain_request(director,prompt,max_tokens=4,temperature=.2,no_think=True,tries_override=1,foreground=True,timeout_override=timeout,session_key=director)
+        timeout=float(timeout_override if timeout_override is not None else os.getenv("BELLWETHER_AUTOPLAYER_TIMEOUT","90"))
+        text=self._plain_request(director,prompt,max_tokens=4,temperature=.2,no_think=True,tries_override=1,foreground=True,timeout_override=timeout,session_key=None)
         if not text:return None
         m=re.search(r"\b(\d+)\b",text)
-        if not m:return None
-        idx=int(m.group(1));return candidates[idx] if 0<=idx<len(candidates) else None
+        if not m:
+            self._annotate_last_trace(parser_stage="compact_choice_parse_failed", parser_detail="No integer action index found.", raw_response=text[:500], candidate_count=len(candidates), result="parser_failed")
+            self.last_status.update(valid_response=False,last_error="Compact choice returned no integer action index")
+            return None
+        idx=int(m.group(1))
+        if not 0<=idx<len(candidates):
+            self._annotate_last_trace(parser_stage="compact_choice_index_invalid", parser_detail=f"Index {idx} outside 0..{len(candidates)-1}", raw_response=text[:500], candidate_count=len(candidates), result="parser_failed")
+            self.last_status.update(valid_response=False,last_error=f"Compact choice index {idx} out of range")
+            return None
+        self._annotate_last_trace(parser_stage="compact_choice_parsed", extracted_token=str(idx), candidate=candidates[idx], result="accepted_by_parser")
+        return candidates[idx]
 
     def ask_choice(self,director,question,context,candidates):
         """Choose one Director candidate and record every parser decision."""

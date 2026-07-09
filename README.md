@@ -1,39 +1,25 @@
-# Bellwether v1.1.0
+# Bellwether v1.2.0 — Life Simulation Expansion
 
-Bellwether is a narrative village life-sim and psychological-horror RPG. The simulation is authoritative and deterministic; local LLMs make bounded decisions, interpret changing conditions, drive NPC/world responses, and support autonomous testing without being allowed to rewrite canonical state.
+Bellwether is a local-first narrative village life-sim and psychological-horror RPG. The deterministic game engine remains authoritative over state, persistence, accounting, story gates and safety constraints; local LLM systems influence bounded world interpretation, NPC behaviour, ecology, conversation, procedural situations and automated playtesting.
 
-## v1.1.0 — Economy and Village Change
+## v1.2.0 milestone
 
-This release adds persistent business health, cash reserves, staffing, supply routes, demand, stock pressure, bounded dynamic pricing, employment consequences, village economic outlook, player support for strained businesses, and economic history. Weather and world-runtime delivery disruption now propagate into supply conditions. Business health can affect hiring and wages, while accounting remains deterministic.
+This release expands ordinary life without replacing the existing story or simulation systems. It adds persistent pantry preservation, shared meals, scheduled community participation, long-term life progression, hobby mastery summaries, ordinary non-story social contact, and stronger integration between farming, cooking, hobbies, relationships, community standing and the economy.
 
-The release also folds in the v1.0.12 playtest findings. The autonomous player now uses compact task-specific state, numeric low-token choices, goal-aware ranking, direct execution of obvious prerequisite steps, goal-stall replanning, and goal-aware fallbacks. High-frequency action selection no longer receives the broad world context projection used by Directors. Provider traces already record prompt size, queue wait, inference duration and Ollama token/duration fields for performance diagnosis.
-
-Full diagnostics remain isolated from the live save. They continuously checkpoint and now also write append-only per-run decision traces under `diagnostics/runs/`, so interrupted long tests retain evidence. Simulation-duration certification and player-action coverage remain separately visible in the report.
+The release also folds the v1.1.0 diagnostic findings into the AI testing architecture: goal stagnation is measured semantically rather than by any state change, ordinary NPC interaction is now directly testable without advancing authored story, volatile numeric action maps no longer reuse stale Ollama context, compact-choice parser failures are recorded with richer evidence, the autonomous-player timeout is restored to a generous configurable default, and diagnostic reports expose separate quality dimensions.
 
 ## Run
-
-Requirements: Python 3.10+ and the packages in `requirements.txt`. Ollama is optional for deterministic play but required for real AI-assisted runtime and full AI stress certification.
 
 ```bash
 ./run.sh
 ```
 
-Open the local address printed by the server. Developer diagnostics are available from the in-game developer panel.
+Then open the local address printed by the server. Bellwether expects a local Ollama-compatible model service for AI-assisted features; deterministic fallbacks preserve playability when AI is unavailable.
 
-## Local AI
+## Saves and diagnostics
 
-Bellwether automatically discovers supported locally installed Ollama models. Environment overrides remain optional. The runtime uses all CPU threads available to the process by default. Stable specialist contracts, compact domain projections and bounded output budgets reduce unnecessary prompt evaluation and generation.
+The game save is stored as a local JSON file under `saves/`. Full diagnostic runs continuously checkpoint to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`, while append-only run evidence is written under `diagnostics/runs/`.
 
-Useful overrides include `BELLWETHER_AI_THREADS`, `BELLWETHER_AI_NUM_CTX`, `BELLWETHER_AUTOPLAYER_TIMEOUT`, `BELLWETHER_BOUNDED_AI_TIMEOUT`, `BELLWETHER_AI_FAST_MODEL`, and `BELLWETHER_AI_DEEP_MODEL`.
+## Development principle
 
-## Save and diagnostics
-
-The normal save/export flow produces copyable JSON. Diagnostic checkpoint files are written to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`; detailed run traces are stored under `diagnostics/runs/`.
-
-## Design rule
-
-LLMs may propose or choose bounded actions. Money, inventory, business health transitions, stock, jobs, crop growth, story gates, horror authority and save state remain validated by game systems.
-
-### Bounded working sessions
-
-The compact autonomous-player paths can reuse Ollama context tokens for bounded 24-turn working sessions, then rebase. This cache is disposable acceleration only: canonical state, memories, relationships and economy remain in the save and are recompiled from authoritative state.
+Gameplay and automated certification evolve together. New systems should ship with deterministic invariants plus AI-player coverage, naturalistic play, adversarial play and long-horizon testing where appropriate. Diagnostic reports should expose enough evidence to diagnose failures without requiring spoiler-heavy manual inspection.

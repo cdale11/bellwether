@@ -835,3 +835,17 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added append-only per-run diagnostic decision traces alongside atomic live checkpoints.
 - Fixed diagnostic live-feed currency rendering to use the shared crossed-B component.
 - Updated README and release metadata.
+
+## v1.2.0 — Life Simulation Expansion
+- Added persistent pantry preservation and harvest-to-pantry loops.
+- Added shared meals that connect food preparation, relationships/community and long-term life progression.
+- Added scheduled community participation activities with persistent history and standing.
+- Added long-term life XP, levels, milestones, active-day tracking and weekly summaries.
+- Added derived hobby mastery ranks from persistent skill and session history.
+- Added ordinary non-story social contact actions so relationships can progress and diagnostics can certify NPC interaction without forcing authored story.
+- Integrated life-simulation state into save migration and public state overview.
+- Corrected AI-player goal-stall accounting so unrelated state changes no longer erase target stagnation.
+- Removed volatile compact action selection from persistent Ollama context reuse to prevent stale numeric action-map contamination.
+- Added compact-choice parser telemetry for raw invalid output, rejected index and candidate count.
+- Restored a configurable 90-second default autonomous-player timeout and added session reset after timeout health failures.
+- Expanded full diagnostics with cooking, hobbies, community and life-progression coverage plus separate quality dimensions.

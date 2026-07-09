@@ -44,6 +44,7 @@ from backend.core.procedural_arc_model import PROCEDURAL_ARC_MODEL, ARC_TEMPLATE
 from backend.core.story_model import STORY_MODEL
 from backend.core.ending_model import ENDING_MODEL, FAMILIES
 from backend.core.postgame_model import POSTGAME_MODEL
+from backend.core.life_simulation_model import LIFE_SIMULATION_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -219,6 +220,7 @@ INITIAL_STATE = {
     "failure_recovery": FAILURE_RECOVERY_MODEL.runtime_defaults(),
     "recurrence": RECURRENCE_MODEL.runtime_defaults(),
     "content_progression": CONTENT_MODEL.runtime_defaults(),
+    "life_simulation": LIFE_SIMULATION_MODEL.runtime_defaults(),
     "memory_system": MEMORY_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "population": POPULATION_MODEL.runtime_defaults(),
     "social_consequences": SOCIAL_CONSEQUENCE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
@@ -605,6 +607,7 @@ class Game:
         SOCIAL_CONSEQUENCE_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
         TRAVEL_MODEL.migrate(self.state)
         CONTENT_MODEL.migrate_v040(self.state)
+        LIFE_SIMULATION_MODEL.migrate(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
         ACTIVITY_MODEL.migrate(self.state)
@@ -755,6 +758,7 @@ class Game:
         state["authored_story_overview"] = STORY_MODEL.public(self.state)
         state["ending_families_overview"] = ENDING_MODEL.public(self.state)
         state["postgame_overview"] = POSTGAME_MODEL.public(self.state)
+        state["life_simulation_overview"] = LIFE_SIMULATION_MODEL.public(self.state)
         state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
         story_public=STORY_MODEL.public(self.state)
         main_quests=self.visible_quests("main")
@@ -817,6 +821,7 @@ class Game:
                         "npc_id": npc_id,
                         "npc_name": npc["name"],
                     })
+                actions.append({"id":f"social:greet:{npc_id}","label":f"Exchange a Few Words with {npc['name']}","kind":"social"})
         if loc == "ashcroft_cottage" and not s["flags"]["read_letter"]:
             actions.append({"id": "read_letter", "label": "Read Eleanor's Letter", "kind": "story"})
         if loc == "ashcroft_cottage" and s["flags"]["read_letter"]:
@@ -895,6 +900,8 @@ class Game:
         for action_id, label in CONTENT_MODEL.repair_actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
         for action_id, label in CONTENT_MODEL.home_actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"life"})
+        for action_id, label in LIFE_SIMULATION_MODEL.actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
 
         # Part 6: applications and scheduled shifts use authored job definitions and real world locations.
@@ -2708,6 +2715,22 @@ class Game:
         elif action.startswith("content:"):
             self.perform_content_action(action)
 
+        elif action.startswith("lifesim:"):
+            ok,msg,minutes=LIFE_SIMULATION_MODEL.perform(s,action)
+            self.add("Narrator",msg)
+            if ok:
+                self.record_player_activity(action,msg,minutes,{"life_simulation":True})
+                self.advance(minutes)
+                self.propagate_world_consequences("player_activity")
+
+        elif action.startswith("social:greet:"):
+            npc_id=action.split(":",2)[2]; npc=s.get("npcs",{}).get(npc_id)
+            if npc and npc.get("visible",True) and npc.get("location")==s.get("location"):
+                self.advance(5); self._update_relationship(npc_id,"shared an ordinary greeting",1,2,1)
+                s["relationships"][npc_id]["talks"]+=1; CONTENT_MODEL.note_activity(s,"social")
+                LIFE_SIMULATION_MODEL.award(s,2,"ordinary social contact")
+                self.add(npc.get("name",npc_id),"You exchange a few ordinary words about the day. Nothing dramatic happens, which is part of becoming familiar.")
+
         elif action.startswith("life:"):
             self.perform_life_activity(action.split(":", 1)[1])
 
@@ -2750,6 +2773,7 @@ class Game:
             self.add("Narrator", "You stop for a while and listen. Bellwether is quiet, but never entirely still.")
 
         elif action == "sleep" and s["location"] == "ashcroft_cottage" and s["flags"]["read_letter"]:
+            LIFE_SIMULATION_MODEL.close_day(s)
             day_summary=CONTENT_MODEL.close_day(s)
             if day_summary["variety"] >= 3:
                 self.add("Narrator", "The day closes with the satisfying tiredness of a life made from several small things, each of them real.")

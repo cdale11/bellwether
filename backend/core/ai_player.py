@@ -6,7 +6,7 @@ import time
 from backend.ai.provider import provider
 BLOCKED_PREFIXES=("story:","ending:","horror:","recurrence:")
 BLOCKED_KINDS={"story","choice","talk"}
-GOAL_WORDS={"movement":("travel","walk","visit","return","go to"),"npc_interaction":("talk","speak","help","conversation"),"relationships":("talk","speak","help","conversation"),"economy":("buy","sell","shop","purchase","support"),"jobs":("job","work","shift","apply"),"gardening":("garden","soil","weed","water","plant","sow","harvest","cottage"),"investigation":("observe","examine","review","lead","investigat"),"procedural_content":("offer to help","errand","opportunity","favour","favor")}
+GOAL_WORDS={"movement":("travel","walk","visit","return","go to"),"npc_interaction":("talk","speak","help","conversation"),"relationships":("talk","speak","help","conversation"),"economy":("buy","sell","shop","purchase","support"),"jobs":("job","work","shift","apply"),"gardening":("garden","soil","weed","water","plant","sow","harvest","cottage"),"investigation":("observe","examine","review","lead","investigat"),"procedural_content":("offer to help","errand","opportunity","favour","favor"),"cooking":("cook","preserve","meal","food"),"hobbies":("hobby","fish","forage","bird","sketch","history"),"community":("community","workday","care walk","churchyard upkeep","share a simple meal") }
 PASSIVE=("look around","take a moment","wait and observe","sit by","review what","observe carefully","watch for birds","make a sketch","research local history","go foraging")
 
 def safe_actions(game,allow_investigation=True):
@@ -31,7 +31,7 @@ def _score(a,target,recent,blocked):
  if target=='gardening':
   if 'ashcroft_cottage' in text:score-=30
   if any(x in text for x in ('plant','water','weed','harvest','soil')):score-=50
- if target in {'npc_interaction','relationships'} and any(x in text for x in ('talk','speak','offer to help')):score-=60
+ if target in {'npc_interaction','relationships'} and (aid.startswith('social:greet:') or any(x in text for x in ('talk','speak','offer to help','exchange a few words'))):score-=80
  if target=='procedural_content' and any(x in text for x in ('offer to help','opportunity','errand')):score-=60
  return score
 
@@ -55,7 +55,9 @@ def choose_action(game,purpose='ordinary life',memory=None,target=None):
  cid=choice.get('id') if isinstance(choice,dict) else None;selected=next((a for a in ranked if a['id']==cid),None)
  if selected:return selected,choice,dt,{"outcome":"llm_success","provider_state":provider.last_status.get('state','unknown'),"goal_progress":_score(selected,target,recent,blocked)<0}
  # Goal-aware fallback: choose best ranked action, not a rotating legal-action cycle.
- selected=ranked[0];state=str(provider.last_status.get('state','unknown'));return selected,choice,dt,{"outcome":"timeout_fallback" if 'timeout' in state else 'invalid_fallback',"provider_state":state,"goal_progress":_score(selected,target,recent,blocked)<0}
+ selected=ranked[0];state=str(provider.last_status.get('state','unknown'))
+ if 'timeout' in state: provider.reset_session('autoplayer')
+ return selected,choice,dt,{"outcome":"timeout_fallback" if 'timeout' in state else 'invalid_fallback',"provider_state":state,"goal_progress":_score(selected,target,recent,blocked)<0}
 
 class AIPlayerRunner:
  def __init__(self):self.lock=RLock();self.stop_event=Event();self._thread=None;self.status={"running":False,"stop_state":"stopped","mode":"idle","progress":0,"phase":"Idle","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"goal_stalls":0}
