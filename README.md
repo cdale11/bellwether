@@ -1,7 +1,14 @@
-# Bellwether v1.0.5
+# Bellwether v1.0.6
 
 Bellwether is a village life-sim, RPG, mystery, and psychological horror game. You can work, garden, cook, explore, build relationships, investigate the village, or ignore the main story for long stretches.
 
+
+
+## v1.0.6: Responsive and Visual Life
+
+v1.0.6 adds a presentation-only visual-state framework driven by existing authoritative game state. Scene artwork now receives restrained seasonal, time-of-day, weather, and horror-stage treatment without changing simulation state. Rain, snow, and mist use lightweight CSS layers rather than JavaScript animation loops, and reduced-motion preferences disable movement. Horror presentation progresses gradually from pastoral to subtle, uneasy, disturbed, and severe states according to existing pressure.
+
+The responsive layout is also strengthened. On tablets and phones the scene remains the first and largest surface, secondary rails move below it in compact layouts, action targets are touch-sized, and the dialogue/action surfaces remain usable on narrow screens. This release deliberately avoids multiplying the scene asset library: approved art is reused with bounded presentation treatment so future dedicated variants can be added selectively.
 
 ## v1.0.5: UI Completion and Diagnostic UX
 
@@ -109,6 +116,12 @@ Diagnostics are also easier to read. `python tools/post_v010_diagnostic.py` prin
 
 Release packages retain source diagnostics and authored audit/design documents, but no longer ship obsolete generated diagnostic snapshots or large historical playtest transcript payloads. This reduces package clutter without removing executable diagnostics or gameplay content.
 
-### Next planned update: v1.0.6
+## v1.0.7 runtime UX and diagnostics
 
-The next planned update is **Responsive and Visual Life**: genuine mobile composition, time-of-day and weather presentation foundations, seasonal visual treatment, restrained ambient movement where performance permits, reduced-motion support, and gradual state-driven visual progression from pastoral warmth toward horror. It should build on the pacing and interaction work without adding a new major simulation subsystem.
+v1.0.7 fixes the pacing-notification lifecycle and completes the readable Developer Console pass. Events, NPCs, and Investigation now have dedicated views instead of serialized JSON walls. Ecology values are human-formatted, AI activity is easier to inspect, and the diagnostic palette has accessible contrast. Raw State remains available for copying exact state into bug reports.
+
+Run `python tools/v107_runtime_ux_diagnostic.py` for the focused structural check. For useful reports, capture the Developer Console AI Runtime, Living World, Events, Horror, and Economy tabs after several in-game hours, plus Raw State when an exact bug needs reproduction.
+
+### Next planned update: v1.1.0
+
+The next major milestone is **Economy and Village Change**: persistent business health, supply and price consequences, employment changes, ecology-to-economy causality, business crises, player intervention opportunities, and longer causal chains linking weather, land, businesses, jobs, NPC routines, and social consequences.

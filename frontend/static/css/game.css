@@ -129,3 +129,70 @@ body.horror-portrait-shift .npc-portrait{filter:saturate(.78) contrast(1.06);tra
 .health-strip{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}.health-pill{display:inline-flex;gap:6px;align-items:center;padding:6px 9px;border:1px solid #59645e;border-radius:999px;background:#29322e;font-size:.78rem}.health-pill.good{border-color:#6f8a71}.health-pill.warn{border-color:#a48757}.diag-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;margin:10px 0 16px}.diag-card{background:#2b3430;padding:11px;border-radius:8px;border:1px solid #46514b;display:flex;flex-direction:column;gap:4px}.diag-card>span{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#b7aa91}.diag-card>strong{font-size:1.05rem}.diag-card small{color:#aaa28f}.diag-section{margin:16px 0}.diag-section h3{margin-bottom:8px}.diag-table{width:100%;border-collapse:collapse}.diag-table th,.diag-table td{text-align:left;padding:8px 9px;border-bottom:1px solid #46514b;vertical-align:top}.diag-table th{width:34%;text-transform:capitalize;color:#d6c6a8}.diag-list{display:grid;gap:7px}.diag-list>div{display:flex;justify-content:space-between;gap:14px;padding:9px 10px;background:#29322e;border-radius:6px}.diag-list span{color:#bdb4a2;text-align:right}.empty-state{padding:14px;border:1px dashed #59645e;border-radius:7px;color:#bdb4a2}.event-table{display:grid;gap:2px}.event-table>div{display:grid;grid-template-columns:120px 1fr 70px;gap:10px;padding:8px;border-bottom:1px solid #46514b}.event-table small{text-align:right}.raw-tools{display:flex;justify-content:flex-end;margin-bottom:8px}
 @media(max-width:900px){.game-frame{grid-template-columns:190px minmax(0,1fr);height:auto}.right-rail{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.scene-stage{height:650px}.action-tray{bottom:76px}}
 @media(max-width:620px){.game-frame{display:flex;flex-direction:column}.scene-stage{order:1;height:58vh;min-height:430px}.left-rail{order:2}.right-rail{order:3;display:block}.left-rail .rail-card{margin-bottom:7px}.dialogue{left:10px;right:10px;bottom:10px;max-height:42%}.scene-stage.has-art .scene-art-placeholder{left:10px;right:10px;bottom:auto;top:10px;max-width:none}.action-tray{bottom:64px;max-height:58vh}.npc-focus{grid-template-columns:90px 1fr}.npc-focus img{width:90px;max-height:130px}.event-table>div{grid-template-columns:80px 1fr 52px}.diag-list>div{display:block}.diag-list span{display:block;text-align:left;margin-top:3px}}
+
+
+/* v1.0.6 — Responsive and Visual Life
+   Presentation-only atmosphere. Authoritative simulation state remains untouched. */
+:root{--visual-warmth:1;--visual-saturation:1;--visual-brightness:1;--visual-contrast:1;--visual-haze:0;--horror-pressure:0}
+.scene-art{filter:saturate(var(--visual-saturation)) brightness(var(--visual-brightness)) contrast(var(--visual-contrast));transition:filter 1.2s ease,transform 8s ease}
+.scene-atmosphere{transition:background 1.2s ease,opacity 1.2s ease,box-shadow 1.2s ease}
+.scene-vignette{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:calc(var(--horror-pressure) * .48);background:radial-gradient(ellipse at center,transparent 48%,rgba(28,32,27,.52) 100%);transition:opacity 1.4s ease}
+.weather-particles{position:absolute;inset:-15%;z-index:0;pointer-events:none;opacity:0;transition:opacity .8s ease}
+
+/* Seasonal treatment stays restrained so approved scene art remains recognizable. */
+body[data-season*="spring"]{--visual-saturation:1.04;--visual-brightness:1.015}
+body[data-season*="summer"]{--visual-saturation:1.07;--visual-brightness:1.025}
+body[data-season*="autumn"],body[data-season*="fall"]{--visual-saturation:1.02;--visual-contrast:1.025}
+body[data-season*="winter"]{--visual-saturation:.88;--visual-brightness:.98;--visual-contrast:1.025}
+body[data-season*="winter"] .scene-atmosphere{box-shadow:inset 0 0 0 999px rgba(205,220,218,.055)}
+
+/* Time of day: gradual lighting rather than replacing the scene. */
+body[data-daypart="morning"] .scene-atmosphere{background:linear-gradient(155deg,rgba(255,226,166,.14),transparent 42%,rgba(89,108,91,.05))}
+body[data-daypart="afternoon"] .scene-atmosphere{background:linear-gradient(180deg,rgba(255,244,202,.06),rgba(86,75,50,.08))}
+body[data-daypart="evening"]{--visual-brightness:.91;--visual-saturation:.96}
+body[data-daypart="evening"] .scene-atmosphere{background:linear-gradient(145deg,rgba(225,153,93,.18),transparent 45%,rgba(45,57,61,.22))}
+body[data-daypart="night"]{--visual-brightness:.66;--visual-saturation:.72;--visual-contrast:1.08}
+body[data-daypart="night"] .scene-atmosphere{background:linear-gradient(160deg,rgba(35,53,70,.34),rgba(11,22,29,.48));box-shadow:inset 0 0 70px rgba(4,12,18,.34)}
+
+/* Lightweight CSS weather layers: no canvas loop and no JavaScript animation timer. */
+body[data-weather="light_rain"] .rain-layer,body[data-weather="heavy_rain"] .rain-layer,body[data-weather="storm"] .rain-layer{opacity:.38;background-image:repeating-linear-gradient(105deg,transparent 0 18px,rgba(225,237,235,.32) 19px 20px,transparent 21px 38px);background-size:48px 48px;animation:bellwether-rain .85s linear infinite}
+body[data-weather="heavy_rain"] .rain-layer{opacity:.58;animation-duration:.62s}
+body[data-weather="storm"] .rain-layer{opacity:.68;animation-duration:.48s}
+body[data-weather="snow"] .snow-layer{opacity:.7;background-image:radial-gradient(circle,rgba(255,255,248,.88) 0 1.5px,transparent 2px),radial-gradient(circle,rgba(255,255,248,.62) 0 1px,transparent 1.5px);background-size:42px 42px,67px 67px;background-position:0 0,18px 24px;animation:bellwether-snow 9s linear infinite}
+body[data-weather="mist"] .mist-layer{opacity:.52;background:linear-gradient(90deg,transparent,rgba(231,237,226,.36),transparent 72%);filter:blur(12px);animation:bellwether-mist 18s ease-in-out infinite alternate}
+@keyframes bellwether-rain{to{transform:translate3d(-40px,72px,0)}}
+@keyframes bellwether-snow{to{transform:translate3d(22px,70px,0)}}
+@keyframes bellwether-mist{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+
+/* Horror visual progression is state-driven and gradual. */
+body[data-horror-stage="subtle"]{--visual-saturation:.97;--visual-contrast:1.015}
+body[data-horror-stage="subtle"] .scene-atmosphere{box-shadow:inset 0 0 60px rgba(77,83,62,.07)}
+body[data-horror-stage="uneasy"]{--visual-saturation:.9;--visual-brightness:.96;--visual-contrast:1.04}
+body[data-horror-stage="uneasy"] .scene-atmosphere{box-shadow:inset 0 0 90px rgba(52,63,53,.15)}
+body[data-horror-stage="disturbed"]{--visual-saturation:.78;--visual-brightness:.9;--visual-contrast:1.09}
+body[data-horror-stage="disturbed"] .scene-atmosphere{box-shadow:inset 0 0 120px rgba(32,45,38,.26)}
+body[data-horror-stage="severe"]{--visual-saturation:.62;--visual-brightness:.82;--visual-contrast:1.16}
+body[data-horror-stage="severe"] .scene-atmosphere{box-shadow:inset 0 0 160px rgba(20,29,25,.38)}
+
+/* Tablet: scene first, secondary information becomes compact below it. */
+@media(max-width:900px){
+ .game-frame{display:flex;flex-direction:column;height:auto}.scene-stage{order:1;height:min(68vh,680px);min-height:500px}.left-rail{order:2;display:grid;grid-template-columns:1fr 1fr;gap:8px;overflow:visible}.left-rail .rail-card{margin:0}.right-rail{order:3;display:grid;grid-template-columns:1fr 1fr;gap:8px}.right-rail .rail-card{margin:0}.right-rail .rail-card:last-child{grid-column:1/-1}.command-zone{margin-top:8px}
+}
+/* Phone: scene remains primary; rails are compact stacked cards and actions are touch sized. */
+@media(max-width:620px){
+ .shell{padding:4px 4px 66px}.brand h1{font-size:1.65rem}.statusline{font-size:.82rem}.game-frame{gap:6px}.scene-stage{height:62vh;min-height:410px;border-radius:6px}.scene-art-placeholder,.scene-stage.has-art .scene-art-placeholder{padding:9px 11px}.scene-title-overlay{font-size:1.3rem}.environment-line{font-size:.88rem}.dialogue{max-height:44%;padding:11px 12px}.left-rail{grid-template-columns:1fr 1fr;padding:6px}.right-rail{display:block;padding:6px}.right-rail .rail-card{margin-bottom:6px}.rail-card{padding:9px 8px}.action-dock button{min-height:48px}.quick-actions button{min-height:48px}.action-tray{width:calc(100vw - 12px);bottom:58px}.tray-actions button{min-height:48px}.panel-nav button{min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){
+ .scene-art,.scene-atmosphere,.scene-vignette,.weather-particles{transition:none!important;animation:none!important}.rain-layer,.snow-layer,.mist-layer{animation:none!important}
+}
+
+
+/* v1.0.7 — Developer diagnostics readability and runtime UX correction */
+.developer-card{width:min(1320px,97vw);height:min(90vh,920px)}
+.health-pill{background:#e8dcc2;color:#2d382f;border-color:#9e8b68;font-weight:600}.health-pill.good{background:#dce7d5;color:#26382a;border-color:#728a70}.health-pill.warn{background:#efe0bd;color:#493a21;border-color:#a47f45}
+.diag-card{background:#34413a;color:#f8f0df;border-color:#5d7066}.diag-card>span{color:#e4d2ae}.diag-card>strong{color:#fffaf0}.diag-card small{color:#ded5c4}
+.developer-tabs button.active{background:#34413a;color:#fffaf0;border-color:#34413a}
+.diag-event-table{display:grid;min-width:680px}.diag-event-head,.diag-event-row{display:grid;grid-template-columns:90px 120px minmax(280px,1fr) 100px;gap:10px;padding:8px 10px;border-bottom:1px solid #cdbd9f;align-items:start}.diag-event-head{position:sticky;top:0;background:#eee2c9;z-index:1}.diag-event-row time,.diag-event-row small{font-variant-numeric:tabular-nums}.diag-domain{font-weight:700}
+.diag-details{border:1px solid #cdbd9f;border-radius:7px;margin-bottom:7px;background:#fff8e9}.diag-details summary{cursor:pointer;display:grid;grid-template-columns:160px 1fr 90px;gap:12px;padding:10px 12px}.diag-details summary span{color:#625d50}.diag-details summary em{text-align:right;font-size:.82rem}.diag-detail-body{padding:0 12px 10px;border-top:1px solid #ded0b6}.diag-detail-body p{margin:7px 0}
+.diag-table th{color:#6c5738}.diag-list>div{background:#eee2c9;color:#30362d}.diag-list span{color:#55584e}.empty-state{color:#625d50;border-color:#b5a27e;background:#fff8e9}
+@media(max-width:620px){.developer-card{width:98vw;height:94vh;padding:12px}.debug-metrics{grid-template-columns:repeat(2,1fr)}.diag-event-table{min-width:600px}.diag-details summary{grid-template-columns:1fr}.diag-details summary em{text-align:left}}

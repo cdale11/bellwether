@@ -1,0 +1,15 @@
+BELLWETHER v1.0.6 — RESPONSIVE AND VISUAL LIFE AUDIT
+
+Scope
+- State-driven season, daypart, weather, and horror presentation.
+- Lightweight CSS atmosphere layers.
+- Reduced-motion behavior.
+- Tablet and mobile scene-first responsive composition.
+- Preservation of v1.0.5 interaction and diagnostic UX.
+
+Design constraints
+- Presentation only: no visual code mutates authoritative game state.
+- No JavaScript animation timers were added.
+- Weather motion is CSS-only and disabled by prefers-reduced-motion.
+- Existing approved scene assets remain canonical; visual treatment avoids asset explosion.
+- Interface Horror remains separate and state-gated.

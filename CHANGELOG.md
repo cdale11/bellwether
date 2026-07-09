@@ -1,3 +1,30 @@
+# Bellwether Changelog
+
+## v1.0.7 — Visual Life Polish and Runtime UX Correction
+
+- Fixed the simulation-debt pacing banner lifecycle so catch-up notices dismiss after the hold resolves or reaches its bounded deadline.
+- Added explicit settled and bounded-fallback messages before the pacing notice fades.
+- Replaced generic JSON-stringification diagnostics for Events, NPCs, and Investigation with dedicated human-readable views.
+- Added chronological event and AI activity tables with domain, result/event, actor, timing, and duration context where available.
+- Added expandable NPC diagnostic rows and structured mystery/lead summaries.
+- Humanized ecology and runtime numbers, including percentages and bounded decimal formatting.
+- Corrected Developer Console contrast and active-tab visibility.
+- Preserved Raw State JSON and copy support for advanced debugging.
+- Preserved v1.0.6 responsive visual life, v1.0.5 interaction UI, v1.0.4 temporal pacing, portable saves, async AI, story, horror, recurrence, and simulation systems.
+
+
+## v1.0.6 — Responsive and Visual Life
+
+- Added state-driven seasonal scene treatment.
+- Added morning, afternoon, evening, and night lighting treatment.
+- Added lightweight rain, snow, and mist presentation layers.
+- Added gradual pastoral → subtle → uneasy → disturbed → severe horror visual progression.
+- Added reduced-motion handling for all new ambient movement.
+- Strengthened tablet and mobile composition while keeping the scene primary.
+- Increased touch target sizing on narrow screens.
+- Preserved authoritative simulation state: all new visual behavior is presentation-only.
+- Preserved v1.0.5 UI completion, diagnostic dashboard, v1.0.4 pacing, portable saves, async AI, and story systems.
+
 # v1.0.5 — UI Completion and Diagnostic UX
 
 - Removed duplicated location prose from the left rail.
