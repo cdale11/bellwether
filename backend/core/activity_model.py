@@ -67,6 +67,7 @@ class ActivityModel:
             if not p or self.stage(p)=="ready": continue
             crop=CROPS[p["crop_id"]]
             water_factor=1.0 if moisture>=crop["water_need"] else max(.15,moisture/max(1,crop["water_need"]))
+            ecology_factor=float(state.get("ecology_ai",{}).get("crop_factor",0.65))
             season_ok=state.get("season",{}).get("id") in crop["seasons"]
             season_factor=1.0 if season_ok else .35
             world_tendencies=state.get("world_runtime",{}).get("tendencies",{})

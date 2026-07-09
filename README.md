@@ -60,3 +60,8 @@ Older focused diagnostics remain in `tools/`. Canonical design and engineering c
 ## Next milestone
 
 The next planned major release is **v1.1.0 — Economy and Village Change**: persistent business health, supply and price consequences, employment changes, ecology-to-economy causality, business crises, player intervention opportunities, and longer causal chains linking weather, land, businesses, jobs, NPC routines, and social consequences.
+
+### v1.0.9 full AI diagnostic
+The Developer Console's **Run Full Game Diagnosis** now performs real local-model calls for weather, NPC, traffic, conversation, Town Mind, procedural arcs, and ecology before running an isolated seven-day integration autoplay. On low-end CPUs this is intentionally a long-running stress test. Progress reports both overall completion and real AI calls completed. The exported report is designed to be pasted directly into ChatGPT for diagnosis and does not alter the player's live save.
+
+Ecology is now hybrid-authoritative: measured season, weather, soil saturation, drying pressure, and garden moisture are passed to a bounded ecology Director. The model selects only among legal ecological responses; deterministic code applies the selected crop multiplier, vegetation change, and wildlife movement tendency. This keeps the LLM influential without allowing it to invent arbitrary numeric growth or locations.

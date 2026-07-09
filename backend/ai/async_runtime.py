@@ -15,6 +15,7 @@ class AsyncAIRuntime:
     DEFAULT_PRIORITIES = {
         "director_batch": 20,
         "procedural_arc": 40,
+        "ecology_review": 35,
         "town_mind": 50,
     }
 
@@ -90,6 +91,10 @@ class AsyncAIRuntime:
                         signature=list(signature) if isinstance(signature, (tuple, list)) else str(signature))
             self._queue.put((priority, self._seq, key, fn))
             return True
+
+    def has_job(self, key):
+        with self._lock:
+            return key in self._jobs
 
     def harvest(self):
         out = []

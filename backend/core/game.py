@@ -21,6 +21,7 @@ from backend.core.economy_model import ECONOMY_MODEL, ITEMS, SHOPS
 from backend.core.job_model import JOB_MODEL, JOBS
 from backend.core.event_model import EVENT_MODEL, EVENTS
 from backend.core.seasonal_model import SEASONAL_MODEL, SEASONAL_PROFILES
+from backend.core.ecology_ai_model import ECOLOGY_AI_MODEL
 from backend.core.world_runtime_model import WORLD_RUNTIME_MODEL
 from backend.core.knowledge_model import KNOWLEDGE_MODEL
 from backend.core.investigation_model import INVESTIGATION_MODEL
@@ -984,6 +985,7 @@ class Game:
         # advance() deliberately uses False, making procedural arcs unreachable in normal play.
         self.maybe_run_town_mind()
         self.maybe_run_procedural_arcs()
+        self.maybe_run_ecology_review()
 
 
     def village_pulse(self, run_directors=True):
@@ -1761,6 +1763,9 @@ class Game:
                 if choice and choice.get("id") in legal and len(root.get("active",[]))<PROCEDURAL_ARC_MODEL.MAX_ACTIVE:
                     if PROCEDURAL_ARC_MODEL.start(s,choice.get("id"),provider.model_for_task("procedural_arc")): applied+=1
                 else: stale+=1
+            elif kind=="ecology_review":
+                if choice and ECOLOGY_AI_MODEL.apply(s,choice,provider.model_for_task("weather")): applied+=1
+                else: stale+=1
             elif kind=="director_batch":
                 proposals=choice if isinstance(choice,dict) else {}
                 revision_age=max(0,self._async_state_revision()-int(job.get("revision",0)))
@@ -1854,6 +1859,19 @@ class Game:
         pulse=s.get("village_brain",{}).get("pulse_count",0)
         due=(not root.get("active") and pulse>=3) or (len(root.get("active",[]))<PROCEDURAL_ARC_MODEL.MAX_ACTIVE and pulse-root.get("last_proposal_pulse",-999)>=24)
         if due: return self.queue_procedural_arc_proposal("opening_arc" if root.get("proposal_count",0)==0 else "periodic_arc")
+        return False
+
+    def queue_ecology_review(self):
+        if self.state.get("diagnostic_mode"): return False
+        s=self.state; rt=ECOLOGY_AI_MODEL.migrate(s); day=int(s.get("day",1))
+        if int(rt.get("last_review_day",0))>=day or ASYNC_AI_RUNTIME.has_job("ecology_review"):return False
+        candidates=ECOLOGY_AI_MODEL.candidates(s); context=deepcopy(ECOLOGY_AI_MODEL.context(s))
+        return ASYNC_AI_RUNTIME.submit("ecology_review","ecology_review",self._async_state_revision(),tuple(x["id"] for x in candidates),lambda: provider.ask_choice("ecology","Choose the ecological response best supported by season, temperature, weather, soil moisture, drying pressure and garden moisture. This choice governs bounded crop growth, vegetation response and animal movement for the day.",context,candidates),domain="ecology",priority=35)
+
+    def maybe_run_ecology_review(self):
+        rt=ECOLOGY_AI_MODEL.migrate(self.state)
+        if int(rt.get("last_review_day",0)) < int(self.state.get("day",1)):
+            return self.queue_ecology_review()
         return False
 
     def queue_ai_directors(self, domains, reason="scheduled"):

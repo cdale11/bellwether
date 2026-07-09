@@ -64,7 +64,7 @@ class EconomyModel:
  def price(self,state,shop_id,item_id):
   """Stable catalogue price with only bounded business-pressure adjustment."""
   base=ITEMS[item_id]["price"]; pressure=self.migrate(state)["market"]["businesses"][shop_id]["pressure"]
-  # Pressure affects ordinary retail mildly; never more than +50%, and minimum ¤1.
+  # Pressure affects ordinary retail mildly; never more than +50%, and minimum Br 1.
   return max(1, round(base*(1.0 + max(0,pressure)*0.05)))
  def produce_price(self,state,crop_id):
   demand=self.migrate(state)["market"]["produce_demand"].get(crop_id,1.0)
@@ -79,7 +79,7 @@ class EconomyModel:
    g=state["player_activities"]["garden"]; g["seed_stock"][item["crop_id"]]=g["seed_stock"].get(item["crop_id"],0)+item["seed_units"]
   elif item["kind"] in {"household","repair","food"}: e["household"][item_id]=e["household"].get(item_id,0)+item.get("units",1)
   elif item["kind"]=="meal": state["player_life"]["meals"]+=1
-  self.record(state,"purchase",-price,item_id); return True,f"You buy {item['name'].lower()} for ¤{price}."
+  self.record(state,"purchase",-price,item_id); return True,f"You buy {item['name'].lower()} for Br {price}."
  def sell_produce(self,state,crop_id,quantity=None):
   store=state["player_activities"]["garden"]["harvest_store"]; have=int(store.get(crop_id,0)); qty=have if quantity is None else min(have,max(0,int(quantity)))
   if qty<=0 or crop_id not in PRODUCE_VALUES:return False,"You have none of that produce to sell."
@@ -87,7 +87,7 @@ class EconomyModel:
   e=self.migrate(state); e["market"]["businesses"]["village_shop"]["purchases"]+=qty
   # Selling into local demand gently cools that demand, preventing infinite price escalation.
   e["market"]["produce_demand"][crop_id]=max(0.75,round(e["market"]["produce_demand"][crop_id]-min(0.2,qty*0.02),2))
-  self.record(state,"sale",earned,f"{crop_id}:{qty}@{unit}"); return True,f"The shop takes {qty} {crop_id.replace('_',' ')} for ¤{earned}."
+  self.record(state,"sale",earned,f"{crop_id}:{qty}@{unit}"); return True,f"The shop takes {qty} {crop_id.replace('_',' ')} for Br {earned}."
  def daily_tick(self,state):
   """Advance bounded local market conditions once per in-game day."""
   e=self.migrate(state); market=e["market"]; day=int(state.get("day",1))
@@ -118,9 +118,9 @@ class EconomyModel:
   sid=self.shop_for_location(state.get("location")); out=[]
   if sid:
    for iid in SHOPS[sid]["stock"]:
-    item=ITEMS[iid]; price=self.price(state,sid,iid); out.append((f"economy:buy:{sid}:{iid}",f"Buy {item['name']} (¤{price})"))
+    item=ITEMS[iid]; price=self.price(state,sid,iid); out.append((f"economy:buy:{sid}:{iid}",f"Buy {item['name']} (Br {price})"))
    if SHOPS[sid]["buys_produce"]:
     for crop,qty in state.get("player_activities",{}).get("garden",{}).get("harvest_store",{}).items():
-     if qty>0: out.append((f"economy:sell:{crop}",f"Sell all {crop.replace('_',' ').title()} ({qty}, ¤{self.produce_price(state,crop)}/unit)"))
+     if qty>0: out.append((f"economy:sell:{crop}",f"Sell all {crop.replace('_',' ').title()} ({qty}, Br {self.produce_price(state,crop)}/unit)"))
   return out
 ECONOMY_MODEL=EconomyModel()

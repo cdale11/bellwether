@@ -779,3 +779,11 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added structural validation and normal migration/overview rebuild when importing portable saves.
 - Reduced strategic Town Mind and Procedural Arc prompt bloat by routing a compact overview projection instead of reattaching the full compiled playthrough overview.
 - This change addresses v1.0.1 traces where 4B strategic calls received ~9.4k-character prompts, timed out twice at 45 seconds, and then became stale while ordinary play continued.
+
+## 1.0.9 — Full AI ecology and stress diagnostics
+- Replaced the misleading deterministic-only full diagnosis with a real seven-domain LLM stress phase plus isolated seven-day integration autoplay.
+- Added bounded daily AI ecology decisions using season, weather, soil saturation, drying pressure and garden moisture; the result governs crop growth factor, vegetation response and animal movement mode/location tendencies.
+- Added climate/moisture crop matrix checks, real AI call timings, ecology summaries, prose-integrity checks, explicit wasted-completed-inference reporting, and AI-call progress.
+- Improved Developer Console diagnostic metric contrast.
+- Replaced the unsupported currency glyph with the font-safe fictional notation `Br`.
+- Preserved the single-worker lossless inference policy.
