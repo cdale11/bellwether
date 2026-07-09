@@ -798,3 +798,14 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Strengthened developer metric contrast.
 - Added relationship interpretation to NPC focus panel (existing relationship state is now retained and surfaced).
 - Added CSS-rendered Bellwether currency mark in the HUD while retaining plain Br in serialization/log-safe text.
+
+## v1.0.11 — AI Player, Diagnostic, and Runtime Certification
+- Added hierarchical autonomous play: occasional bounded planner intentions plus fast legal-action selection.
+- Added persistent per-run autoplay memory for recent actions, locations, failed attempts and completed subtasks.
+- Corrected cooperative Stop semantics: Running → Stopping → discard in-flight choice → Stopped; no post-stop action is applied.
+- Replaced fixed eight-actions-per-day diagnostic play with a seven-day, coverage-driven public-action playtest.
+- Added coverage accounting for movement, social interaction, relationships, economy, jobs, gardening, ecology, wildlife, weather, investigation, procedural content, persistence, AI runtime, horror and UI action validity.
+- Added provider active-call telemetry and scheduler oldest-wait/inference-accounting telemetry.
+- Added subsystem score and inference-accounting sections to the full AI playtest report.
+- Unified visible diagnostic currency rendering through the reusable crossed-B component; portable prose remains `Br`.
+- Added v1.0.11 focused certification diagnostic.

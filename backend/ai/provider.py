@@ -42,6 +42,8 @@ class AIProvider:
         self._ai_gate = threading.Condition()
         self._ai_active = False
         self._foreground_waiters = 0
+        self._active_call = None
+        self._active_started_at = None
         # Part 27: compact whole-playthrough overview supplied by Game before calls.
         # It is not model-hidden state: it is explicit saveable metadata rebuilt from
         # authoritative game state and attached to every Director/dialogue request.
@@ -200,6 +202,13 @@ class AIProvider:
             self._ai_active = False
             self._ai_gate.notify_all()
 
+    def telemetry(self):
+        with self._ai_gate:
+            active=dict(self._active_call) if self._active_call else None
+            if active is not None:
+                active["elapsed_s"]=round(time.time()-self._active_started_at,2) if self._active_started_at else 0.0
+            return {"busy":bool(self._ai_active),"foreground_waiters":self._foreground_waiters,"active":active}
+
     def health(self):
         now=time.time()
         if self._health_cache is not None and now-self._health_cache_at < 10:
@@ -339,6 +348,9 @@ class AIProvider:
                 self._acquire_ai_slot(foreground=foreground)
                 trace["queue_wait_ms"]=int((time.perf_counter()-queue_started)*1000)
                 slot_acquired = True
+                with self._ai_gate:
+                    self._active_call={"purpose":director,"model":self.model_for_task(director),"foreground":bool(foreground)}
+                    self._active_started_at=time.time()
                 http_started=time.perf_counter()
                 with urllib.request.urlopen(req,timeout=request_timeout) as response:
                     trace["http_status"]=getattr(response,"status",200)
@@ -403,6 +415,8 @@ class AIProvider:
                     last_latency_ms=trace["latency_ms"],valid_response=False,attempts_used=attempt)
             finally:
                 if slot_acquired:
+                    with self._ai_gate:
+                        self._active_call=None; self._active_started_at=None
                     self._release_ai_slot()
             if attempt<tries: time.sleep(.25*attempt)
         return None

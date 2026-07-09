@@ -1,6 +1,6 @@
-# Bellwether v1.0.10
+# Bellwether v1.0.11
 
-Bellwether is a local-first village life simulation and psychological horror RPG. v1.0.10 adds a genuine LLM player and a deeper disposable seven-day AI playtest.
+Bellwether is a local-first village life simulation and psychological horror RPG. v1.0.11 adds a genuine LLM player and a deeper disposable seven-day AI playtest.
 
 ## AI player
 
