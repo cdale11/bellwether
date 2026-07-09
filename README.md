@@ -1,83 +1,35 @@
-# Bellwether v1.0.11
+# Bellwether v1.0.12
 
-Bellwether is a local-first village life simulation and psychological horror RPG. v1.0.11 adds a genuine LLM player and a deeper disposable seven-day AI playtest.
-
-## AI player
-
-Open the Developer Console and choose **Let the Village Play**. The local LLM chooses only currently legal ordinary-life actions; authored story, endings, investigation gates and horror choices are excluded from unattended play. The live panel shows each choice, decision latency, action count and progress. **Stop AI Player** returns control to you. This mode advances the real current run, so use it when you intentionally want Bellwether to live on without you.
-
-## Full diagnosis
-
-Choose **Run Full Game Diagnosis** for an isolated disposable test run. It first stress-tests specialist AI pathways and then lets the LLM itself play a fresh game for seven in-game days through legal action pathways. Progress and the current AI-player action are shown live. The diagnostic never replaces your real save. When complete, use **Copy Diagnostic Report** and paste the complete report into ChatGPT; if clipboard access is blocked, use **Export Report** and upload the text file.
-
-The report includes specialist-call timing, LLM-player action trace, crop/climate checks, ecology application, world/NPC/event state, relationships, investigation, recurrence, horror, economy, save round-trip, prose integrity and scheduler waste counters.
-
----
-
-# Bellwether v1.0.8
-
-Bellwether is a local-first village life-sim, RPG, mystery, and psychological horror game. The deterministic engine owns authoritative state; local LLMs may propose dialogue and bounded decisions, which are validated before application.
+Bellwether is a local-first village life simulation and psychological horror RPG. The deterministic engine owns authoritative state; local LLMs make bounded proposals and player-like choices through legal public actions.
 
 ## Run
 
-Install Ollama and pull the recommended models once:
+Install Ollama and pull the configured models, then run `./run.sh` and open the local address printed in the terminal.
 
-```bash
-ollama pull qwen3.5:2b
-ollama pull qwen3.5:4b
-```
+## v1.0.12 corrective certification release
 
-Then run:
+v1.0.12 corrects issues exposed by the v1.0.11 113-minute playtest. The diagnostic AI player now tracks LLM successes, timeouts, invalid responses, fallbacks and no-effect actions separately. Repeated ineffective actions are temporarily blocked until the plan/state changes, coverage goals bias candidate ranking toward relevant prerequisite chains, and the UI no longer displays misleading counters such as `AI 68/63`.
 
-```bash
-./run.sh
-```
+The full diagnostic now verifies that its advertised seven-day simulation actually reaches the required day span, reports a failure if it does not, and has a larger bounded action allowance. Natural horror pacing is not distorted for test coverage: ordinary play records natural exposure while a separate isolated certification checks authored anomaly application, overlay authority and expiry. Procedural content receives a separate controlled lifecycle certification covering start, public involvement and resolution.
 
-Open the local address printed in the terminal. Bellwether detects available CPU threads. The 2B model handles routine bounded work and short dialogue; the 4B model is reserved for infrequent strategic work. One inference runs at a time to protect 8 GB systems from RAM and zram pressure.
+Diagnostic state is checkpointed continuously and atomically to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`. If the browser closes, the server stops, or a long test is interrupted, the most recent trace, phase, counters and feed remain available for examination. The Developer Console restores the interrupted checkpoint summary on restart.
 
-## What changed in v1.0.8
+The Economy diagnostic cards now render the fictional Bellwether currency mark as markup instead of showing raw HTML. Live AI-player status distinguishes successful model choices from timeout/invalid fallbacks.
 
-This is a corrective release before v1.1.0. Narrator text has moved out of the scene artwork into a quieter transcript strip. The catch-up banner now observes the real background runtime in wall-clock time and disappears as soon as AI work and simulation debt clear; it no longer depends on another game tick.
+## Full diagnosis
 
-AI scheduler diagnostics now distinguish **merged before inference** from **deferred while a same-key inference is already running**. Completed inference is never discarded merely because a newer request appeared, and the runtime exposes a `wasted_after_inference` invariant that should remain zero.
+Open the Developer Console and choose **Run Full Game Diagnosis**. This uses an isolated disposable world and does not replace the real save. It performs real specialist calls, a coverage-driven LLM playtest through public actions, climate/ecology checks, persistence checks, controlled procedural lifecycle certification and controlled horror-pipeline certification.
 
-Procedural village arcs are now surfaced as player-visible side-story opportunities while active. Gardening records growth gain and update timing for diagnosis. Currency uses Bellwether's fictional `¤` mark consistently in runtime UI and economy text.
+Progress is saved throughout the run. When complete, use **Copy Diagnostic Report** or **Export Report**. If interrupted, provide either checkpoint file from the `diagnostics/` directory.
 
-The Raw State **Copy JSON** button now uses the Clipboard API with a legacy fallback and visible result feedback.
+## Autonomous play
 
-## One-click automatic playtest
+Choose **Let the Village Play** to let the local LLM advance only ordinary, non-authored gameplay in the current run. The live display reports action count, successful LLM choices, timeouts and fallbacks. **Stop AI Player** is cooperative: an in-flight local inference may finish, but its result is discarded and no post-stop action is applied.
 
-Open **Developer / Settings** with the gear button and press **Run Full Game Diagnosis**. The test runs in an isolated disposable world and does not replace your real save. It simulates seven in-game days with mixed, home-focused, exploratory, social, economy, and investigation-oriented behaviour, using legal game action pathways. It audits public view integrity, world runtime, ecology, crop growth, story visibility, procedural arc scheduling, economy structure, horror structure, save serialization, and AI scheduler efficiency.
+## Saving
 
-The percentage is real phase completion, not decorative animation. When it reaches 100%, press **Copy Diagnostic Report** and paste the report into ChatGPT. If clipboard access is blocked by the browser, use **Export Report** and upload the text file instead.
+Menu provides quick save/load and portable JSON export/import. A browser reload reconnects to the running server state. Use **Reset to Fresh Game** for a new run.
 
-The compact report is intentionally spoiler-minimised. It reports failed checks, warnings, causal summaries, scheduler efficiency, crop lifecycle evidence, and subsystem state without dumping story prose. Raw State remains available for exact debugging when necessary.
+## Roadmap
 
-## Saving and browser reloads
-
-**Menu** provides Quick Save/Quick Load, portable save export/import, history, and fresh reset. Exported saves are ordinary JSON files that can be copied and backed up. A browser reload reconnects to the game already running on the server; it does not start a fresh run. Use **Reset to Fresh Game** when you want a new game.
-
-## Interface and diagnostics
-
-The scene is the main visual surface. People Here is compact and clickable; portraits and relationship context appear when focusing on a person. Immediate choices are shown first, while routine actions are grouped under People, Activities, Explore, Investigate, and Travel.
-
-Developer diagnostics provide readable Living World, NPC, Events, Horror, Investigation, Economy, and AI Runtime views. Raw State is retained for exact state inspection. For ordinary QA, prefer the automatic playtest so you do not need to inspect spoiler-heavy state manually.
-
-## Focused validation
-
-Run the v1.0.8 structural diagnostic with:
-
-```bash
-BELLWETHER_AI=0 python tools/v108_corrective_diagnostic.py
-```
-
-Older focused diagnostics remain in `tools/`. Canonical design and engineering context are in `docs/Bellwether_Consolidated_Master_Context.txt` and `docs/Bellwether_Post_v1_Design_Direction_and_Context.txt`.
-
-## Next milestone
-
-The next planned major release is **v1.1.0 — Economy and Village Change**: persistent business health, supply and price consequences, employment changes, ecology-to-economy causality, business crises, player intervention opportunities, and longer causal chains linking weather, land, businesses, jobs, NPC routines, and social consequences.
-
-### v1.0.9 full AI diagnostic
-The Developer Console's **Run Full Game Diagnosis** now performs real local-model calls for weather, NPC, traffic, conversation, Town Mind, procedural arcs, and ecology before running an isolated seven-day integration autoplay. On low-end CPUs this is intentionally a long-running stress test. Progress reports both overall completion and real AI calls completed. The exported report is designed to be pasted directly into ChatGPT for diagnosis and does not alter the player's live save.
-
-Ecology is now hybrid-authoritative: measured season, weather, soil saturation, drying pressure, and garden moisture are passed to a bounded ecology Director. The model selects only among legal ecological responses; deterministic code applies the selected crop multiplier, vegetation change, and wildlife movement tendency. This keeps the LLM influential without allowing it to invent arbitrary numeric growth or locations.
+After v1.0.12 certification stabilisation, the next major milestone remains **v1.1.0 — Economy and Village Change**: persistent business health, supply effects, prices, employment changes, business crises, player intervention and longer causal chains connecting weather, ecology, businesses, jobs, NPC routines and social consequences.

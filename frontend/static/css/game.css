@@ -213,3 +213,9 @@ body[data-horror-stage="severe"] .scene-atmosphere{box-shadow:inset 0 0 160px rg
 .ai-player-live{width:100%;border:1px solid #b8a57d;border-radius:8px;padding:10px;background:#f6ecd3;display:grid;grid-template-columns:1fr auto;gap:6px 12px}
 .ai-player-live.hidden{display:none}.ai-player-feed{grid-column:1/-1;max-height:150px;overflow:auto;border-top:1px solid #d3c29f;padding-top:6px;font-size:.9rem}.ai-player-feed div{padding:3px 0;border-bottom:1px dotted #d8c8a8}
 .currency-mark{position:relative;display:inline-block;font-weight:700;margin-right:.12em}.currency-mark::after{content:"";position:absolute;left:-.08em;right:-.08em;top:52%;border-top:1px solid currentColor;transform:rotate(-8deg)}
+/* v1.0.12 diagnostic clarity */
+.diagnostic-progress{min-width:min(100%,560px)}
+#diagnostic-phase{line-height:1.35;color:#3f443b;font-weight:700}
+.ai-player-feed div{overflow-wrap:anywhere}
+.developer-card .diag-card strong .currency{color:#fffdf5}
+@media(max-width:720px){.diagnostic-launch{align-items:stretch}.diagnostic-launch>button{flex:1 1 160px}.diagnostic-progress{min-width:100%}}

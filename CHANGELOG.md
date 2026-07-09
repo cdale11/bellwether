@@ -809,3 +809,15 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added subsystem score and inference-accounting sections to the full AI playtest report.
 - Unified visible diagnostic currency rendering through the reusable crossed-B component; portable prose remains `Br`.
 - Added v1.0.11 focused certification diagnostic.
+
+## v1.0.12
+- Added continuously persisted, atomic live diagnostic checkpoints in JSON and text form.
+- Restores interrupted diagnostic checkpoint summaries after server restart.
+- Separated AI-player LLM success, timeout, invalid response, fallback and no-effect accounting.
+- Added no-effect action blocking and target-aware prerequisite candidate ranking.
+- Removed misleading AI current/nominal fraction display and exposed explicit decision accounting.
+- Added explicit seven-day completion certification and expanded bounded playtest action allowance.
+- Split natural horror exposure from isolated controlled horror pipeline certification.
+- Added controlled procedural arc lifecycle certification: start, player involvement and resolution.
+- Fixed Economy diagnostic currency markup being escaped as literal HTML.
+- Improved mobile diagnostic layout and live AI-player status detail.
