@@ -675,3 +675,15 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added detailed queued/running/completed AI job diagnostics and lifecycle event logs.
 - Added stale Director-result rejection and explicit applied/rejected/failed result logging.
 - Simplified and rewrote README.md for the current release.
+
+## v1.0.1 — Living World Runtime
+
+- Activated a persistent deterministic `world_runtime` environmental substrate.
+- Added weather history and slow wetness, drying, soil, river, pollinator, and bird tendencies.
+- Added persistent location conditions and player-visible environmental observations.
+- Connected environmental tendencies to gardening growth and bounded economy delivery pressure.
+- Added old-save migration and Developer simulation visibility for living-world state.
+- Audited current LLM execution paths and preserved bounded authority and deterministic fallback.
+- Cleaned duplicate documentation, stale generated report copies, and cache artifacts.
+- Added the consolidated master context and post-v1 design direction to the packaged docs.
+- Updated README, VERSION, CHANGELOG, and handoff documentation.

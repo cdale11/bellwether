@@ -21,6 +21,7 @@ from backend.core.economy_model import ECONOMY_MODEL, ITEMS, SHOPS
 from backend.core.job_model import JOB_MODEL, JOBS
 from backend.core.event_model import EVENT_MODEL, EVENTS
 from backend.core.seasonal_model import SEASONAL_MODEL, SEASONAL_PROFILES
+from backend.core.world_runtime_model import WORLD_RUNTIME_MODEL
 from backend.core.knowledge_model import KNOWLEDGE_MODEL
 from backend.core.investigation_model import INVESTIGATION_MODEL
 from backend.core.horror_model import HORROR_MODEL
@@ -230,6 +231,7 @@ INITIAL_STATE = {
     "jobs": JOB_MODEL.runtime_defaults(),
     "dynamic_events": EVENT_MODEL.runtime_defaults(),
     "seasonal_life": SEASONAL_MODEL.runtime_defaults(),
+    "world_runtime": WORLD_RUNTIME_MODEL.runtime_defaults(),
     "map_exploration": {
         "schema_version": 1,
         "discovered_locations": ["bus_stop"],
@@ -611,6 +613,7 @@ class Game:
         JOB_MODEL.migrate(self.state)
         self.state.setdefault("dynamic_events", EVENT_MODEL.runtime_defaults())
         self.state.setdefault("seasonal_life", SEASONAL_MODEL.runtime_defaults())
+        WORLD_RUNTIME_MODEL.migrate(self.state)
         econ_defaults=ECONOMY_MODEL.runtime_defaults()
         for key,value in econ_defaults.items():
             self.state["economy"].setdefault(key,deepcopy(value))
@@ -917,6 +920,7 @@ class Game:
             s["minute"] += step
             # Simple day rollover; preserve absolute simulation continuity.
             while s["minute"] >= 1440:
+                WORLD_RUNTIME_MODEL.record_day(s, s["day"])
                 s["minute"] -= 1440
                 s["day"] += 1
                 HORROR_AFTERMATH_MODEL.daily_recovery(s)
@@ -925,6 +929,7 @@ class Game:
             self.update_npc_personal_lives(step)
             ACTIVITY_MODEL.advance(s, step)
             SEASONAL_MODEL.refresh(s)
+            WORLD_RUNTIME_MODEL.advance(s, step)
             POPULATION_MODEL.advance_batch(s)
             HORROR_MODEL.expire(s)
             for event_kind,event_id,message in EVENT_MODEL.advance(s):
@@ -2522,6 +2527,9 @@ class Game:
             if s["location"] == "ashcroft_cottage":
                 self.add("Narrator", CONTENT_MODEL.seasonal_cottage_text(s))
             self.add("Bellwether", f"{s['ambient']['village']} {s['ambient']['traffic']} {s['ambient']['wildlife']}")
+            environmental_note = WORLD_RUNTIME_MODEL.observation(s, s["location"])
+            if environmental_note:
+                self.add("Narrator", environmental_note)
             self.surface_location_consequence(s["location"])
             self.advance(5)
 

@@ -251,3 +251,7 @@ Read before rewriting. Preserve before extending. Keep state authoritative. Make
 The objective is not simply to add features.
 
 The objective is to keep making the village more alive without losing what already makes it Bellwether.
+
+## v1.0.1 handoff update
+
+The current packaged release is v1.0.1. `world_runtime` is now an active, persistent deterministic environmental substrate; inspect `backend/core/world_runtime_model.py` and `docs/V1.0.1_LIVING_WORLD_RUNTIME_AUDIT.txt` before extending ecology. The canonical portable project context is `docs/Bellwether_Consolidated_Master_Context.txt`. The current post-v1 direction is `docs/Bellwether_Post_v1_Design_Direction_and_Context.txt`.

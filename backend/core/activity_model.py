@@ -69,7 +69,10 @@ class ActivityModel:
             water_factor=1.0 if moisture>=crop["water_need"] else max(.15,moisture/max(1,crop["water_need"]))
             season_ok=state.get("season",{}).get("id") in crop["seasons"]
             season_factor=1.0 if season_ok else .35
-            gain=minutes*water_factor*season_factor*(1-0.5*weed_penalty)
+            world_tendencies=state.get("world_runtime",{}).get("tendencies",{})
+            pollinator=float(world_tendencies.get("pollinator_activity",0.55))
+            ecology_factor=0.92 + 0.08*pollinator
+            gain=minutes*water_factor*season_factor*(1-0.5*weed_penalty)*ecology_factor
             p["growth"]=min(p["growth_required"],p.get("growth",0)+gain)
             p["health"]=max(0,min(100,p.get("health",100) - (0.012*minutes if moisture<10 else 0) - weed_penalty*.004*minutes))
         g["last_update_absolute_minute"]=self.absolute_minute(state)

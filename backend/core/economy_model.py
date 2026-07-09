@@ -103,12 +103,13 @@ class EconomyModel:
   for sid,shop in SHOPS.items():
    b=market["businesses"][sid]; stock=e["shop_stock"][sid]
    low=sum(1 for iid in shop["stock"] if stock.get(iid,0)<=2)
-   weather_strain=1 if weather in {"heavy_rain","storm","snow"} else 0
+   runtime_signal=state.get("world_runtime",{}).get("economy_signals",{})
+   weather_strain=max(1 if weather in {"heavy_rain","storm","snow"} else 0, int(runtime_signal.get("delivery_disruption",0)))
    b["pressure"]=max(0,min(8,low+weather_strain))
    b["trend"]="strained" if b["pressure"]>=4 else ("watchful" if b["pressure"]>=2 else "steady")
    b["last_change_day"]=day
    # Deliveries recover stock gradually. Severe weather halves the normal delivery size.
-   delivery=1 if weather_strain else 3
+   delivery=1 if weather_strain>=1 else 3
    for iid in shop["stock"]: stock[iid]=min(99,stock.get(iid,0)+delivery)
   snap={"day":day,"favoured_produce":fav,"business_trends":{sid:b["trend"] for sid,b in market["businesses"].items()}}
   market["history"].append(snap); market["history"]=market["history"][-30:]

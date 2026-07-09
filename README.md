@@ -63,3 +63,11 @@ This release focuses on the whole game rather than adding another large system. 
 ## Project files
 
 Diagnostics are in `tools/`. Design documents and audit reports are in `docs/`.
+
+## v1.0.1 living-world runtime
+
+v1.0.1 activates a persistent environmental runtime beneath the existing season and weather systems. Bellwether now remembers recent weather and carries slow environmental conditions forward: wet periods, drying pressure, soil saturation, river pressure, pollinator activity, and bird activity. These conditions can affect garden growth, local observations, river state, and bounded delivery pressure.
+
+The runtime is deterministic and save-compatible. AI remains bounded: it can handle dialogue and legal strategic choices, while authoritative environmental consequences are calculated and validated by the engine. The Developer / Settings simulation view exposes the living-world runtime and ecology tendencies.
+
+Run the focused check with `python tools/v101_living_world_runtime_diagnostic.py`; run the cumulative suite with `BELLWETHER_AI=0 python tools/post_v010_diagnostic.py`.
