@@ -4,7 +4,6 @@
 
 <section class="game-frame">
   <aside class="left-rail">
-    <section class="rail-card"><div class="rail-label">Current Location</div><div class="rail-location" id="scene-title"></div><div id="environment-line" class="rail-copy"></div></section>
     <section class="rail-card"><div class="rail-label">People Here</div><div id="presence"></div></section>
     <section class="rail-card"><div class="rail-label">Conditions</div><div id="immediate-state"></div></section>
   </aside>
@@ -20,6 +19,7 @@
 <nav class="panel-nav" aria-label="Game information"><button onclick="openPanel('journal')">Journal</button><button onclick="openPanel('map')">Map</button><button onclick="openPanel('inventory')">Inventory</button><button onclick="openPanel('relationships')">Relationships</button><button onclick="openPanel('notebook')">Notebook</button><button onclick="openPanel('home')">Home</button></nav>
 </main>
 <div id="talk-modal" class="modal hidden"><div class="modal-card talk-card"><div class="modal-head"><h2 id="talk-title">Speak</h2><button onclick="closeTalk()">Cancel</button></div><p class="diagnostic-note">Say what you want. Ordinary conversations respond to current village context; story conversations remain authored.</p><textarea id="talk-input" maxlength="600" rows="4" placeholder="What do you say?"></textarea><div class="talk-actions"><button onclick="sendTalk()">Say it</button></div></div></div>
+<div id="npc-modal" class="modal hidden" onclick="closeNpcPanelFromBackdrop(event)"><div class="modal-card npc-card"><div class="modal-head"><h2 id="npc-panel-title">Person</h2><button onclick="closeNpcPanel()">Close</button></div><div id="npc-panel-content" class="panel-content"></div></div></div>
 <div id="panel-modal" class="modal hidden" onclick="closePanelFromBackdrop(event)"><div class="modal-card panel-card"><div class="modal-head"><h2 id="panel-title"></h2><button onclick="closePanel()">Close</button></div><div id="panel-content" class="panel-content"></div></div></div>
 <div id="developer-modal" class="modal hidden" onclick="closeDeveloperFromBackdrop(event)"><div class="modal-card developer-card"><div class="modal-head"><h2>Developer Console</h2><button onclick="closeDeveloperConsole()">Close</button></div><p class="diagnostic-note">Developer and settings inspector. This intentional debugging interface remains directly accessible from the top bar.</p><div id="developer-summary"></div><div id="developer-tabs" class="developer-tabs"></div><div id="developer-content" class="developer-content"></div></div></div>
 <div id="pacing-banner" class="pacing-banner hidden" role="status" aria-live="polite"><strong id="pacing-title">The Village Turns</strong><span id="pacing-message">Recent hours are settling into consequence.</span></div><div id="loading-overlay" class="loading-overlay hidden" aria-live="polite" aria-busy="true"><div class="loading-card"><span id="loading-label">Loading</span><span class="loading-dots">...</span></div></div>

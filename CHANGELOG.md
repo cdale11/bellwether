@@ -1,3 +1,15 @@
+# v1.0.5 — UI Completion and Diagnostic UX
+
+- Removed duplicated location prose from the left rail.
+- Rebuilt People Here as compact clickable NPC rows.
+- Added focused NPC interaction panels with portrait, activity, relationship impression, and legal actions.
+- Changed action trays to bounded overlay surfaces so opening a category does not lengthen the page.
+- Added distinct narration, dialogue, and world-message presentation.
+- Replaced primary JSON diagnostic dumps with readable subsystem dashboards, health indicators, tables, meaningful empty states, and AI queue/debt summaries.
+- Preserved Raw State JSON with copy support for bug reports.
+- Improved narrow-screen responsive composition and editable-field keyboard shortcut safety.
+- Preserved v1.0.4 simulation debt, opportunity journal, timeout policy, portable saves, and all authoritative simulation systems.
+
 # Bellwether Changelog
 
 ## v1.0.4 — Temporal Pacing and Simulation Debt

@@ -1,6 +1,15 @@
-# Bellwether v1.0.4
+# Bellwether v1.0.5
 
 Bellwether is a village life-sim, RPG, mystery, and psychological horror game. You can work, garden, cook, explore, build relationships, investigate the village, or ignore the main story for long stretches.
+
+
+## v1.0.5: UI Completion and Diagnostic UX
+
+v1.0.5 completes the interaction work that was only partially delivered in v1.0.3. The duplicated left-rail location description is removed; location title and prose remain on the scene. People Here is now a compact clickable list. Selecting a person opens a focused NPC panel with portrait, visible activity, relationship impression where known, and legal contextual interactions. Action category trays now open as bounded overlays rather than extending the page vertically. Narration, dialogue, and Bellwether/world messages have distinct presentation weight.
+
+The Developer Console now opens as a readable diagnostic dashboard rather than a wall of JSON. Living World, Horror, Economy, and AI Runtime receive cards, health indicators, tables, meaningful empty states, queue/debt visibility, and recent lifecycle summaries. Full raw JSON remains available under Raw State and can be copied for bug reports.
+
+The release also strengthens responsive behavior for narrow screens and ensures keyboard shortcuts do not fire while the user is typing in editable controls. Existing simulation, save, AI, pacing, story, recurrence, and Developer capabilities are preserved.
 
 ## v1.0.4: Temporal Pacing and Simulation Debt
 
@@ -100,6 +109,6 @@ Diagnostics are also easier to read. `python tools/post_v010_diagnostic.py` prin
 
 Release packages retain source diagnostics and authored audit/design documents, but no longer ship obsolete generated diagnostic snapshots or large historical playtest transcript payloads. This reduces package clutter without removing executable diagnostics or gameplay content.
 
-### Next planned update: v1.0.5
+### Next planned update: v1.0.6
 
 The next planned update is **Responsive and Visual Life**: genuine mobile composition, time-of-day and weather presentation foundations, seasonal visual treatment, restrained ambient movement where performance permits, reduced-motion support, and gradual state-driven visual progression from pastoral warmth toward horror. It should build on the pacing and interaction work without adding a new major simulation subsystem.
