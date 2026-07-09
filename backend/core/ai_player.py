@@ -1,4 +1,4 @@
-"""v1.1.0 goal-directed autonomous player with compact inference protocol."""
+"""v1.4.0 prerequisite-aware autonomous player with semantic candidate projection."""
 from copy import deepcopy
 from threading import RLock,Thread,Event
 from collections import deque
@@ -22,6 +22,64 @@ def safe_actions(game,allow_investigation=True):
 def _compact_state(game,memory,target):
  s=game.state;recent=','.join(list(memory.get('recent_actions',[]))[-5:]);blocked=','.join(list(memory.get('blocked_actions',[]))[:5]);garden=s.get('player_activities',{}).get('garden',{});seeds=sum(garden.get('seed_stock',{}).values()) if isinstance(garden,dict) else 0
  return f"D{s.get('day')} T{s.get('minute')} AT={s.get('location')} M={s.get('money')} TARGET={target or '-'} SEEDS={seeds} RECENT={recent or '-'} BLOCKED={blocked or '-'}"
+
+def _action_text(a):
+ return (a.get("id","")+" "+a.get("kind","")+" "+a.get("label","")).lower()
+
+def _goal_stage(game,target,actions):
+ """Return an inspectable prerequisite stage; never invent actions that are not legal."""
+ s=game.state; loc=s.get("location"); texts=[_action_text(a) for a in actions]
+ if target=="cooking":
+  if any(a.get("id","").startswith(("content:cook:","lifesim:preserve:")) for a in actions): return "perform_cooking"
+  pantry=s.get("life_simulation",{}).get("pantry",{}); household=s.get("economy",{}).get("household",{})
+  has_food=sum(int(v or 0) for v in pantry.values())>0 or int(household.get("groceries",0) or 0)>0
+  if not has_food:return "acquire_ingredients"
+  if loc!="ashcroft_cottage":return "return_home"
+  return "inspect_cooking_availability"
+ if target=="community":
+  if any(a.get("id","").startswith("lifesim:community:") or a.get("id")=="lifesim:share_meal" for a in actions):return "participate"
+  return "reach_community_surface"
+ if target=="procedural_content":
+  if any(a.get("id","").startswith("arc:help:") for a in actions):return "engage_arc"
+  arcs=s.get("procedural_arcs",{}).get("active",[])
+  if arcs:return "reach_arc_location"
+  return "await_or_trigger_opportunity"
+ if target in {"npc_interaction","relationships","society"}:
+  if any(a.get("id","").startswith(("social:greet:","society:greet:")) for a in actions):return "social_contact"
+  return "find_people"
+ if target=="gardening":
+  if any(a.get("id","").startswith("garden:") for a in actions):return "garden_action"
+  return "return_home" if loc!="ashcroft_cottage" else "inspect_garden"
+ return "pursue"
+
+def _stage_score(a,target,stage):
+ text=_action_text(a); aid=a.get("id",""); score=0
+ rules={
+  "perform_cooking":(("cook","preserve","meal"),-120),
+  "acquire_ingredients":(("groceries","food","breakfast","loaf","shop"),-90),
+  "return_home":(("ashcroft cottage","ashcroft_cottage"),-110),
+  "inspect_cooking_availability":(("kitchen","cook","meal","pantry"),-100),
+  "participate":(("community","workday","care walk","upkeep","share a simple meal"),-120),
+  "reach_community_surface":(("village green","churchyard","riverside"),-75),
+  "engage_arc":(("offer to help","arc:help"),-130),
+  "reach_arc_location":(("visit","walk","return","go to"),-55),
+  "social_contact":(("exchange a few words","talk","speak"),-120),
+  "find_people":(("visit","walk","green","shop","bakery"),-55),
+  "garden_action":(("garden","soil","weed","water","plant","sow","harvest"),-120),
+  "inspect_garden":(("inspect the garden","garden"),-100),
+ }
+ words,weight=rules.get(stage,((),0))
+ if any(w in text for w in words):score+=weight
+ # Strongly suppress semantically adjacent but goal-irrelevant domestic/passive actions.
+ if target in {"cooking","community","procedural_content"} and any(x in text for x in PASSIVE):score+=35
+ if target=="cooking" and any(x in text for x in ("laundry","tidy","air the rooms","sketch","bird","garden beds","sow ")):score+=45
+ return score
+
+def project_actions(game,actions,target,recent,blocked,limit=12):
+ stage=_goal_stage(game,target,actions)
+ ranked=sorted(actions,key=lambda a:(_score(a,target,recent,blocked)+_stage_score(a,target,stage),a.get("id","")))
+ # Keep a compact relevant surface plus a few escape/navigation alternatives.
+ return ranked[:limit],stage
 
 def _score(a,target,recent,blocked):
  aid=a.get('id','');text=(aid+' '+a.get('kind','')+' '+a.get('label','')).lower();score=recent.count(aid)*14+(100 if aid in blocked else 0)
@@ -53,12 +111,13 @@ def choose_action(game,purpose='ordinary life',memory=None,target=None):
  memory=memory or {};actions=safe_actions(game,True)
  if not actions:return None,None,0.0,{"outcome":"no_legal_action","provider_state":"none","goal_progress":False}
  recent=list(memory.get('recent_actions',[]))[-10:];blocked=set(memory.get('blocked_actions',[]));eligible=[a for a in actions if a.get('id') not in blocked] or actions
- direct=_direct_progress_action(eligible,target,recent,blocked)
- if direct:return direct,{"id":direct['id']},0.0,{"outcome":"planned_step","provider_state":"local_planner","goal_progress":True}
- ranked=sorted(eligible,key=lambda a:(_score(a,target,recent,blocked),a.get('id','')))[:18]
+ projected,stage=project_actions(game,eligible,target,recent,blocked,12)
+ direct=_direct_progress_action(projected,target,recent,blocked)
+ if direct:return direct,{"id":direct['id']},0.0,{"outcome":"planned_step","provider_state":"local_planner","goal_progress":True,"goal_stage":stage}
+ ranked=projected
  candidates=[{"id":a['id'],"label":a.get('label',a['id'])} for a in ranked];t=time.time();choice=provider.ask_compact_choice('autoplayer',target or purpose,_compact_state(game,memory,target),candidates);dt=time.time()-t
  cid=choice.get('id') if isinstance(choice,dict) else None;selected=next((a for a in ranked if a['id']==cid),None)
- if selected:return selected,choice,dt,{"outcome":"llm_success","provider_state":provider.last_status.get('state','unknown'),"goal_progress":_score(selected,target,recent,blocked)<0}
+ if selected:return selected,choice,dt,{"outcome":"llm_success","provider_state":provider.last_status.get('state','unknown'),"goal_progress":(_score(selected,target,recent,blocked)+_stage_score(selected,target,stage))<0,"goal_stage":stage}
  # Goal-aware fallback: choose best ranked action, not a rotating legal-action cycle.
  selected=ranked[0];state=str(provider.last_status.get('state','unknown'))
  if 'timeout' in state: provider.reset_session('autoplayer')

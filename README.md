@@ -1,12 +1,12 @@
-# Bellwether v1.2.0 — Life Simulation Expansion
+# Bellwether v1.4.0 — Adaptive Horror and Failure Depth
 
-Bellwether is a local-first narrative village life-sim and psychological-horror RPG. The deterministic game engine remains authoritative over state, persistence, accounting, story gates and safety constraints; local LLM systems influence bounded world interpretation, NPC behaviour, ecology, conversation, procedural situations and automated playtesting.
+Bellwether is a local-first village life-sim and psychological-horror RPG. The deterministic engine owns saves, accounting, story gates, hazards and legal state transitions. Local LLMs make bounded choices for world interpretation, NPC behaviour, ecology, conversation, procedural situations and autonomous playtesting.
 
-## v1.2.0 milestone
+## This release
 
-This release expands ordinary life without replacing the existing story or simulation systems. It adds persistent pantry preservation, shared meals, scheduled community participation, long-term life progression, hobby mastery summaries, ordinary non-story social contact, and stronger integration between farming, cooking, hobbies, relationships, community standing and the economy.
+v1.4.0 deepens failure without turning Bellwether into a random punishment simulator. Existing authored hazards, injuries and recovery routes remain intact. A new inspectable adaptive failure profile tracks pressure from poverty, injury, psychological strain, village decline and social isolation, with bounded mitigation from preparation, recovery and financial stability. Horror remains authored-only and still requires learned normality before escalation.
 
-The release also folds the v1.1.0 diagnostic findings into the AI testing architecture: goal stagnation is measured semantically rather than by any state change, ordinary NPC interaction is now directly testable without advancing authored story, volatile numeric action maps no longer reuse stale Ollama context, compact-choice parser failures are recorded with richer evidence, the autonomous-player timeout is restored to a generous configurable default, and diagnostic reports expose separate quality dimensions.
+The AI tester now uses prerequisite stages for multi-step goals, receives a smaller goal-relevant action surface, defers stalled goals instead of spending the whole run on them, and reports per-goal attempts, deferrals, passive-action share, location diversity and procedural pipeline counters. The diagnostic suite also includes adversarial failure/recovery checks and a deterministic 90-day society soak.
 
 ## Run
 
@@ -14,17 +14,20 @@ The release also folds the v1.1.0 diagnostic findings into the AI testing archit
 ./run.sh
 ```
 
-Then open the local address printed by the server. Bellwether expects a local Ollama-compatible model service for AI-assisted features; deterministic fallbacks preserve playability when AI is unavailable.
+Open the local address printed by the server. Bellwether expects an Ollama-compatible local model service for AI-assisted systems. Deterministic fallbacks preserve playability when AI is unavailable.
 
 ## Saves and diagnostics
 
-The game save is stored as a local JSON file under `saves/`. Full diagnostic runs continuously checkpoint to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`, while append-only run evidence is written under `diagnostics/runs/`.
+Portable game state is stored under `saves/`. Full diagnostics continuously checkpoint to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`. Per-run evidence is written under `diagnostics/runs/` so interrupted tests still leave useful traces.
+
+Run the focused v1.4.0 certification with:
+
+```bash
+PYTHONPATH=. python tools/v140_adaptive_horror_failure_diagnostic.py
+```
 
 ## Development principle
 
-Gameplay and automated certification evolve together. New systems should ship with deterministic invariants plus AI-player coverage, naturalistic play, adversarial play and long-horizon testing where appropriate. Diagnostic reports should expose enough evidence to diagnose failures without requiring spoiler-heavy manual inspection.
+Gameplay and autonomous certification evolve together. Each gameplay milestone should add both player-facing systems and the tests needed to exercise them naturally, adversarially and over long horizons. Deterministic tests certify invariants; LLM agents test exploration, strategy, semantic coherence, emergent interactions and behavioural quality. Diagnostic reports should expose enough evidence to diagnose problems without requiring spoiler-heavy manual inspection.
 
-### v1.3.0: Society and Generational Time
-Bellwether now tracks slow village continuity across the lightweight resident population: households, employment composition, social connectivity, isolation, migration pressure, weekly society snapshots and long-horizon elapsed time. Background residents can be met through inexpensive ordinary social contact without turning every resident into a full LLM-driven core character.
-
-The autonomous tester now certifies society and employment-change surfaces and reports more diagnostic dimensions, including invalid-response, timeout, no-effect, behavioural diversity, goal completion and society continuity metrics.
+See `docs/V1.4.0_ADAPTIVE_HORROR_FAILURE_DEPTH_AUDIT.txt` for the release audit and implementation notes.

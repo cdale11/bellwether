@@ -1,4 +1,4 @@
-"""v0.9.1 bounded injury, setback, preparation and authored recovery routes."""
+"""v1.4.0 adaptive failure pressure, bounded setbacks, preparation and recovery."""
 from copy import deepcopy
 class FailureRecoveryModel:
     SCHEMA_VERSION=1
@@ -8,11 +8,25 @@ class FailureRecoveryModel:
       "cave_disorientation":{"id":"cave_search","label":"Search-party recovery","location":"ashcroft_cottage","days_lost":2,"money_loss":8,"text":"You wake at the cottage after a search party brought you back from the quarry road."},
       "default":{"id":"ordinary_recovery","label":"Ordinary recovery","location":"ashcroft_cottage","days_lost":1,"money_loss":4,"text":"You wake sore and exhausted at the cottage, with practical consequences still to deal with."}}
     PREPARATION={"riverbank_slip":{"items":["walking boots","sturdy boots"],"health":45},"quarry_loose_stone":{"items":["walking boots","sturdy boots"],"health":55},"cave_disorientation":{"items":["torch","flashlight","lantern"],"health":60},"platform_pull":{"items":[],"health":70},"night_road_collision":{"items":[],"health":75}}
-    def runtime_defaults(self):return {"schema_version":1,"setbacks":[],"recovery_history":[],"preparation_checks":[],"active_recovery":None}
+    def runtime_defaults(self):return {"schema_version":2,"setbacks":[],"recovery_history":[],"preparation_checks":[],"active_recovery":None,"adaptive":{"profile":"balanced","pressure":0,"band":"stable","vulnerabilities":{},"mitigations":{},"daily_history":[],"failure_warnings":[],"near_failures":0}}
     def migrate(self,state):
         rt=state.setdefault("failure_recovery",self.runtime_defaults())
         for k,v in self.runtime_defaults().items():rt.setdefault(k,deepcopy(v))
+        rt["schema_version"]=2
+        ad=rt.setdefault("adaptive",deepcopy(self.runtime_defaults()["adaptive"]))
+        for k,v in self.runtime_defaults()["adaptive"].items():ad.setdefault(k,deepcopy(v))
         return rt
+    def evaluate_adaptive_pressure(self,state):
+        rt=self.migrate(state); ad=rt["adaptive"]; money=int(state.get("money",0)); injuries=len(state.get("danger",{}).get("injuries",{})); strain=int(state.get("horror_aftermath",{}).get("player",{}).get("strain",0)); econ=state.get("economy",{}).get("market",{}).get("businesses",{}); critical=sum(1 for b in econ.values() if b.get("trend")=="critical"); society=state.get("society",{}).get("social",{}); isolated=int(society.get("isolated",0) or 0)
+        vulnerabilities={"poverty":max(0,8-money),"injury":injuries*12,"psychological_strain":strain//4,"village_decline":critical*8,"social_isolation":min(20,isolated*2)}
+        mitigations={"cash_buffer":min(15,money//4),"recovery":int(state.get("horror_aftermath",{}).get("player",{}).get("recovery",0))//6,"preparation":min(10,len(rt.get("preparation_checks",[])))}
+        pressure=max(0,min(100,sum(vulnerabilities.values())-sum(mitigations.values()))); ad["vulnerabilities"]=vulnerabilities;ad["mitigations"]=mitigations;ad["pressure"]=pressure;ad["band"]="critical" if pressure>=70 else "strained" if pressure>=40 else "watchful" if pressure>=20 else "stable"
+        dominant=max(vulnerabilities,key=vulnerabilities.get) if vulnerabilities else "balanced";ad["profile"]=dominant if vulnerabilities.get(dominant,0)>0 else "balanced"
+        row={"day":state.get("day",1),"pressure":pressure,"band":ad["band"],"profile":ad["profile"]};hist=ad["daily_history"];
+        if not hist or hist[-1].get("day")!=row["day"]:hist.append(row);ad["daily_history"]=hist[-120:]
+        return deepcopy(ad)
+    def register_warning(self,state,kind,text):
+        ad=self.migrate(state)["adaptive"];row={"day":state.get("day",1),"kind":kind,"text":text};ad["failure_warnings"].append(row);ad["failure_warnings"]=ad["failure_warnings"][-30:];return row
     def preparation_check(self,state,hazard_id):
         rt=self.migrate(state); rule=self.PREPARATION.get(hazard_id,{"items":[],"health":50}); inv=[str(x).lower() for x in state.get("inventory",[])]
         health=int(state.get("health",state.get("player",{}).get("health",100)) or 100)

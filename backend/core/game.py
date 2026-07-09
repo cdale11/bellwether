@@ -972,6 +972,7 @@ class Game:
                 s["minute"] -= 1440
                 s["day"] += 1
                 HORROR_AFTERMATH_MODEL.daily_recovery(s)
+                FAILURE_RECOVERY_MODEL.evaluate_adaptive_pressure(s)
                 for echo in RECURRENCE_MODEL.advance_day(s): self.add(echo["speaker"], echo["text"])
             self.update_temperature_for_time()
             self.update_npc_personal_lives(step)

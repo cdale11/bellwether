@@ -1,4 +1,17 @@
-# Changelog
+# Bellwether Changelog
+
+## v1.4.0 — Adaptive Horror and Failure Depth
+
+- Added inspectable adaptive failure pressure from poverty, injury, psychological strain, village decline and social isolation.
+- Added bounded mitigation from preparation, recovery and financial stability while preserving authored hazards and recovery routes.
+- Added prerequisite-stage AI planning for cooking, community, procedural content, social contact and gardening.
+- Reduced semantic action clutter in AI-player candidate surfaces.
+- Added per-goal attempt budgets, semantic stall detection, goal deferral and later retry.
+- Corrected diagnostic procedural-content certification so the already-tested specialist proposal can surface in the isolated play world.
+- Added adversarial failure-pressure and preparation-mitigation certification.
+- Added deterministic 90-day society soak certification.
+- Expanded diagnostics with goal-control metrics, passive-action share, location diversity and procedural pipeline counters.
+- Updated README, audit documentation and focused v1.4.0 certification tooling.
 
 ## v1.0.8 — Corrective Runtime and Automatic Playtest
 
