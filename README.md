@@ -1,4 +1,4 @@
-# Bellwether v1.0
+# Bellwether v1.0.2
 
 Bellwether is a village life-sim, RPG, mystery, and psychological horror game. You can work, garden, cook, explore, build relationships, investigate the village, or ignore the main story for long stretches.
 
@@ -71,3 +71,19 @@ v1.0.1 activates a persistent environmental runtime beneath the existing season 
 The runtime is deterministic and save-compatible. AI remains bounded: it can handle dialogue and legal strategic choices, while authoritative environmental consequences are calculated and validated by the engine. The Developer / Settings simulation view exposes the living-world runtime and ecology tendencies.
 
 Run the focused check with `python tools/v101_living_world_runtime_diagnostic.py`; run the cumulative suite with `BELLWETHER_AI=0 python tools/post_v010_diagnostic.py`.
+
+## v1.0.2 AI runtime architecture
+
+v1.0.2 keeps Bellwether's low-memory rule of one local-model inference at a time, but background work is no longer a simple FIFO line. The background runtime now uses domain-aware priorities: routine Director batches are serviced ahead of infrequent strategic Town Mind work, while the provider's existing foreground dialogue gate continues to give waiting player conversation precedence at the Ollama boundary.
+
+The Developer / Settings AI view now exposes queue policy, queued domains, job priority, queue-wait time, rolling duration summaries, and lifecycle counters. This makes it possible to see whether AI is running, what is waiting, how long work takes, and whether results are applied, rejected as stale, or fail.
+
+Diagnostics are also easier to read. `python tools/post_v010_diagnostic.py` prints compact per-stage progress and writes a JSON report containing elapsed time, pass/fail totals, and the slowest stages. Focused checks are available as `python tools/v101_living_world_runtime_diagnostic.py` and `python tools/v102_ai_runtime_architecture_diagnostic.py`.
+
+### Package hygiene
+
+Release packages retain source diagnostics and authored audit/design documents, but no longer ship obsolete generated diagnostic snapshots or large historical playtest transcript payloads. This reduces package clutter without removing executable diagnostics or gameplay content.
+
+### Next planned update: v1.0.3
+
+The next update is the UI Interaction Redesign: reduce action clutter through progressive contextual disclosure, strengthen the narrative hierarchy, make NPC interaction panels more useful, remove duplicated contextual information, and improve keyboard/input safety while preserving the scene-first, API-driven interface.

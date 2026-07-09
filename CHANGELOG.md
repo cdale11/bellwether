@@ -687,3 +687,15 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Cleaned duplicate documentation, stale generated report copies, and cache artifacts.
 - Added the consolidated master context and post-v1 design direction to the packaged docs.
 - Updated README, VERSION, CHANGELOG, and handoff documentation.
+
+## v1.0.2 — AI Runtime Architecture
+
+- Replaced FIFO background AI scheduling with a single-worker priority queue that preserves low-memory operation.
+- Added explicit AI job domains and priorities so ordinary Director work is serviced before slower strategic reviews.
+- Preserved job coalescing and game-thread-only result application.
+- Added queue-wait timing, per-kind rolling duration summaries, queued-domain counts, lifecycle event counters, and clearer Developer Console runtime status.
+- Added a focused v1.0.2 AI runtime diagnostic.
+- Improved the cumulative diagnostic runner with live stage progress, timeout reporting, total/failed counts, elapsed time, and slowest-stage summaries.
+- Added v1.0.1 and v1.0.2 focused diagnostics to cumulative certification.
+- Removed stale generated diagnostic logs and historical transcript payloads from the distribution package; source diagnostics and authored audit reports remain.
+- Updated README and release documentation for the current runtime architecture and diagnostic workflow.

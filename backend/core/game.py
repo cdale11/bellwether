@@ -1728,7 +1728,7 @@ class Game:
         if not candidates:return False
         tm["review_count"]+=1; tm["last_review_pulse"]=pulse
         frozen_candidates=deepcopy(candidates); frozen_context=deepcopy(context)
-        return ASYNC_AI_RUNTIME.submit("town_mind","town_mind",pulse,tuple(sorted(x.get("id") for x in candidates)),lambda: provider.ask_choice("town_mind","Choose one strategic intention for the village simulation. Prefer an intention justified by current state and player pacing. Do not invent facts or events; choose only a direction for specialist systems to consider.",frozen_context,frozen_candidates))
+        return ASYNC_AI_RUNTIME.submit("town_mind","town_mind",pulse,tuple(sorted(x.get("id") for x in candidates)),lambda: provider.ask_choice("town_mind","Choose one strategic intention for the village simulation. Prefer an intention justified by current state and player pacing. Do not invent facts or events; choose only a direction for specialist systems to consider.",frozen_context,frozen_candidates), domain="strategy", priority=50)
 
     def run_town_mind_review(self, reason="scheduled"):
         """One bounded strategic review. Town Mind creates intentions, never direct world mutations."""
@@ -1770,7 +1770,7 @@ class Game:
         if not candidates or len(root.get("active",[]))>=PROCEDURAL_ARC_MODEL.MAX_ACTIVE:return False
         root["proposal_count"]+=1; root["last_proposal_pulse"]=pulse
         frozen_candidates=deepcopy(candidates); frozen_context=deepcopy(PROCEDURAL_ARC_MODEL.compact_context(s))
-        return ASYNC_AI_RUNTIME.submit("procedural_arc","procedural_arc",pulse,tuple(sorted(x.get("id") for x in candidates)),lambda: provider.ask_choice("procedural_arc","Choose one grounded multi-day village social situation that fits current pressures. Select only from the legal templates; do not invent facts, residents, outcomes, or stages.",frozen_context,frozen_candidates))
+        return ASYNC_AI_RUNTIME.submit("procedural_arc","procedural_arc",pulse,tuple(sorted(x.get("id") for x in candidates)),lambda: provider.ask_choice("procedural_arc","Choose one grounded multi-day village social situation that fits current pressures. Select only from the legal templates; do not invent facts, residents, outcomes, or stages.",frozen_context,frozen_candidates), domain="social_arcs", priority=40)
 
     def run_procedural_arc_proposal(self, reason="scheduled"):
         """Choose one legal multi-day social arc template; no free-form state mutation."""
@@ -1810,7 +1810,7 @@ class Game:
         def work():
             with provider.scoped_overview_context(frozen_overview):
                 return run_specific_round(frozen_state,domains)
-        ok=ASYNC_AI_RUNTIME.submit("director_batch","director_batch",revision,signature,work)
+        ok=ASYNC_AI_RUNTIME.submit("director_batch","director_batch",revision,signature,work, domain="+".join(domains), priority=20)
         if ok:
             s.setdefault("ai_runtime",{})["last_async_director_reason"]=reason
         return ok
