@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 import threading
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from backend.core.game import game
@@ -42,6 +42,9 @@ class ActionRequest(BaseModel):
 class TalkRequest(BaseModel):
     npc_id: str
     text: str
+
+class PortableSaveRequest(BaseModel):
+    state: dict
 
 @app.get("/", response_class=HTMLResponse)
 def home():
@@ -115,6 +118,21 @@ def save():
 def load():
     with game_lock:
         return game.load()
+
+@app.get("/api/save-file")
+def save_file():
+    """Export the current authoritative state as a local, copyable JSON file."""
+    with game_lock:
+        game.compile_llm_overview()
+        version=(ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        game.state.setdefault("save_meta", {}).update({"schema": 1, "game_version": version, "saved_day": game.state.get("day",1), "saved_minute": game.state.get("minute",0)})
+        payload=json.dumps(game.state, indent=2).encode("utf-8")
+    return Response(payload, media_type="application/json", headers={"Content-Disposition": 'attachment; filename="bellwether-save.json"'})
+
+@app.post("/api/load-file")
+def load_file(req: PortableSaveRequest):
+    with game_lock:
+        return game.load_payload(req.state)
 
 @app.post("/api/new-game")
 def new_game():

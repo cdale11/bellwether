@@ -31,6 +31,13 @@ check("runtime records lifecycle counts", status.get("event_counts",{}).get("job
 source=(ROOT/"backend/core/game.py").read_text(encoding="utf-8")
 check("game queues domain-aware director work", 'domain="+".join(domains)' in source)
 check("strategic work has lower urgency", 'domain="strategy", priority=50' in source)
+provider_source=(ROOT/"backend/ai/provider.py").read_text(encoding="utf-8")
+app_source=(ROOT/"backend/app.py").read_text(encoding="utf-8")
+frontend_source=(ROOT/"frontend/static/js/game.js").read_text(encoding="utf-8")
+check("strategic overview projection is compact", 'director in {"town_mind", "procedural_arc"}' in provider_source and 'recent_world_history' in provider_source)
+check("portable save export route exists", '/api/save-file' in app_source)
+check("portable save import route exists", '/api/load-file' in app_source)
+check("portable save controls exposed", 'exportSaveFile' in frontend_source and 'importSaveFile' in frontend_source)
 
 passed=all(x["passed"] for x in checks)
 print(json.dumps({"version":(ROOT/"VERSION").read_text().strip(),"passed":passed,"checks":checks},indent=2))

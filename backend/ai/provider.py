@@ -141,6 +141,17 @@ class AIProvider:
             }
         if director=="season":
             return {"run_history":o.get("run_history",[])[-2:]}
+        if director in {"town_mind", "procedural_arc"}:
+            # Strategic Directors already receive purpose-built compact_context payloads.
+            # Reattaching the full compiled overview made 4B calls ~9k characters on
+            # low-end CPUs, causing repeated 45s timeouts and stale results.
+            return {
+                "story_phase": o.get("story_summary"),
+                "player_style": o.get("player_style"),
+                "psychological_stage": o.get("psychological_context",{}).get("state",{}).get("stage","ordinary"),
+                "branch_context": o.get("branch_context"),
+                "recent_world_history": o.get("recent_world_history",[])[-3:],
+            }
         return o
 
     def _recent_decisions_for(self, director):

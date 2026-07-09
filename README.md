@@ -33,7 +33,7 @@ Only one Ollama inference runs at a time on low-memory systems. This avoids unne
 
 ## Saving, loading, and browser reloads
 
-Use **Menu** in the top bar to save, load, view history, or reset the game.
+Use **Menu** in the top bar to Quick Save/Quick Load, export a portable save file, load a portable save file, view history, or reset the game. **Export Save File** downloads `bellwether-save.json`, a plain JSON file that can be copied, backed up, and loaded into another Bellwether installation.
 
 A browser reload reconnects to the game already running on the server. It does not create a fresh game. If you want to start completely over, use **Menu → Reset to Fresh Game**. Reset asks for confirmation and does not carry recurrence memory forward.
 
@@ -77,6 +77,8 @@ Run the focused check with `python tools/v101_living_world_runtime_diagnostic.py
 v1.0.2 keeps Bellwether's low-memory rule of one local-model inference at a time, but background work is no longer a simple FIFO line. The background runtime now uses domain-aware priorities: routine Director batches are serviced ahead of infrequent strategic Town Mind work, while the provider's existing foreground dialogue gate continues to give waiting player conversation precedence at the Ollama boundary.
 
 The Developer / Settings AI view now exposes queue policy, queued domains, job priority, queue-wait time, rolling duration summaries, and lifecycle counters. This makes it possible to see whether AI is running, what is waiting, how long work takes, and whether results are applied, rejected as stale, or fail.
+
+A review of real v1.0.1 traces also found that routine 2B bounded calls were parsing and applying correctly, while 4B Town Mind and Procedural Arc calls were receiving unnecessarily large overview payloads, timing out, and becoming stale. v1.0.2 now gives those strategic Directors compact global projections while retaining their purpose-built local context.
 
 Diagnostics are also easier to read. `python tools/post_v010_diagnostic.py` prints compact per-stage progress and writes a JSON report containing elapsed time, pass/fail totals, and the slowest stages. Focused checks are available as `python tools/v101_living_world_runtime_diagnostic.py` and `python tools/v102_ai_runtime_architecture_diagnostic.py`.
 

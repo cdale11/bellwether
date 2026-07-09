@@ -2724,6 +2724,22 @@ class Game:
         os.replace(tmp,SAVE_PATH)
         return {"ok": True, "message": "Game saved safely.", "view": self.view()}
 
+    def load_payload(self, loaded):
+        """Load a user-supplied portable JSON save after structural validation."""
+        if not isinstance(loaded, dict):
+            return {"ok": False, "message": "Save file is not a JSON object.", "view": self.view()}
+        required = {"day", "minute", "location", "history"}
+        missing = sorted(required - set(loaded))
+        if missing:
+            return {"ok": False, "message": "Save file is missing required game state: " + ", ".join(missing), "view": self.view()}
+        self.state = deepcopy(loaded)
+        self._overview_cache_key=None; self._overview_cache=None
+        self.migrate_state()
+        provider.recent_call_memory = deepcopy(self.state.get("llm_context",{}).get("session_summary",[]))[-12:]
+        self.state["ui"]["message_cursor"] = max(0, len(self.state["history"]) - 3)
+        self.compile_llm_overview()
+        return {"ok": True, "message": "Portable save loaded.", "view": self.view()}
+
     def load(self):
         backup=SAVE_PATH.with_suffix(SAVE_PATH.suffix+".bak")
         source=SAVE_PATH

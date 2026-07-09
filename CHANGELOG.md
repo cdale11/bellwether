@@ -699,3 +699,10 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added v1.0.1 and v1.0.2 focused diagnostics to cumulative certification.
 - Removed stale generated diagnostic logs and historical transcript payloads from the distribution package; source diagnostics and authored audit reports remain.
 - Updated README and release documentation for the current runtime architecture and diagnostic workflow.
+
+### v1.0.2 follow-up: portable saves and AI log-driven tuning
+- Added browser-downloadable `bellwether-save.json` export and local JSON save import; portable saves remain human-readable and copyable.
+- Kept atomic Quick Save/Quick Load and last-good backup recovery for the installation-local slot.
+- Added structural validation and normal migration/overview rebuild when importing portable saves.
+- Reduced strategic Town Mind and Procedural Arc prompt bloat by routing a compact overview projection instead of reattaching the full compiled playthrough overview.
+- This change addresses v1.0.1 traces where 4B strategic calls received ~9.4k-character prompts, timed out twice at 45 seconds, and then became stale while ordinary play continued.
