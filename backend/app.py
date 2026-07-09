@@ -167,3 +167,18 @@ def diagnostic_full_start():
 def diagnostic_full_status():
     from backend.core.full_diagnostic import FULL_DIAGNOSTIC
     return FULL_DIAGNOSTIC.snapshot()
+
+@app.post('/api/ai-player/start')
+def ai_player_start():
+    from backend.core.ai_player import AI_PLAYER
+    return {'started':AI_PLAYER.start_live(game,game_lock,7), **AI_PLAYER.snapshot()}
+
+@app.post('/api/ai-player/stop')
+def ai_player_stop():
+    from backend.core.ai_player import AI_PLAYER
+    AI_PLAYER.stop(); return AI_PLAYER.snapshot()
+
+@app.get('/api/ai-player/status')
+def ai_player_status():
+    from backend.core.ai_player import AI_PLAYER
+    return AI_PLAYER.snapshot()

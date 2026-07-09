@@ -1,3 +1,19 @@
+# Bellwether v1.0.10
+
+Bellwether is a local-first village life simulation and psychological horror RPG. v1.0.10 adds a genuine LLM player and a deeper disposable seven-day AI playtest.
+
+## AI player
+
+Open the Developer Console and choose **Let the Village Play**. The local LLM chooses only currently legal ordinary-life actions; authored story, endings, investigation gates and horror choices are excluded from unattended play. The live panel shows each choice, decision latency, action count and progress. **Stop AI Player** returns control to you. This mode advances the real current run, so use it when you intentionally want Bellwether to live on without you.
+
+## Full diagnosis
+
+Choose **Run Full Game Diagnosis** for an isolated disposable test run. It first stress-tests specialist AI pathways and then lets the LLM itself play a fresh game for seven in-game days through legal action pathways. Progress and the current AI-player action are shown live. The diagnostic never replaces your real save. When complete, use **Copy Diagnostic Report** and paste the complete report into ChatGPT; if clipboard access is blocked, use **Export Report** and upload the text file.
+
+The report includes specialist-call timing, LLM-player action trace, crop/climate checks, ecology application, world/NPC/event state, relationships, investigation, recurrence, horror, economy, save round-trip, prose integrity and scheduler waste counters.
+
+---
+
 # Bellwether v1.0.8
 
 Bellwether is a local-first village life-sim, RPG, mystery, and psychological horror game. The deterministic engine owns authoritative state; local LLMs may propose dialogue and bounded decisions, which are validated before application.

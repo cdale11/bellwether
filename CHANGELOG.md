@@ -787,3 +787,14 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Improved Developer Console diagnostic metric contrast.
 - Replaced the unsupported currency glyph with the font-safe fictional notation `Br`.
 - Preserved the single-worker lossless inference policy.
+
+## v1.0.10
+- Added real LLM autonomous player for unattended ordinary-life play; authored story, investigation, horror-choice and ending actions are excluded.
+- Added live AI-player activity feed, action count, decision latency and stop control.
+- Full diagnosis now uses the LLM to select legal player actions across a disposable seven-day fresh-game run instead of deterministic profile selection.
+- Diagnostic conversation setup now guarantees a valid co-located NPC pair before testing the conversation Director.
+- Fixed AI ecology crop factor being overwritten by pollinator adjustment; factors are now composed.
+- Replaced invalid crop ordering assertion with independent climate-response invariants.
+- Strengthened developer metric contrast.
+- Added relationship interpretation to NPC focus panel (existing relationship state is now retained and surfaced).
+- Added CSS-rendered Bellwether currency mark in the HUD while retaining plain Br in serialization/log-safe text.

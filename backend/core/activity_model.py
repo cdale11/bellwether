@@ -72,7 +72,7 @@ class ActivityModel:
             season_factor=1.0 if season_ok else .35
             world_tendencies=state.get("world_runtime",{}).get("tendencies",{})
             pollinator=float(world_tendencies.get("pollinator_activity",0.55))
-            ecology_factor=0.92 + 0.08*pollinator
+            ecology_factor=max(0.05,min(1.25,ecology_factor)) * (0.92 + 0.08*pollinator)
             gain=minutes*water_factor*season_factor*(1-0.5*weed_penalty)*ecology_factor
             p["growth"]=min(p["growth_required"],p.get("growth",0)+gain)
             p["last_growth_gain"]=round(gain,3)
