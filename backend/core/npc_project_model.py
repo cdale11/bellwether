@@ -30,7 +30,7 @@ class NPCProjectModel:
     def reasoning_context(self,s,npc):
         p=deepcopy(self.migrate(s)["projects"].get(npc,{}))
         interp=deepcopy(s.get("interpretation_system",{}).get("observers",{}).get(npc,{}).get("hypotheses",[]))
-        return {"npc":npc,"day":s.get("day",1),"existing_project":p,"npc_interpretations":interp[-4:],"legal_attempts":self.legal_attempts(s,npc),"instruction":"Maintain one grounded inquiry. Revise belief from observations. Choose only a legal_attempt id. You may decide disclosure stance, but cannot invent discoveries or world facts."}
+        return {"npc":npc,"day":s.get("day",1),"existing_project":p,"npc_interpretations":interp[-4:],"social_context":deepcopy(s.get("social_obligations",{}).get("goals",{}).get(npc)),"active_obligations":[deepcopy(x) for x in s.get("social_obligations",{}).get("obligations",[]) if x.get("status")=="active" and npc in (x.get("debtor"),x.get("creditor"))][-6:],"legal_attempts":self.legal_attempts(s,npc),"instruction":"Maintain one grounded inquiry. Revise belief from observations. Choose only a legal_attempt id. You may decide disclosure stance, but cannot invent discoveries or world facts."}
     def apply_reasoning(self,s,npc,result,model=None):
         if npc not in self.CORE or not isinstance(result,dict): return False
         rt=self.migrate(s); legal={x[0] for x in self.ATTEMPTS[npc]}; attempt=str(result.get("next_attempt",""))

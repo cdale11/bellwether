@@ -15,13 +15,12 @@ class AIProvider:
         fast_override = os.getenv("BELLWETHER_AI_FAST_MODEL") or os.getenv("BELLWETHER_AI_MODEL")
         deep_override = os.getenv("BELLWETHER_AI_DEEP_MODEL")
         self.fast_model = fast_override or self._pick_installed_model(
-            installed, ["qwen3.5:2b", "qwen3.5:4b", "qwen3:1.7b", "llama3.2:3b"]
+            installed, ["qwen3.5:4b", "qwen3.5:2b", "qwen3:1.7b", "llama3.2:3b"]
         ) or "qwen3.5:2b"
-        self.deep_model = deep_override or self._pick_installed_model(
-            installed, ["qwen3.5:4b", "qwen3.5:2b", self.fast_model]
-        ) or self.fast_model
+        self.deep_model = deep_override or self.fast_model
         self.model=self.fast_model  # compatibility: existing diagnostics and UI report the foreground model
         self.num_ctx=max(1024,int(os.getenv("BELLWETHER_AI_NUM_CTX","4096")))
+        self.keep_alive=os.getenv("BELLWETHER_AI_KEEP_ALIVE","10m")
         self.timeout=float(os.getenv("BELLWETHER_AI_TIMEOUT","30"))
         # v0.6.1: default to every CPU thread available to this process. sched_getaffinity
         # respects containers/cgroups and CPU affinity; os.cpu_count is the portable fallback.
@@ -268,7 +267,7 @@ class AIProvider:
               f"\nCONTEXT: {json.dumps(context,separators=(',',':'))}"
             )
             payload=json.dumps({"model":self.model_for_task(director),"prompt":prompt,"stream":False,
-              "format":"json","keep_alive":"10m",
+              "format":"json","keep_alive":self.keep_alive,
               "options":{"temperature":0.55,"num_predict":80,"num_thread":self.num_threads,"num_ctx":self.num_ctx}}).encode()
             req=urllib.request.Request(self.base_url.rstrip("/")+"/api/generate",data=payload,
               headers={"Content-Type":"application/json"},method="POST")
@@ -320,7 +319,7 @@ class AIProvider:
             self.last_status["last_director"]=director
             started=time.time()
             payload_obj={
-                "model":self.model_for_task(director),"prompt":prompt,"stream":False,"keep_alive":"10m",
+                "model":self.model_for_task(director),"prompt":prompt,"stream":False,"keep_alive":self.keep_alive,
                 "options":{"temperature":temperature,"num_predict":current_tokens,"num_thread":self.num_threads,"num_ctx":self.num_ctx}
             }
             if session_key and self._session_turns.get(session_key,0) < 24 and self._session_contexts.get(session_key):
@@ -481,6 +480,22 @@ class AIProvider:
             return json.loads(text[start:end]) if start>=0 and end>start else None
         except Exception:
             self.last_status.update(valid_response=False,last_error="Emergent situation JSON could not be parsed");return None
+
+    def ask_npc_goal(self, director, context):
+        """Form a persistent NPC goal from validated social facts and obligations."""
+        if not self.enabled:return None
+        prompt=("BELLWETHER NPC SELF-GENERATED GOAL\n"
+                "Infer one purposeful, revisable goal from supplied social facts, obligations and inquiry state. "
+                "The purpose may be novel, but capability MUST be one legal_capability and source_ids MUST cite supplied ids. "
+                "Do not invent events, discoveries, debts or relationships. Return JSON only: "
+                "{\"purpose\":\"...\",\"capability\":\"legal_id\",\"reason\":\"...\",\"source_ids\":[\"sf_...\"]}\nCONTEXT:"+json.dumps(context,separators=(",",":")))
+        text=self._plain_request(director,prompt,max_tokens=260,temperature=.6,no_think=True,tries_override=1,timeout_override=float(os.getenv("BELLWETHER_INTERPRETATION_TIMEOUT","120")))
+        if not text:return None
+        try:
+            start=text.find("{");end=text.rfind("}")+1
+            return json.loads(text[start:end]) if start>=0 and end>start else None
+        except Exception:
+            self.last_status.update(valid_response=False,last_error="NPC goal JSON could not be parsed");return None
 
     def ask_npc_project(self, director, context):
         """Interpret an NPC inquiry; engine validates attempt and supplies observations."""

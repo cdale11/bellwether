@@ -19,6 +19,7 @@ from backend.core.npc_model import NPC_MODEL
 from backend.core.npc_life_model import NPC_LIFE_MODEL
 from backend.core.npc_project_model import NPC_PROJECT_MODEL
 from backend.core.emergent_situation_model import EMERGENT_SITUATION_MODEL
+from backend.core.social_obligation_model import SOCIAL_OBLIGATION_MODEL
 from backend.core.causal_history_model import CAUSAL_HISTORY_MODEL
 from backend.core.presentation_ledger_model import PRESENTATION_LEDGER_MODEL
 from backend.core.social_model import SOCIAL_MODEL
@@ -234,6 +235,7 @@ INITIAL_STATE = {
     "npc_lives": NPC_MODEL.runtime_defaults(),
     "npc_autonomous_lives": NPC_LIFE_MODEL.runtime_defaults(),
     "npc_epistemic_projects": NPC_PROJECT_MODEL.runtime_defaults(),
+    "social_obligations": SOCIAL_OBLIGATION_MODEL.defaults(),
     "npc_social_web": SOCIAL_MODEL.runtime_defaults(),
     "npc_knowledge": KNOWLEDGE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "mystery_investigation": INVESTIGATION_MODEL.runtime_defaults(),
@@ -816,7 +818,7 @@ class Game:
         state["ending_families_overview"] = ENDING_MODEL.public(self.state)
         state["postgame_overview"] = POSTGAME_MODEL.public(self.state)
         state["quest_lifecycle"] = QUEST_MODEL.developer_context(self.state)
-        state["presentation_backlog"] = PRESENTATION_LEDGER_MODEL.public(self.state)
+        state["presentation_backlog"] = PRESENTATION_LEDGER_MODEL.public(self.state,80)
         state["life_simulation_overview"] = LIFE_SIMULATION_MODEL.public(self.state)
         state["player_status_overview"] = deepcopy(PLAYER_STATUS_MODEL.migrate(self.state))
         state["cottage_animals_overview"] = ANIMAL_MODEL.public(self.state)
@@ -1906,6 +1908,10 @@ class Game:
             if kind=="emergent_situation":
                 if EMERGENT_SITUATION_MODEL.apply_proposal(s,choice,provider.model_for_task("town_mind")): applied+=1
                 else: stale+=1
+            elif kind=="npc_goal_reasoning":
+                npc=str(job.get("key","")).split(":",1)[1] if ":" in str(job.get("key","")) else ""
+                if SOCIAL_OBLIGATION_MODEL.apply_goal(s,npc,choice,provider.model_for_task("town_mind")): applied+=1
+                else: stale+=1
             elif kind=="npc_project_reasoning":
                 npc=str(job.get("key","")).split(":",1)[1] if ":" in str(job.get("key","")) else ""
                 if NPC_PROJECT_MODEL.apply_reasoning(s,npc,choice,provider.model_for_task("town_mind")): applied+=1
@@ -1960,6 +1966,13 @@ class Game:
         if int(rt.get("last_review_day",0))>=day or ASYNC_AI_RUNTIME.has_job("emergent_situation"): return False
         context=EMERGENT_SITUATION_MODEL.context(self.state); frozen=deepcopy(context); pulse=self._async_state_revision()
         return ASYNC_AI_RUNTIME.submit("emergent_situation","emergent_situation",pulse,(day,len(context.get("recent_world_events",[]))),lambda: provider.ask_emergent_situation(frozen),domain="interpretation",priority=46)
+
+    def queue_npc_goal_reasoning(self, npc_id):
+        if self.state.get("diagnostic_mode") or npc_id not in SOCIAL_OBLIGATION_MODEL.CORE: return False
+        context=SOCIAL_OBLIGATION_MODEL.context_for(self.state,npc_id)
+        if not context.get("social_facts") and not context.get("obligations"): return False
+        frozen=deepcopy(context); pulse=self._async_state_revision()
+        return ASYNC_AI_RUNTIME.submit(f"npc_goal:{npc_id}","npc_goal_reasoning",pulse,(npc_id,self.state.get("day",1),len(context.get("social_facts",[])),len(context.get("obligations",[]))),lambda: provider.ask_npc_goal(npc_id,frozen),domain="interpretation",priority=43)
 
     def queue_npc_project_reasoning(self, npc_id):
         if self.state.get("diagnostic_mode") or npc_id not in NPC_PROJECT_MODEL.CORE: return False
@@ -2180,6 +2193,7 @@ class Game:
                        "activity":s["npcs"][npc_id]["activity"],"destination":s["npcs"][npc_id]["location"]}
                 s.setdefault("npc_action_history",{}).setdefault(npc_id,[]).append(entry)
                 s["npc_action_history"][npc_id]=s["npc_action_history"][npc_id][-8:]
+                SOCIAL_OBLIGATION_MODEL.record_intention_outcome(s,npc_id,change.get("choice"),change.get("kind","routine"),s["npcs"][npc_id]["location"])
                 self.record_world_event(f"{s['npcs'][npc_id]['name']} is now {s['npcs'][npc_id]['activity']}.","npc",npc_id)
                 npc_applied = True
             if npc_applied:
@@ -3105,6 +3119,10 @@ class Game:
             self.queue_interpretation_review(secondary)
             # Execute yesterday's legal project attempts, then let one core NPC revise reasoning.
             NPC_PROJECT_MODEL.advance_day(s)
+            for obligation_event in SOCIAL_OBLIGATION_MODEL.daily_tick(s):
+                self.record_world_event("An unmet social obligation has begun to matter.", "social_obligation", obligation_event.get("id"))
+            goal_cycle=("mara","jonah","mrs_ellis")
+            self.queue_npc_goal_reasoning(goal_cycle[(int(s["day"])-1)%len(goal_cycle)])
             project_cycle=("mara","jonah","mrs_ellis")
             self.queue_npc_project_reasoning(project_cycle[(int(s["day"])-1)%len(project_cycle)])
             town_pressure=TOWN_MIND_MODEL.strategic_daily_tick(s)

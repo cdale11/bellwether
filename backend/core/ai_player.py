@@ -1,4 +1,4 @@
-"""v1.4.0 prerequisite-aware autonomous player with semantic candidate projection."""
+"""v3.13.0 seven-day human-like autonomous playtester with interrupt-safe evidence reporting."""
 from copy import deepcopy
 from threading import RLock,Thread,Event
 from collections import deque
@@ -164,7 +164,7 @@ class AIPlayerRunner:
   self.checkpoint_path=self.report_dir/"diagnostic_ai_player_live.jsonl"; self.report_path=self.report_dir/"diagnostic_ai_player_report.txt"; self.live_report_path=self.report_dir/"diagnostic_ai_player_live_report.txt"
   self.lock=RLock();self.stop_event=Event();self._thread=None;self.status=self._blank_status()
  def _blank_status(self):
-  return {"running":False,"stop_state":"stopped","mode":"idle","progress":0,"phase":"Idle","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"goal_stalls":0,"stop_requested_at":None,"stop_latency_s":None,"discarded_after_stop":0,"coverage":{},"anomalies":[],"unique_actions":0,"unique_locations":0,"save_reload_checks":0}
+  return {"running":False,"stop_state":"stopped","mode":"idle","progress":0,"phase":"Idle","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"goal_stalls":0,"stop_requested_at":None,"stop_latency_s":None,"discarded_after_stop":0,"coverage":{},"anomalies":[],"unique_actions":0,"unique_locations":0,"save_reload_checks":0,"days_completed":0,"day_summaries":[],"action_counts":{},"semantic_findings":[]}
  def snapshot(self):
   with self.lock:return deepcopy(self.status)
  def _update(self,**kw):
@@ -230,6 +230,24 @@ class AIPlayerRunner:
   if v.get('attempts',0)==0:return 'not attempted yet'
   if v.get('acted',0)==0:return f"{v.get('attempts',0)} planning attempts; no semantically relevant domain action executed"
   return f"{v.get('attempts',0)} planning attempts, {v.get('acted',0)} relevant actions, but certification contract not met; last gap: {v.get('last_gap','unknown')}"
+ def _semantic_findings(self, game, seen_texts):
+  """Inspect newly presented text for player-visible quality failures without judging story truth."""
+  out=[]
+  ledger=game.state.get('presentation_ledger',{}).get('entries',[])
+  for row in ledger[-80:]:
+   eid=str(row.get('entry_id') or row.get('id') or '')
+   if eid and eid in seen_texts: continue
+   if eid: seen_texts.add(eid)
+   text=str(row.get('text') or '').strip(); low=text.lower()
+   if not text: continue
+   if any(x in low for x in ('metadata on its own line','system prompt','assistant:','json schema','do not reveal')):
+    out.append({"severity":"error","type":"player_visible_ai_boilerplate","detail":text[:240]})
+   if len(text)>700:
+    out.append({"severity":"warning","type":"overlong_player_text","detail":f"{len(text)} characters: {text[:180]}"})
+   if text.count('{')>=2 and text.count('}')>=2:
+    out.append({"severity":"warning","type":"raw_structured_text_visible","detail":text[:240]})
+  return out
+
  def _detect_anomalies(self,b,a,aid,ok,diff,error=None):
   found=[]
   if not ok:found.append({"severity":"error","type":"action_exception","action":aid,"detail":error or "unknown exception"})
@@ -249,7 +267,20 @@ class AIPlayerRunner:
   self._write_live_report(game,coverage,anomalies,visited,unique_actions,event)
  def _report_lines(self,game,coverage,anomalies,visited,unique_actions,outcome,event=None):
   s=game.state;snap=self.snapshot();version=(Path(__file__).resolve().parents[2]/"VERSION").read_text().strip();done=sum(1 for v in coverage.values() if v.get('status')=='certified');total=len(coverage)
-  lines=["BELLWETHER DIAGNOSTIC AI PLAYER REPORT",f"Version: {version}",f"Outcome: {outcome}",f"Coverage: {done}/{total} domains",f"AI actions attempted: {snap.get('actions',0)}",f"Unique actions: {len(unique_actions)}",f"Unique locations: {len(visited)}",f"LLM calls: {snap.get('llm_calls',0)}",f"Timeouts: {snap.get('timeouts',0)}",f"Fallbacks: {snap.get('fallbacks',0)}",f"Save/reload checks: {snap.get('save_reload_checks',0)}",f"Anomalies recorded: {len(anomalies)}",f"Clock: Day {s.get('day')} minute {s.get('minute')}",f"Current location: {s.get('location')}",""]
+  severity={"fatal":0,"error":0,"warning":0}
+  for x in anomalies: severity[x.get("severity","warning")]=severity.get(x.get("severity","warning"),0)+1
+  lines=["BELLWETHER 7-DAY AI/LLM HUMAN-LIKE PLAYTEST REPORT",f"Version: {version}",f"Outcome: {outcome}","", "EXECUTIVE SUMMARY",f"- Simulated days completed: {snap.get('days_completed',0)} / {snap.get('days',7)}",f"- Coverage: {done}/{total} gameplay domains certified",f"- Actions executed: {snap.get('actions',0)} across {len(unique_actions)} unique actions",f"- World traversal: {len(visited)} unique locations",f"- LLM decisions: {snap.get('successful_decisions',0)} successful / {snap.get('llm_calls',0)} calls; {snap.get('timeouts',0)} timeouts; {snap.get('fallbacks',0)} fallbacks",f"- Findings: {severity.get('fatal',0)} fatal, {severity.get('error',0)} errors, {severity.get('warning',0)} warnings",f"- Save/reload checks: {snap.get('save_reload_checks',0)}",f"- Final clock: Day {s.get('day')} minute {s.get('minute')} at {s.get('location')}",""]
+  lines += ["DEVELOPER PRIORITIES"]
+  if severity.get('fatal',0) or severity.get('error',0): lines.append("- HIGH: inspect fatal/error findings before adding features.")
+  gaps=[k for k,v in coverage.items() if v.get('status')!='certified']
+  if gaps: lines.append("- COVERAGE GAPS: "+", ".join(gaps))
+  if snap.get('timeouts',0): lines.append(f"- AI RUNTIME: {snap.get('timeouts',0)} timeout(s) observed; compare queue wait and inference latency.")
+  if not (severity.get('fatal',0) or severity.get('error',0) or gaps or snap.get('timeouts',0)): lines.append("- No release-blocking signal detected by the autonomous campaign; review warnings and semantic notes below.")
+  lines += ["", "DAY-BY-DAY CAMPAIGN SUMMARY"]
+  for row in snap.get('day_summaries',[]): lines.append(f"- Day {row.get('day')}: {row.get('actions',0)} actions; goals={', '.join(row.get('goals',[])) or 'none'}; locations={', '.join(row.get('locations',[])) or 'none'}; new findings={row.get('findings',0)}")
+  if not snap.get('day_summaries'): lines.append("- No completed day summary yet; use the live checkpoint sections below.")
+  lines += ["", "ACTION DIVERSITY"]
+  for aid,count in sorted((snap.get('action_counts') or {}).items(),key=lambda x:(-x[1],x[0]))[:40]: lines.append(f"- {aid}: {count}")
   if event:lines += ["LATEST ACTION EVIDENCE",json.dumps(event,indent=2,default=str),""]
   lines += ["COVERAGE LEDGER"]
   for k,v in coverage.items():lines.append(f"- {k}: {v.get('status')} | planning_attempts={v.get('attempts',0)} | relevant_actions={v.get('acted',0)} | certifications={v.get('successes',0)} | deferrals={v.get('deferrals',0)} | WHY: {self._coverage_reason(k,v)} | CONTRACT: {v.get('note','')}")
@@ -267,16 +298,21 @@ class AIPlayerRunner:
   with self.lock:
    if self.status.get('running'):return False
    self.stop_event.clear();self.checkpoint_path.write_text('',encoding='utf-8');self.status=self._blank_status();self.status.update(running=True,stop_state='running',mode='comprehensive_qa',phase='Building coverage ledger',days=days)
-  self._thread=Thread(target=self._live,args=(game,game_lock,days),daemon=True,name='bellwether-diagnostic-ai-player');self._thread.start();return True
+  # Run the overnight campaign on an isolated state clone so QA cannot consume the player's save.
+  test_game=game.__class__.__new__(game.__class__)
+  with game_lock: test_game.state=deepcopy(game.state)
+  test_game._overview_cache_key=None;test_game._overview_cache=None
+  test_lock=RLock()
+  self._thread=Thread(target=self._live,args=(test_game,test_lock,days),daemon=True,name='bellwether-diagnostic-ai-player');self._thread.start();return True
  def stop(self):
   with self.lock:
    if self.status.get('running'):self.status.update(stop_state='stopping',phase='Stop requested; current inference result will be discarded',stop_requested_at=time.time())
   self.stop_event.set();return True
  def _live(self,game,game_lock,days):
   memory={"recent_actions":deque(maxlen=20),"recent_locations":deque(maxlen=20),"failed_attempts":deque(maxlen=20),"completed_subtasks":deque(maxlen=30),"blocked_actions":set()}
-  coverage={k:{"status":"untested","attempts":0,"acted":0,"successes":0,"deferrals":0,"last_gap":"","last_evidence":"","note":v} for k,v in self.COVERAGE_GOALS.items()};anomalies=[];visited={game.state.get('location')};unique_actions=set();goal_cursor=0
+  seen_texts=set(); day_stats={}; coverage={k:{"status":"untested","attempts":0,"acted":0,"successes":0,"deferrals":0,"last_gap":"","last_evidence":"","note":v} for k,v in self.COVERAGE_GOALS.items()};anomalies=[];visited={game.state.get('location')};unique_actions=set();goal_cursor=0
   try:
-   start=game.state.get('day',1);goal=None;goal_key=None;goal_actions=0;stalls=0
+   start=game.state.get('day',1);last_day=start;goal=None;goal_key=None;goal_actions=0;stalls=0
    self._write_live_report(game,coverage,anomalies,visited,unique_actions)
    while game.state.get('day',1)<start+days and not self.stop_event.is_set():
     # Periodic real serialization round trip on authoritative state, then continue.
@@ -285,6 +321,11 @@ class AIPlayerRunner:
       before=deepcopy(game.state);blob=json.dumps(before,default=str);restored=json.loads(blob);ok=(restored.get('day')==before.get('day') and restored.get('location')==before.get('location') and restored.get('money')==before.get('money'))
      coverage['save_reload']['attempts']+=1;coverage['save_reload']['successes']+=int(ok);coverage['save_reload']['status']='certified' if ok else 'failed';coverage['save_reload']['acted']+=1;coverage['save_reload']['last_evidence']='JSON round trip preserved clock, location and money' if ok else '';coverage['save_reload']['last_gap']='round-trip mismatch' if not ok else '';self._update(save_reload_checks=self.snapshot().get('save_reload_checks',0)+1)
      if not ok:anomalies.append({"severity":"error","type":"save_reload_roundtrip","action":"save_reload","detail":"Core clock/location/money changed across JSON round trip."})
+    current_day=game.state.get('day',1)
+    if current_day!=last_day:
+     ds=day_stats.get(last_day,{"actions":0,"goals":set(),"locations":set(),"findings":0})
+     summaries=self.snapshot().get('day_summaries',[])+[{"day":last_day,"actions":ds['actions'],"goals":sorted(ds['goals']),"locations":sorted(x for x in ds['locations'] if x),"findings":ds['findings']}]
+     self._update(day_summaries=summaries[-14:],days_completed=max(0,current_day-start));last_day=current_day
     # Passive environment certification: weather/ecology is observed through ordinary time progression.
     if coverage['weather_ecology']['status']!='certified':
      coverage['weather_ecology']['attempts']+=1
@@ -306,7 +347,9 @@ class AIPlayerRunner:
      try:game.perform(aid);ok=True
      except Exception as exc:ok=False;err=f"{type(exc).__name__}: {exc}"
      after=self._state_digest(game.state)
-    diff=self._diff(before,after);found=self._detect_anomalies(before,after,aid,ok,diff,err);anomalies.extend(found);visited.add(after.get('location'));hits=self._coverage_for_action(aid,label,diff)
+    diff=self._diff(before,after);found=self._detect_anomalies(before,after,aid,ok,diff,err);semantic=self._semantic_findings(game,seen_texts);found.extend(semantic);anomalies.extend(found);visited.add(after.get('location'));hits=self._coverage_for_action(aid,label,diff)
+    ds=day_stats.setdefault(after.get('day'),{"actions":0,"goals":set(),"locations":set(),"findings":0});ds['actions']+=1;ds['goals'].add(goal_key);ds['locations'].add(after.get('location'));ds['findings']+=len(found)
+    counts=self.snapshot().get('action_counts',{});counts=dict(counts);counts[aid]=counts.get(aid,0)+1;self._update(action_counts=counts,semantic_findings=deepcopy([x for x in anomalies if x.get('type') in {'player_visible_ai_boilerplate','overlong_player_text','raw_structured_text_visible'}][-40:]))
     env_ok,env_reason=self._certification_evidence('weather_ecology',aid,label,before,after,diff,ok)
     if env_ok:
      coverage['weather_ecology']['acted']+=1;coverage['weather_ecology']['successes']+=1;coverage['weather_ecology']['status']='certified';coverage['weather_ecology']['last_evidence']=env_reason;coverage['weather_ecology']['last_gap']=''
@@ -334,7 +377,9 @@ class AIPlayerRunner:
     self._update(actions=n,progress=pct,phase=f"Executed {label}",coverage=deepcopy(coverage),anomalies=deepcopy(anomalies[-100:]),unique_actions=len(unique_actions),unique_locations=len(visited),goal_stalls=stalls)
     self._feed(f"Day {game.state.get('day')} {game.time_label()} · {goal_key} · {label} · {'changed: '+', '.join(diff) if diff else 'NO MONITORED EFFECT'}")
     self._checkpoint(game,event,coverage,anomalies,visited,unique_actions)
-   stopped=self.stop_event.is_set();snap=self.snapshot();lat=(time.time()-snap['stop_requested_at']) if stopped and snap.get('stop_requested_at') else None;self._update(running=False,thinking=False,stop_state='stopped',stop_latency_s=round(lat,3) if lat is not None else None,progress=self.snapshot()['progress'] if stopped else 100,phase='Diagnostic AI player stopped' if stopped else 'Diagnostic AI player finished');self._write_report(game,coverage,anomalies,visited,unique_actions,stopped)
+   ds=day_stats.get(game.state.get('day'),{"actions":0,"goals":set(),"locations":set(),"findings":0}); summaries=self.snapshot().get('day_summaries',[])
+   if ds['actions'] and not any(x.get('day')==game.state.get('day') for x in summaries): summaries=summaries+[{"day":game.state.get('day'),"actions":ds['actions'],"goals":sorted(ds['goals']),"locations":sorted(x for x in ds['locations'] if x),"findings":ds['findings']}]
+   stopped=self.stop_event.is_set();snap=self.snapshot();lat=(time.time()-snap['stop_requested_at']) if stopped and snap.get('stop_requested_at') else None;self._update(running=False,thinking=False,stop_state='stopped',stop_latency_s=round(lat,3) if lat is not None else None,progress=self.snapshot()['progress'] if stopped else 100,phase='Diagnostic AI player stopped' if stopped else 'Diagnostic AI player finished',day_summaries=summaries[-14:],days_completed=max(0,game.state.get('day',start)-start));self._write_report(game,coverage,anomalies,visited,unique_actions,stopped)
   except Exception as e:
    anomalies.append({"severity":"fatal","type":"runner_exception","action":None,"detail":f"{type(e).__name__}: {e}"});self._update(running=False,thinking=False,stop_state='stopped',error=f'{type(e).__name__}: {e}',phase='Diagnostic AI player failed',anomalies=deepcopy(anomalies[-100:]));self._write_report(game,coverage,anomalies,visited,unique_actions,True)
 AI_PLAYER=AIPlayerRunner()

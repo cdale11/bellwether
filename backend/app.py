@@ -2,6 +2,8 @@
 from pathlib import Path
 import json
 import threading
+import os
+import subprocess
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
@@ -19,6 +21,7 @@ from backend.core.postgame_model import POSTGAME_MODEL
 from backend.core.quest_model import QUEST_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
 from backend.core.interpretation_model import INTERPRETATION_MODEL
+from backend.core.presentation_ledger_model import PRESENTATION_LEDGER_MODEL
 
 ROOT = Path(__file__).resolve().parent.parent
 app = FastAPI(title="Bellwether")
@@ -58,6 +61,36 @@ def state():
     with game_lock:
         return game.view()
 
+
+
+def _rss_mb(pid):
+    try:
+        with open(f"/proc/{pid}/status",encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("VmRSS:"):
+                    return round(int(line.split()[1])/1024,1)
+    except Exception: pass
+    return None
+
+def _ollama_rss_mb():
+    try:
+        out=subprocess.check_output(["ps","-C","ollama","-o","rss="],text=True,timeout=1)
+        return round(sum(int(x) for x in out.split() if x.isdigit())/1024,1)
+    except Exception: return None
+
+@app.get("/api/backlog")
+def backlog(offset:int=0, limit:int=100, q:str="", kind:str="all"):
+    with game_lock:
+        return PRESENTATION_LEDGER_MODEL.page(game.state,offset,limit,q,kind)
+
+@app.get("/api/memory-status")
+def memory_status():
+    with game_lock:
+        raw=json.dumps(game.state,separators=(",",":"),ensure_ascii=False).encode("utf-8")
+        ledger=PRESENTATION_LEDGER_MODEL.migrate(game.state)
+        ai=ASYNC_AI_RUNTIME.status()
+        return {"game_rss_mb":_rss_mb(os.getpid()),"ollama_rss_mb":_ollama_rss_mb(),"state_json_mb":round(len(raw)/(1024*1024),2),"backlog_entries":len(ledger.get("entries",[])),"ai_jobs":{"queued":ai.get("queued",0),"running":ai.get("running",0),"completed_waiting":ai.get("completed_waiting",0)},"models":{"fast":provider.fast_model,"deep":provider.deep_model,"num_ctx":provider.num_ctx,"keep_alive":provider.keep_alive,"single_model_mode":provider.fast_model==provider.deep_model,"residency_warning":None if provider.fast_model==provider.deep_model else "Fast and deep roles use different models; on low-memory hosts this can cause overlapping Ollama residency."}}
+
 @app.get("/api/pacing-status")
 def pacing_status():
     """Read-only adaptive pacing state for the UI settling interval."""
@@ -96,6 +129,7 @@ def developer_status():
             "npc_lives": s.get("npc_lives", {}),
             "relationship_life": s.get("relationship_life", {}),
             "town_consciousness": TOWN_MIND_MODEL.developer_context(game.state),
+            "social_obligations_and_goals": __import__("backend.core.social_obligation_model",fromlist=["SOCIAL_OBLIGATION_MODEL"]).SOCIAL_OBLIGATION_MODEL.public(game.state),
             "interpretations": {o: INTERPRETATION_MODEL.public_summary(game.state,o) for o in INTERPRETATION_MODEL.OBSERVERS},
             "resistance": s.get("resistance", {}),
             "village_evolution": s.get("village_evolution", {}),
@@ -218,7 +252,10 @@ def ai_player_status():
 @app.get('/api/ai-player/report')
 def ai_player_report():
     from backend.core.ai_player import AI_PLAYER
-    text=AI_PLAYER.report_path.read_text(encoding='utf-8') if AI_PLAYER.report_path.exists() else 'No overnight AI player report has been generated yet.'
+    status=AI_PLAYER.snapshot()
+    source=AI_PLAYER.live_report_path if status.get('running') and AI_PLAYER.live_report_path.exists() else AI_PLAYER.report_path
+    if not source.exists() and AI_PLAYER.live_report_path.exists(): source=AI_PLAYER.live_report_path
+    text=source.read_text(encoding='utf-8') if source.exists() else 'No overnight AI player report has been generated yet.'
     version=(ROOT / "VERSION").read_text(encoding="utf-8").strip()
     return Response(text, media_type='text/plain', headers={'Content-Disposition':f'attachment; filename="Bellwether_v{version}_overnight_AI_soak_report.txt"'})
 

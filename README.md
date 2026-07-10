@@ -1,56 +1,72 @@
-# Bellwether v3.7.0 — Interpretive Intelligence Foundation
+# Bellwether v3.13.0
 
-Bellwether is a state-driven village-life RPG whose local LLM is now used not only for dialogue and bounded choices, but for fallible interpretation of validated play history. Objective simulation truth remains deterministic; interpretive agents may form revisable theories grounded in event IDs and later use them as strategic context.
+Bellwether is a local-first, state-driven village-life RPG that gradually becomes psychological and supernatural horror. Ordinary life is mechanically substantial: gardening, cooking and preservation, fishing and foraging, cottage maintenance, jobs, a dynamic economy, property, small-town businesses, transport, relationships, community life, animals, investigation, authored story, recurrence and systemic horror all share one simulation state.
 
-
-**Release status:** v3.3.0 narration-surface correction on the v3.2 cottage-animal foundation. The v3 RC line integrated and certified ordinary-life depth, dialogue expression, strategic Town Consciousness behaviour, UI/UX resilience, diagnostics, interaction contracts, story tempo, content language, and release integrity. See `AUDIT_v3.0.0_FINAL.md` for final evidence and remaining runtime boundaries.
-
-Bellwether is a local-first, state-driven rural village life simulation and psychological/supernatural horror RPG. Ordinary life is intentionally substantial: gardening, cooking, preservation, fishing, foraging, cottage repair and expansion, work, economy, property, enterprise, transport, relationships and autonomous village change coexist with an authored mystery, recurrence, adaptive horror and a bounded Town Consciousness.
+The current development line makes the local LLM an interpretive part of the game rather than a random-number substitute. Deterministic systems record truth and legal actions; LLM systems form fallible observer-specific theories, revise beliefs, maintain NPC projects, compose grounded situations, form goals from persistent social facts and obligations, and influence contextual intentions. The engine validates evidence references and owns all authoritative mutation.
 
 ## Run
 
-Requirements: Python 3.11+ and the packages in `requirements.txt`. An Ollama-compatible local model service is recommended for AI-assisted systems; deterministic fallbacks preserve core playability when inference is unavailable.
+Requirements: Python 3.11+, packages from `requirements.txt`, and an Ollama-compatible local model service for the full AI experience.
 
 ```bash
 ./run.sh
 ```
 
-Open the local address printed by the server. The game is local-first and stores saves under `saves/`.
+Open the local address printed by the server. Saves are stored under `saves/`.
 
-## Architecture and authority
+## Recommended local AI configuration
 
-The deterministic engine owns saves, accounting, legal actions, story gates, clues, endings, hazards and authoritative state transitions. Local LLM systems are bounded advisers/selectors for conversation, NPC interpretation, ecology, weather, procedural situations, Town Mind intentions and autonomous playtesting. LLM output is not allowed to invent story canon, bypass authored gates or mutate arbitrary state.
+Bellwether defaults to a single-model policy. When Qwen 3.5 4B is available it is preferred for both fast and deep roles, with 4096 context and a 10-minute idle keep-alive. The purpose is to avoid the high RAM pressure caused by keeping separate 2B and 4B runners resident at the same time.
 
-The public human UI and diagnostic AI player consume the bounded legal action surface. Long-running AI diagnostics checkpoint live evidence so interrupted runs remain useful.
+Environment overrides remain available:
 
-## Major gameplay systems
+```bash
+export BELLWETHER_AI_FAST_MODEL='your-model-tag'
+export BELLWETHER_AI_DEEP_MODEL='your-model-tag'
+export BELLWETHER_AI_NUM_CTX=4096
+export BELLWETHER_AI_KEEP_ALIVE=10m
+./run.sh
+```
 
-The current release includes ordinary-life activities and skills; gardening, cooking, pantry and preservation; fishing and seasonal foraging; survival status and cottage condition/repair; jobs and career progression; dynamic village economy and shortages; property ownership, leases and cottage expansion; player enterprises; bicycle-to-van transport progression; autonomous NPC lives and village evolution; authored relationship routes and household progression; investigation, authored story, narrative connective scenes, quests and endings; Town Consciousness strategy; resistance and recovery counterplay; recurrence; systemic horror; and bounded interface corruption.
+On memory-constrained hosts, use the same model tag for both roles. The Developer Console memory/runtime view warns when fast and deep roles resolve to different models.
 
-## Developer Console and diagnostics
+## AI authority boundary
 
-Open the gear button in the top bar. The Developer Console exposes Living World, NPC, Event, Horror, Investigation, Economy, AI Runtime and Raw State diagnostics. The RC line includes a dedicated **v2.x Systems** tab exposing read-only snapshots for property, enterprises, transport, NPC lives, relationship life, Town Consciousness strategy, resistance, village evolution, narrative expansion, story-consciousness integration and systemic-horror integration.
+The deterministic engine owns saves, money, inventory, legal actions, schedules, story gates, clues, endings, hazards and world mutation. The LLM may interpret evidence, form hypotheses, choose among bounded legal intentions, propose registered situation primitives and generate constrained dialogue. Evidence-backed interpretation is stored separately from objective history, and different observers can disagree.
 
-The console provides **Run Fast QA**, **Run Targeted QA**, **Run Full Game Diagnosis**, **Let the Village Play**, and **Export QA Bundle**. Fast QA is the normal per-build tier; Targeted QA runs broader subsystem regressions; Full Diagnosis is controlled integrated certification; Village Play is reserved for milestone/soak testing.
+The current interpretive loop is:
 
-Diagnostic output is written under `diagnostics/` during runs. Export filenames now follow the packaged `VERSION` instead of a stale hard-coded release name.
+**history → observer-specific evidence → interpretation → hypotheses/projects/goals → legal intentions → deterministic consequences → persistent social facts and obligations → new history**
 
-## Testing
+## Player UI
 
-Focused deterministic diagnostics live in `tools/` and `diagnostics/`. Historical diagnostics are retained when they still provide regression value; some old release-identity assertions are expected to fail against newer versions and must not be rewritten merely to inflate PASS counts.
+The main scene separates dialogue from narration. A VN-style **Backlog** button near the narrative area opens the complete player-visible text history with filtering, search and pagination. The Life Book groups Today, People, Home, Work, World, Mystery and Things without exposing backend subsystem names.
 
-For RC work, use layered evidence: syntax/JSON validation → focused subsystem diagnostics → cross-system regressions → public gameplay paths → autonomous milestone soak testing → browser interaction verification.
+## Developer Console
 
-## Release status
+Open the gear button in the top bar. The default Overview is human-readable; advanced tabs expose detailed subsystem state, AI runtime, Town/Adversary interpretation, memory usage and raw state.
 
-This package is the v3.0.0 final certification release. Final certification includes deterministic story and ending regressions, save-state JSON round-trip and migration checks, action-surface fuzz testing, UI/JavaScript syntax checks, economy and long-term simulation checks, and focused regressions from the RC line. Long live Ollama dialogue quality and target-device browser behaviour remain runtime evidence boundaries rather than claims made from static certification.
+The main QA controls are:
 
-## RC3 dialogue and character expression
-Foreground and ambient conversations now receive bounded authored voice constraints plus relevant autonomous-life, social-web, and knowledge context. This improves character distinctiveness and continuity without giving the LLM authority over canon or simulation state.
+- **Run Fast QA** — quick deterministic health checks.
+- **Run Targeted QA** — broader subsystem regression checks.
+- **Run Full Game Diagnosis** — controlled integrated certification.
+- **Run 7-Day Overnight AI Playtest** — isolated human-like autonomous campaign using the legal player action surface and local LLM decisions.
+- **View Live/Final Report** — displays the current interrupt-safe report directly in the web UI.
+- **Copy Complete Report** — copies one comprehensive text report suitable for pasting into ChatGPT for analysis.
+- **Export Overnight Report** — downloads the same report.
+- **Export QA Bundle** — packages QA evidence.
 
-### Emergent situation composition (v3.7)
-Bellwether can now ask the local LLM to interpret combinations of real simulation facts and propose causal situations. The engine accepts only known legal primitives and owns all state mutation. This is designed to produce combinatorial, history-dependent situations without granting the model authority to invent facts.
+### Overnight AI playtester
 
+The seven-day playtester runs on an isolated clone of the current game state, so it cannot consume or corrupt the player's active save. It pursues changing gameplay goals, traverses the world, exercises ordinary-life and story-adjacent surfaces, performs periodic save round-trip checks, records action diversity, checks domain-specific consequences, detects exceptions and silent no-effect actions, inspects player-visible text for obvious AI boilerplate/raw structured output, and writes an interrupt-safe live report after every action.
 
-## v3.9.0
-Adds a complete player-facing Backlog and repairs procedural side-story agency with explicit follow-up and resolution actions.
+The final report contains an executive summary, developer priorities, day-by-day campaign summaries, action diversity, a domain coverage ledger with reasons for gaps, anomaly journal, visited locations, recent live trace and provider telemetry. If the run is interrupted, the latest live report remains available.
+
+Runtime diagnostic artifacts are created under `diagnostics/` only when diagnostics are run. Generated traces and reports are not shipped in the release archive.
+
+## Testing philosophy
+
+Bellwether uses evidence-first development. Release claims should be supported by source inspection plus relevant runtime or deterministic evidence. Historical release claims are not assumed true merely because an old changelog says they were implemented. For each release: inspect current code, preserve accepted behaviour, make the smallest coherent extension, run focused and regression checks, clean generated artifacts, and package the complete release.
+
+Long live-model semantic quality and physical target-device browser behaviour remain runtime evidence boundaries unless tested on those actual environments.

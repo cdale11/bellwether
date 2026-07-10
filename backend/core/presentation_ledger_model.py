@@ -19,7 +19,16 @@ class PresentationLedgerModel:
              'speaker':str(speaker),'text':str(text).strip(),'source_type':source_type,'source_event_id':source_event_id}
         rt['next_id']=int(rt['next_id'])+1;rt['entries'].append(row)
         return row
-    def public(self,state):
-        return {'schema_version':1,'entries':deepcopy(self.migrate(state)['entries'])}
+    def public(self,state,limit=80):
+        entries=self.migrate(state)['entries']
+        return {'schema_version':1,'total':len(entries),'entries':deepcopy(entries[-max(1,int(limit)):])}
+    def page(self,state,offset=0,limit=100,query='',kind='all'):
+        rows=self.migrate(state)['entries']; q=str(query or '').strip().lower(); kind=str(kind or 'all').lower()
+        def keep(r):
+            sp=str(r.get('speaker','')); k='narration' if sp.lower()=='narrator' else ('bellwether' if sp.lower()=='bellwether' else 'dialogue')
+            return (kind=='all' or k==kind) and (not q or q in (sp+' '+str(r.get('text',''))).lower())
+        filtered=[r for r in rows if keep(r)]; total=len(filtered); start=max(0,int(offset)); lim=max(1,min(200,int(limit)))
+        page=list(reversed(filtered))[start:start+lim]
+        return {'schema_version':1,'total':total,'offset':start,'limit':lim,'entries':deepcopy(page),'has_more':start+lim<total}
 
 PRESENTATION_LEDGER_MODEL=PresentationLedgerModel()

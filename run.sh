@@ -5,7 +5,8 @@ cd "$(dirname "$0")"
 echo
 echo "Starting Bellwether..."
 export BELLWETHER_AI="${BELLWETHER_AI:-1}"
-export BELLWETHER_AI_NUM_CTX="${BELLWETHER_AI_NUM_CTX:-4096}"
+export BELLWETHER_AI_KEEP_ALIVE="${BELLWETHER_AI_KEEP_ALIVE:-5m}"
+export BELLWETHER_AI_NUM_CTX="${BELLWETHER_AI_NUM_CTX:-2048}"
 export BELLWETHER_AI_THREADS="${BELLWETHER_AI_THREADS:-$(getconf _NPROCESSORS_ONLN 2>/dev/null || nproc 2>/dev/null || echo 1)}"
 
 echo "Bellwether automatically uses compatible models already installed in local Ollama."

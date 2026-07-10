@@ -8,6 +8,7 @@ validated by the movement topology.
 from copy import deepcopy
 from backend.core.npc_model import NPC_MODEL
 from backend.core.world_model import WORLD_MODEL
+from backend.core.social_obligation_model import SOCIAL_OBLIGATION_MODEL
 
 NEED_KIND = {"rest":"rest", "food":"errand", "social":"social", "purpose":"work", "security":"routine"}
 
@@ -40,6 +41,23 @@ class PurposeModel:
             suitability=WORLD_MODEL.suitability(dest,purpose=kind,role=npc.get("public_role"))
             score+=suitability["score"]*.5
             reasons += [f"world:{r}" for r in suitability["reasons"]]
+        # v3.11: persistent interpretive goals influence ordinary movement through
+        # general capabilities, without granting the LLM new actions or destinations.
+        goal=SOCIAL_OBLIGATION_MODEL.migrate(state).get("goals",{}).get(npc_id,{})
+        if goal.get("status")=="active":
+            cap=goal.get("capability")
+            cap_kinds={
+              "seek_information":{"social","planning","errand"}, "compare_evidence":{"planning","work"},
+              "ask_for_help":{"social"}, "offer_help":{"social","work","chore"},
+              "repair_relationship":{"social"}, "fulfil_obligation":{"delivery","errand","work","social"},
+              "protect_someone":{"social","routine"}, "share_concern":{"social"},
+              "withhold_information":{"routine","work","planning"}, "stabilize_work":{"work","delivery","chore"},
+              "investigate_pattern":{"planning","work","errand"}
+            }
+            if kind in cap_kinds.get(cap,set()):
+                score += 4.5; reasons.append(f"self_goal:{cap}")
+            source_ids=goal.get("source_ids",[])
+            if source_ids: reasons.append("grounded_goal")
         active_events=state.get("dynamic_events",{}).get("active",{})
         event_iter=active_events.values() if isinstance(active_events,dict) else active_events
         for ev in event_iter:
@@ -65,7 +83,7 @@ class PurposeModel:
     def context(self,npc_id,state,candidates=None):
         need,value=self.dominant_need(npc_id,state)
         obligations=NPC_MODEL.active_obligations(npc_id,int(state.get("minute",0)))
-        out={"dominant_need":need,"dominant_need_value":value,"active_obligations":deepcopy(obligations)}
+        out={"dominant_need":need,"dominant_need_value":value,"active_obligations":deepcopy(obligations),"self_generated_goal":deepcopy(SOCIAL_OBLIGATION_MODEL.migrate(state).get("goals",{}).get(npc_id))}
         if candidates is not None:
             out["ranked_options"]=[{"id":c.get("id"),"score":c["purpose_score"]["score"],"reasons":c["purpose_score"]["reasons"]} for c in self.rank_candidates(npc_id,candidates,state)[:6]]
         return out

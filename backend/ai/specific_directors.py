@@ -294,14 +294,21 @@ def npc_round(s):
          "personal_life":s.get("npc_lives",{}).get(npc_id,{}),
          "purpose_constraints":NPC_MODEL.purpose_context(npc_id,s["minute"],s["weather"]["state"]) if npc_id in NPC_MODEL.npcs else {},
          "purpose_plan":PURPOSE_MODEL.context(npc_id,s,plausible) if npc_id in NPC_MODEL.npcs else {},
+         "contextual_intention":s.get("social_obligations",{}).get("goals",{}).get(npc_id),
+         "epistemic_project":s.get("npc_epistemic_projects",{}).get("projects",{}).get(npc_id),
          "town_mind_intentions":TOWN_MIND_MODEL.director_context(s),
          "horror_aftermath":{"strain":aftermath.get("strain",0),"temporary_avoidance":avoid},
          "catchup_changes":s.get("ai_catchup_context",{}).get("meaningful_changes",[])[-5:]}
     instruction=(f"Choose what {npc['name']} should do next. Pick one plausible action that makes the village feel alive. "
-                 "Respect authored identity, personal needs, obligations, occupation, location, time, memories and continuity, but introduce grounded variety. "
+                 "Respect authored identity, personal needs, obligations, self-generated goal, epistemic project, occupation, location, time, memories and continuity. Treat routine as a default, not destiny; choose a legal action that reasonably advances the strongest current intention when circumstances support it. "
                  "Strongly avoid repeating recent action IDs or generic loops unless circumstances clearly demand it.")
     choice=_bounded_choice("npc",instruction,ctx,candidates)
     if not choice:return None
+    if npc_id in NPC_MODEL.npcs:
+        life=s.setdefault("npc_lives",{}).setdefault(npc_id,{})
+        goal=s.get("social_obligations",{}).get("goals",{}).get(npc_id)
+        intent={"day":int(s.get("day",1)),"minute":int(s.get("minute",0)),"action_id":choice["id"],"label":choice["label"],"goal_id":goal.get("id") if isinstance(goal,dict) else None,"goal_capability":goal.get("capability") if isinstance(goal,dict) else None}
+        life["current_intent"]=intent; life.setdefault("intent_history",[]).append(intent); life["intent_history"]=life["intent_history"][-40:]
     raw={"npc":npc_id,"choice":choice["id"],"label":choice["label"]}
     repaired={"changes":[{"npc":npc_id,"choice":choice["id"],"label":choice["label"],"kind":choice.get("kind","routine"),
                            "activity":choice["activity"],"destination":choice["destination"]}]}

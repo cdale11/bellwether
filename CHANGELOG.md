@@ -1,3 +1,17 @@
+# v3.11.0
+
+- Connected grounded self-generated NPC goals to ordinary legal action ranking and NPC director context.
+- Added bounded contextual intention history for core NPCs.
+- Changed default Ollama keep-alive to 10 minutes while preserving single-2B default routing.
+- Added memory diagnostic warning when fast and deep roles resolve to different models.
+- Cleaned stale audit and generated artifacts.
+
+# v3.10.0
+- Persistent social obligations and causal lifecycle.
+- Validated LLM self-generated NPC goals grounded in real social facts.
+- Goals feed epistemic project reasoning.
+- Ollama idle keep-alive default adjusted to 5 minutes.
+
 # v3.9.0
 - Audited and corrected action subcategory classification using structural action families before text fallback.
 - Added causal provenance links for emergent consequences.
@@ -1129,3 +1143,17 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added transcript search and dialogue/narration/Bellwether filters.
 - Audited side/procedural quest reachability.
 - Added explicit procedural follow-up and final resolution actions; rewards remain exactly-once.
+
+## 3.12.0
+- Closed the NPC goal → action → outcome → revision loop with deterministic outcome evidence.
+- Added progressed/reconsider goal lifecycle states based on executed legal actions.
+- Default local AI policy now prefers one qwen3.5:4b model when installed, uses the same model for deep work, 4096 context, and 10m keep-alive.
+
+## v3.13.0 — Overnight Human-Like AI Playtest & Repository Hygiene
+- Added isolated seven-day autonomous playtest mode using the shared legal action surface.
+- Expanded interrupt-safe report with executive summary, priorities, day summaries, action diversity, coverage reasons, anomaly journal, trace and provider telemetry.
+- Added player-visible text quality detectors for obvious AI boilerplate, raw structured leakage and extreme overlength.
+- Added live/final report viewer and one-click complete report copy in the Developer Console.
+- Overnight playtest now runs on a cloned state and cannot mutate the player's active save.
+- Rewrote README to match current architecture, runtime policy, Backlog and diagnostic workflow.
+- Removed stale temporary source artifact and generated caches/reports from the distributable.

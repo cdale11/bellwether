@@ -53,7 +53,11 @@ class EmergentSituationModel:
                     CAUSAL_HISTORY_MODEL.add_social_fact(s,"opportunity","village",p["target"],f"A {p['target']} opportunity has become plausible.",[sit["id"],pid],"emergent_situation")
                 elif kind=="business_modifier":s.setdefault("emergent_modifiers",{})[pid]={"until_day":s.get("day",1)+p.get("days",1),"target":p["target"]}
                 elif kind=="economy_pressure":s.setdefault("emergent_modifiers",{})[pid]={"until_day":s.get("day",1)+p.get("days",1),"target":p["target"]}
-                elif kind=="npc_project_nudge":s.setdefault("emergent_npc_nudges",[]).append({"day":s.get("day",1),"npc":p["target"],"source":sit["id"]});s["emergent_npc_nudges"]=s["emergent_npc_nudges"][-12:]
+                elif kind=="npc_project_nudge":
+                    s.setdefault("emergent_npc_nudges",[]).append({"day":s.get("day",1),"npc":p["target"],"source":sit["id"]});s["emergent_npc_nudges"]=s["emergent_npc_nudges"][-12:]
+                    if p["target"]=="jonah":
+                        from backend.core.social_obligation_model import SOCIAL_OBLIGATION_MODEL
+                        SOCIAL_OBLIGATION_MODEL.create_obligation(s,"jonah","village","stabilize_work","Jonah feels responsible for finding a practical response to the bakery strain.",[sit["id"],pid],"emergent_situation",days=4)
                 sit.setdefault("executed",[]).append(pid);out.append({"situation":sit["id"],"primitive":pid,"label":p["label"]})
             sit["status"]="resolved"
         rt["active"]=[x for x in rt["active"] if x.get("status")=="active"]
