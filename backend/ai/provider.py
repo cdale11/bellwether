@@ -466,6 +466,24 @@ class AIProvider:
         self._annotate_last_trace(parser_stage="compact_choice_parsed", extracted_token=str(idx), candidate=candidates[idx], result="accepted_by_parser")
         return candidates[idx]
 
+
+    def ask_interpretation(self, director, context):
+        """Return bounded JSON hypotheses. Prose interpretation is non-authoritative until evidence IDs validate."""
+        if not self.enabled:return None
+        prompt=("BELLWETHER INTERPRETATION REVIEW\n"
+                "Infer 1-4 revisable hypotheses from heterogeneous history. Interpret motives and conditional patterns; do not merely restate counters. "
+                "The observer can be wrong. Consider contradictory evidence and deliberate player deception. Use ONLY evidence IDs supplied. "
+                "Return JSON only: {\"hypotheses\":[{\"claim\":\"...\",\"confidence\":0.0,\"supporting_evidence\":[\"evt_...\"],\"contradicting_evidence\":[],\"possible_test\":\"bounded observation or legal pressure to test the theory\",\"status\":\"active\"}]}\n"
+                "CONTEXT:"+json.dumps(context,separators=(",",":")))
+        text=self._plain_request(director,prompt,max_tokens=420,temperature=.55,no_think=True,tries_override=1,timeout_override=float(os.getenv("BELLWETHER_INTERPRETATION_TIMEOUT","120")))
+        if not text:return None
+        try:
+            start=text.find("{"); end=text.rfind("}")+1
+            return json.loads(text[start:end]) if start>=0 and end>start else None
+        except Exception:
+            self.last_status.update(valid_response=False,last_error="Interpretation JSON could not be parsed")
+            return None
+
     def ask_choice(self,director,question,context,candidates):
         """Choose one Director candidate and record every parser decision."""
         if not self.enabled or not candidates:return None

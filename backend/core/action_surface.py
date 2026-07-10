@@ -19,7 +19,9 @@ def annotate(actions):
  return out
 
 def _intent(a):
- aid=str(a.get("id","")).lower(); text=(aid+" "+str(a.get("label","")).lower())
+ aid=str(a.get("id","")).lower(); kind=str(a.get("kind","")).lower(); text=(aid+" "+str(a.get("label","")).lower())
+ # Structural interaction kind outranks incidental subject words (for example a shared meal).
+ if kind in {"talk","free_talk","choice","social"} or aid.startswith("society:greet:"): return "conversation"
  for intent,words in (("conversation",("talk","speak","few words")),("employment",("job","shift","work")),("food",("food","breakfast","loaf","cook","meal","eat")),("garden",("garden","plant","water","weed","harvest","soil")),("maintenance",("repair","tidy","cottage")),("observation",("look","watch","observe","listen","study")),("movement",("travel","visit","return","walk toward"))):
   if any(w in text for w in words): return intent
  return "ordinary_life"

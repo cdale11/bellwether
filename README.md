@@ -1,4 +1,7 @@
-# Bellwether v3.0.0
+# Bellwether v3.5.0 — Interpretive Intelligence Foundation
+
+Bellwether is a state-driven village-life RPG whose local LLM is now used not only for dialogue and bounded choices, but for fallible interpretation of validated play history. Objective simulation truth remains deterministic; interpretive agents may form revisable theories grounded in event IDs and later use them as strategic context.
+
 
 **Release status:** v3.3.0 narration-surface correction on the v3.2 cottage-animal foundation. The v3 RC line integrated and certified ordinary-life depth, dialogue expression, strategic Town Consciousness behaviour, UI/UX resilience, diagnostics, interaction contracts, story tempo, content language, and release integrity. See `AUDIT_v3.0.0_FINAL.md` for final evidence and remaining runtime boundaries.
 

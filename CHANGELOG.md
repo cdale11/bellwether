@@ -1,3 +1,15 @@
+## 3.5.0 — Fallible Multi-Observer Interpretation
+- Separate evidence access and revisable LLM theories for core NPCs, village, Town Mind, and Chorus.
+- Bounded rotating reviews preserve low-end local runtime viability.
+- Observer-specific evidence validation prevents private-history leakage.
+
+# Bellwether v3.4.1
+
+- Fixed social/talk interactions being misclassified under Food when labels mention meals.
+- Corrected AI health-state interpretation in Developer Console.
+- Added one-click local AI inference self-test.
+- Added persistent Town theory revision ledger and expanded Adversary Inspector.
+
 # v3.0.0 Final
 
 - Performed final integrated certification across story, endings, postgame, economy, society, UI, interface horror, action contracts, and save migration.
@@ -1089,3 +1101,9 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Manager-operated businesses now require real stock and record missed sales when supply fails.
 - Connected transport cargo capacity to bounded batch preparation.
 - Added Work & Business Life Book surface.
+
+## v3.4.0 — Interpretive Intelligence Foundation
+- Added evidence-led, fallible LLM interpretation architecture separated from authoritative history.
+- Town Mind can now maintain revisable prose hypotheses grounded in validated event IDs, including support, contradiction, confidence and possible tests.
+- Added asynchronous interpretation reviews and human-readable diagnostic exposure.
+- Removed historical per-release audit files and stale generated artifacts from the release package.

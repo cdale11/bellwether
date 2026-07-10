@@ -47,6 +47,7 @@ from backend.core.relationship_life_model import RELATIONSHIP_LIFE_MODEL
 from backend.core.travel_model import TRAVEL_MODEL
 from backend.core.transport_model import TRANSPORT_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
+from backend.core.interpretation_model import INTERPRETATION_MODEL
 from backend.core.resistance_model import RESISTANCE_MODEL
 from backend.core.cognition_model import COGNITION_MODEL
 from backend.core.procedural_arc_model import PROCEDURAL_ARC_MODEL, ARC_TEMPLATES
@@ -249,6 +250,7 @@ INITIAL_STATE = {
     "social_consequences": SOCIAL_CONSEQUENCE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "travel": TRAVEL_MODEL.runtime_defaults(),
     "town_mind": TOWN_MIND_MODEL.runtime_defaults(),
+    "interpretation_system": INTERPRETATION_MODEL.runtime_defaults(),
     "resistance": RESISTANCE_MODEL.runtime_defaults(),
     "npc_cognition": COGNITION_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "procedural_arcs": PROCEDURAL_ARC_MODEL.runtime_defaults(),
@@ -1892,7 +1894,11 @@ class Game:
             if job.get("error"):
                 stale+=1; ASYNC_AI_RUNTIME.record_application(job,"failed"); continue
             before_applied=applied; before_stale=stale
-            if kind=="town_mind":
+            if kind=="interpretation_review":
+                observer=str(job.get("key","")).split(":",1)[1] if ":" in str(job.get("key","")) else "town_mind"
+                if INTERPRETATION_MODEL.apply_review(s,observer,choice,provider.model_for_task("town_mind")): applied+=1
+                else: stale+=1
+            elif kind=="town_mind":
                 candidates=TOWN_MIND_MODEL.candidates(s); legal={x.get("id") for x in candidates}
                 if choice and choice.get("id") in legal:
                     if TOWN_MIND_MODEL.validate_and_apply(s,choice,provider.model_for_task("town_mind"),"async_review"): applied+=1
@@ -1931,6 +1937,13 @@ class Game:
         if not candidates:return False
         context=deepcopy(ANIMAL_MODEL.compact_context(self.state,animal_id)); frozen=deepcopy(candidates); pulse=self._async_state_revision()
         return ASYNC_AI_RUNTIME.submit(f"animal_intention:{animal_id}","animal_intention",pulse,tuple(x["id"] for x in frozen),lambda: provider.ask_choice("animal_intention","Choose one plausible immediate animal intention. Choose only from the candidates; do not invent state or outcomes.",context,frozen),domain="ecology",priority=15)
+
+    def queue_interpretation_review(self, observer="town_mind"):
+        if self.state.get("diagnostic_mode"): return False
+        context=INTERPRETATION_MODEL.observer_context(self.state,observer)
+        if len(context.get("evidence",[]))<3:return False
+        frozen=deepcopy(context); pulse=self._async_state_revision()
+        return ASYNC_AI_RUNTIME.submit(f"interpretation:{observer}","interpretation_review",pulse,(observer,self.state.get("day",1),len(context["evidence"])),lambda: provider.ask_interpretation(observer,frozen),domain="interpretation",priority=48)
 
     def queue_town_mind_review(self, reason="scheduled"):
         if self.state.get("diagnostic_mode"): return False
@@ -3035,6 +3048,11 @@ class Game:
             business_update=PLAYER_BUSINESS_MODEL.daily_tick(s)
             RESISTANCE_MODEL.daily_tick(s)
             pacing_update=PLAYSTYLE_PACING_MODEL.daily_tick(s)
+            # v3.5: Town Mind reviews broadly; one additional fallible observer reviews per day
+            # to keep local-CPU demand bounded while allowing models to diverge over time.
+            self.queue_interpretation_review("town_mind")
+            observer_cycle=("mara","jonah","mrs_ellis","village","chorus")
+            self.queue_interpretation_review(observer_cycle[(int(s["day"])-1)%len(observer_cycle)])
             town_pressure=TOWN_MIND_MODEL.strategic_daily_tick(s)
             story_response=STORY_CONSCIOUSNESS_INTEGRATION_MODEL.daily_tick(s)
             horror_consequence=SYSTEMIC_HORROR_INTEGRATION_MODEL.daily_tick(s)

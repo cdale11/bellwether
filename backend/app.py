@@ -18,6 +18,7 @@ from backend.core.ending_model import ENDING_MODEL
 from backend.core.postgame_model import POSTGAME_MODEL
 from backend.core.quest_model import QUEST_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
+from backend.core.interpretation_model import INTERPRETATION_MODEL
 
 ROOT = Path(__file__).resolve().parent.parent
 app = FastAPI(title="Bellwether")
@@ -95,6 +96,7 @@ def developer_status():
             "npc_lives": s.get("npc_lives", {}),
             "relationship_life": s.get("relationship_life", {}),
             "town_consciousness": TOWN_MIND_MODEL.developer_context(game.state),
+            "interpretations": {o: INTERPRETATION_MODEL.public_summary(game.state,o) for o in INTERPRETATION_MODEL.OBSERVERS},
             "resistance": s.get("resistance", {}),
             "village_evolution": s.get("village_evolution", {}),
             "narrative_expansion": s.get("narrative_expansion", {}),
@@ -115,6 +117,16 @@ def director_status():
         "runtime": {**game.state.get("ai_runtime", {}), "background": ASYNC_AI_RUNTIME.status()},
         "traces": provider.debug_traces[-40:]
     }
+
+
+@app.post("/api/ai/self-test")
+def ai_self_test():
+    health=provider.health()
+    if not health.get("connected"):
+        return {"ok":False,"stage":"connection","status":health}
+    started=__import__("time").time()
+    value=provider.ask_value("health_check","Return the exact word BELLWETHER_READY.",{"purpose":"developer runtime self-test"},allowed=["BELLWETHER_READY"])
+    return {"ok":value=="BELLWETHER_READY","stage":"inference","value":value,"latency_s":round(__import__("time").time()-started,2),"status":dict(provider.last_status)}
 
 @app.post("/api/action")
 def action(req: ActionRequest):

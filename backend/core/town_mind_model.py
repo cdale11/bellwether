@@ -1,4 +1,5 @@
 from copy import deepcopy
+from backend.core.interpretation_model import INTERPRETATION_MODEL
 from backend.core.resistance_model import RESISTANCE_MODEL
 
 INTENTIONS = [
@@ -60,6 +61,10 @@ class TownMindModel:
         chosen=max(scores,key=lambda k:(scores[k],k)); st["observations"]=obs; st["dominant_playstyle"]=(profile or chosen.replace("_pressure","")); st["resistance_score"]=max(0,obs["inquiry"]*10-obs["avoidance"])
         st["hypothesis"]={"player_values":st["dominant_playstyle"],"best_leverage":chosen,"pacing_risk":pacing.get("pacing_risk","unknown")}
         st["hypothesis_confidence"]=min(100,25+max(scores.values())//4)
+        interpreted=INTERPRETATION_MODEL.public_summary(state,"town_mind").get("hypotheses",[])
+        if interpreted:
+            lead=max(interpreted,key=lambda h:h.get("confidence",0))
+            st["interpreted_theory"]={"claim":lead.get("claim"),"confidence":lead.get("confidence"),"possible_test":lead.get("possible_test"),"supporting_evidence":lead.get("supporting_evidence",[])}
         return chosen
     def strategic_daily_tick(self,state):
         tm=self.migrate(state); st=tm["strategy"]; day=int(state.get("day",1)); chosen=self.observe_player(state)
@@ -111,7 +116,7 @@ class TownMindModel:
         tm=self.migrate(state); economy=state.get("economy",{}); relationships=state.get("relationships",{}); rel_values=[]
         for rel in relationships.values():
             if isinstance(rel,dict): rel_values.append(rel.get("affinity",0))
-        return {"day":state.get("day"),"minute":state.get("minute"),"village_mood":state.get("village_brain",{}).get("mood"),"village_focus":state.get("village_brain",{}).get("focus"),"psychological_stage":state.get("psychological_state",{}).get("stage","ordinary"),"story_flags":{k:v for k,v in state.get("flags",{}).items() if v} if isinstance(state.get("flags"),dict) else {},"player_style":state.get("llm_context",{}).get("player_style",{}),"player_identity":state.get("player_identity",{}),"strategic_observation":deepcopy(tm["strategy"]),"active_dynamic_events":[x.get("id") for x in state.get("dynamic_events",{}).get("active",[]) if isinstance(x,dict)][:4],"business_pressure":economy.get("business_pressure",{}),"relationship_affinity_range":[min(rel_values),max(rel_values)] if rel_values else [0,0],"recent_world_events":state.get("world_events",[])[-4:],"active_intentions":tm.get("active_intentions",[])}
+        return {"day":state.get("day"),"minute":state.get("minute"),"village_mood":state.get("village_brain",{}).get("mood"),"village_focus":state.get("village_brain",{}).get("focus"),"psychological_stage":state.get("psychological_state",{}).get("stage","ordinary"),"story_flags":{k:v for k,v in state.get("flags",{}).items() if v} if isinstance(state.get("flags"),dict) else {},"player_style":state.get("llm_context",{}).get("player_style",{}),"player_identity":state.get("player_identity",{}),"strategic_observation":deepcopy(tm["strategy"]),"active_dynamic_events":[x.get("id") for x in state.get("dynamic_events",{}).get("active",[]) if isinstance(x,dict)][:4],"business_pressure":economy.get("business_pressure",{}),"relationship_affinity_range":[min(rel_values),max(rel_values)] if rel_values else [0,0],"recent_world_events":state.get("world_events",[])[-4:],"active_intentions":tm.get("active_intentions",[]),"interpreted_player_theory":INTERPRETATION_MODEL.public_summary(state,"town_mind")}
     def expire(self,state):
         pulse=state.get("village_brain",{}).get("pulse_count",0); tm=self.migrate(state); tm["active_intentions"]=[x for x in tm.get("active_intentions",[]) if x.get("expires_pulse",pulse+1)>pulse]
     def validate_and_apply(self,state,candidate,model_name=None,reason="scheduled"):
