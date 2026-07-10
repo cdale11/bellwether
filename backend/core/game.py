@@ -17,6 +17,10 @@ from backend.core.world_model import WORLD, WORLD_MODEL
 from backend.core.action_surface import compact as compact_action_surface
 from backend.core.npc_model import NPC_MODEL
 from backend.core.npc_life_model import NPC_LIFE_MODEL
+from backend.core.npc_project_model import NPC_PROJECT_MODEL
+from backend.core.emergent_situation_model import EMERGENT_SITUATION_MODEL
+from backend.core.causal_history_model import CAUSAL_HISTORY_MODEL
+from backend.core.presentation_ledger_model import PRESENTATION_LEDGER_MODEL
 from backend.core.social_model import SOCIAL_MODEL
 from backend.core.activity_model import ACTIVITY_MODEL, CROPS
 from backend.core.economy_model import ECONOMY_MODEL, ITEMS, SHOPS
@@ -229,6 +233,7 @@ INITIAL_STATE = {
     "world_model": WORLD_MODEL.runtime_state_defaults(),
     "npc_lives": NPC_MODEL.runtime_defaults(),
     "npc_autonomous_lives": NPC_LIFE_MODEL.runtime_defaults(),
+    "npc_epistemic_projects": NPC_PROJECT_MODEL.runtime_defaults(),
     "npc_social_web": SOCIAL_MODEL.runtime_defaults(),
     "npc_knowledge": KNOWLEDGE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "mystery_investigation": INVESTIGATION_MODEL.runtime_defaults(),
@@ -621,6 +626,8 @@ class Game:
         for npc_id, npc_defaults in INITIAL_STATE["npcs"].items():
             self.state["npcs"].setdefault(npc_id, deepcopy(npc_defaults))
         QUEST_MODEL.migrate(self.state)
+        PRESENTATION_LEDGER_MODEL.migrate(self.state)
+        CAUSAL_HISTORY_MODEL.migrate(self.state)
         PLAYER_STATUS_MODEL.migrate(self.state)
         self.state.setdefault("npc_social_web", SOCIAL_MODEL.runtime_defaults())
         self.state.setdefault("npc_knowledge", KNOWLEDGE_MODEL.runtime_defaults(list(self.state.get("npcs",{}))))
@@ -809,6 +816,7 @@ class Game:
         state["ending_families_overview"] = ENDING_MODEL.public(self.state)
         state["postgame_overview"] = POSTGAME_MODEL.public(self.state)
         state["quest_lifecycle"] = QUEST_MODEL.developer_context(self.state)
+        state["presentation_backlog"] = PRESENTATION_LEDGER_MODEL.public(self.state)
         state["life_simulation_overview"] = LIFE_SIMULATION_MODEL.public(self.state)
         state["player_status_overview"] = deepcopy(PLAYER_STATUS_MODEL.migrate(self.state))
         state["cottage_animals_overview"] = ANIMAL_MODEL.public(self.state)
@@ -1047,6 +1055,7 @@ class Game:
             return
         history.append(row)
         self.state["history"] = history[-120:]
+        PRESENTATION_LEDGER_MODEL.append(self.state, row["speaker"], row["text"])
 
     def advance(self, minutes):
         """Advance chronologically and coalesce AI work into one batch per player action.
@@ -1894,7 +1903,14 @@ class Game:
             if job.get("error"):
                 stale+=1; ASYNC_AI_RUNTIME.record_application(job,"failed"); continue
             before_applied=applied; before_stale=stale
-            if kind=="interpretation_review":
+            if kind=="emergent_situation":
+                if EMERGENT_SITUATION_MODEL.apply_proposal(s,choice,provider.model_for_task("town_mind")): applied+=1
+                else: stale+=1
+            elif kind=="npc_project_reasoning":
+                npc=str(job.get("key","")).split(":",1)[1] if ":" in str(job.get("key","")) else ""
+                if NPC_PROJECT_MODEL.apply_reasoning(s,npc,choice,provider.model_for_task("town_mind")): applied+=1
+                else: stale+=1
+            elif kind=="interpretation_review":
                 observer=str(job.get("key","")).split(":",1)[1] if ":" in str(job.get("key","")) else "town_mind"
                 if INTERPRETATION_MODEL.apply_review(s,observer,choice,provider.model_for_task("town_mind")): applied+=1
                 else: stale+=1
@@ -1937,6 +1953,20 @@ class Game:
         if not candidates:return False
         context=deepcopy(ANIMAL_MODEL.compact_context(self.state,animal_id)); frozen=deepcopy(candidates); pulse=self._async_state_revision()
         return ASYNC_AI_RUNTIME.submit(f"animal_intention:{animal_id}","animal_intention",pulse,tuple(x["id"] for x in frozen),lambda: provider.ask_choice("animal_intention","Choose one plausible immediate animal intention. Choose only from the candidates; do not invent state or outcomes.",context,frozen),domain="ecology",priority=15)
+
+    def queue_emergent_situation_review(self):
+        if self.state.get("diagnostic_mode"): return False
+        rt=EMERGENT_SITUATION_MODEL.migrate(self.state); day=int(self.state.get("day",1))
+        if int(rt.get("last_review_day",0))>=day or ASYNC_AI_RUNTIME.has_job("emergent_situation"): return False
+        context=EMERGENT_SITUATION_MODEL.context(self.state); frozen=deepcopy(context); pulse=self._async_state_revision()
+        return ASYNC_AI_RUNTIME.submit("emergent_situation","emergent_situation",pulse,(day,len(context.get("recent_world_events",[]))),lambda: provider.ask_emergent_situation(frozen),domain="interpretation",priority=46)
+
+    def queue_npc_project_reasoning(self, npc_id):
+        if self.state.get("diagnostic_mode") or npc_id not in NPC_PROJECT_MODEL.CORE: return False
+        context=NPC_PROJECT_MODEL.reasoning_context(self.state,npc_id)
+        if not context.get("legal_attempts"): return False
+        frozen=deepcopy(context); pulse=self._async_state_revision()
+        return ASYNC_AI_RUNTIME.submit(f"npc_project:{npc_id}","npc_project_reasoning",pulse,(npc_id,self.state.get("day",1),len(context["legal_attempts"])),lambda: provider.ask_npc_project(npc_id,frozen),domain="interpretation",priority=44)
 
     def queue_interpretation_review(self, observer="town_mind"):
         if self.state.get("diagnostic_mode"): return False
@@ -2919,6 +2949,21 @@ class Game:
                 self.add("Narrator","You offer practical help. The gesture becomes part of how the situation unfolds.")
                 self.record_world_event("The player became involved in a developing village situation.","procedural_arc")
 
+        elif action.startswith("arc:followup:"):
+            arc_id=action.split(":",2)[2]
+            ok,msg=PROCEDURAL_ARC_MODEL.player_followup(s,arc_id)
+            if ok:
+                self.advance(20); self.add("Narrator",msg)
+                self.record_world_event("The player followed up on a developing village situation.","procedural_arc")
+
+        elif action.startswith("arc:resolve:"):
+            arc_id=action.split(":",2)[2]
+            ok,msg=PROCEDURAL_ARC_MODEL.player_resolve(s,arc_id,MEMORY_MODEL,COGNITION_MODEL)
+            if ok:
+                self.advance(25); self.add("Narrator",msg or "The situation reaches a conclusion through your involvement.")
+                self.add("Journal","A village side story has been completed.")
+                self.record_world_event("The player helped resolve a developing village situation.","procedural_arc")
+
         elif action.startswith("job:"):
             self.perform_job_action(action)
 
@@ -3048,11 +3093,20 @@ class Game:
             business_update=PLAYER_BUSINESS_MODEL.daily_tick(s)
             RESISTANCE_MODEL.daily_tick(s)
             pacing_update=PLAYSTYLE_PACING_MODEL.daily_tick(s)
+            for emergence in EMERGENT_SITUATION_MODEL.execute(s):
+                self.record_world_event("Several ordinary pressures have combined into a new village situation.", "emergent_situation", emergence.get("primitive"))
+                CAUSAL_HISTORY_MODEL.link(s,"emergent_primitive",emergence.get("primitive"),[emergence.get("situation")],emergence.get("label","Emergent consequence"),"emergent_situation")
+            self.queue_emergent_situation_review()
             # v3.5: Town Mind reviews broadly; one additional fallible observer reviews per day
             # to keep local-CPU demand bounded while allowing models to diverge over time.
             self.queue_interpretation_review("town_mind")
             observer_cycle=("mara","jonah","mrs_ellis","village","chorus")
-            self.queue_interpretation_review(observer_cycle[(int(s["day"])-1)%len(observer_cycle)])
+            secondary=observer_cycle[(int(s["day"])-1)%len(observer_cycle)]
+            self.queue_interpretation_review(secondary)
+            # Execute yesterday's legal project attempts, then let one core NPC revise reasoning.
+            NPC_PROJECT_MODEL.advance_day(s)
+            project_cycle=("mara","jonah","mrs_ellis")
+            self.queue_npc_project_reasoning(project_cycle[(int(s["day"])-1)%len(project_cycle)])
             town_pressure=TOWN_MIND_MODEL.strategic_daily_tick(s)
             story_response=STORY_CONSCIOUSNESS_INTEGRATION_MODEL.daily_tick(s)
             horror_consequence=SYSTEMIC_HORROR_INTEGRATION_MODEL.daily_tick(s)

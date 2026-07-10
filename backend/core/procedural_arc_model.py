@@ -70,7 +70,33 @@ class ProceduralArcModel:
                     "churchyard_record_question":"Help compare the churchyard records",
                 }
                 out.append((f"arc:help:{arc['id']}", help_labels.get(arc.get("template_id"), f"Offer practical help: {arc['label']}")))
-        return out[:2]
+            elif arc.get("location")==location and arc.get("player_involved"):
+                template=next((t for t in ARC_TEMPLATES if t["id"]==arc.get("template_id")),None)
+                final_ready=bool(template and int(arc.get("stage_index",-1))>=len(template["stages"])-2)
+                already=arc.setdefault("player_followups",[])
+                stage_key=int(arc.get("stage_index",-1))
+                if final_ready:
+                    out.append((f"arc:resolve:{arc['id']}", f"Help bring {arc['label'].lower()} to a close"))
+                elif stage_key not in already:
+                    out.append((f"arc:followup:{arc['id']}", f"Follow up on {arc['label'].lower()}"))
+        return out[:3]
+
+    def player_followup(self,state,arc_id):
+        arc=next((a for a in self.migrate(state)["active"] if a.get("id")==arc_id),None)
+        if not arc or not arc.get("player_involved") or state.get("location")!=arc.get("location"): return False,None
+        key=int(arc.get("stage_index",-1)); seen=arc.setdefault("player_followups",[])
+        if key in seen:return False,None
+        seen.append(key)
+        return True,f"You follow up on {arc['label'].lower()}. Your involvement is now part of the situation's continuing history."
+
+    def player_resolve(self,state,arc_id,memory_model,cognition_model):
+        root=self.migrate(state);arc=next((a for a in root["active"] if a.get("id")==arc_id),None)
+        template=next((t for t in ARC_TEMPLATES if arc and t["id"]==arc.get("template_id")),None)
+        if not arc or not template or not arc.get("player_involved") or state.get("location")!=arc.get("location"):return False,None
+        if int(arc.get("stage_index",-1))<len(template["stages"])-2:return False,None
+        final=template["stages"][-1]
+        eid=self.apply_stage(state,arc,template,final,memory_model,cognition_model)
+        return bool(eid), final.get("text") if eid else None
     def involve_player(self,state,arc_id,memory_model,cognition_model):
         root=self.migrate(state); arc=next((a for a in root["active"] if a.get("id")==arc_id),None)
         if not arc or arc.get("player_involved") or state.get("location")!=arc.get("location"): return None

@@ -467,6 +467,36 @@ class AIProvider:
         return candidates[idx]
 
 
+    def ask_emergent_situation(self, context):
+        """Interpret heterogeneous simulation facts into causal links and legal primitives."""
+        if not self.enabled:return None
+        prompt=("BELLWETHER EMERGENT SITUATION COMPOSER\n"
+                "Interpret interactions among the supplied real facts. Propose a plausible causal situation, not a scripted plot. "
+                "Choose 1-3 primitive_ids ONLY from legal_primitives. Do not invent outcomes, facts, residents, discoveries or mutations. "
+                "Return JSON only: {\"interpretation\":\"...\",\"causal_links\":[\"fact A may cause B\"],\"primitive_ids\":[\"legal_id\"]}\nCONTEXT:"+json.dumps(context,separators=(",",":")))
+        text=self._plain_request("emergent_situation",prompt,max_tokens=360,temperature=.65,no_think=True,tries_override=1,timeout_override=float(os.getenv("BELLWETHER_INTERPRETATION_TIMEOUT","120")))
+        if not text:return None
+        try:
+            start=text.find("{");end=text.rfind("}")+1
+            return json.loads(text[start:end]) if start>=0 and end>start else None
+        except Exception:
+            self.last_status.update(valid_response=False,last_error="Emergent situation JSON could not be parsed");return None
+
+    def ask_npc_project(self, director, context):
+        """Interpret an NPC inquiry; engine validates attempt and supplies observations."""
+        if not self.enabled:return None
+        prompt=("BELLWETHER NPC EPISTEMIC PROJECT\n"
+                "Reason as this fallible NPC. Maintain or revise one belief and a concrete question from supplied context. "
+                "Choose exactly one next_attempt from legal_attempts. Do not invent observations, discoveries, actions, or facts. "
+                "Return JSON only: {\"belief\":\"...\",\"question\":\"...\",\"next_attempt\":\"legal_id\",\"reason\":\"...\",\"disclosure\":\"open|selective|conceal|uncertain\"}\nCONTEXT:"+json.dumps(context,separators=(",",":")))
+        text=self._plain_request(director,prompt,max_tokens=260,temperature=.55,no_think=True,tries_override=1,timeout_override=float(os.getenv("BELLWETHER_INTERPRETATION_TIMEOUT","120")))
+        if not text:return None
+        try:
+            start=text.find("{");end=text.rfind("}")+1
+            return json.loads(text[start:end]) if start>=0 and end>start else None
+        except Exception:
+            self.last_status.update(valid_response=False,last_error="NPC project JSON could not be parsed");return None
+
     def ask_interpretation(self, director, context):
         """Return bounded JSON hypotheses. Prose interpretation is non-authoritative until evidence IDs validate."""
         if not self.enabled:return None

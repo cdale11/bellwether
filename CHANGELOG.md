@@ -1,3 +1,14 @@
+# v3.9.0
+- Audited and corrected action subcategory classification using structural action families before text fallback.
+- Added causal provenance links for emergent consequences.
+- Added persistent provenance-backed social facts for emergent tensions and opportunities.
+- Removed stale release audit and generated runtime artifacts.
+
+# v3.6.0
+- Added genuine NPC epistemic projects with LLM interpretation and deterministic legal execution.
+- Added belief/question/attempt/observation/revision history for Mara, Jonah, and Mrs Ellis.
+- Cleaned stale release audit files and generated artifacts.
+
 ## 3.5.0 — Fallible Multi-Observer Interpretation
 - Separate evidence access and revisable LLM theories for core NPCs, village, Town Mind, and Chorus.
 - Bounded rotating reviews preserve low-end local runtime viability.
@@ -1107,3 +1118,14 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Town Mind can now maintain revisable prose hypotheses grounded in validated event IDs, including support, contradiction, confidence and possible tests.
 - Added asynchronous interpretation reviews and human-readable diagnostic exposure.
 - Removed historical per-release audit files and stale generated artifacts from the release package.
+
+## 3.7.0
+- Added emergent situation composition: the LLM interprets heterogeneous simulation facts into causal possibilities.
+- Added a deterministic legal-primitive compiler boundary; LLM proposals cannot directly mutate authoritative state.
+- Added bounded situation history, opportunities, modifiers, NPC nudges, asynchronous review and execution evidence.
+
+## 3.8.0
+- Added complete VN-style player Backlog backed by an append-only presentation ledger.
+- Added transcript search and dialogue/narration/Bellwether filters.
+- Audited side/procedural quest reachability.
+- Added explicit procedural follow-up and final resolution actions; rewards remain exactly-once.
