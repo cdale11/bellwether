@@ -1,0 +1,43 @@
+BELLWETHER v0.6.0 — EXHAUSTIVE AUDIT REPORT
+
+Scope: World Expansion
+
+Implemented:
+- World graph expanded from 9 to 14 authored locations.
+- Added Field Lane, Calder Farm, Bellwether Woods, Old Quarry and Quarry Caves.
+- Added four new district definitions and connected routes.
+- Integrated new regions with map discovery/reveal, player travel, NPC adjacency, ordinary-life actions, hobbies, ecology tags, investigation observations, history discoveries, danger catalogue, future economy/job hooks, and migration.
+- Updated README, changelog, roadmap status and VERSION.
+
+Audit findings and fixes during development:
+1. New expansion locations initially lacked migrated location_state slots. Fixed with generic persistent place-state defaults for every WORLD location.
+2. New visible ordinary-life actions were initially exposed by the UI action list but absent from the authoritative perform_life_activity specs/allow-list. Fixed; this was caught by visible-action fuzz testing.
+3. New locations were initially absent from the investigation observation dictionaries, causing KeyError during investigation. Added ordinary and deeper observations for every expansion location.
+4. New local-history discovery IDs were initially absent from the authoritative display-text mapping, causing KeyError during hobby execution. Added grounded text for all new history discoveries.
+5. Historical version-lineage diagnostics only recognized branches through v0.5.x. Extended them to accept v0.6.x without weakening their behavioural assertions.
+
+Completed verification:
+- v0.6.0 focused diagnostic: 12/12 PASS.
+- v0.5.2 relationship diagnostic: 13/13 PASS.
+- v0.5.1 population diagnostic: 11/11 PASS.
+- v0.5.0 core cast/memory diagnostic: 12/12 PASS.
+- v0.4.2 hobbies diagnostic: 11/11 PASS.
+- v0.4.1 economy/work diagnostic: 15/15 PASS.
+- v0.4.0 ordinary-life diagnostic: 5/5 PASS.
+- Part 17 release certification: 12/12 PASS, including visible-action fuzz play.
+- Cumulative post-v0.1.0 diagnostic: all 20 stages PASS.
+- Python compilation: PASS.
+- Authored JSON parsing/validation: PASS.
+- Frontend JavaScript syntax: PASS.
+- Save-state JSON round-trip and migration: PASS through certification suite.
+- run.sh executable permission preserved.
+
+LLM QA note:
+No provider, prompt, model-selection, conversation-parser or routing behaviour was changed in v0.6.0. Integrated Ollama auto-detection remains unchanged. Live-model QA was therefore not used as a release gate; deterministic fallback and existing AI integration regressions remain covered by the cumulative suite.
+
+Known limitations / next work:
+- The new routes use the existing direct-edge travel model. v0.6.1 should deepen journeys with route familiarity, weather/travel modifiers, encounters, observations and shortcut behaviour.
+- The new expansion locations use the existing base illustrated map with new exploration-mask regions and route corridors. Future approved scene art can be added through the asset manifest without changing world-state IDs.
+- Expansion economy/job tags are hooks for later systems; v0.6.0 does not yet add full farm employment or quarry economic loops.
+
+Release assessment: PASS. No known release-blocking defects remain after the completed audit.

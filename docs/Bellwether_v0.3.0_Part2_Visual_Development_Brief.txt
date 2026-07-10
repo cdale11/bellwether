@@ -1,0 +1,436 @@
+BELLWETHER v0.3.0 — PART 2 VISUAL DEVELOPMENT BRIEF
+
+Version: Planning Draft 1 Purpose: Visual Style Exploration, Asset
+Bible, and First Integrated Visual Vertical Slice
+
+1. PURPOSE
+
+Part 2 establishes Bellwether’s coherent visual identity and the
+production system for future visual assets.
+
+Bellwether remains a text-first, state-driven village life RPG. Visuals
+support prose, place, character presence, emotional attachment, seasonal
+familiarity, and later supernatural contradiction. The game should not
+become a conventional visual novel in which images replace simulation or
+prose.
+
+The visual direction is:
+
+-   warm pastoral life-sim at the beginning;
+-   rural English village identity with a relatively modern but
+    temporally ambiguous 21st-century feeling;
+-   anime and visual-novel character presentation;
+-   some Stardew Valley influence in warmth, seasonal attachment,
+    recurring places, and readable visual identity;
+-   restrained Disco Elysium influence in psychology, subjective
+    perception, investigation, and later visual instability;
+-   gradual movement from comforting, vibrant normality toward darker,
+    stranger, less trustworthy presentation.
+
+The goal of Part 2 is not mass asset generation. The goal is to
+establish a repeatable visual language before scaling production.
+
+2. DEVELOPMENT SEQUENCE
+
+Part 2 should proceed in this order:
+
+1.  Visual style exploration.
+2.  Selection of the final Bellwether art direction.
+3.  Asset Bible creation.
+4.  Canonical character sheets.
+5.  Canonical location sheets.
+6.  Controlled vertical-slice asset production.
+7.  Scene-stage integration.
+8.  Character sprite and portrait integration.
+9.  Weather, time, and seasonal presentation tests.
+10. Consistency review.
+11. Diagnostic and screenshot certification.
+12. Only after certification: scaled asset production.
+
+No large asset library should be generated before the style and
+consistency rules are approved.
+
+3. VISUAL STYLE EXPLORATION
+
+The first task is to create a small comparison set showing the same
+Bellwether subject matter in several candidate interpretations.
+
+The comparison should use consistent subject matter:
+
+-   Ashcroft Cottage and garden;
+-   an ordinary warm daytime scene;
+-   one rain variant;
+-   Mara as the initial character test;
+-   one ordinary neutral expression;
+-   one warm expression;
+-   one guarded or concerned expression.
+
+Candidate directions to compare:
+
+Direction A — Soft Painted Rural Anime
+
+Characteristics: - painterly backgrounds; - natural vegetation; - warm
+atmospheric light; - detailed but not photorealistic architecture; -
+expressive anime characters with restrained proportions; - strong
+weather mood; - suitable for comfort-to-horror contrast.
+
+Potential strength: Best balance of place, warmth, VN presentation, and
+later atmospheric horror.
+
+Direction B — Clean Modern Visual Novel
+
+Characteristics: - cleaner linework; - sharper character rendering; -
+simpler environmental painting; - clearer sprites and portraits; -
+stronger dialogue-focused presentation.
+
+Potential strength: Highly readable character interaction and efficient
+expression production.
+
+Potential weakness: May make the village feel more like a VN backdrop
+than a living simulated place.
+
+Direction C — Storybook Anime Life-Sim
+
+Characteristics: - softer shapes; - slightly stylized proportions; -
+warm colours; - approachable environments; - strong seasonal charm; -
+gentler ordinary-life presentation.
+
+Potential strength: Makes early Bellwether highly inviting and increases
+contrast when horror corrupts it.
+
+Potential weakness: Must avoid becoming visually childish or overly
+whimsical.
+
+Direction D — Textured Psychological Rural Illustration
+
+Characteristics: - anime-influenced characters; - more textured and
+subjective backgrounds; - selective painterly distortion; - stronger
+Disco Elysium influence; - unusual lighting and psychological
+atmosphere.
+
+Potential strength: Excellent for psychology and horror.
+
+Potential weakness: May weaken the required comforting ordinary-life
+baseline if used too strongly from the beginning.
+
+The preferred final direction may combine elements, but it must be
+defined clearly enough to reproduce consistently.
+
+Current provisional recommendation: Direction A as the foundation, with
+selected warmth from Direction C and restrained psychological texture
+from Direction D only when state justifies it.
+
+4. ASSET BIBLE
+
+After style selection, create a permanent Bellwether Asset Bible.
+
+The Asset Bible must define:
+
+Character rules
+
+-   canonical face shape;
+-   approximate age;
+-   height relationships;
+-   body proportions;
+-   hairstyle;
+-   hair colour;
+-   eye colour;
+-   skin tone;
+-   recurring clothing;
+-   seasonal clothing variants;
+-   work clothing where relevant;
+-   accessories;
+-   posture;
+-   gesture vocabulary;
+-   expression vocabulary;
+-   injury presentation;
+-   psychological deterioration rules;
+-   supernatural corruption rules;
+-   recurrence-recognition rules.
+
+Architecture rules
+
+-   building materials;
+-   window placement;
+-   door placement;
+-   roof shape;
+-   chimneys;
+-   fences;
+-   garden layout;
+-   recurring signs;
+-   road and path materials;
+-   village furniture;
+-   utility infrastructure;
+-   modern objects allowed in the setting;
+-   objects that would make the setting feel too specifically dated.
+
+A recurring building must remain recognizably the same building
+across: - clear weather; - rain; - snow; - different seasons; - day and
+night; - supernatural variants.
+
+Environmental rules
+
+-   vegetation by seasonal phase;
+-   ground state;
+-   crop appearance;
+-   tree species vocabulary;
+-   hedge and field language;
+-   wildlife visibility;
+-   cloud treatment;
+-   rain treatment;
+-   snow accumulation;
+-   storm treatment;
+-   mist depth;
+-   seasonal palette;
+-   time-of-day lighting.
+
+Composition rules
+
+-   standard scene-card aspect ratio;
+-   camera height;
+-   typical focal length feeling;
+-   character scale in scene;
+-   horizon placement;
+-   safe areas for UI overlays;
+-   dialogue portrait crop;
+-   sprite crop;
+-   mobile-safe composition.
+
+Horror rules
+
+Ordinary assets establish normality first.
+
+Supernatural visual changes must be: - state-driven; - authored or
+bounded; - recognizable as violations of learned normality; - rare at
+first; - increasingly aggressive only under justified supernatural
+pressure.
+
+Avoid meaningless random glitches.
+
+5. PART 2 VERTICAL SLICE
+
+Part 2 should initially cover only a small representative set.
+
+Locations
+
+1.  Ashcroft Cottage exterior.
+2.  Ashcroft Cottage interior.
+3.  Cottage Garden.
+4.  Village Green.
+
+Core characters
+
+1.  Mara.
+2.  Jonah.
+
+Background population
+
+Create one coherent simplified background-resident representation
+system.
+
+Background residents should be visually less specific than the core cast
+while remaining stylistically compatible.
+
+Weather and lighting tests
+
+At minimum: - clear ordinary daytime; - rain; - snow; - night.
+
+Storm and mist integration may use the same scene architecture but
+should be tested if time permits.
+
+6. CHARACTER PRESENTATION SYSTEM
+
+Core characters should have two related presentation forms.
+
+Scene presence
+
+A character may appear in the scene stage through: - sprite; - half-body
+figure; - controlled composited character layer; - specially authored
+scene composition for important moments.
+
+Dialogue presentation
+
+Conversation mode should use expressive VN-style portrait or bust
+presentation.
+
+Initial expression family for Mara and Jonah: - neutral; - warm; -
+amused; - concerned; - guarded; - tired; - frightened; - angry.
+
+Later states may include: - injured; - psychologically affected; -
+subtle supernatural influence; - recurrence recognition.
+
+Expression selection must use authoritative state and bounded
+presentation logic. It should not rely only on naive sentiment analysis
+of the latest line.
+
+Relevant inputs may include: - conversation context; - relationship
+state; - recent social events; - current activity; - injury; -
+psychological condition; - anomaly exposure; - recurrence echo.
+
+7. SCENE RESOLUTION MODEL
+
+Do not create one unique image for every possible combination.
+
+Use a compositional system:
+
+Base Location + Seasonal Base Variant + Time-of-Day Treatment + Weather
+Treatment + Character Presence + Event Modifier + Supernatural Modifier
+
+Example:
+
+Cottage Garden + Early Spring + Late Afternoon + Light Rain + Mara
+Present + No Village Event Modifier + No Supernatural Corruption
+
+Important states may receive genuinely authored alternate artwork.
+
+Examples: - snow-covered Ashcroft Cottage; - storm-damaged Village
+Green; - major story confrontation; - severe supernatural architecture
+corruption.
+
+Less extreme states can use controlled layered treatments.
+
+8. UI INTEGRATION PRINCIPLES
+
+The scene stage built in v0.3.0 Part 1 is the target surface for Part 2
+assets.
+
+Part 2 should integrate: - scene-card resolver; - asset manifest; -
+fallback handling; - portrait resolver; - expression resolver; -
+character-presence resolver; - weather treatment; - time-of-day
+treatment; - responsive image cropping; - mobile-safe focal positioning.
+
+The frontend must never invent authoritative game state from artwork.
+
+If Mara is not present according to simulation state, her visual layer
+must not appear merely because an attractive scene variant contains her.
+
+Likewise, visual weather must match authoritative weather unless a
+deliberate supernatural contradiction is active.
+
+9. PLAYER CHARACTER PRESENTATION
+
+A decision is still required during Part 2 implementation:
+
+Option A: Player character remains visually off-screen, preserving
+first-person identification.
+
+Option B: Player receives a canonical visual design used selectively in
+major scenes, mirrors, recurrence sequences, and special illustrations.
+
+Provisional recommendation: Use Option A for ordinary play and reserve
+any player-character visual representation for carefully authored
+exceptional scenes. This preserves text-RPG identification and avoids
+forcing constant avatar presentation.
+
+10. AUDIO BOUNDARY
+
+Part 2 should prepare visual components to cooperate with later audio
+work but should not attempt full audio implementation.
+
+Scene metadata may expose: - location ambience category; - weather
+ambience category; - indoor/outdoor state; - ecological ambience
+category; - supernatural audio suppression or distortion flags.
+
+Full ambient audio belongs primarily to v0.3.0 Part 3.
+
+11. TESTING REQUIREMENTS
+
+Part 2 testing must include technical and visual checks.
+
+Technical
+
+-   Python compilation;
+-   JavaScript syntax validation;
+-   asset manifest validation;
+-   missing-asset fallback;
+-   scene resolver correctness;
+-   portrait resolver correctness;
+-   authoritative NPC presence matching;
+-   weather matching;
+-   save/load preservation;
+-   old-save compatibility;
+-   Developer Console compatibility;
+-   cumulative diagnostics.
+
+Visual
+
+Capture defined screenshot checkpoints for: - desktop wide; - desktop
+narrow; - tablet portrait; - mobile portrait; - mobile landscape where
+practical.
+
+Test scenes: - Ashcroft Cottage in ordinary daytime; - Cottage Garden
+with Mara present; - Village Green in rain; - snow state; - night
+state; - dialogue with Mara; - dialogue with Jonah; - action tray
+open; - dedicated panel open.
+
+Review questions: - Is prose still primary? - Does artwork support
+rather than overwhelm text? - Is character identity consistent? - Is
+architecture consistent? - Is weather immediately legible? - Is text
+readable over every scene treatment? - Does mobile cropping preserve
+important subjects? - Does ordinary Bellwether feel inviting? - Are
+horror-capable visual systems present without making normal life ominous
+too early?
+
+12. PART 2 COMPLETION CRITERIA
+
+Part 2 is complete only when:
+
+1.  A final visual direction has been selected.
+2.  The Asset Bible exists.
+3.  Mara and Jonah have canonical visual references.
+4.  The four vertical-slice locations have canonical visual references.
+5.  The scene resolver is integrated.
+6.  Character presentation is integrated.
+7.  Weather and time treatments are functional.
+8.  Desktop and mobile layouts are visually tested.
+9.  Missing assets fail gracefully.
+10. Existing simulation state remains authoritative.
+11. Cumulative diagnostics pass.
+12. The vertical slice is visually coherent enough to guide future mass
+    asset production.
+
+13. WHAT HAPPENS AFTER PART 2
+
+After Part 2 is approved, Part 3 can scale presentation into functional
+game interfaces:
+
+-   dynamic explored-world map;
+-   gardening panel;
+-   recipe book;
+-   cottage restoration/home view;
+-   interpretive relationship panel;
+-   investigation notebook;
+-   inventory presentation refinement;
+-   weather ambience;
+-   ecological ambience;
+-   location ambience;
+-   initial audio layering.
+
+Part 4 then handles: - adaptive atmosphere; - state-driven UI
+corruption; - recurrence presentation; - severe horror presentation; -
+responsive polish; - accessibility basics such as reduced motion; -
+visual regression review; - long-session presentation testing; - final
+v0.3.0 certification.
+
+CLOSING VISUAL PRINCIPLE
+
+Bellwether’s visuals should make the player want to live there before
+they make the player afraid of what lives there.
+
+A cottage should become familiar enough that a changed window is
+disturbing.
+
+A garden should become loved enough that an impossible flower matters.
+
+A face should become recognizable enough that the wrong expression
+creates unease.
+
+A road should become known enough that a changed turning feels
+impossible.
+
+The visual system must therefore serve the same central design principle
+as the simulation:
+
+First establish a coherent, comforting, learnable normality.
+
+Then let Bellwether violate it deliberately.

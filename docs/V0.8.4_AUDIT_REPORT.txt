@@ -1,0 +1,23 @@
+BELLWETHER v0.8.4 — INTERFACE HORROR AUDIT REPORT
+
+Scope: additive Interface Horror milestone on the accepted v0.8.3 baseline.
+Authority invariant: presentation effects may contradict display, but never mutate authoritative geography, evidence, memories, portraits, quests, knowledge, or canonical prose.
+
+Implemented effect families:
+- controlled map contradiction overlay;
+- subtle text displacement/repetition presentation;
+- portrait tonal shift using controlled CSS treatment;
+- display-only Investigation Notebook inconsistency;
+- subtle theme mismatch;
+- reduced-motion handling.
+
+Regression protections:
+- Developer / Settings button preserved;
+- Developer Console preserved;
+- true state remains visible in developer diagnostics;
+- all effects require an authoritative active anomaly overlay;
+- effects expire when source overlay expires;
+- no new supernatural facts are generated;
+- no authoritative map paths or evidence records are modified.
+
+See diagnostic output and release summary for completed certification results.

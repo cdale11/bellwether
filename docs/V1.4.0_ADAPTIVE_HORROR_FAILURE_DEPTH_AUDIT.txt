@@ -1,0 +1,25 @@
+BELLWETHER v1.4.0 — ADAPTIVE HORROR AND FAILURE DEPTH AUDIT
+
+Scope
+- Audited the v1.3.0 backend/core, AI provider/runtime, Director paths, content catalogues, frontend surfaces, diagnostics and retained regression tools before modification.
+- Preserved the accepted systems and public game architecture; v1.4.0 extends rather than replaces the established horror, danger, recovery, recurrence, society, economy and life-simulation layers.
+
+Findings addressed
+1. The diagnostic controller could spend most of its finite budget on one semantically stalled target.
+2. Cooking/community/procedural goals were labels, not prerequisite stages.
+3. The diagnostic world disabled async procedural proposals, making natural procedural coverage impossible by construction even though controlled lifecycle tests passed.
+4. Failure/recovery had authored hazards and recovery routes but lacked a unified inspectable adaptive vulnerability profile.
+5. Society generational certification was only seven days long.
+6. Diagnostic reporting needed goal-control, procedural pipeline and behavioural telemetry.
+
+v1.4.0 changes
+- Added prerequisite-stage projection for cooking, community, procedural content, social contact and gardening.
+- Reduced semantic action clutter passed to the AI player and penalised goal-adjacent but irrelevant domestic/passive actions.
+- Added bounded per-goal attempts, semantic stall detection, deferral and later retry in the exhaustive tester.
+- Applied the already-certified procedural specialist choice to the isolated diagnostic world so public discovery can be tested honestly.
+- Added adaptive failure pressure derived from poverty, injury, psychological strain, village decline and social isolation, offset by bounded mitigations.
+- Added pressure bands, dominant vulnerability profile, daily history and warning telemetry.
+- Added adversarial failure-pressure and preparation-mitigation certification.
+- Added deterministic 90-day society soak certification.
+- Expanded report dimensions with attempts per goal, maximum goal concentration, deferrals, location diversity, passive-action share, per-goal control accounting and procedural pipeline counters.
+- Preserved authored-only supernatural anomalies and bounded recovery routes. LLM authority remains constrained.

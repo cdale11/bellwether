@@ -1,0 +1,22 @@
+BELLWETHER v1.0.11 — AI PLAYER, DIAGNOSTIC, AND RUNTIME CERTIFICATION
+
+Implemented against the v1.0.10 package by extending the existing architecture rather than replacing it.
+
+CERTIFIED CHANGES
+1. Hierarchical AI player with strategic intention planning and bounded legal action choice.
+2. Anti-loop action memory and recent-route context.
+3. Cooperative cancellation with explicit running/stopping/stopped state and post-inference result discard.
+4. Coverage-driven seven-day isolated playtest using public actions.
+5. Coverage map spanning ordinary life, society, economy, ecology, investigation, procedural content, persistence, horror and UI contract.
+6. Active inference telemetry: busy state, model, purpose, foreground status and elapsed time.
+7. Scheduler telemetry: queued/running counts, oldest wait and inference lifecycle accounting.
+8. Full report subsystem scores and inference accounting.
+9. Reusable crossed-B visual currency component; text/log currency remains Br.
+
+LOCAL CERTIFICATION
+- Python compileall: PASS
+- v1.0.11 focused diagnostic: 12/12 PASS
+- v1.0.2 AI runtime architecture diagnostic: 14/14 PASS
+- cumulative post-v0.1.0 diagnostic: Parts 1–20 observed PASS before the legacy runner's per-command timeout boundary interrupted the remaining subprocess sequence. No failure was reported in those completed parts.
+
+The real-model Full AI Playtest is intentionally not represented as a quick deterministic unit test. It remains a runtime diagnostic because completion time depends on the local Ollama models and low-end CPU inference speed.

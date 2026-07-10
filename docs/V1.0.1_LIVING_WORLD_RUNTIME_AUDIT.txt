@@ -1,0 +1,53 @@
+BELLWETHER v1.0.1 — LIVING WORLD RUNTIME AUDIT
+Date: 2026-07-09
+
+PURPOSE
+Activate the previously exposed but empty world_runtime surface as a persistent,
+deterministic environmental substrate. Preserve v1.0 story, simulation, saves,
+AI fallback, and postgame behaviour.
+
+IMPLEMENTED
+- Added backend/core/world_runtime_model.py.
+- Persistent 30-day weather history.
+- Slow tendencies for wet periods, drying pressure, pollinator activity, bird
+  activity, soil saturation, and river pressure.
+- Persistent location conditions for cottage soil, river level, and woodland ground.
+- Player-visible environmental observations through Look Around.
+- Weather-history consequences feed gardening growth and bounded economy delivery
+  disruption signals without allowing the LLM to calculate authoritative state.
+- Old saves migrate safely with runtime defaults.
+- Developer simulation payload now exposes the real world runtime and ecology tendencies.
+
+LLM EXECUTION-PATH AUDIT
+The current intended AI execution paths were inspected before this release:
+1. Weather Director: bounded weather-state choice in specific_directors.py.
+2. NPC/traffic/ambient Director rounds: legal candidate selection in specific_directors.py,
+   queued through the asynchronous runtime for ordinary background work.
+3. Foreground conversation: ask_player_reply in game.py/provider.py; reply required before
+   the player can continue, with deterministic fallback available.
+4. Ambient conversation text: bounded ask_text path in specific_directors.py.
+5. Town Mind: legal strategic-intention choice, asynchronous in normal runtime.
+6. Procedural social arcs: legal template choice, asynchronous in normal runtime.
+7. Initial season selection: bounded season choice with deterministic fallback.
+
+AUTHORITY FINDING
+No new LLM mutation authority was added in v1.0.1. The living-world runtime is
+calculated by deterministic code from authoritative season, weather, time, and
+existing state. This is deliberate for low-end hardware: strategic AI can later
+influence bounded tendencies, while the deterministic runtime applies consequences.
+
+CLEANUP
+- Removed duplicate Design Constitution alias.
+- Removed duplicate document-index/handoff alias.
+- Removed stale root diagnostic report copies; diagnostics remain reproducible in tools/.
+- Removed Python cache artifacts.
+- Added the consolidated master context and post-v1 direction documents to docs/.
+- README, VERSION, CHANGELOG, and handoff/index were updated for v1.0.1.
+
+VALIDATION
+- v1.0.1 focused living-world diagnostic: PASS (7/7).
+- cumulative post-v0.1.0 diagnostic through Part 20: PASS.
+- Python compilation: PASS.
+- JavaScript syntax validation: PASS.
+- shell syntax validation: PASS.
+- JSON parse validation: PASS.

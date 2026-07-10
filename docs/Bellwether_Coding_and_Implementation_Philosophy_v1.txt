@@ -1,0 +1,700 @@
+BELLWETHER — CODING AND IMPLEMENTATION PHILOSOPHY Version 1.0 |
+2026-07-08 | Authoritative engineering philosophy
+
+PURPOSE
+
+This document defines how Bellwether should be developed, modified,
+tested, extended, debugged, and released. It exists to prevent future
+development sessions, coding agents, LLMs, or human contributors from
+damaging working systems, replacing established architecture casually,
+or implementing features in ways that undermine the game’s long-term
+design.
+
+Use together with: - Bellwether Comprehensive Project Context v2 -
+Bellwether Engineering Context Snapshot - Bellwether Canonical World and
+Story Bible v1 - Bellwether LLM Role, Authority, and Constraint
+Specification v1
+
+This document is not a substitute for reading the current codebase.
+Before modifying Bellwether, inspect the actual current implementation.
+Documentation describes intent; the repository defines the exact
+implementation state.
+
+====================================================================== 1.
+PRIMARY ENGINEERING PRINCIPLE
+======================================================================
+
+BELLWETHER MUST EVOLVE ADDITIVELY.
+
+Existing working systems are assets, not disposable prototypes.
+
+Do not casually: - rewrite working modules; - replace established
+systems with simplified versions; - delete behaviour because a new
+feature is easier without it; - collapse complex state into temporary
+shortcuts; - remove compatibility paths without migration; - overwrite
+authored content; - bypass persistence; - replace data-driven content
+with hard-coded logic; - regress existing simulation to make a new
+feature work.
+
+The preferred development pattern is:
+
+INSPECT -> UNDERSTAND -> MAP DEPENDENCIES -> DEFINE INVARIANTS -> ADD OR
+EXTEND -> MIGRATE IF NECESSARY -> TEST OLD BEHAVIOUR -> TEST NEW
+BEHAVIOUR -> PLAYTEST -> PACKAGE A COMPLETE RUNNABLE BUILD
+
+A feature is not complete merely because its new path works. It is
+complete when the new path works and previously accepted behaviour still
+works.
+
+======================================================================
+2. THE ACCEPTED BASELINE IS FROZEN AS BEHAVIOURAL CONTRACT
+======================================================================
+
+The accepted v0.1.0 baseline and all subsequently accepted working
+releases form a behavioural contract.
+
+Future development must preserve established working behaviour across,
+where applicable: - simulation; - conversations; - persistence; -
+Director systems; - weather; - seasons; - story; - horror; -
+relationships; - investigation; - branching; - recovery; - recurrence; -
+endgame; - testing; - executable permissions; - UI behaviour; - map
+systems; - asset lookup; - LLM fallback.
+
+“Frozen” does not mean code can never change. It means behaviour cannot
+be removed or regressed casually.
+
+Refactoring is permitted only when: - the existing behaviour is
+understood; - tests capture the behaviour; - migration is planned; -
+compatibility is verified; - the refactor has a concrete engineering
+benefit.
+
+Do not rewrite for aesthetic preference alone.
+
+======================================================================
+3. READ BEFORE WRITING
+======================================================================
+
+Before implementing any significant feature:
+
+1.  Inspect repository structure.
+2.  Locate relevant models, services, UI code, content data, tests,
+    persistence code, and entry points.
+3.  Search for all callers of code to be modified.
+4.  Search for serialized field names and save compatibility
+    implications.
+5.  Identify existing extension points.
+6.  Identify current fallback behaviour.
+7.  Identify tests and missing test coverage.
+8.  Run the current game before modification when possible.
+9.  Record behavioural invariants.
+10. Only then design the patch.
+
+Never infer architecture from filenames alone.
+
+Never assume a system is absent because its UI exposure is incomplete.
+
+Never build a duplicate system before checking whether the existing
+system already implements part of the requested behaviour.
+
+======================================================================
+4. THE ENGINE OWNS TRUTH
+======================================================================
+
+Bellwether is state-driven.
+
+Authoritative state belongs in deterministic models and persistent
+storage, not in generated prose, UI text, prompt history, or temporary
+local variables.
+
+Examples: - inventory is authoritative state; - relationship values and
+structured memories are authoritative state; - quest completion is
+authoritative state; - NPC location is authoritative state; - calendar
+and season are authoritative state; - economy and job state are
+authoritative state; - known evidence is authoritative state; -
+recurrence history is authoritative state.
+
+Generated language may describe state. It must not become the only place
+state exists.
+
+The UI renders state. The LLM interprets and proposes changes. The
+engine validates and applies changes. Persistence stores them.
+
+======================================================================
+5. DOMAIN MODELS BEFORE UI SHORTCUTS
+======================================================================
+
+When adding a mechanic, implement or extend its domain model before
+embedding behaviour directly into the UI.
+
+Preferred: PLAYER ACTION -> DOMAIN/SERVICE METHOD -> VALIDATION -> STATE
+CHANGE -> EVENT/RESULT -> UI RENDER
+
+Avoid: BUTTON HANDLER -> DIRECTLY EDIT FIVE UNRELATED FIELDS -> PRINT
+RESULT
+
+UI code should coordinate presentation and input, not become the hidden
+game engine.
+
+If a feature initially needs a narrow UI implementation, isolate it
+behind a clear service or method so it can later be expanded.
+
+======================================================================
+6. DATA-DRIVEN CONTENT
+======================================================================
+
+Bellwether should remain data-driven where content varies by: -
+character; - location; - season; - weather; - time of day; - story
+phase; - anomaly state; - relationship state; - event; - asset variant.
+
+Prefer manifests, registries, catalogues, schemas, and content files
+over sprawling hard-coded conditional chains.
+
+However, do not move logic into data merely to claim the system is
+data-driven. Rules belong in code. Content and configuration belong in
+data.
+
+Good division: - code defines how weather transitions are legal; - data
+defines weather descriptions and assets; - code defines quest state
+transitions; - data defines authored quest content; - code defines NPC
+scheduling rules; - data defines NPC schedule preferences.
+
+Validate data at startup or in tests. Fail clearly in developer mode.
+
+======================================================================
+7. SAVE COMPATIBILITY AND MIGRATION
+======================================================================
+
+Persistence is a core game system.
+
+Every state change must consider: - new game; - current save; - old
+save; - recurrence; - partial state; - missing optional fields; -
+invalid/corrupt state; - version migration.
+
+When adding fields: - provide safe defaults; - version state when
+necessary; - migrate explicitly; - preserve unknown compatible data
+where practical; - test loading at least representative prior saves.
+
+Never solve a migration problem by silently wiping player state.
+
+Recovery/reset systems require special care: reset only the state
+categories the design says should reset. Story milestones and town
+continuity must not be accidentally erased by broad object
+reinitialization.
+
+======================================================================
+8. LLM INTEGRATION PHILOSOPHY
+======================================================================
+
+LLM integration must follow the dedicated LLM specification.
+
+The short engineering rule is:
+
+THE LLM PROPOSES. VALIDATORS DECIDE LEGALITY. THE ENGINE APPLIES. THE
+SAVE STORES.
+
+Never let generated prose directly mutate state.
+
+Every consequential LLM task should have: - explicit role; - compact
+context; - authority boundary; - legal vocabulary; - output contract; -
+parser; - semantic validator; - retry/repair policy; - deterministic
+fallback; - trace logging.
+
+Do not solve hallucination by merely making prompts longer. Better
+grounding, narrower authority, structured output, entity IDs,
+validators, and retrieval are preferred over giant context dumps.
+
+======================================================================
+9. SMALL MODELS ARE A DESIGN CONSTRAINT
+======================================================================
+
+Bellwether currently targets local operation on low-end CPU hardware and
+should scale upward.
+
+Therefore: - keep prompts compact; - avoid repeated full-world
+context; - batch background work; - cache only when semantically safe; -
+use deterministic code for arithmetic and legality; - prefer bounded
+choice tasks for weak models; - serialize calls when local hardware
+requires it; - support asynchronous background work where causally
+safe; - prioritize foreground conversation; - make logical AI roles
+configurable independently of physical models.
+
+Do not require a large cloud model for core playability.
+
+Better hardware should increase richness, latency tolerance, and
+specialist routing—not change the fundamental legality of the game.
+
+======================================================================
+10. PERFORMANCE BUDGETING
+======================================================================
+
+Every new system should consider: - CPU cost; - memory cost; - disk
+I/O; - prompt size; - LLM call frequency; - UI responsiveness; - save
+size; - simulation scaling with NPC count.
+
+Do not optimize blindly, but do not introduce obvious per-tick expensive
+work when an event-driven or batched design is available.
+
+Prefer: - dirty flags; - event-driven updates; - scheduled pulses; -
+cached derived values; - bounded histories; - indexed retrieval; -
+batched lightweight NPC simulation.
+
+Measure before major optimization.
+
+A low-end machine should remain a first-class test target.
+
+======================================================================
+11. SEPARATION OF CLOCKS
+======================================================================
+
+Do not make every system update at the same frequency.
+
+Bellwether should distinguish: - immediate player action resolution; -
+deterministic time advancement; - NPC schedule updates; - environment
+pulses; - social simulation pulses; - strategic LLM reviews; - daily
+maintenance; - seasonal/calendar progression; - recurrence transitions.
+
+This improves performance, causality, and debugging.
+
+A system should update when its state can meaningfully change, not
+merely because a render loop ran.
+
+======================================================================
+12. EVENT-DRIVEN CAUSALITY
+======================================================================
+
+Persistent changes should have traceable causes.
+
+Preferred: SUPPLY DELAY EVENT -> BUSINESS PRESSURE -> SCHEDULE CHANGE ->
+MISSED SOCIAL EVENT -> RELATIONSHIP CONSEQUENCE -> PLAYER OPPORTUNITY
+
+Avoid arbitrary state mutation such as: “relationship decreased because
+Director wanted drama.”
+
+Causal chains make emergence understandable, testable, and fair.
+
+Events should carry enough metadata to explain: - cause; - actors; -
+location; - time; - witnesses; - state delta; - downstream eligibility.
+
+======================================================================
+13. NPC ENGINEERING PHILOSOPHY
+======================================================================
+
+Core NPCs are persistent agents, not dialogue vending machines.
+
+Their implementation should distinguish: - authored identity; - stable
+traits; - mutable needs; - goals; - beliefs; - knowledge; - memories; -
+relationships; - schedules; - commitments; - current concerns; - current
+plans; - recurrence sensitivity.
+
+Do not store every aspect as free text.
+
+Use structured state for things the engine must reason about. Use
+generated language for expression and interpretation.
+
+Core NPCs receive richer simulation. Semi-main NPCs receive moderate
+simulation. Lightweight residents receive cheaper batched simulation.
+
+Do not apply identical computational cost to every resident.
+
+======================================================================
+14. AUTHORED STORY AND EMERGENT SIMULATION MUST COEXIST
+======================================================================
+
+Bellwether has fixed authored story architecture and emergent
+simulation.
+
+Neither should erase the other.
+
+Authored story owns: - canonical revelations; - major mystery facts; -
+key quest gates; - true ending logic; - protected character outcomes; -
+metaphysics.
+
+Emergent simulation owns, within bounds: - timing opportunities; -
+social context; - procedural arcs; - minor conflicts; - business
+pressures; - environmental developments; - NPC interpretations; -
+offscreen life; - player-specific pacing.
+
+The emergent layer should create different paths through a stable truth.
+
+Do not procedurally generate the central mystery.
+
+Do not make authored quests freeze the whole simulation unnecessarily.
+
+======================================================================
+15. UI PHILOSOPHY
+======================================================================
+
+The UI should remain readable, responsive, and uncluttered.
+
+Principles: - show what the player needs now; - allow deeper information
+through dedicated views; - avoid exposing raw simulation internals; -
+preserve atmosphere; - avoid debug terminology in player UI; - make
+important state discoverable; - do not require memorizing terminal
+output; - prevent decorative elements from obscuring functional
+information; - treat different window sizes as real supported
+conditions.
+
+Map overlays, legends, compass elements, portraits, text panels, and
+controls must be tested together at actual runtime dimensions.
+
+A UI element being present in code does not mean it is visible or
+usable.
+
+======================================================================
+16. ASSET PHILOSOPHY
+======================================================================
+
+Heavy visual assets may live outside lightweight source distributions
+when the project workflow requires it. Code must use stable asset paths
+and manifests.
+
+Do not: - embed large binary assets into source files; - duplicate heavy
+assets unnecessarily; - silently rename asset keys; - break existing
+manifests; - assume missing optional art should crash the game.
+
+Provide graceful fallback for absent optional assets. Required assets
+should fail clearly in developer/testing mode.
+
+Portraits should remain fixed for now unless the design explicitly
+changes. Avoid unnecessary asset explosion.
+
+Background variants should use consistent scene identity across
+weather/season variants rather than unrelated compositions.
+
+======================================================================
+17. ERROR HANDLING
+======================================================================
+
+Player-facing mode should fail gracefully. Developer mode should fail
+informatively.
+
+Do not swallow exceptions silently.
+
+Use: - clear logs; - contextual error messages; - safe fallbacks; -
+state rollback where partial application is dangerous; - atomic save
+patterns where practical.
+
+For multi-step state changes: VALIDATE ALL PRECONDITIONS -> PREPARE
+DELTA -> APPLY COHERENTLY -> PERSIST -> EMIT RESULT
+
+Avoid half-applied event consequences.
+
+======================================================================
+18. LOGGING AND OBSERVABILITY
+======================================================================
+
+An emergent simulation must be inspectable.
+
+Developer logs should make it possible to answer: - why did this NPC do
+this? - what caused this relationship change? - why did this event
+become eligible? - what did the LLM propose? - why was it rejected? -
+what fallback ran? - what state changed? - what memory was retrieved? -
+why did recovery occur here?
+
+Logs should use stable categories and identifiers.
+
+Do not make ordinary players read logs to understand normal gameplay.
+
+======================================================================
+19. TESTING PYRAMID
+======================================================================
+
+Bellwether requires several complementary test layers.
+
+A. UNIT TESTS Pure rules, validators, calculations, parsing, migrations.
+
+B. INTEGRATION TESTS Systems interacting: jobs/economy,
+conversation/memory, event/social state, recurrence/persistence,
+map/travel.
+
+C. DETERMINISTIC SIMULATION TESTS Long state progressions under seeded
+or controlled choices.
+
+D. LLM CONTRACT TESTS Prompt output parsing, malformed output,
+hallucinated entities, forbidden knowledge, repair, fallback, authority
+degradation.
+
+E. SAVE COMPATIBILITY TESTS Representative old and current saves.
+
+F. UI SMOKE TESTS Launch, navigation, map, overlays, portraits, text
+flow, resizing where applicable.
+
+G. FULL PLAYER-PERSPECTIVE PLAYTESTS Mandatory before meaningful
+releases.
+
+No single layer replaces the others.
+
+======================================================================
+20. PLAYER-PERSPECTIVE PLAYTESTING
+======================================================================
+
+Before release, simulate full playthroughs as a player, not merely as a
+developer who knows the code.
+
+Read prose and choices in sequence.
+
+Test multiple styles: - social; - investigation-focused; -
+life-sim/farming; - economic/job-focused; - cautious; - reckless; -
+story-avoiding; - mixed.
+
+Assess: - whether the story is understandable without code knowledge; -
+whether choices are motivated; - whether pacing works; - whether
+life-sim activity exists before horror escalation; - whether horror
+escalation is legible; - whether investigation is fair; - whether
+failure and recurrence make sense; - whether endings are reachable; -
+whether systems remain usable after long play; - whether repetition
+becomes tedious; - whether the town feels alive.
+
+The developer should not rely only on deterministic ending simulations.
+
+The user intends to discover the story as a player and should not need
+to spoil themselves to verify quality.
+
+======================================================================
+21. REGRESSION TESTING
+======================================================================
+
+Every feature release should include a regression checklist covering
+affected and adjacent systems.
+
+Example: a map release should test: - movement; - player marker; -
+region reveal; - route reveal; - parchment mask; - legend visibility; -
+compass behaviour; - resize; - travel state; - save/load; - non-map UI.
+
+A portrait release should test: - portrait lookup; - missing portrait
+fallback; - layout; - text wrapping; - NPC conversation; - asset
+manifest.
+
+Think in dependency neighbourhoods, not isolated files.
+
+======================================================================
+22. RELEASE PHILOSOPHY
+======================================================================
+
+A release candidate should be: - runnable; - versioned; - internally
+consistent; - tested; - packaged with required source changes; - free of
+temporary debug hacks; - accompanied by concise change notes; - checked
+for executable permissions where relevant.
+
+Do not call an implementation complete if the user must manually merge
+code fragments, infer file placement, or repair formatting.
+
+The desired delivery unit is a complete runnable build or complete
+replacement files with exact paths.
+
+When packaging is available, provide the complete package. When only
+file delivery is possible, provide complete files, not illustrative
+snippets.
+
+======================================================================
+23. CODING AGENT WORKFLOW
+======================================================================
+
+A coding agent working on Bellwether should follow:
+
+STEP 1 — inspect repository and context documents. STEP 2 — restate
+internal implementation target. STEP 3 — identify exact files and
+systems affected. STEP 4 — inspect all relevant code before editing.
+STEP 5 — define invariants and compatibility requirements. STEP 6 —
+implement the smallest coherent architectural change. STEP 7 —
+add/update tests. STEP 8 — run targeted tests. STEP 9 — run full suite.
+STEP 10 — run game smoke test. STEP 11 — conduct relevant
+player-perspective test. STEP 12 — inspect diff for accidental deletions
+or simplifications. STEP 13 — package runnable output. STEP 14 —
+document version and changes.
+
+Do not ask the user to manually edit code when the agent has the
+capability to modify and return complete files.
+
+Do not give pseudo-code when production code was requested.
+
+Do not replace a requested implementation with instructions for the user
+to implement it.
+
+======================================================================
+24. PATCH SIZE AND REFACTORING
+======================================================================
+
+Prefer the smallest coherent patch, not necessarily the fewest changed
+lines.
+
+A coherent patch: - has one clear purpose; - uses existing
+architecture; - includes necessary migration; - includes tests; - avoids
+unrelated rewrites.
+
+Large refactors should be separated from feature additions when
+practical.
+
+If a refactor is required for the feature: - document why; - preserve
+behaviour; - test before and after; - avoid opportunistic cleanup of
+unrelated modules.
+
+======================================================================
+25. NAMING AND SCHEMA STABILITY
+======================================================================
+
+Use stable identifiers for: - NPCs; - locations; - items; - jobs; -
+events; - quests; - story beats; - assets; - LLM task types.
+
+Display names may change independently of IDs.
+
+Do not use mutable display strings as persistence keys when stable IDs
+are possible.
+
+Schema changes should be versioned and migrated.
+
+LLM prompts should use stable IDs plus human-readable labels where
+useful.
+
+======================================================================
+26. CONTENT SAFETY AGAINST HALLUCINATION
+======================================================================
+
+All AI-visible world entities should come from authoritative registries
+or generated-and-persisted run-start catalogues.
+
+If a model mentions an unknown: - NPC; - place; - item; - business; -
+event; - quest; - fact;
+
+the parser/validator must reject or strip the state-changing
+implication.
+
+Generated prose may occasionally contain harmless decorative language,
+but no unknown entity becomes real merely because it was mentioned.
+
+For consequential generation, prefer IDs over names.
+
+======================================================================
+27. DETERMINISM AND REPRODUCIBILITY
+======================================================================
+
+Not every playthrough should be deterministic, but debugging must be
+reproducible enough to investigate failures.
+
+Where possible record: - random seeds; - candidate sets; - chosen IDs; -
+model/task version; - prompt template version; - accepted state delta.
+
+Tests should use deterministic seeds and mock/fixed LLM outputs.
+
+Do not make the test suite depend on a live LLM service.
+
+Live-model evaluation should be a separate test layer.
+
+======================================================================
+28. FEATURE FLAGS AND STAGED ROLLOUT
+======================================================================
+
+Large experimental systems should be introduced behind developer
+configuration or feature flags when appropriate.
+
+Examples: - new Town Mind planner; - conversation consequence
+extraction; - generated residents; - async scheduler; - adaptive
+horror; - new memory retrieval.
+
+A feature flag is not an excuse to leave broken code indefinitely. It
+enables comparison, testing, and safe migration.
+
+======================================================================
+29. BACKWARD-COMPATIBLE EXPANSION
+======================================================================
+
+Bellwether is intended to grow: - larger village; - more areas; - more
+jobs; - deeper economy; - farming; - woods; - quarry; - caves; - more
+residents; - audio; - richer LLM systems.
+
+Design current structures so reasonable expansion does not require
+replacing fundamentals.
+
+Examples: - locations should use registries/graphs rather than giant
+switch statements; - NPC simulation should support tiers; - economy
+should support additional businesses; - assets should use manifests; -
+event primitives should be extensible; - prompts should be role-routed.
+
+Do not prematurely build a giant generic engine, but avoid obvious dead
+ends.
+
+======================================================================
+30. FAILURE MUST LEAVE THE GAME PLAYABLE
+======================================================================
+
+Unless a legitimate game failure mode has occurred, subsystem failure
+should not make the game unplayable.
+
+Examples: - LLM offline -> deterministic fallback; - optional portrait
+missing -> fallback portrait/layout; - ambient audio missing -> continue
+silently; - invalid procedural proposal -> reject and continue; - stale
+async proposal -> discard/replan; - optional event content invalid ->
+skip event and log.
+
+Core save corruption, migration failure, or invariant violation should
+be surfaced clearly rather than hidden.
+
+======================================================================
+31. DESIGN DOCUMENT PRECEDENCE
+======================================================================
+
+When sources disagree, use this order of reasoning:
+
+1.  Current accepted working behaviour must not be accidentally
+    regressed.
+2.  Explicit latest user direction overrides older design intention.
+3.  Canonical World and Story Bible governs story truth.
+4.  LLM Role Specification governs AI authority and architecture.
+5.  Engineering Context Snapshot describes current implementation.
+6.  Comprehensive Project Context describes broad intended game
+    direction.
+7.  Older notes are historical context, not automatic authority.
+
+If a new request intentionally changes accepted behaviour, implement it
+as an explicit design change with migration and regression awareness.
+
+======================================================================
+32. DEFINITION OF DONE
+======================================================================
+
+A Bellwether feature is done when:
+
+-   requested behaviour is implemented;
+-   it integrates with authoritative state;
+-   persistence implications are handled;
+-   old behaviour remains working;
+-   deterministic fallback exists where required;
+-   LLM paths are validated where involved;
+-   tests cover core rules;
+-   integration tests cover affected systems;
+-   UI is actually usable at runtime;
+-   player-perspective behaviour has been checked;
+-   no accidental debug shortcuts remain;
+-   versioning is updated where appropriate;
+-   complete runnable output or complete replacement files can be
+    delivered.
+
+“Code written” is not the same as “feature done.”
+
+======================================================================
+33. FINAL ENGINEERING STATEMENT
+======================================================================
+
+Bellwether should be developed as a persistent simulation, not a
+sequence of disconnected features.
+
+Its strength depends on continuity: - continuity of state; - continuity
+of character; - continuity of story; - continuity of player
+consequence; - continuity across failure and recurrence; - continuity of
+working engineering behaviour.
+
+The codebase should therefore favor: PRESERVATION OVER REPLACEMENT,
+EXTENSION OVER REINVENTION, CAUSAL STATE OVER TEXTUAL ILLUSION,
+VALIDATION OVER TRUST, MEASURED EMERGENCE OVER RANDOMNESS, COMPLETE
+IMPLEMENTATION OVER DEMONSTRATION SNIPPETS, PLAYER-PERSPECTIVE TESTING
+OVER TEST-SUITE COMPLACENCY.
+
+The objective is not merely to make each new feature work in isolation.
+
+The objective is to let Bellwether grow for years without losing the
+systems, atmosphere, simulation depth, or accumulated consequences that
+make the village feel alive.
+
+======================================================================
+END OF CODING AND IMPLEMENTATION PHILOSOPHY
+======================================================================

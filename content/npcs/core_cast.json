@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "npcs": {
+    "jonah": {
+      "name": "Jonah",
+      "tier": "core",
+      "pronouns": "he/him",
+      "age_band": "adult",
+      "public_role": "baker",
+      "home_location": "village_green",
+      "work_locations": [
+        "bakery"
+      ],
+      "identity": {
+        "values": [
+          "craft",
+          "reliability",
+          "neighbourliness"
+        ],
+        "dislikes": [
+          "waste",
+          "needless cruelty",
+          "grandstanding"
+        ],
+        "social_style": "warm, practical, lightly humorous",
+        "private_tension": "He likes being depended upon more than he admits and quietly fears failing people who assume he is steady."
+      },
+      "preferences": {
+        "favoured_places": [
+          "bakery",
+          "village_green"
+        ],
+        "avoided_places": [],
+        "weather_likes": [
+          "clear",
+          "soft_overcast"
+        ],
+        "weather_dislikes": [
+          "heavy_rain"
+        ]
+      },
+      "needs": {
+        "rest": 25,
+        "food": 10,
+        "social": 35,
+        "purpose": 70,
+        "security": 55
+      },
+      "obligations": [
+        {
+          "id": "bakery_morning",
+          "purpose": "work",
+          "locations": [
+            "bakery"
+          ],
+          "start_minute": 360,
+          "end_minute": 780,
+          "priority": 90
+        }
+      ],
+      "personal_threads": [
+        {
+          "id": "dependable_baker",
+          "state": "latent",
+          "summary": "Jonah's usefulness to the village is a source of pride and pressure.",
+          "canon_locked": true
+        }
+      ]
+    },
+    "mara": {
+      "name": "Mara",
+      "tier": "core",
+      "pronouns": "she/her",
+      "age_band": "adult",
+      "public_role": "gardener and practical neighbour",
+      "home_location": "village_road",
+      "work_locations": [
+        "ashcroft_cottage",
+        "village_green"
+      ],
+      "identity": {
+        "values": [
+          "patience",
+          "competence",
+          "care shown through action"
+        ],
+        "dislikes": [
+          "waste",
+          "intrusion",
+          "empty promises"
+        ],
+        "social_style": "observant, reserved, practical, dryly kind",
+        "private_tension": "She notices more than she volunteers and is uncomfortable when concern becomes dependence."
+      },
+      "preferences": {
+        "favoured_places": [
+          "ashcroft_cottage",
+          "riverside_path"
+        ],
+        "avoided_places": [],
+        "weather_likes": [
+          "soft_overcast",
+          "light_rain"
+        ],
+        "weather_dislikes": [
+          "heavy_rain"
+        ]
+      },
+      "needs": {
+        "rest": 30,
+        "food": 15,
+        "social": 20,
+        "purpose": 75,
+        "security": 60
+      },
+      "obligations": [
+        {
+          "id": "garden_help",
+          "purpose": "garden",
+          "locations": [
+            "ashcroft_cottage"
+          ],
+          "start_minute": 480,
+          "end_minute": 1080,
+          "priority": 55
+        }
+      ],
+      "personal_threads": [
+        {
+          "id": "care_without_claim",
+          "state": "latent",
+          "summary": "Mara helps readily but resists explaining why some places matter to her.",
+          "canon_locked": true
+        }
+      ]
+    },
+    "mrs_ellis": {
+      "name": "Mrs Ellis",
+      "tier": "core",
+      "pronouns": "she/her",
+      "age_band": "older_adult",
+      "public_role": "long-time resident",
+      "home_location": "village_green",
+      "work_locations": [],
+      "identity": {
+        "values": [
+          "continuity",
+          "courtesy",
+          "remembering people"
+        ],
+        "dislikes": [
+          "rudeness",
+          "careless gossip",
+          "being hurried"
+        ],
+        "social_style": "courteous, attentive, gently indirect",
+        "private_tension": "Her confidence in familiar routines is central to how she understands herself and the village."
+      },
+      "preferences": {
+        "favoured_places": [
+          "village_road",
+          "village_green",
+          "bakery"
+        ],
+        "avoided_places": [
+          "railway_halt"
+        ],
+        "weather_likes": [
+          "clear",
+          "soft_overcast"
+        ],
+        "weather_dislikes": [
+          "heavy_rain",
+          "mist"
+        ]
+      },
+      "needs": {
+        "rest": 35,
+        "food": 20,
+        "social": 55,
+        "purpose": 45,
+        "security": 75
+      },
+      "obligations": [
+        {
+          "id": "morning_errands",
+          "purpose": "errand",
+          "locations": [
+            "village_road",
+            "village_shop",
+            "bakery"
+          ],
+          "start_minute": 480,
+          "end_minute": 780,
+          "priority": 65
+        }
+      ],
+      "personal_threads": [
+        {
+          "id": "keeper_of_routine",
+          "state": "latent",
+          "summary": "Mrs Ellis understands Bellwether through repeated routes, names and habits.",
+          "canon_locked": true
+        }
+      ]
+    },
+    "asha": {
+      "name": "Asha Patel",
+      "tier": "core",
+      "pronouns": "she/her",
+      "age_band": "adult",
+      "public_role": "shopkeeper",
+      "home_location": "village_road",
+      "work_locations": [
+        "village_shop"
+      ],
+      "identity": {
+        "values": [
+          "fair dealing",
+          "attention",
+          "self-possession"
+        ],
+        "dislikes": [
+          "waste",
+          "public scenes",
+          "people treating gossip as fact"
+        ],
+        "social_style": "quick, composed, dryly perceptive",
+        "private_tension": "She depends on knowing the village's practical rhythms, and dislikes how often recent irregularities resist ordinary explanation."
+      },
+      "preferences": {
+        "favoured_places": [
+          "village_shop",
+          "village_green"
+        ],
+        "avoided_places": [],
+        "weather_likes": [
+          "clear",
+          "soft_overcast"
+        ],
+        "weather_dislikes": [
+          "storm"
+        ]
+      },
+      "needs": {
+        "rest": 28,
+        "food": 15,
+        "social": 40,
+        "purpose": 78,
+        "security": 62
+      },
+      "obligations": [
+        {
+          "id": "shop_day",
+          "purpose": "work",
+          "locations": [
+            "village_shop"
+          ],
+          "start_minute": 450,
+          "end_minute": 1050,
+          "priority": 88
+        }
+      ],
+      "personal_threads": [
+        {
+          "id": "ledger_discrepancies",
+          "state": "latent",
+          "summary": "Asha trusts records, stock counts and repeated routines, making small discrepancies difficult for her to dismiss.",
+          "canon_locked": true
+        }
+      ]
+    },
+    "tom": {
+      "name": "Tom Mercer",
+      "tier": "core",
+      "pronouns": "he/him",
+      "age_band": "adult",
+      "public_role": "railway and maintenance worker",
+      "home_location": "village_road",
+      "work_locations": [
+        "railway_halt",
+        "village_road"
+      ],
+      "identity": {
+        "values": [
+          "usefulness",
+          "plain speech",
+          "finishing a job properly"
+        ],
+        "dislikes": [
+          "speculation",
+          "avoidable delay",
+          "being managed from a distance"
+        ],
+        "social_style": "laconic, observant, wry when comfortable",
+        "private_tension": "He is used to explaining faults through mechanisms and schedules, but has begun keeping private notes about delays that do not fit either."
+      },
+      "preferences": {
+        "favoured_places": [
+          "railway_halt",
+          "riverside_path"
+        ],
+        "avoided_places": [],
+        "weather_likes": [
+          "clear",
+          "mist"
+        ],
+        "weather_dislikes": [
+          "heavy_rain",
+          "storm"
+        ]
+      },
+      "needs": {
+        "rest": 32,
+        "food": 22,
+        "social": 18,
+        "purpose": 82,
+        "security": 58
+      },
+      "obligations": [
+        {
+          "id": "halt_rounds",
+          "purpose": "work",
+          "locations": [
+            "railway_halt",
+            "village_road"
+          ],
+          "start_minute": 390,
+          "end_minute": 990,
+          "priority": 82
+        }
+      ],
+      "personal_threads": [
+        {
+          "id": "impossible_delays",
+          "state": "latent",
+          "summary": "Tom has noticed rare timing discrepancies around the halt but refuses to make a theory from them.",
+          "canon_locked": true
+        }
+      ]
+    },
+    "ruth": {
+      "name": "Ruth Calder",
+      "tier": "core",
+      "pronouns": "she/her",
+      "age_band": "older_adult",
+      "public_role": "retired teacher and local-history volunteer",
+      "home_location": "village_green",
+      "work_locations": [
+        "churchyard",
+        "village_green"
+      ],
+      "identity": {
+        "values": [
+          "precision",
+          "education",
+          "earned trust"
+        ],
+        "dislikes": [
+          "careless certainty",
+          "sentimentality used as evidence",
+          "bullying"
+        ],
+        "social_style": "measured, curious, exacting, unexpectedly funny",
+        "private_tension": "She has spent years separating local history from local legend and is unsettled by records that seem internally consistent until compared across decades."
+      },
+      "preferences": {
+        "favoured_places": [
+          "churchyard",
+          "village_green",
+          "railway_halt"
+        ],
+        "avoided_places": [],
+        "weather_likes": [
+          "soft_overcast",
+          "light_rain"
+        ],
+        "weather_dislikes": [
+          "storm"
+        ]
+      },
+      "needs": {
+        "rest": 38,
+        "food": 18,
+        "social": 34,
+        "purpose": 74,
+        "security": 52
+      },
+      "obligations": [
+        {
+          "id": "history_round",
+          "purpose": "research",
+          "locations": [
+            "churchyard",
+            "village_green"
+          ],
+          "start_minute": 540,
+          "end_minute": 1020,
+          "priority": 62
+        }
+      ],
+      "personal_threads": [
+        {
+          "id": "records_that_disagree",
+          "state": "latent",
+          "summary": "Ruth has found small contradictions between otherwise credible village records and has not decided what they mean.",
+          "canon_locked": true
+        }
+      ]
+    }
+  }
+}

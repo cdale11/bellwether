@@ -1,0 +1,38 @@
+BELLWETHER v0.5.0 AUDIT REPORT
+
+Scope audited:
+- core-cast data and runtime integration;
+- complete six-person social graph;
+- NPC needs, obligations, purpose context and generic action compatibility;
+- structured event memory, witness/actor references, private impressions and retrieval;
+- old-save migration;
+- Ollama fast/deep task routing configuration;
+- deterministic fallback preservation;
+- Python syntax and import integrity;
+- cumulative Parts 1-20 regression suite;
+- v0.4.0, v0.4.1 and v0.4.2 focused regression suites;
+- release-candidate structural simulation, player-profile playtesting, save round-trip, migration, conversation continuity, parser isolation, scheduler and transition invariants;
+- frontend JavaScript syntax;
+- launch-script executable permission and archive packaging.
+
+RESULTS
+- v0.5.0 focused diagnostic: 12/12 PASS.
+- v0.4.2 hobbies diagnostic: 11/11 PASS.
+- v0.4.1 economy/work diagnostic: 15/15 PASS.
+- v0.4.0 ordinary-life diagnostic: 5/5 PASS.
+- cumulative post-v0.1.0 diagnostic: all 20 stages PASS.
+- release-candidate certification: PASS with live-Qwen section skipped; deterministic engineering layers, 14/14 structural matrix, player profiles, save/migration, conversation/parser isolation, scheduler, temperature and transition invariants passed.
+- Python compile: PASS.
+- frontend JavaScript syntax: PASS.
+
+AUDIT FIXES MADE
+- Historical diagnostics that incorrectly treated the original three-person cast as permanently exact were generalized to validate an expanded complete core cast while preserving their original invariants.
+- Historical version-lineage diagnostics were extended to accept the v0.5.x branch.
+- A latent retry-path bug in AIProvider.ask_value referenced a trace variable that did not exist in that method. It was corrected so transport failures use provider status for retry cooldown selection.
+- run.sh now reports both foreground and strategic model configuration and warns separately when the optional strategic model is missing.
+
+KNOWN NON-BLOCKING LIMITATIONS
+- Asha, Tom and Ruth currently use the generic bounded NPC action library. Their authored identity, needs, obligations, location constraints and purpose ranking already constrain decisions, but bespoke action libraries can make their daily lives more distinctive in a later social-content pass.
+- Structured durable memory currently records player/NPC conversation events directly. The substrate supports more event types, but broader ingestion should be added deliberately as systems gain causal hooks rather than recording every simulation tick.
+- The deep model route is configured but Town Mind/procedural strategic task classes are not yet scheduled. This is intentional roadmap discipline, not a missing v0.5.0 feature.
+- Live Qwen QA was not used for final certification in this build environment. Deterministic fallback, parser isolation and routing configuration were tested. The README documents target-machine model installation and the release-candidate command for live-model QA.

@@ -1,0 +1,934 @@
+BELLWETHER GAME — DESIGN CONSTITUTION Version 1.0 Date: 7 July 2026
+
+PURPOSE
+
+This document defines the creative and systemic identity of Bellwether.
+It is intended to guide all development after the frozen Bellwether
+v0.1.0 baseline.
+
+The Constitution does not replace technical specifications,
+implementation plans, story bibles, or test plans. Its purpose is to
+answer a more fundamental question:
+
+What kind of game is Bellwether supposed to become?
+
+When future features, optimizations, narrative ideas, or architectural
+changes conflict with this Constitution, development should stop and
+reconsider the design before proceeding.
+
+1.  THE CORE IDENTITY OF BELLWETHER
+
+Bellwether is a persistent, state-driven village life RPG that begins as
+a compelling ordinary-life simulation and gradually becomes a dangerous
+psychological and supernatural horror experience.
+
+Bellwether is not primarily a linear horror story with life-simulation
+decoration.
+
+Bellwether is not primarily a farming game with occasional scripted
+scares.
+
+Bellwether is not a sandbox in which procedural generation is allowed to
+replace authored meaning.
+
+Bellwether is a living fictional world in which ordinary life,
+relationships, work, ecology, weather, psychology, investigation,
+supernatural forces, and authored mysteries interact through shared
+state.
+
+The player should want to return because Bellwether feels like a place
+that continues to change, where actions matter, where routines become
+personally meaningful, and where the world affects the player as
+strongly as the player affects the world.
+
+2.  THE FROZEN FOUNDATION
+
+Bellwether v0.1.0 is the frozen stable baseline.
+
+All post-v0.1.0 development must preserve the working behavior of
+established systems, including:
+
+-   living village simulation;
+-   NPC movement and activity;
+-   traffic and transport behavior;
+-   Director scheduling and concurrency protection;
+-   seasons, weather, temperature, and dayparts;
+-   authored story conversations;
+-   bounded LLM-driven ordinary conversations;
+-   conversation continuity;
+-   social consequences;
+-   relationship privacy;
+-   social memory;
+-   accumulated player and game context;
+-   story integration;
+-   controlled horror escalation;
+-   psychological consequences;
+-   branches;
+-   failure states;
+-   recovery paths;
+-   endgame and reachable endings;
+-   save/load persistence;
+-   migration behavior;
+-   release diagnostics;
+-   executable permissions.
+
+New development should be additive wherever possible.
+
+Existing working systems must not be casually rewritten, simplified,
+bypassed, or removed. Architectural migration is permitted only when
+there is a clear need, an explicit migration plan, and strong regression
+testing.
+
+3.  ORDINARY LIFE MUST BE WORTH LIVING
+
+The ordinary-life game must be enjoyable even if the main mystery is
+temporarily ignored.
+
+A player should be able to spend substantial in-game time:
+
+-   gardening;
+-   growing edible vegetables;
+-   cooking;
+-   maintaining and repairing a home;
+-   working;
+-   earning and spending money;
+-   shopping;
+-   using village services;
+-   walking;
+-   exploring;
+-   visiting people;
+-   attending events;
+-   caring for possessions;
+-   observing weather and seasonal change;
+-   participating in village routines;
+-   developing relationships.
+
+These systems must not exist merely to increase hidden prerequisite
+counters.
+
+Ordinary life must have intrinsic value.
+
+The player should develop attachments to routines, places, people,
+possessions, animals, plants, and expectations. Horror becomes stronger
+when it threatens, corrupts, or contradicts things the player genuinely
+understands and values.
+
+4.  ACTIVITIES MUST BE SYSTEMS, NOT BUTTONS
+
+Major activities should have meaningful internal structure.
+
+Gardening must not be reduced to:
+
+Click “Garden” → receive vegetables.
+
+A gardening system may involve:
+
+-   choosing crops;
+-   seasonal suitability;
+-   planting;
+-   soil or plot condition;
+-   watering;
+-   rainfall;
+-   temperature;
+-   growth stages;
+-   tending;
+-   pests or disease where appropriate;
+-   harvesting;
+-   storage;
+-   cooking;
+-   selling;
+-   gifting;
+-   sharing;
+-   failure and recovery.
+
+Likewise, cooking, repairing, working, farming, and other recurring
+activities should create decisions, anticipation, consequences, and
+connections with other systems.
+
+The target is medium-effort progression: substantial enough to create
+investment and satisfaction, but not an extreme MMORPG-style grind.
+
+Repetition should produce progression, mastery, resources,
+relationships, knowledge, or changing opportunities rather than
+meaningless time consumption.
+
+5.  PLAYER FREEDOM
+
+The player should be free to live in Bellwether according to their own
+priorities.
+
+The game should not force constant pursuit of the main story.
+
+A player may choose to:
+
+-   work;
+-   garden;
+-   cook;
+-   socialize;
+-   investigate;
+-   explore;
+-   improve their living situation;
+-   observe unusual events;
+-   ignore warnings;
+-   pursue relationships;
+-   become isolated;
+-   follow routines;
+-   deliberately break routines.
+
+The world, however, does not wait for the player.
+
+NPC lives continue.
+
+Weather changes.
+
+Seasons progress.
+
+Relationships evolve.
+
+Information spreads.
+
+Events occur.
+
+Opportunities can appear and disappear.
+
+Supernatural activity may occur whether or not the player is
+investigating it.
+
+Freedom does not mean a static world. It means freedom inside a world
+that has its own momentum.
+
+6.  THE WORLD MUST BE CAUSAL
+
+Bellwether should increasingly operate through interconnected causal
+systems.
+
+The long-term causal structure should resemble:
+
+environment → ecology → needs → intentions → movement → encounters →
+information exchange → knowledge changes → dialogue changes →
+relationship changes → psychological changes → future decisions →
+village consequences → story opportunities → supernatural opportunities
+→ altered environment
+
+This chain is conceptual, not a requirement that every event pass
+through every stage.
+
+The important principle is that systems should increasingly affect one
+another.
+
+Weather should affect plants, animals, travel, activities, mood,
+schedules, and events.
+
+Schedules should affect meetings.
+
+Meetings should affect knowledge.
+
+Knowledge should affect dialogue and decisions.
+
+Relationships should affect behavior.
+
+Economic circumstances should affect choices.
+
+Player actions should create consequences.
+
+Supernatural forces should exploit and corrupt existing systems rather
+than existing in a separate horror minigame.
+
+7.  THE VILLAGE IS A CHARACTER
+
+Bellwether itself should feel alive.
+
+The village is not merely a menu of locations.
+
+Its identity emerges from:
+
+-   geography;
+-   districts;
+-   paths;
+-   roads;
+-   interiors;
+-   businesses;
+-   homes;
+-   public spaces;
+-   private spaces;
+-   opening hours;
+-   transport;
+-   weather exposure;
+-   vegetation;
+-   animals;
+-   seasonal accessibility;
+-   social habits;
+-   local events;
+-   rumors;
+-   histories;
+-   mysteries;
+-   supernatural influence.
+
+Places should acquire meaning through repeated use.
+
+A bus stop matters because the player has waited there in rain, met
+people there, learned the timetable, missed the last bus, and perhaps
+later witnessed a bus arrive when no bus should exist.
+
+A garden matters because the player planted it, tended it, watched
+weather affect it, cooked from it, and may later discover that something
+impossible has grown there.
+
+Familiarity is a gameplay resource and a horror resource.
+
+8.  THE ENVIRONMENT IS SIMULATED, NOT DECORATIVE
+
+Animals, vegetation, weather, seasons, temperature, and other
+environmental elements should respond to shared environmental state.
+
+The environment should include appropriate autonomous behavior.
+
+Examples include:
+
+-   plants growing according to season and conditions;
+-   vegetation changing through the year;
+-   animals appearing or behaving differently according to weather,
+    time, food availability, disturbance, and season;
+-   birds becoming quiet under unusual conditions;
+-   insects appearing seasonally;
+-   paths becoming difficult under certain conditions;
+-   gardens responding to rainfall and temperature;
+-   wildlife adapting to ordinary environmental cues.
+
+Supernatural forces may later manipulate these same systems.
+
+The supernatural should therefore be able to produce meaningful
+ecological contradictions:
+
+-   unseasonal flowering;
+-   impossible animal behavior;
+-   localized weather;
+-   sudden silence;
+-   vegetation patterns that form messages;
+-   repeated animal movements;
+-   ecological changes remembered differently by different residents.
+
+Such effects should be stateful and consequential, not merely random
+spooky prose.
+
+9.  NPCS HAVE LIVES BEYOND THE PLAYER
+
+Bellwether should use a layered population model.
+
+A relatively small core cast should receive deep characterization,
+personal histories, relationships, needs, memories, psychological
+development, and authored arcs.
+
+A larger background population may provide village density and social
+texture without requiring equivalent narrative depth.
+
+Important NPCs should have lives independent of the player.
+
+They may:
+
+-   work;
+-   rest;
+-   travel;
+-   shop;
+-   eat;
+-   visit;
+-   argue;
+-   reconcile;
+-   form attachments;
+-   lose trust;
+-   become ill;
+-   change routines;
+-   exchange information;
+-   misunderstand information;
+-   develop fears;
+-   react psychologically to the village;
+-   make consequential choices.
+
+Important events may occur without the player witnessing them.
+
+The player may discover causes, fragments, rumors, consequences, or
+conflicting accounts later.
+
+NPC autonomy must remain bounded by authored identity, world rules, and
+validated state transitions.
+
+10. PURPOSE-DRIVEN BEHAVIOR
+
+NPC movement should evolve beyond simple destination assignment.
+
+The future model should support concepts such as:
+
+need: obtain food intent: buy breakfast possible destinations: bakery,
+village shop, home constraints: opening hours, money, weather,
+obligations, distance, preferences, relationships, fear, current
+knowledge chosen destination: bakery
+
+Directors and LLMs may help choose among bounded plausible
+possibilities.
+
+They must not invent unrestricted locations, overwrite canon, or create
+impossible transitions.
+
+The goal is not unrestricted artificial intelligence.
+
+The goal is believable bounded agency inside a coherent simulation.
+
+11. THE PLAYER CHARACTER EVOLVES
+
+The player character is neither completely blank nor completely fixed.
+
+Bellwether should provide enough authored identity and circumstance to
+create narrative coherence while allowing the character to be shaped
+substantially through play.
+
+The character should evolve according to:
+
+-   repeated behavior;
+-   relationships;
+-   choices;
+-   habits;
+-   failures;
+-   successes;
+-   investigation style;
+-   moral decisions;
+-   fears;
+-   exposure to supernatural forces;
+-   psychological consequences;
+-   memories from the current and, eventually, previous runs.
+
+The town should react to who the player becomes.
+
+Different villagers may perceive the same player differently.
+
+The player’s behavioral history should matter beyond simple numerical
+reputation.
+
+12. PSYCHOLOGY IS PART OF THE WORLD MODEL
+
+Bellwether’s supernatural forces can affect psychology.
+
+The village may influence:
+
+-   perception;
+-   memory;
+-   trust;
+-   fear;
+-   attachment;
+-   avoidance;
+-   obsession;
+-   denial;
+-   interpretation of events.
+
+Psychological state should not simply be a single sanity bar.
+
+Where practical, psychological consequences should manifest through
+behavior, perception, options, memory, relationships, interpretation,
+and systemic effects.
+
+The player and NPCs may both be affected.
+
+However, the game must preserve enough authoritative state to
+distinguish deliberate supernatural contradiction from accidental LLM
+hallucination or simulation error.
+
+13. ECONOMIC PRESSURE SHOULD MATTER
+
+Bellwether should eventually contain a meaningful but moderate economy.
+
+Money and resources should create pressure without turning the game into
+constant financial punishment.
+
+Possible pressures include:
+
+-   food;
+-   home maintenance;
+-   heating or seasonal costs;
+-   transport;
+-   tools;
+-   seeds and supplies;
+-   repairs;
+-   services;
+-   optional comforts;
+-   social expenses;
+-   emergencies.
+
+Jobs and livelihoods should interact with:
+
+-   schedules;
+-   skills;
+-   relationships;
+-   weather;
+-   seasons;
+-   businesses;
+-   events;
+-   story circumstances;
+-   psychological state;
+-   supernatural disruption.
+
+Economic systems must not be implemented as isolated number generators.
+
+They should create reasons to participate in village life.
+
+14. DANGER IS REAL
+
+Bellwether eventually becomes very dangerous.
+
+The player can die.
+
+A player death may end the current run.
+
+NPCs may face severe consequences, including disappearance or death
+where appropriate to authored and systemic design.
+
+Danger should emerge from understandable causal circumstances whenever
+possible.
+
+Deaths and failures should not feel like arbitrary random punishment.
+
+Bellwether should also preserve meaningful failure states and recovery
+paths where appropriate.
+
+Not every mistake must be fatal, but the world must be capable of
+lasting consequences.
+
+15. BELLWETHER DOES NOT WANT PEOPLE TO LEAVE
+
+A central horror principle is that Bellwether is difficult or impossible
+to escape in a deeper sense.
+
+The town and its supernatural forces may manipulate residents
+psychologically and systemically so that leaving becomes difficult,
+self-defeating, forgotten, rationalized away, interrupted, or otherwise
+prevented.
+
+This should not be represented only by an invisible wall or a message
+saying that the player cannot leave.
+
+The inability to escape should emerge through layered narrative and
+systemic mechanisms.
+
+Residents may normalize contradictions.
+
+Plans may change.
+
+Memories may shift.
+
+Relationships may become anchors.
+
+Routes may behave strangely.
+
+Circumstances may repeatedly intervene.
+
+Different characters may experience or explain this imprisonment
+differently.
+
+The exact mechanisms should be developed through authored mysteries and
+systemic horror design.
+
+16. HORROR THROUGH LEARNED NORMALITY
+
+Bellwether’s central horror philosophy is:
+
+First teach the player what normal means.
+
+Then violate it.
+
+The game should establish understandable patterns:
+
+-   NPC routines;
+-   transport schedules;
+-   seasonal behavior;
+-   weather patterns;
+-   relationships;
+-   opening hours;
+-   animal behavior;
+-   vegetation;
+-   architecture;
+-   local customs;
+-   memories;
+-   conversation history.
+
+Only after familiarity develops should supernatural forces begin to
+contradict, corrupt, imitate, rearrange, or weaponize these patterns.
+
+Examples may include:
+
+-   impossible NPC locations;
+-   contradictory bus appearances;
+-   conversations remembered differently;
+-   writing or symbols appearing on buildings;
+-   localized or impossible weather;
+-   season changes that should not occur;
+-   plants behaving impossibly;
+-   animals following unnatural patterns;
+-   buildings appearing subtly altered;
+-   residents remembering events that did not occur;
+-   the player’s own prior words being changed or reflected back.
+
+The horror should be creative, systemic, and state-aware.
+
+17. MULTIPLE MYSTERIES, EVENTUAL CONNECTION
+
+Bellwether should contain multiple mysteries.
+
+Initially, they may appear unrelated.
+
+Different players may encounter them in different orders.
+
+Some mysteries may be discovered through:
+
+-   relationships;
+-   work;
+-   exploration;
+-   archives;
+-   environmental observation;
+-   transport;
+-   village rumors;
+-   repeated routines;
+-   supernatural incidents;
+-   previous-run memory.
+
+Over time, major mysteries should increasingly connect.
+
+The game should ultimately explain approximately 90–95 percent of its
+central supernatural structure in the most revealing paths, while
+retaining a small residue of genuine uncertainty.
+
+Mystery must not become incoherence.
+
+The player should be able to form theories, test them, discover
+evidence, revise conclusions, and eventually understand most of what
+Bellwether is and why events occur.
+
+18. AUTHORED CANON AND GENERATIVE REACTIVITY
+
+Bellwether uses a hybrid architecture.
+
+Authored content controls:
+
+-   canon;
+-   major mysteries;
+-   important facts;
+-   revelations;
+-   major story beats;
+-   key story conversations;
+-   personal arcs;
+-   branches;
+-   major failures;
+-   recovery structures;
+-   endings.
+
+LLMs and Directors may support:
+
+-   ordinary conversation;
+-   bounded interpretation;
+-   social inference;
+-   purpose selection;
+-   contextual reactions;
+-   bounded variation;
+-   simulation coordination;
+-   world commentary;
+-   non-canonical texture.
+
+The use of LLMs and Directors should expand where they improve
+reactivity and variation.
+
+They must remain constrained by authoritative state, validation, and
+canon.
+
+The objective is emergent variation without narrative incoherence.
+
+19. NO TWO RUNS SHOULD BE PERFECTLY DETERMINISTIC
+
+Bellwether should allow natural variation between runs.
+
+Variation may emerge from:
+
+-   weather;
+-   seasons;
+-   schedules;
+-   NPC decisions;
+-   meetings;
+-   information flow;
+-   relationship development;
+-   player behavior;
+-   ecological conditions;
+-   Director choices;
+-   bounded LLM interpretation;
+-   event timing;
+-   supernatural targeting and response.
+
+The game should retain authored mysteries and coherent canon.
+
+Variation should alter the route through the world and the consequences
+of interaction, not randomly rewrite the truth.
+
+20. DEATH AND CROSS-RUN MEMORY
+
+Bellwether should eventually support multi-run architecture.
+
+A run may end through death or other terminal outcomes.
+
+A new run should not necessarily be a complete erasure.
+
+Future architecture may allow memories, impressions, fragments,
+instincts, anomalies, or other carefully designed state to persist
+across runs.
+
+The intended emotional model is recurrence with accumulating
+significance.
+
+Cross-run persistence should deepen mystery and character development
+rather than simply function as a conventional stat-based New Game Plus
+mode.
+
+Different entities may remember different amounts.
+
+Memory may be incomplete, distorted, asymmetric, or dangerous.
+
+This architecture must be designed carefully in a later dedicated
+development phase and must not be prematurely bolted onto unrelated
+systems.
+
+21. THE PRIMARY PLAYER FANTASY
+
+The central player fantasy is:
+
+I have entered a fictional world that keeps changing. I can build a life
+there. My actions affect the world, and the world changes me.
+
+The player should feel:
+
+-   curiosity about what will happen next;
+-   attachment to ordinary routines;
+-   investment in personal progress;
+-   concern for residents;
+-   interest in changing relationships;
+-   anticipation of seasonal and village events;
+-   satisfaction from mastering activities;
+-   uncertainty about autonomous events;
+-   fear when familiar systems become unreliable;
+-   a desire to understand the connected mysteries;
+-   awareness that choices have consequences.
+
+The game should produce stories that arise partly from authored design
+and partly from the interaction of systems.
+
+22. PROGRESSION PHILOSOPHY
+
+Progression should be substantial and satisfying.
+
+The player should experience medium-effort goals rather than instant
+rewards or extreme grinding.
+
+Progression may include:
+
+-   skills;
+-   tools;
+-   home improvements;
+-   garden development;
+-   recipes;
+-   resources;
+-   employment opportunities;
+-   access to places;
+-   trust;
+-   relationships;
+-   social knowledge;
+-   investigation knowledge;
+-   practical knowledge of village routines;
+-   psychological change;
+-   cross-run understanding.
+
+Progression systems should connect to one another where appropriate.
+
+A relationship may create a work opportunity.
+
+A job may expose the player to a location at unusual hours.
+
+A location may reveal an ecological anomaly.
+
+An anomaly may connect to a mystery.
+
+A mystery may alter a relationship.
+
+A supernatural event may destroy or transform an ordinary source of
+stability.
+
+23. PART 1 MUST BUILD A SHARED WORLD SUBSTRATE
+
+The immediate post-v0.1.0 development stage is Part 1: World Expansion
+Architecture.
+
+Part 1 must not merely add arbitrary locations.
+
+It should establish a coherent, data-driven world model capable of
+supporting future:
+
+-   districts;
+-   locations;
+-   interiors and exteriors;
+-   adjacency;
+-   route choice;
+-   travel time;
+-   transport connections;
+-   opening hours;
+-   ownership;
+-   access rules;
+-   public and private space;
+-   weather exposure;
+-   seasonal accessibility;
+-   NPC location suitability;
+-   purpose-driven movement;
+-   businesses;
+-   services;
+-   jobs;
+-   economic activity;
+-   player activities;
+-   social encounters;
+-   ecological state;
+-   story staging;
+-   investigation;
+-   supernatural modification.
+
+Part 1 should be implemented as a narrow, tested extension of the frozen
+baseline.
+
+It should prove the architecture with a small playable vertical slice
+before large-scale content expansion.
+
+24. DEVELOPMENT PRINCIPLE: DEPTH BEFORE BREADTH
+
+Do not add twenty shallow locations when five deeply connected locations
+can prove the model.
+
+Do not add ten jobs if none create interesting schedules, relationships,
+economic choices, or story opportunities.
+
+Do not add animals as decorative text if they cannot respond to
+environmental state.
+
+Do not add farming if crops are merely timers with no connection to
+weather, seasons, cooking, economy, or relationships.
+
+Do not add procedural events merely to claim replayability.
+
+Each major system should justify itself through meaningful interaction
+with the rest of Bellwether.
+
+25. TESTING IS A DESIGN ACTIVITY
+
+Technical correctness is necessary but insufficient.
+
+Every major build must be tested from the player’s perspective.
+
+Testing should include:
+
+-   compilation;
+-   focused automated tests;
+-   structural simulation regression;
+-   save/load compatibility;
+-   migration testing where needed;
+-   scheduler unlock verification;
+-   loading-state recovery;
+-   Qwen fallback behavior;
+-   authored conversation preservation;
+-   free-text conversation behavior;
+-   relationship and memory persistence;
+-   weather and temperature progression;
+-   transition validation;
+-   executable permissions.
+
+Major gameplay changes additionally require player-perspective
+playthrough testing.
+
+The tester should read prose and options sequentially without relying on
+code knowledge and ask:
+
+-   Is the world understandable?
+-   Is ordinary life enjoyable?
+-   Is progression satisfying?
+-   Is the grind meaningful rather than excessive?
+-   Are objectives discoverable?
+-   Do activities have enough depth?
+-   Do NPCs appear to live independently?
+-   Do environmental systems visibly matter?
+-   Are choices consequential?
+-   Are relationships understandable?
+-   Does investigation make sense?
+-   Are failures comprehensible?
+-   Are recovery paths discoverable?
+-   Does horror emerge from learned normality?
+-   Do endings follow causally from player behavior?
+-   Does the village feel like a place rather than a collection of
+    features?
+
+A system that passes unit tests but produces a poor player experience is
+not finished.
+
+26. FINAL DEVELOPMENT RULES
+
+All future Bellwether development should obey the following principles:
+
+1.  Preserve the frozen v0.1.0 baseline.
+2.  Build ordinary life deeply enough to be enjoyable without constant
+    story pressure.
+3.  Give the player freedom while allowing the world to continue
+    independently.
+4.  Connect systems through shared authoritative state.
+5.  Make activities involved and consequential rather than single-click
+    abstractions.
+6.  Keep economic pressure meaningful but moderate.
+7.  Give core NPCs autonomous lives beyond the player.
+8.  Use a layered population model with a deep core cast and lighter
+    background residents.
+9.  Allow the player character to evolve through behavior and
+    consequences.
+10. Let the village and supernatural forces affect psychology.
+11. Simulate environmental response through weather, season,
+    temperature, vegetation, and animals.
+12. Establish normal patterns before corrupting them for horror.
+13. Make danger real and permit terminal run outcomes.
+14. Treat Bellwether’s inability to release its residents as a central
+    systemic and narrative horror principle.
+15. Build multiple mysteries that increasingly connect.
+16. Explain most of the central truth while preserving a small residue
+    of uncertainty.
+17. Expand LLM and Director use through bounded, validated reactivity
+    rather than unrestricted authorship.
+18. Permit natural variation without sacrificing canon.
+19. Design future cross-run memory as a meaningful narrative system, not
+    a superficial New Game Plus.
+20. Prefer depth, causality, and interconnection over feature count.
+21. Test major features through genuine player-perspective play.
+22. Remember the primary fantasy: the player enters a changing fictional
+    world, affects it, and is changed by it.
+
+CLOSING STATEMENT
+
+Bellwether should become a place the player learns to live in before
+they fully understand why they cannot leave.
+
+Its ordinary systems should create attachment.
+
+Its autonomous systems should create surprise.
+
+Its relationships should create responsibility.
+
+Its mysteries should create curiosity.
+
+Its progression should create investment.
+
+Its environment should create a sense of place.
+
+Its supernatural forces should understand enough about the world to
+violate its rules deliberately.
+
+Its recurring structure should allow knowledge, memory, and consequence
+to accumulate across experiences.
+
+The ultimate measure of Bellwether is not the number of systems it
+contains.
+
+The measure is whether those systems combine to make the player feel
+that Bellwether is alive, that it remembers, that it changes, and that
+entering it again will never produce exactly the same life.

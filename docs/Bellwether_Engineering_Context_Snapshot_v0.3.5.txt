@@ -1,0 +1,34 @@
+BELLWETHER — ENGINEERING CONTEXT SNAPSHOT
+Snapshot source: Bellwether v0.3.5 Baseline Certification build
+Snapshot date: 2026-07-08
+Purpose: technical orientation for future engineering work.
+
+STATUS
+v0.3.5 is a certification release built additively from the accepted v0.3.4 Map Correction package. No major gameplay systems were added. The release synchronizes metadata, restores launcher permissions, certifies manifest-declared visual assets, and establishes a green cumulative diagnostic baseline.
+
+STACK
+Backend: Python, FastAPI, Uvicorn, Pydantic, JSON-authored content catalogues.
+Frontend: server-served HTML, vanilla JavaScript, CSS, API-driven rendering, static asset manifest.
+Local AI: Ollama HTTP API, default qwen3:1.7b, deterministic fallback when unavailable.
+Launch: ./run.sh
+
+OPERATING RULE
+INSPECT FIRST. EXTEND SECOND. Preserve accepted working simulation, narrative, AI, persistence, horror, recurrence, economy, activity, UI, map, asset, and diagnostic behaviour. Prefer focused domain models over further centralizing backend/core/game.py. LLM proposals remain bounded, parsed, validated, engine-applied, logged, and persisted.
+
+PERSISTENCE
+Game state is JSON serializable. Save writes use temporary-file validation and atomic replacement. Load runs migration/defaulting and rebuilds compact AI context. Every new persistent domain requires defaults, migration, JSON round-trip coverage, and old-save testing.
+
+FRONTEND CONTRACT
+Game.view() remains authoritative. The frontend renders server truth, uses backend-provided legal actions, resolves scenes through the asset manifest, and preserves missing-art fallback. The exploration map remains persistent accepted behaviour.
+
+VISUAL ASSET CERTIFICATION
+The v0.3.4 Part 20 failure was traced to a stale diagnostic expectation for an unreferenced pre-integration file path. The accepted manifest uses canonical scene art for cottage-garden aliases. v0.3.5 audits every scene and portrait path declared by the manifest. Missing declared files fail certification.
+
+CERTIFICATION COMMANDS
+python tools/part1_world_architecture_diagnostic.py
+python tools/part19_v030_ui_architecture_diagnostic.py
+python tools/part20_visual_identity_diagnostic.py
+python tools/post_v010_diagnostic.py
+
+NEXT ENGINEERING PRIORITY
+Begin v0.4.0 with an audit of existing cottage restoration, gardening, cooking, time progression, weather interaction, economy, jobs, travel, and ordinary activities. Deepen and connect existing systems rather than duplicating them. The target question is whether ordinary Bellwether is enjoyable for a full in-game week without mystery pursuit.

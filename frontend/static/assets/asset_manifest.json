@@ -1,0 +1,77 @@
+{
+  "version": "0.3.5",
+  "visual_direction": "soft-painted-rural-anime-life-sim",
+  "scenes": {
+    "ashcroft_cottage": {
+      "default": "/static/assets/scenes/ashcroft_cottage/ashcroft_cottage.png",
+      "focal": "50% 50%"
+    },
+    "ashcroft_cottage_garden": {
+      "default": "/static/assets/scenes/ashcroft_cottage/ashcroft_cottage.png",
+      "focal": "50% 55%"
+    },
+    "cottage_garden": {
+      "default": "/static/assets/scenes/ashcroft_cottage/ashcroft_cottage.png",
+      "focal": "50% 55%"
+    },
+    "bakery": {
+      "default": "/static/assets/scenes/bakery/bakery.png",
+      "focal": "50% 50%"
+    },
+    "blacksmith": {
+      "default": "/static/assets/scenes/blacksmith/blacksmith.png",
+      "focal": "50% 50%"
+    },
+    "bus_stop": {
+      "default": "/static/assets/scenes/bus_stop/bus_stop.png",
+      "focal": "50% 50%"
+    },
+    "clinic": {
+      "default": "/static/assets/scenes/clinic/clinic.png",
+      "focal": "50% 50%"
+    },
+    "cottage_interior": {
+      "default": "/static/assets/scenes/cottage_interior/cottage_interior.png",
+      "focal": "50% 50%"
+    },
+    "village_green": {
+      "default": "/static/assets/scenes/village_green/village_green.png",
+      "focal": "50% 50%"
+    },
+    "village_road": {
+      "default": "/static/assets/scenes/village_road/village_road.png",
+      "focal": "50% 50%"
+    },
+    "village_shop": {
+      "default": "/static/assets/scenes/village_shop/village_shop.png",
+      "focal": "50% 50%"
+    }
+  },
+  "characters": {
+    "mara": {
+      "neutral": "/static/assets/characters/mara/portrait_neutral.png"
+    },
+    "mara_ashcroft": {
+      "neutral": "/static/assets/characters/mara/portrait_neutral.png"
+    },
+    "jonah": {
+      "neutral": "/static/assets/characters/jonah/portrait_neutral.png"
+    },
+    "jonah_kettlewell": {
+      "neutral": "/static/assets/characters/jonah/portrait_neutral.png"
+    },
+    "agnes": {
+      "neutral": "/static/assets/characters/agnes/portrait_neutral.png"
+    },
+    "elise": {
+      "neutral": "/static/assets/characters/elise/portrait_neutral.png"
+    },
+    "dr_vale": {
+      "neutral": "/static/assets/characters/dr_vale/portrait_neutral.png"
+    }
+  },
+  "fallback": {
+    "mode": "illustrated-gradient"
+  },
+  "notes": "v0.3.5 certified manifest: every declared scene and portrait path is audited against packaged files; aliases intentionally reuse canonical scene art where no distinct approved asset exists."
+}

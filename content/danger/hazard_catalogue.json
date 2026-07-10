@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "hazards": {
+    "riverbank_slip": {
+      "location": "riverside_path",
+      "kind": "environmental",
+      "min_pressure": 3,
+      "min_anomalies": 1,
+      "severity": 2,
+      "injury": "sprained_ankle",
+      "text": "The bank gives under one foot. You catch the alder roots, but your ankle folds hard beneath you.",
+      "warning": "Rain has left the riverbank slick and undercut."
+    },
+    "platform_pull": {
+      "location": "railway_halt",
+      "kind": "supernatural",
+      "min_pressure": 6,
+      "min_anomalies": 2,
+      "severity": 3,
+      "injury": "concussion",
+      "text": "For one impossible second the dark beyond the platform seems nearer than the platform edge. You stagger back too late and strike the bench hard.",
+      "warning": "The platform edge is difficult to judge in the dark."
+    },
+    "night_road_collision": {
+      "location": "village_road",
+      "kind": "mixed",
+      "min_pressure": 8,
+      "min_anomalies": 2,
+      "severity": 4,
+      "injury": "major_trauma",
+      "text": "Headlights appear where the road was empty. There is no time to understand the distance before the impact.",
+      "warning": "Engines carry strangely on the road after dark."
+    },
+    "quarry_loose_stone": {
+      "location": "old_quarry",
+      "kind": "environmental",
+      "min_pressure": 2,
+      "min_anomalies": 0,
+      "severity": 2,
+      "injury": "sprained_ankle",
+      "text": "Loose limestone shifts underfoot on the terrace. You catch yourself badly against the rock face.",
+      "warning": "The quarry terraces are uneven and loose stone gathers near the edges."
+    },
+    "cave_disorientation": {
+      "location": "quarry_caves",
+      "kind": "mixed",
+      "min_pressure": 7,
+      "min_anomalies": 2,
+      "severity": 3,
+      "injury": "concussion",
+      "text": "The return passage seems to fork where you remember one route. In the confusion you strike the low roof hard.",
+      "warning": "Distances and echoes are difficult to judge beyond the first chamber."
+    }
+  },
+  "injuries": {
+    "sprained_ankle": {
+      "label": "Sprained ankle",
+      "severity": 1,
+      "recovery_days": 2
+    },
+    "concussion": {
+      "label": "Concussion",
+      "severity": 2,
+      "recovery_days": 3
+    },
+    "major_trauma": {
+      "label": "Major trauma",
+      "severity": 4,
+      "recovery_days": 5
+    }
+  }
+}

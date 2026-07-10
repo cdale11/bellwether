@@ -1,0 +1,279 @@
+{
+  "schema_version": 2,
+  "mysteries": {
+    "village_routines": {
+      "title": "The Village That Knows Its Rhythms",
+      "summary": "Bellwether routines move information, people and attention through repeated social circuits.",
+      "related_mysteries": [
+        "eleanor_patterns",
+        "railway_after_dark",
+        "land_boundaries"
+      ]
+    },
+    "eleanor_patterns": {
+      "title": "Eleanor's Repeated Patterns",
+      "summary": "Eleanor used repeated domestic routes, annotations and thresholds as a private method of noticing change.",
+      "related_mysteries": [
+        "village_routines",
+        "records_disagree",
+        "chorus_ecology"
+      ]
+    },
+    "railway_after_dark": {
+      "title": "The Railway Halt After Dark",
+      "summary": "Sparse service, local avoidance and physical traces around the halt do not entirely agree.",
+      "related_mysteries": [
+        "village_routines",
+        "roads_return",
+        "records_disagree"
+      ]
+    },
+    "land_boundaries": {
+      "title": "Boundaries That Do Not Agree",
+      "summary": "Old hedges, walls, maps and working boundaries preserve incompatible versions of Bellwether’s shape.",
+      "related_mysteries": [
+        "roads_return",
+        "records_disagree",
+        "chorus_ecology"
+      ]
+    },
+    "records_disagree": {
+      "title": "The Record and the Memory",
+      "summary": "Institutional records, inscriptions and recollections disagree in patterned rather than random ways.",
+      "related_mysteries": [
+        "eleanor_patterns",
+        "land_boundaries",
+        "railway_after_dark"
+      ]
+    },
+    "roads_return": {
+      "title": "Ways That Return",
+      "summary": "Several routes, sightlines and acoustic paths suggest that movement around Bellwether is not always spatially straightforward.",
+      "related_mysteries": [
+        "railway_after_dark",
+        "land_boundaries",
+        "chorus_ecology"
+      ]
+    },
+    "chorus_ecology": {
+      "title": "A Pattern Across Living Things",
+      "summary": "Plants, animals and human routines sometimes align as if responding to one distributed pressure.",
+      "related_mysteries": [
+        "eleanor_patterns",
+        "land_boundaries",
+        "roads_return"
+      ]
+    }
+  },
+  "evidence_links": {
+    "green_worn_paths": [
+      "village_routines"
+    ],
+    "noticeboard_names": [
+      "village_routines",
+      "records_disagree"
+    ],
+    "bakery_regulars": [
+      "village_routines"
+    ],
+    "road_repeated_routes": [
+      "village_routines",
+      "roads_return"
+    ],
+    "cottage_lived_patterns": [
+      "eleanor_patterns"
+    ],
+    "eleanor_bookmarks": [
+      "eleanor_patterns",
+      "records_disagree"
+    ],
+    "cottage_threshold_marks": [
+      "eleanor_patterns",
+      "roads_return"
+    ],
+    "halt_timing": [
+      "railway_after_dark"
+    ],
+    "halt_regular_waiting": [
+      "railway_after_dark"
+    ],
+    "field_lane_boundaries": [
+      "land_boundaries"
+    ],
+    "field_lane_repeated_turn": [
+      "land_boundaries",
+      "roads_return"
+    ],
+    "farm_boundary_discrepancy": [
+      "land_boundaries",
+      "records_disagree"
+    ],
+    "woods_waymarker_mismatch": [
+      "land_boundaries",
+      "roads_return"
+    ],
+    "quarry_work_layers": [
+      "records_disagree"
+    ],
+    "quarry_shift_marks": [
+      "records_disagree"
+    ],
+    "cave_worked_natural": [
+      "records_disagree",
+      "chorus_ecology"
+    ],
+    "cave_acoustic_return": [
+      "roads_return",
+      "chorus_ecology"
+    ],
+    "churchyard_names": [
+      "records_disagree"
+    ],
+    "churchyard_recent_visits": [
+      "records_disagree",
+      "village_routines"
+    ],
+    "river_paths": [
+      "chorus_ecology"
+    ],
+    "river_highwater_marks": [
+      "chorus_ecology"
+    ],
+    "woods_path_network": [
+      "chorus_ecology",
+      "roads_return"
+    ],
+    "farm_working_rhythm": [
+      "chorus_ecology",
+      "village_routines"
+    ],
+    "road_timing": [
+      "village_routines"
+    ],
+    "stop_sightline": [
+      "roads_return"
+    ],
+    "road_households": [
+      "village_routines"
+    ],
+    "bakery_rhythm": [
+      "village_routines"
+    ],
+    "green_bell_sightline": [
+      "roads_return"
+    ],
+    "shop_local_rhythm": [
+      "village_routines"
+    ],
+    "shop_informal_credit": [
+      "village_routines"
+    ]
+  },
+  "fact_links": {
+    "bakery_morning_rhythm": [
+      "village_routines"
+    ],
+    "green_workday_custom": [
+      "village_routines"
+    ],
+    "ashcroft_garden_restored": [
+      "eleanor_patterns"
+    ],
+    "railway_halt_avoided": [
+      "railway_after_dark"
+    ],
+    "old_boundary_dispute": [
+      "land_boundaries",
+      "records_disagree"
+    ],
+    "missing_waymarker_route": [
+      "roads_return",
+      "land_boundaries"
+    ],
+    "unseasonal_animal_pattern": [
+      "chorus_ecology"
+    ]
+  },
+  "hypotheses": {
+    "routines_carry_information": {
+      "title": "Routine is Bellwether’s information network",
+      "mystery": "village_routines",
+      "requires_any": [
+        "green_worn_paths",
+        "bakery_regulars",
+        "road_households",
+        "fact:bakery_morning_rhythm",
+        "fact:green_workday_custom"
+      ],
+      "confirm_threshold": 3
+    },
+    "eleanor_was_methodical": {
+      "title": "Eleanor deliberately repeated a small set of routines",
+      "mystery": "eleanor_patterns",
+      "requires_any": [
+        "cottage_lived_patterns",
+        "cottage_threshold_marks",
+        "eleanor_bookmarks",
+        "fact:ashcroft_garden_restored"
+      ],
+      "confirm_threshold": 3
+    },
+    "halt_avoidance_is_shared": {
+      "title": "Avoidance of the halt after dark is a shared local pattern",
+      "mystery": "railway_after_dark",
+      "requires_any": [
+        "halt_timing",
+        "halt_regular_waiting",
+        "fact:railway_halt_avoided"
+      ],
+      "confirm_threshold": 2
+    },
+    "boundaries_have_shifted": {
+      "title": "Some present boundaries do not match older divisions of the land",
+      "mystery": "land_boundaries",
+      "requires_any": [
+        "field_lane_boundaries",
+        "farm_boundary_discrepancy",
+        "woods_waymarker_mismatch",
+        "fact:old_boundary_dispute"
+      ],
+      "confirm_threshold": 3
+    },
+    "disagreement_is_patterned": {
+      "title": "The contradictions in Bellwether’s records are patterned",
+      "mystery": "records_disagree",
+      "requires_any": [
+        "churchyard_names",
+        "farm_boundary_discrepancy",
+        "quarry_shift_marks",
+        "eleanor_bookmarks",
+        "fact:old_boundary_dispute"
+      ],
+      "confirm_threshold": 3
+    },
+    "routes_do_not_behave_simply": {
+      "title": "Some routes and returns resist ordinary spatial explanation",
+      "mystery": "roads_return",
+      "requires_any": [
+        "road_repeated_routes",
+        "field_lane_repeated_turn",
+        "woods_waymarker_mismatch",
+        "cave_acoustic_return",
+        "stop_sightline"
+      ],
+      "confirm_threshold": 3
+    },
+    "living_systems_are_synchronised": {
+      "title": "Separate living systems sometimes respond as one distributed pattern",
+      "mystery": "chorus_ecology",
+      "requires_any": [
+        "farm_working_rhythm",
+        "river_paths",
+        "woods_path_network",
+        "cave_acoustic_return",
+        "fact:unseasonal_animal_pattern"
+      ],
+      "confirm_threshold": 3
+    }
+  }
+}

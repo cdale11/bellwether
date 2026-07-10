@@ -1,0 +1,36 @@
+BELLWETHER v0.5.1 AUDIT REPORT
+
+Scope: Village Population and Simulation Tiers.
+
+Implemented:
+- 24 persistent lightweight residents with strict schema validation.
+- Stable household, occupation, routine, trait and interest data.
+- Batched hourly background movement and activity simulation.
+- Cheap co-location social-link formation.
+- UI presence integration without adding lightweight residents to expensive core-NPC AI loops.
+- Safe migration from older saves.
+
+Architecture decision:
+Lightweight residents are deliberately stored under population.residents rather than state.npcs. The latter remains the deeply simulated core cast and is used by core social-web, knowledge, conversation, and Director systems. This prevents population growth from multiplying LLM calls and pairwise social simulation costs.
+
+Known limitations:
+- Lightweight residents do not yet support full free-form player dialogue. They are visible village inhabitants and simulation participants, not core conversational agents.
+- Their social simulation is intentionally cheap and currently records bounded links rather than rich belief/relationship dimensions.
+- Businesses and jobs can reference the broader population in later releases; v0.5.1 establishes the substrate without inventing unsupported economic mutations.
+
+No known release-blocking defects after final test pass.
+
+FINAL VALIDATION RESULTS
+- Focused v0.5.1 population diagnostic: 11/11 PASS.
+- v0.5.0 core-cast/memory regression: 12/12 PASS.
+- v0.4.2 hobbies regression: 11/11 PASS.
+- v0.4.1 economy/work regression: 15/15 PASS.
+- v0.4.0 ordinary-life regression: 5/5 PASS.
+- Cumulative post-v0.1.0 diagnostic: all 20 stages PASS.
+- Release-candidate certification (reduced-step local certification, real-Qwen skipped): PASS, including 14/14 structural profiles, player-perspective profile smoke tests, save/load, old-save migration, conversation parser isolation, scheduler/temperature/transition invariants.
+- All JSON content parsed successfully.
+- All backend/tool Python files compiled successfully.
+- Frontend game.js JavaScript syntax check: PASS.
+- Integrated Ollama README instructions retained.
+
+Live-model Qwen QA was not rerun because v0.5.1 does not change provider code, prompts, task routing, or dialogue parsing. Deterministic AI-off certification paths were used for release engineering checks.

@@ -1,0 +1,30 @@
+BELLWETHER v1.0.2 — AI RUNTIME ARCHITECTURE AUDIT
+
+Purpose
+-------
+Improve local-AI scheduling, observability, diagnostics, and package hygiene without weakening authoritative state, validation, deterministic fallback, or low-memory operation.
+
+Implemented
+-----------
+1. Background AI remains single-worker to avoid concurrent Ollama memory pressure.
+2. The background queue is priority-aware rather than FIFO-only.
+3. Jobs carry explicit domains and priorities.
+4. Routine Director batches have higher scheduling urgency than procedural social arcs and Town Mind strategic reviews.
+5. Existing key-based coalescing remains active.
+6. Results are still harvested and validated on the game thread.
+7. Runtime status now reports queued domains, queue waits, job priorities, lifecycle counters, and rolling duration summaries.
+8. The cumulative diagnostic runner reports stage progress, timeouts, elapsed duration, slowest stages, and compact pass/fail totals.
+9. v1.0.1 and v1.0.2 focused checks are part of cumulative certification.
+10. Stale generated logs and historical transcript payloads were removed from the release package while executable diagnostics and authored reports were retained.
+
+Compatibility principles
+------------------------
+- No parallel Ollama inference was introduced.
+- No authoritative state mutation was delegated to the LLM.
+- No deterministic fallback was removed.
+- Existing AsyncAIRuntime.submit callers remain compatible because domain and priority are optional keyword-only extensions.
+- Save schema is unchanged by this release.
+
+Next release
+------------
+v1.0.3 — UI Interaction Redesign: progressive contextual disclosure, clearer narrative hierarchy, compact NPC interaction presentation, reduced duplication, and input-safe keyboard shortcuts.

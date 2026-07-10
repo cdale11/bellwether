@@ -1,0 +1,379 @@
+BELLWETHER v0.3.0 — PART 2 UI COLOUR, ATMOSPHERE, AND VISUAL STATE DIRECTION
+
+Version: Planning Draft 1 Purpose: Replace the transitional v0.3.0 Part
+1 palette with a state-responsive visual identity
+
+1. STATUS OF THE PART 1 COLOUR SCHEME
+
+The v0.3.0 Part 1 colour scheme is transitional.
+
+Part 1 focused on frontend structure and interaction grammar: - scene
+stage; - contextual action categories; - shallow action trays; - quick
+actions; - compact contextual rail; - dedicated information panels; -
+responsive layout; - Developer Console separation.
+
+The current dark green-grey palette should not be treated as
+Bellwether’s final visual identity.
+
+The present interface is too uniformly dark and desaturated for ordinary
+opening play. A Day 1 summer or spring morning should not visually
+resemble late-evening horror. Beginning the game in a permanently sombre
+interface weakens the intended contrast between comforting normality and
+later supernatural corruption.
+
+Part 2 must therefore replace the fixed dark-dashboard appearance with a
+state-responsive presentation system derived from the selected art
+direction and Asset Bible.
+
+2. CORE COLOUR PRINCIPLE
+
+Bellwether should not have one static theme.
+
+The interface should respond coherently to: - season; - time of day; -
+weather; - indoor or outdoor context; - location character; -
+supernatural pressure; - player psychological state where appropriate; -
+recurrence state where appropriate.
+
+The visual system should establish ordinary warmth and familiarity
+before progressively allowing darkness, desaturation, contradiction, and
+instability.
+
+The interface must remain readable at all times.
+
+3. ORDINARY DAYTIME BASELINE
+
+Ordinary daytime play should feel welcoming, rural, calm, and alive.
+
+Recommended UI materials: - warm cream; - soft parchment; - muted
+natural green; - sunlit wood tones; - weathered stone neutrals; - gentle
+earth browns; - restrained floral or seasonal accents; - dark readable
+ink-like text.
+
+Dark surfaces may still be used selectively for prose readability or
+strong visual focus, but the entire interface should not sit inside
+near-black panels during a pleasant morning.
+
+The opening hours of Bellwether should visually communicate: -
+possibility; - comfort; - curiosity; - rural calm; - attachment; -
+ordinary life.
+
+4. SEASONAL PALETTE BEHAVIOUR
+
+Spring
+
+Visual qualities: - soft fresh greens; - cream; - pale yellow warmth; -
+damp earth; - blossom accents; - gentle blue-grey rain states.
+
+Spring should feel newly active and slightly changeable.
+
+Summer
+
+Visual qualities: - fuller greens; - warm cream; - sunlit straw; -
+deeper vegetation; - brighter sky influence; - warmer wood and stone.
+
+Summer should feel abundant, comfortable, and socially active without
+becoming oversaturated.
+
+Autumn
+
+Visual qualities: - ochre; - russet; - muted gold; - damp green; - warm
+grey; - darkening earth.
+
+Autumn should remain beautiful and inviting before later seasonal unease
+becomes justified.
+
+Winter
+
+Visual qualities: - pale blue-grey; - cream; - bare-earth brown; -
+subdued vegetation; - low warm interior light; - restrained cold
+contrast.
+
+Winter should feel quiet and physically demanding, but not automatically
+supernatural.
+
+5. TIME-OF-DAY BEHAVIOUR
+
+Time should alter the interface gradually rather than switch between
+unrelated themes.
+
+Morning
+
+-   clean warm light;
+-   high legibility;
+-   gentle contrast;
+-   sense of possibility.
+
+Midday
+
+-   clearest colour identity;
+-   strongest ordinary-life warmth;
+-   neutral readable surfaces.
+
+Late afternoon
+
+-   warmer highlights;
+-   lengthening shadows;
+-   slightly richer earth tones.
+
+Evening
+
+-   reduced brightness;
+-   warm artificial light where appropriate;
+-   stronger separation between interior safety and exterior
+    uncertainty.
+
+Night
+
+-   genuinely darker surfaces;
+-   restrained cool environmental tones;
+-   warm pools of local light;
+-   stronger scene focus;
+-   reduced ambient visual noise.
+
+Night should feel different because the world is dark, not because the
+game always uses a horror palette.
+
+6. WEATHER PALETTE BEHAVIOUR
+
+Clear
+
+-   normal seasonal palette;
+-   strong local colour;
+-   clean scene readability.
+
+Soft Overcast
+
+-   slightly reduced contrast;
+-   softer shadows;
+-   retained warmth.
+
+Overcast weather must not automatically look ominous.
+
+Light Rain
+
+-   cooler environmental treatment;
+-   wet-surface highlights;
+-   softened distance;
+-   warm interface surfaces retained where appropriate.
+
+Heavy Rain
+
+-   stronger environmental cooling;
+-   reduced distant clarity;
+-   darker sky influence;
+-   more pronounced shelter/interior contrast.
+
+Snow
+
+-   pale reflected light;
+-   softened environmental contrast;
+-   colder exterior surfaces;
+-   warm interior accents;
+-   visible snow accumulation in authored variants where available.
+
+Storm
+
+-   reduced saturation;
+-   stronger contrast changes;
+-   wind and rain treatment;
+-   occasional restrained lightning;
+-   darker environmental presentation.
+
+Storm presentation should remain readable and should not resemble
+supernatural corruption unless anomaly state explicitly justifies it.
+
+Mist
+
+-   reduced depth contrast;
+-   softened distant elements;
+-   restrained colour range;
+-   preserved foreground readability.
+
+7. PROSE AND DIALOGUE SURFACES
+
+The current near-black prose box is too severe for ordinary daytime
+play.
+
+Part 2 should test alternatives such as: - translucent warm reading
+surface; - parchment-like restrained panel; - lightly frosted
+scene-integrated surface; - VN-style dialogue frame; -
+location-responsive but consistently readable text surface.
+
+The prose panel should remain visually central because Bellwether is
+text-first.
+
+Narration and dialogue may use related but distinct treatments.
+
+Ordinary narration: - integrated reading surface; - calm typography; -
+strong readability.
+
+Conversation: - VN-style speaker composition; - character portrait or
+bust; - speaker name treatment; - response choices clearly separated
+from general actions.
+
+Major authored scenes: - intensified version of the same visual
+grammar; - stronger staging; - fewer surrounding controls; - larger
+character or scene emphasis where appropriate.
+
+8. BUTTON AND ACTION VISUAL LANGUAGE
+
+The Part 1 action structure is retained, but the buttons require a final
+visual identity.
+
+Distinct states should exist for:
+
+Primary action categories
+
+People · Activities · Explore · Investigate · Travel
+
+These should read as navigation categories rather than generic web
+buttons.
+
+Contextual actions
+
+Examples: - Speak to Mara; - Water Garden; - Inspect the Garden; - Walk
+to the Village Green.
+
+These should be clean, readable, and connected visually to their
+category.
+
+Quick actions
+
+Frequently used, urgent, or immediately relevant actions may surface
+directly.
+
+Examples: - Talk to present NPC; - Treat injury; - Seek shelter; - Begin
+another run.
+
+Quick actions should be visually prominent without looking like
+permanent toolbar controls.
+
+Dialogue responses
+
+These should have their own VN-compatible presentation and should not
+look identical to travel or activity commands.
+
+Disabled actions
+
+Disabled states should remain understandable and readable. Where useful,
+the interface may explain why an action is unavailable.
+
+Dangerous or terminal actions
+
+These require careful emphasis but should not use generic bright-red
+web-warning styling unless the visual system supports it naturally.
+
+9. ARTWORK-DRIVEN UI PALETTE
+
+The final UI palette should be derived from the selected Part 2 visual
+direction.
+
+Process: 1. Generate the approved style exploration set. 2. Select the
+Bellwether visual direction. 3. Identify recurring artwork colours. 4.
+Build semantic UI tokens from those colours. 5. Test ordinary daytime
+first. 6. Test seasonal transformations. 7. Test weather
+transformations. 8. Test night readability. 9. Test horror corruption
+separately. 10. Validate desktop and mobile.
+
+The artwork and UI must feel like one visual system.
+
+Avoid the appearance of illustrated art placed inside an unrelated dark
+administrative dashboard.
+
+10. SEMANTIC THEME TOKENS
+
+Part 2 should use semantic visual variables rather than hard-coded
+colours scattered through CSS.
+
+Suggested categories: - page background; - scene surround; - reading
+surface; - elevated panel; - text primary; - text secondary; - text
+muted; - border subtle; - border emphasized; - accent ordinary; - accent
+relationship; - accent investigation; - accent activity; - accent
+danger; - weather tint; - seasonal tint; - night tint; - supernatural
+corruption tint.
+
+Exact colour values should be chosen only after the visual style
+direction is approved.
+
+11. HORROR COLOUR CORRUPTION
+
+Horror should corrupt an established normal palette rather than merely
+make the screen darker.
+
+Possible state-driven changes: - warmth draining from one part of the
+interface; - a familiar accent colour shifting slightly; - one panel
+retaining the wrong seasonal palette; - weather tint disagreeing with
+the scene; - a portrait rendered with subtly incorrect tonal balance; -
+a location card using impossible lighting; - recurrence annotations
+using a colour not otherwise present in the current run.
+
+Early corruption must be subtle and deniable.
+
+Later corruption may become stronger, but should remain tied to
+authoritative anomaly, psychology, or recurrence state.
+
+Random visual glitches are not acceptable substitutes for systemic
+horror.
+
+12. MOBILE AND DESKTOP REQUIREMENTS
+
+The colour system must work equally well on desktop and mobile.
+
+Test: - bright screen conditions; - low-light play; - small text
+surfaces; - dialogue portraits; - action trays; - scene cards; -
+dedicated panels; - weather overlays; - night mode; - snow brightness; -
+storm darkness.
+
+Mobile must not simply inherit desktop transparency values if they
+reduce readability over cropped artwork.
+
+13. PART 2 IMPLEMENTATION RULE
+
+Do not spend development time polishing the current transitional palette
+as if it were final.
+
+Instead: 1. preserve the successful Part 1 layout architecture; 2.
+complete the visual style exploration; 3. choose the final art
+direction; 4. create the Asset Bible; 5. derive the UI palette from the
+selected artwork; 6. implement state-responsive colour tokens; 7.
+integrate the first scene cards and characters; 8. visually test
+ordinary life before testing horror states.
+
+14. SUCCESS CRITERIA
+
+The Part 2 colour and atmosphere system succeeds if:
+
+-   a spring morning feels welcoming;
+-   a summer afternoon feels alive;
+-   rain feels atmospheric rather than automatically frightening;
+-   snow visibly changes the world;
+-   night feels naturally darker;
+-   interiors can feel safe and warm;
+-   storms feel physically disruptive;
+-   horror corruption is distinguishable from ordinary weather;
+-   prose remains easy to read;
+-   illustrations and UI feel visually unified;
+-   mobile and desktop both remain coherent;
+-   later darkness is more powerful because the opening was genuinely
+    warm.
+
+CLOSING PRINCIPLE
+
+Bellwether should not look haunted before the player has learned to love
+it.
+
+The opening visual language should invite the player into ordinary life.
+
+Season, weather, and time should make the same place feel alive in
+different ways.
+
+Darkness should arrive because night falls.
+
+Coldness should arrive because winter comes.
+
+Unease should arrive because something familiar has become wrong.
+
+The visual system should first teach the player what Bellwether looks
+and feels like when it is normal.
+
+Only then should Bellwether begin to change the rules.

@@ -1,0 +1,650 @@
+BELLWETHER — LLM ROLE, AUTHORITY, AND CONSTRAINT SPECIFICATION Version
+1.0 | 2026-07-08 | Authoritative AI-system design document
+
+PURPOSE This document defines what LLMs do in Bellwether, what they may
+influence, what they may never control, how models are routed, how
+memory and scheduling work, and how hallucination is prevented. Use with
+the Comprehensive Project Context v2, Engineering Context Snapshot
+v0.3.4, and Canonical World and Story Bible v1.
+
+CORE PRINCIPLE The deterministic engine is Bellwether’s physics, law,
+authoritative memory store, and final state authority. The LLM system is
+the village’s brain, ecology manager, social director, environment
+driver, and adaptive storyteller. Developers define vocabulary, laws,
+canon, primitives, and validators. LLMs compose novel developments from
+legal elements. Bellwether should be emergent without becoming
+incoherent.
+
+====================================================================== 1.
+CENTRAL GOAL
+======================================================================
+
+Two players reaching Day 30 after different choices should be able to
+inhabit substantially different Bellwethers. LLM-driven differences may
+include jobs changing, friendships forming or collapsing, romances
+changing, businesses struggling or thriving, ambitions changing,
+routines evolving, local conflicts, reconciliations, visitors, social
+prominence of lightweight residents, ecological patterns, animals,
+vehicles, weather character, seasonal abnormalities, rumours, NPC
+theories, procedural opportunities, multi-day arcs, and adaptive horror.
+
+All persistent changes must be legal, causal, validated, auditable, and
+stored in authoritative game state. Bellwether must not merely contain
+AI dialogue; the village itself should behave as an emergent phenomenon.
+
+======================================================================
+2. CURRENT IMPLEMENTATION BASELINE
+======================================================================
+
+The inspected v0.3.4 code already provides a strong foundation: - Ollama
+integration and local CPU operation; - default qwen3:1.7b
+configuration; - configurable model, URL, timeout, retries, and
+threads; - bounded choices; - free-form player/NPC conversation; -
+weather, NPC, traffic, and conversation Directors; - compact context
+routing; - legal candidate generation; - parsing/repair; - deterministic
+fallback; - AI health information and debug traces; - foreground
+dialogue priority; - serialized calls for low-end hardware; - compact
+story/player/session/run summaries; - recurrence-aware compressed
+history.
+
+Preserve and extend the existing pattern: LEGAL CANDIDATES -> COMPACT
+RELEVANT CONTEXT -> LLM -> PARSE -> VALIDATE -> APPLY THROUGH ENGINE ->
+LOG -> PERSIST.
+
+======================================================================
+3. TARGET HIERARCHY
+======================================================================
+
+Recommended conceptual architecture:
+
+TOWN MIND -> Environment & Ecology Director -> Social Dynamics Director
+-> NPC Life Director -> Economy & Business Director -> Traffic/Visitors
+Director -> Event & Opportunity Director -> Narrative Opportunity
+Director -> Horror Director -> Core NPC Minds -> Batched Lightweight
+Resident Simulation -> Dialogue Model -> Memory/Summary Model THEN:
+VALIDATORS & DOMAIN MODELS -> DETERMINISTIC STATE APPLICATION ->
+PERSISTENT STATE
+
+This is conceptual. A low-end machine may route all roles to one model.
+Better hardware may assign specialist models.
+
+The Town Mind is invisible to the player. It is NOT the fictional
+Chorus. Shared infrastructure is acceptable, but simulation authority
+and fictional supernatural authority must remain separate.
+
+======================================================================
+4. TOWN MIND
+======================================================================
+
+The Town Mind is a long-horizon strategic layer. It receives compact
+summaries of village state, important recent events, player patterns,
+social tensions, NPC concerns, economic pressure, environment,
+unresolved procedural arcs, story phase, horror eligibility, pacing
+history, and recurrence-permitted previous-run patterns.
+
+It may store revisable intentions such as: - allow two quiet days before
+another anomaly opportunity; - support a developing conflict without
+forcing its outcome; - create opportunities for an isolated NPC to
+reconnect; - increase bakery supply pressure within economic rules; -
+let Mara’s ecological suspicion develop if evidence supports it; -
+surface a neglected system gently; - avoid recently repeated event
+families.
+
+Intentions are not scripts. Player actions, NPC actions, simulation
+changes, and validators may invalidate them. The Town Mind must revise
+plans rather than force them.
+
+======================================================================
+5. CLOCKS, PRIORITY, AND ASYNC WORK
+======================================================================
+
+Do not call strategic AI after every minor action.
+
+DETERMINISTIC TICK: every relevant time advance; growth arithmetic,
+timers, recovery, obligations, legal progression. DOMAIN PULSE: bounded
+in-game intervals or state changes; traffic, NPC candidate choice,
+social opportunities, environment. TOWN MIND REVIEW: morning/evening,
+major revelation, relationship transition, business crisis,
+failure/recovery, arrival, arc ending, several in-game hours, prolonged
+low novelty, or major playstyle shift.
+
+Recommended priority: 1. player dialogue 2. urgent NPC decision 3. major
+event resolution 4. Town Mind update 5. social simulation 6.
+environment/ecology 7. ambient flavour
+
+Async-capable: Town Mind reviews, environmental tendencies, background
+social simulation, resident batches, summarization, procedural arc
+proposals, economic trends, visitor planning, long-horizon intentions.
+
+Normally synchronous when player waits: free dialogue, immediate
+reaction, visible urgent decision, immediate confrontation resolution.
+
+Every async proposal must include source state revision/time,
+assumptions, expiry conditions, and validation schema. Revalidate before
+application. Never apply stale AI output blindly.
+
+Quiet periods are mandatory. A good Director must know when to do
+nothing.
+
+======================================================================
+6. MULTI-MODEL CAPABILITY TIERS
+======================================================================
+
+Logical roles: 1. Strategic reasoning model — Town Mind and complex
+planning. 2. Structured simulation model — bounded choices and schema
+proposals. 3. Dialogue/roleplay model — in-character free conversation.
+4. Memory/summary model — compression, salience, retrieval assistance.
+
+LOW-END: one small local model fills all roles; calls serialized,
+batched, prioritized. MID-TIER: dialogue and strategy may differ; small
+fast model handles structured work. HIGHER-TIER: specialists assigned
+independently.
+
+The current low-end target remains supported. Future preferred hardware
+may be a more capable SFF/ThinkCentre-class machine. Do not architect
+around one model family or require cloud GPUs.
+
+Every task declares: role, urgency, sync/async, context budget,
+generation budget, output contract, validator, retry/repair policy,
+fallback, and authority level.
+
+======================================================================
+7. ENVIRONMENT AND ECOLOGY
+======================================================================
+
+LLMs may influence weather character/tendency, unusual sequences,
+seasonal character, vegetation patterns, flowering/growth anomalies,
+animals, vehicles, traffic, environmental mood, and eligible
+supernatural environmental pressure.
+
+Use two layers: STRATEGIC TENDENCY: “wet unsettled week”, “early
+flowering”, “fox activity rising”, “delivery traffic disrupted”. BOUNDED
+MOMENT CHOICE: legal weather transition, animal sighting, vehicle
+arrival, localized detail.
+
+Calendar progression is authoritative. LLMs cannot jump arbitrarily
+between seasons. They influence the character of a season and valid
+abnormalities.
+
+Ecology must respect calendar, biology, existing vegetation, weather
+history, location, and supernatural eligibility. No arbitrary instant
+transformation.
+
+======================================================================
+8. NPC COGNITION AND AUTONOMY
+======================================================================
+
+Core/semi-main NPCs should have persistent structured internal state: -
+concerns; - short- and long-term goals; - ambitions; - unresolved
+questions; - plans; - interpretations of events; - beliefs; -
+suspicions; - commitments; - relationship impressions; - anomaly
+theories; - confidence; - salient memories; - desired interactions; -
+avoidance targets.
+
+LLMs propose updates; engine validates and stores them. Internal
+thoughts are not normally shown directly.
+
+Within constraints, AI-guided NPC development may include interests,
+hobbies, job dissatisfaction/change, friendship, conflict,
+reconciliation, loneliness, ambition, investigation, avoidance,
+attraction, loss of interest, jealousy, visits, invitations, changing
+routines, and evolving mystery theories.
+
+Knowledge boundaries are mandatory. An NPC may infer from evidence they
+possess; they may not acquire hidden canon because the model knows it.
+
+======================================================================
+9. FACT, KNOWLEDGE, BELIEF, SUSPICION, CLAIM, AND LIE
+======================================================================
+
+State should distinguish: OBJECTIVE FACT — authoritative truth.
+KNOWLEDGE — what an NPC actually learned/witnessed. BELIEF — what they
+think is true. SUSPICION — possibility under consideration. CLAIM — what
+they said. DECEPTION — claim knowingly contrary to their belief.
+CONFIDENCE — strength. SOURCE — why they know/believe it.
+
+This enables lies, mistakes, gossip, accusations, conflicting theories,
+false memories, and correction without corrupting canon.
+
+If the player falsely says “Mara told me you stole from the shop”, the
+system may extract the claim and attribution, assess trust and existing
+knowledge, create suspicion/disbelief, remember it, cause confrontation
+or gossip later, expose the lie, and change trust. The prose itself
+never mutates state.
+
+======================================================================
+10. FREE DIALOGUE AND CONSEQUENCES
+======================================================================
+
+NPCs may engage in natural small talk and discuss their fictional world,
+work, relationships, residents, observed events, institutions, plausible
+interests, known evidence, beliefs, and suspicions.
+
+If the player raises specialist outside topics not grounded in the
+world, NPCs respond naturally but shallowly according to character. A
+baker must not become a quantum-cosmology expert because the pretrained
+model can answer.
+
+Dialogue prompts must specify identity, competence, knowledge boundary,
+beliefs, relationship, relevant memory, current situation, and forbidden
+knowledge.
+
+Conversation may create structured consequences, initially limited to
+high-confidence acts: - explicit promise; - invitation; - threat; -
+insult; - apology; - disclosed secret; - factual claim; - request; -
+agreement; - refusal.
+
+Pipeline: PLAYER TEXT -> DIALOGUE RESPONSE -> SEPARATE STRUCTURED
+INTERPRETER -> CANDIDATE SOCIAL ACTS -> VALIDATORS -> BOUNDED STATE
+EFFECTS -> MEMORY -> FUTURE PROPAGATION.
+
+Example: “I’ll bring apples tomorrow” may become a structured promise
+only if item/category, recipient, deadline, and explicitness validate.
+
+Do not mechanize every sentence. Ambiguous conversation remains
+conversation.
+
+Dialogue style evolves from specific history, not only a relationship
+threshold.
+
+======================================================================
+11. PROCEDURAL MULTI-DAY ARCS
+======================================================================
+
+LLMs may create multi-day emergent arcs by composing validated
+primitives, not by writing unconstrained prose quests and forcing the
+engine to enact them.
+
+Example: validated supply delay -> bakery production falls -> Jonah
+works longer -> availability changes -> another NPC becomes concerned ->
+player opportunity -> state-dependent resolution.
+
+Possible arc families: business pressure, staffing, delivery problem,
+local disagreement, missing ordinary object, event preparation,
+friendship conflict, hobby, job consideration, visitor, community
+project, ecological concern, repair need.
+
+Procedural arcs must be internally distinct from authored quests even if
+UI presentation is natural. Persistent consequences are allowed after
+validation.
+
+======================================================================
+12. LIGHTWEIGHT GENERATED RESIDENTS
+======================================================================
+
+Main and semi-main NPCs are authored. Approximately 20–25 very
+lightweight background residents may be generated once at run start
+under strict schema and validators.
+
+Possible fields: setting-appropriate name, age band, household relation,
+legal occupation, home area, few traits, ordinary interests, initial
+social links, speech tendency, schedule archetype.
+
+They persist for the run and may accumulate job changes, friendships,
+disputes, rumours, reputation, event participation, and minor history.
+
+Do not invent residents opportunistically mid-conversation to support
+hallucinated claims. Generated residents cannot overwrite authored cast
+or canon. Cross-run handling should later be explicitly integrated with
+recurrence.
+
+======================================================================
+13. ECONOMY, JOBS, AND OFFSCREEN LIFE
+======================================================================
+
+LLMs may propose supply shortages, hiring, reduced capacity, farm
+performance, business conflict, schedule change, opportunities, and job
+dissatisfaction.
+
+Pattern: CAUSE -> LEGAL PROPOSAL -> DOMAIN VALIDATOR -> BOUNDED EFFECT
+-> ENGINE APPLICATION -> DOWNSTREAM CONSEQUENCES.
+
+LLMs cannot directly edit money, stock, employment, or business health.
+
+The village continues offscreen. If the player farms for ten days,
+friendships, businesses, rumours, theories, visitors, jobs, conflicts,
+reconciliations, and ecological changes may occur elsewhere. The player
+learns through behaviour, gossip, noticeboards, business state,
+conversation, environment, and records.
+
+The player matters but is not the only active person.
+
+======================================================================
+14. PACING, BOREDOM, AND ADAPTATION
+======================================================================
+
+The Town Mind observes farming focus, social focus, investigation,
+economic grind, avoidance, repeated routine, story rushing, retreat into
+ordinary life after horror, low novelty, and excessive event density.
+
+It adapts opportunities and pressure: - farming focus: agricultural
+opportunities, produce interactions, ecological clues, slower mystery
+pressure; - investigation focus: clue opportunities, defensive
+reactions, institutional friction, exhaustion risk; - social focus:
+interpersonal consequence, gossip, contradictory testimony,
+relationship-mediated horror.
+
+It may occasionally create tension around preferred activities but
+should not constantly punish playstyle.
+
+If several days pass without meaningful novelty, it may propose a legal
+event, visitor, social complication, opportunity, or anomaly. It must
+also deliberately preserve quiet periods.
+
+======================================================================
+15. ADAPTIVE HORROR
+======================================================================
+
+The Horror Director may adapt legally to behaviour: - routine dependence
+-> routine corruption; - social dependence -> contradictory testimony,
+gossip, synchronization; - investigation -> record instability, fair
+false leads, defensive anomalies; - isolation ->
+environmental/perceptual pressure; - economic focus -> uncanny
+discrepancies in exchange; - relationship dependence -> misrecognition
+or contradictory memory.
+
+Limits: - no real-world sensitive personal data; - no cheap personalized
+punishment; - no constant negation of preferred play; - only canonical
+anomaly powers; - eligibility and fair clue rules remain; - playability
+remains unless legitimate failure occurs.
+
+The Horror Director may reason from the Chorus’s drives but cannot seize
+arbitrary Town Mind or engine authority.
+
+======================================================================
+16. LEARNING THE PLAYER
+======================================================================
+
+“Learning” means structured memory, retrieval, summaries, impressions,
+and adaptation—not fine-tuning model weights.
+
+Maintain distinct models:
+
+A. OBJECTIVE BEHAVIOURAL PROFILE Engine-derived frequencies and facts:
+activities, conversation, investigation, relationships, risk, promises,
+avoidance, economy, routines.
+
+B. TOWN MIND MODEL Revisable strategic interpretation: pacing
+preference, neglected systems, engagement pattern, tendencies.
+
+C. NPC-SPECIFIC IMPRESSIONS Each NPC’s personal view based only on
+interaction, knowledge, gossip, and memory.
+
+D. CHORUS MODEL Fictional bounded model based only on patterns the
+supernatural system has canonically had opportunity to learn.
+
+These may disagree and may be wrong. They should revise with evidence.
+This distinction is thematically important.
+
+======================================================================
+17. LONG-TERM MEMORY AND CROSS-RUN ADAPTATION
+======================================================================
+
+Recent prompt history is insufficient. Important events from 40+ game
+days ago must be retrievable when salient.
+
+Recommended memory layers: EVENT STORE — actors, place, time, type,
+consequence, witnesses, importance, emotion, unresolved links. NPC
+MEMORY — experienced or learned memories. RELATIONSHIP MEMORY —
+important shared history. ARC MEMORY — cause, stages, participants,
+resolution. SUMMARY MEMORY — compressed periods. RUN MEMORY — compressed
+previous-run history and player patterns.
+
+Before a call, retrieve by actor, topic, location, relationship,
+unresolved status, recency, and salience. Include only the minimum
+useful subset. Never solve memory by stuffing the entire transcript into
+prompts.
+
+Cross-run memory may retain compressed patterns such as repeatedly
+trusting Mara, avoiding clinic, rushing investigation, farming after
+fear, breaking promises, relying on a route, or forming similar
+relationships. Use subtly for echoes and adaptation, never unfair
+meta-punishment.
+
+======================================================================
+18. HALLUCINATION PREVENTION — NON-NEGOTIABLE
+======================================================================
+
+Do not rely on “do not hallucinate.” Use layered control:
+
+1.  MINIMAL TASK CONTEXT — only relevant facts.
+2.  POSITIVE GROUNDING — legal actors, places, items, relationships,
+    facts, actions, history.
+3.  NEGATIVE AUTHORITY BOUNDARY — explicit forbidden inventions.
+4.  CLOSED ENUMERATIONS — IDs/options/enums where possible.
+5.  STRUCTURED OUTPUT — schema for state proposals.
+6.  PARSER — reject malformed output.
+7.  SEMANTIC VALIDATOR — existence, knowledge, geography, chronology,
+    causality, resources, canon, authority.
+8.  PRECONDITION VALIDATION — assumptions still true at application.
+9.  REPAIR — compact correction prompt containing validation errors and
+    legal boundaries.
+10. BOUNDED RETRIES.
+11. FALLBACK — deterministic or simpler bounded mode.
+12. HEALTH/AUTHORITY MANAGEMENT.
+13. AUDIT LOG.
+
+The LLM is never trusted because prose sounds plausible.
+
+======================================================================
+19. PROMPT ENGINEERING STANDARD
+======================================================================
+
+Every production prompt template should contain: ROLE — who it acts as.
+TASK — one primary task. AUTHORITY — what it may decide. NON-AUTHORITY —
+what it cannot decide. WORLD FACTS — relevant authoritative facts only.
+KNOWLEDGE BOUNDARY — exactly what actor knows/believes. CURRENT STATE —
+relevant structured state. MEMORY — retrieved salient memories only.
+LEGAL VOCABULARY — IDs/options/entities/actions. OUTPUT CONTRACT — exact
+schema or response form. FAILURE INSTRUCTION — return NONE/NO_CHANGE
+instead of inventing.
+
+Bad: “What should happen next in Bellwether?”
+
+Good principle: “You are the Social Dynamics Director. Choose zero or
+one legal development from the supplied candidates. Do not create
+residents, places, facts, deaths, jobs, or relationships outside the
+supplied state. Return the required schema. If no option is causally
+appropriate, return NO_CHANGE.”
+
+Prompts must be task-specific, compact, explicit, versioned,
+benchmarked, and adversarially tested.
+
+======================================================================
+20. VALIDATOR FAMILIES
+======================================================================
+
+Required validators: - entity existence; - geography/movement; - time,
+schedule, deadline, season; - NPC knowledge; - belief-change cause; -
+social bounds and causality; - economy/resources/jobs; - event
+prerequisites and conflicts; - authored story/canon; - horror
+eligibility and fairness; - danger catalogue and cause; - recurrence
+permissions; - dialogue consequences; - core-cast permanent consequence
+safety; - async staleness.
+
+Validators are part of game design, not optional defensive code.
+
+======================================================================
+21. HEALTH AND AUTHORITY DEGRADATION
+======================================================================
+
+Track per model/role: success, timeout, empty output, parse failure,
+semantic validation failure, repair success, retries, fallback rate,
+latency, stale async results, repeated choice bias, context size, and
+token exhaustion.
+
+Authority degradation is granular: LEVEL 3 — compose novel validated
+proposal. LEVEL 2 — choose generated candidates and optionally justify.
+LEVEL 1 — closed-option choice only. LEVEL 0 — deterministic fallback
+for that task until recovery check.
+
+A model failing economy output should not disable dialogue. The system
+should continue health/recovery checks rather than permanently
+abandoning AI after one failure.
+
+The intention is to use LLMs wherever designed while protecting the game
+through prompts, validators, repair, and controlled authority.
+
+======================================================================
+22. AUDITABILITY
+======================================================================
+
+Developer mode should log every consequential AI decision: - real and
+game timestamp; - task ID; - model; - role; - prompt template version; -
+compact context summary; - retrieved memory IDs; - candidate IDs; -
+retained raw output; - parsed proposal; - validation result/errors; -
+repair attempts; - fallback; - accepted decision; - state delta; -
+latency; - length/token information where available.
+
+Ordinary players never see Director internals.
+
+======================================================================
+23. NOVEL COMBINATIONS AND EMERGENCE
+======================================================================
+
+The Town Mind and Directors are explicitly allowed to propose
+combinations developers did not individually script, provided every
+component and consequence is legal.
+
+Developers define entities, systems, actions, event primitives,
+constraints, causal rules, canon, and validators. The LLM composes them.
+
+Example: delivery delay -> Jonah misses event -> existing disagreement
+worsens -> another resident asks player for help -> rain damages
+unattended garden task.
+
+If every link is legal, causal, validated, and persistent, the
+unanticipated combination is allowed.
+
+Emergence means unanticipated legal composition, not unvalidated
+invention.
+
+======================================================================
+24. ALLOWED AND FORBIDDEN AUTHORITY
+======================================================================
+
+LLMs MAY influence, through validators: strategic attention, pacing,
+quiet periods, weather transitions, environmental tendencies, ecological
+observations, animals/vehicles, NPC actions, concerns/plans,
+beliefs/suspicions, social opportunities, gossip choices, conversation
+prose, bounded conversation consequences, procedural arcs, economic
+trends, business pressure, job consideration, visitors, minor events,
+player-style adaptation, legal horror pressure, recurrence echoes,
+summaries, and retrieval.
+
+LLMs MAY NEVER DIRECTLY: - mutate arbitrary state; - rewrite saves; -
+create canon by assertion; - change metaphysics; - reveal undiscovered
+truth; - invent impossible knowledge; - create unvalidated locations; -
+teleport actors; - create money/items from nothing; - break calendar
+season progression; - kill/remove core NPCs without gates; - complete
+authored quests without engine conditions; - select ineligible
+endings; - turn lies into objective truth; - overwrite authored story
+with procedural arcs; - bypass danger/horror/recurrence validators; -
+apply stale async results blindly; - use sensitive real-world user data
+for horror personalization.
+
+======================================================================
+25. DETERMINISTIC FALLBACK
+======================================================================
+
+Bellwether remains fully playable without the LLM, though less dynamic.
+
+Fallback must preserve travel, time, jobs, economy, gardening, cooking,
+relationships, authored dialogue, investigation, story, horror
+eligibility, danger, recurrence, save/load, legal NPC routines, weather,
+and basic traffic/events.
+
+Fallback hierarchy: 1. safe context-equivalent cached result where
+valid; 2. deterministic candidate choice; 3. weighted local simulation;
+4. authored fallback prose; 5. NO_CHANGE when safest.
+
+Free dialogue fallback may be limited but must never corrupt state.
+
+======================================================================
+26. PERFORMANCE PHILOSOPHY
+======================================================================
+
+Use LLMs for interpretation, composition, adaptation, planning,
+language, and summarization.
+
+Do not use them for crop arithmetic, inventory counts, adjacency checks,
+calendar advancement, price arithmetic, quest prerequisites, or entity
+existence.
+
+The engine does what code does best. The LLM does what contextual
+reasoning and language do best.
+
+======================================================================
+27. IMPLEMENTATION ROADMAP
+======================================================================
+
+PHASE A — Harden current AI: inventory calls, version prompts, task
+metadata, traces, role health, schemas, hallucination tests. PHASE B —
+Memory: event store, NPC memory, relationship memory, salience,
+retrieval, summaries, cross-run patterns. PHASE C — NPC cognition:
+concerns, goals, plans, beliefs, suspicions, claims, deception,
+commitments. PHASE D — Conversation consequences: promises, claims,
+secrets, invitations, insults, apologies, validators. PHASE E — Town
+Mind: strategic state, intention schema, pacing, quiet periods, novelty
+detection, revision/expiry. PHASE F — Procedural arcs: primitive
+library, causal graph, multi-day schemas, social/economic/environmental
+integration. PHASE G — Specialist routing: configurable roles,
+capability tiers, benchmarks, graceful one-model mode. PHASE H — Async
+scheduler: priority queue, revisions, stale checks, background strategic
+and summary work. PHASE I — Lightweight residents: strict schema,
+run-start generation, persistence, batched simulation. PHASE J —
+Adaptive horror and cross-run learning: separate player models, Chorus
+constraints, recurrence-aware patterns, fair adaptive pressure.
+
+======================================================================
+28. ACCEPTANCE TESTS
+======================================================================
+
+The system is successful only if: 1. Divergent playstyles produce
+materially different Day-30 village histories. 2. Both remain
+canonically legal. 3. NPCs never know undiscovered facts without valid
+source. 4. Lies never alter objective truth. 5. Old salient events can
+be retrieved naturally. 6. Generated arcs persist across days. 7.
+Offscreen events produce later observable consequences. 8. Quiet periods
+occur intentionally. 9. Low novelty can be detected without event spam.
+10. Conversation can create validated promises and memories. 11. Invalid
+outputs never corrupt state. 12. Repeated failures reduce authority
+visibly in developer mode. 13. Game remains playable with Ollama
+offline. 14. Stale async proposals are rejected. 15. Seasons follow
+calendar progression. 16. Environmental abnormalities respect
+eligibility. 17. Core NPCs cannot be casually killed by AI. 18.
+Lightweight residents persist consistently. 19. Cross-run adaptation is
+subtle rather than punitive. 20. One small model can fill all roles. 21.
+Specialist models can be assigned independently. 22. Every consequential
+accepted AI decision is auditable. 23. Novel combinations occur that
+were not individually scripted. 24. Those combinations use only legal
+primitives. 25. Dialogue respects character competence and knowledge
+boundaries.
+
+======================================================================
+29. FINAL DESIGN STATEMENT
+======================================================================
+
+Bellwether’s LLM system is not a decorative chatbot attached to a
+deterministic game. It is a constrained hierarchical simulation
+intelligence that helps the village observe itself, form intentions,
+change socially, adapt environmentally, remember the player, create
+legal multi-day developments, and respond differently to different
+lives.
+
+The deterministic engine protects reality. Authored canon protects
+meaning. Validators protect coherence. Memory protects continuity.
+Prompt engineering protects boundaries. The LLM supplies interpretation,
+adaptation, composition, and surprise.
+
+Too little LLM authority makes the village repetitive. Too much
+unvalidated authority makes it incoherent.
+
+The target is high emergence inside hard truth:
+
+SURPRISING OUTCOMES. LEGAL CAUSES. PERSISTENT CONSEQUENCES. AUDITABLE
+DECISIONS. NO HALLUCINATED REALITY.
+
+======================================================================
+END OF LLM ROLE, AUTHORITY, AND CONSTRAINT SPECIFICATION
+======================================================================

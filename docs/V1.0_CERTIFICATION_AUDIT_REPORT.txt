@@ -1,0 +1,42 @@
+BELLWETHER v1.0 CERTIFICATION AUDIT REPORT
+
+Scope
+-----
+Certification pass over the accepted v1.0 RC3 baseline. No baseline file was removed. The pass focused on UI decluttering, action presentation, save/reload/reset semantics, language and repetition cleanup, long-session memory bounds, async/state race surfaces, story/progression regression, and distribution integrity.
+
+Implemented corrections
+-----------------------
+1. Main utility UI decluttered: Save, Load, and History moved into Menu; Developer / Settings remains directly accessible.
+2. Immediate/quick actions are no longer duplicated in category trays.
+3. Removed the generic display fallback “The village keeps its own quiet rhythm.” Authored location descriptions are now used when weather has no special effect.
+4. Recent-event display suppresses duplicate speaker/text entries.
+5. Engine-side conservative consecutive deduplication added for identical player-facing messages and world events.
+6. Added explicit confirmed Reset to Fresh Game. Browser reload semantics are documented: reload reconnects to the running server state; it does not reset the game.
+7. Save system now writes provenance metadata, validates temporary JSON, keeps one last-good backup, and can recover from that backup if the primary save is damaged.
+8. Long-session bounds reinforced for encounters, AI event history, and per-NPC social memory. Existing bounded provider traces and async lifecycle event logs were verified.
+9. /api/state now acquires the shared game lock because view generation performs migration/refresh work and is not a purely passive read.
+10. README rewritten in simpler language. Roadmap copies corrected to preserve the agreed v0.9.0 recurrence -> v0.9.1 failure/recovery sequence and updated with v1.0 certification status.
+
+Regression results
+------------------
+- v1.0 certification diagnostic: 16/16 PASS
+- v1.0 RC3 postgame/async diagnostic: 13/13 PASS
+- v1.0 RC2 ending/performance diagnostic: 11/11 PASS
+- v1.0 RC1 complete-story diagnostic: 13/13 PASS
+- Focused release diagnostics v0.4.0 through v0.9.1: PASS in the certification run; the combined shell loop reached its outer execution limit only after those earlier focused stages had completed, so RC1-RC3 were also run independently.
+- post-v0.1.0 cumulative suite: all 21 reported stages PASS (compile_all_python plus Parts 1-20).
+
+Repository/package audit
+------------------------
+Every packaged file was enumerated and mechanically checked according to type: Python AST/compile checks, JSON parse checks, image verification, UTF-8 readability for documentation/frontend text, JavaScript syntax, shell syntax, duplicate static HTML IDs, changelog heading consistency, and stale compiled-artifact cleanup. Generated __pycache__ directories and .pyc files were removed before packaging.
+
+Baseline comparison
+-------------------
+Removed accepted RC3 files: 0
+Added certification diagnostic: tools/v100_certification_diagnostic.py
+Existing Developer / Settings access: preserved
+Existing story, ending, postgame, recurrence, failure/recovery, horror, investigation, economy, activity, and async runtime systems: preserved
+
+Known limits
+------------
+This certification pass improves repetition control conservatively. It does not attempt semantic paraphrase detection across all prose, because aggressive fuzzy suppression could hide genuinely meaningful repeated facts. Live Ollama latency and memory behaviour remain hardware-dependent and should still be observed on the target i3-4160 system during long sessions.
