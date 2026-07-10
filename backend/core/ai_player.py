@@ -294,16 +294,23 @@ class AIPlayerRunner:
   text='\n'.join(self._report_lines(game,coverage,anomalies,visited,unique_actions,'RUNNING / INTERRUPT-SAFE CHECKPOINT',event));tmp=self.live_report_path.with_suffix('.tmp');tmp.write_text(text,encoding='utf-8');tmp.replace(self.live_report_path);self._update(report=text)
  def _write_report(self,game,coverage,anomalies,visited,unique_actions,stopped=False):
   text='\n'.join(self._report_lines(game,coverage,anomalies,visited,unique_actions,'STOPPED' if stopped else 'COMPLETED'));self.report_path.write_text(text,encoding='utf-8');self.live_report_path.write_text(text,encoding='utf-8');self._update(report=text)
- def start_live(self,game,game_lock,days=14):
+ def start_live(self,game,game_lock,days=14,mutate_live=False):
   with self.lock:
    if self.status.get('running'):return False
-   self.stop_event.clear();self.checkpoint_path.write_text('',encoding='utf-8');self.status=self._blank_status();self.status.update(running=True,stop_state='running',mode='comprehensive_qa',phase='Building coverage ledger',days=days)
-  # Run the overnight campaign on an isolated state clone so QA cannot consume the player's save.
-  test_game=game.__class__.__new__(game.__class__)
-  with game_lock: test_game.state=deepcopy(game.state)
-  test_game._overview_cache_key=None;test_game._overview_cache=None
-  test_lock=RLock()
-  self._thread=Thread(target=self._live,args=(test_game,test_lock,days),daemon=True,name='bellwether-diagnostic-ai-player');self._thread.start();return True
+   self.stop_event.clear();self.checkpoint_path.write_text('',encoding='utf-8');self.status=self._blank_status();self.status.update(running=True,stop_state='running',mode='live_village_play' if mutate_live else 'isolated_overnight_qa',phase='Building coverage ledger',days=days,mutates_player_state=bool(mutate_live))
+  if mutate_live:
+   # Intentional autonomous-play mode: operate on the authoritative game object and lock.
+   # This preserves the long-standing 'Let AI Play the Village' functionality and all
+   # consequences are real player-campaign consequences.
+   test_game=game;test_lock=game_lock
+  else:
+   # Diagnostic overnight campaign: isolated clone, safe for stress testing without consuming the save.
+   test_game=game.__class__.__new__(game.__class__)
+   with game_lock: test_game.state=deepcopy(game.state)
+   test_game._overview_cache_key=None;test_game._overview_cache=None
+   test_lock=RLock()
+  thread_name='bellwether-live-village-ai-player' if mutate_live else 'bellwether-diagnostic-ai-player'
+  self._thread=Thread(target=self._live,args=(test_game,test_lock,days),daemon=True,name=thread_name);self._thread.start();return True
  def stop(self):
   with self.lock:
    if self.status.get('running'):self.status.update(stop_state='stopping',phase='Stop requested; current inference result will be discarded',stop_requested_at=time.time())

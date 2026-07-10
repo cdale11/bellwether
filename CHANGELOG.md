@@ -1,3 +1,9 @@
+## v3.14.0
+- Restored separate live-state Let AI Play the Village mode alongside isolated overnight QA.
+- Preserved explicit warning before live autonomous play mutates the campaign.
+- Certified 4B-first, 2B-fallback single-model discovery.
+- Cleaned stale generated artifacts and refreshed README runtime/diagnostic guidance.
+
 # v3.11.0
 
 - Connected grounded self-generated NPC goals to ordinary legal action ranking and NPC director context.

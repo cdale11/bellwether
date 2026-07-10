@@ -237,7 +237,12 @@ def diagnostic_full_status():
 @app.post('/api/ai-player/start')
 def ai_player_start():
     from backend.core.ai_player import AI_PLAYER
-    return {'started':AI_PLAYER.start_live(game,game_lock,7), **AI_PLAYER.snapshot()}
+    return {'started':AI_PLAYER.start_live(game,game_lock,7,mutate_live=False), **AI_PLAYER.snapshot()}
+
+@app.post('/api/ai-player/start-live')
+def ai_player_start_live():
+    from backend.core.ai_player import AI_PLAYER
+    return {'started':AI_PLAYER.start_live(game,game_lock,7,mutate_live=True), **AI_PLAYER.snapshot()}
 
 @app.post('/api/ai-player/stop')
 def ai_player_stop():

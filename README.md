@@ -1,4 +1,4 @@
-# Bellwether v3.13.0
+# Bellwether v3.14.0
 
 Bellwether is a local-first, state-driven village-life RPG that gradually becomes psychological and supernatural horror. Ordinary life is mechanically substantial: gardening, cooking and preservation, fishing and foraging, cottage maintenance, jobs, a dynamic economy, property, small-town businesses, transport, relationships, community life, animals, investigation, authored story, recurrence and systemic horror all share one simulation state.
 
@@ -52,6 +52,7 @@ The main QA controls are:
 - **Run Targeted QA** — broader subsystem regression checks.
 - **Run Full Game Diagnosis** — controlled integrated certification.
 - **Run 7-Day Overnight AI Playtest** — isolated human-like autonomous campaign using the legal player action surface and local LLM decisions.
+- **Let AI Play the Village** — autonomous play on the authoritative campaign state; every action and consequence persists exactly as normal player actions do.
 - **View Live/Final Report** — displays the current interrupt-safe report directly in the web UI.
 - **Copy Complete Report** — copies one comprehensive text report suitable for pasting into ChatGPT for analysis.
 - **Export Overnight Report** — downloads the same report.
@@ -70,3 +71,7 @@ Runtime diagnostic artifacts are created under `diagnostics/` only when diagnost
 Bellwether uses evidence-first development. Release claims should be supported by source inspection plus relevant runtime or deterministic evidence. Historical release claims are not assumed true merely because an old changelog says they were implemented. For each release: inspect current code, preserve accepted behaviour, make the smallest coherent extension, run focused and regression checks, clean generated artifacts, and package the complete release.
 
 Long live-model semantic quality and physical target-device browser behaviour remain runtime evidence boundaries unless tested on those actual environments.
+
+
+## Local model policy (v3.14.0)
+Bellwether prefers a single resident `qwen3.5:4b` model for all AI roles. If it is not installed, discovery falls back to `qwen3.5:2b`, then the legacy small-model options. Fast and deep roles resolve to the same discovered model unless explicitly overridden. Default context is 4096 and default Ollama keep-alive is 10 minutes.
