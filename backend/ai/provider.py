@@ -599,10 +599,16 @@ class AIProvider:
                     pass
         # Degraded-but-usable dialogue recovery remains available, but diagnostics mark it as repaired.
         if result["dialogue"] is None and lines:
-            first=lines[0]
-            if not first.upper().startswith("SOCIAL:"):
+            # Never promote prompt-format boilerplate or metadata instructions into visible NPC dialogue.
+            boilerplate=("social metadata", "metadata on its own line", "output dialogue first", "social rules")
+            candidates=[line for line in lines if not line.upper().startswith("SOCIAL:") and not any(x in line.lower() for x in boilerplate)]
+            if candidates:
+                first=candidates[0]
                 result["dialogue"]=first.split(":",1)[1].strip() if ":" in first else first
                 result["format_repaired"]=True
+        if result.get("dialogue") and any(x in result["dialogue"].lower() for x in ("social metadata", "metadata on its own line", "output dialogue first")):
+            result["dialogue"]=None
+            result["format_rejected"]=True
         return result
 
     def ask_player_reply(self, npc_name, player_text, context):

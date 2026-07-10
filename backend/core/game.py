@@ -61,6 +61,7 @@ from backend.core.postgame_model import POSTGAME_MODEL
 from backend.core.life_simulation_model import LIFE_SIMULATION_MODEL
 from backend.core.society_model import SOCIETY_MODEL
 from backend.core.village_evolution_model import VILLAGE_EVOLUTION_MODEL
+from backend.core.animal_model import ANIMAL_MODEL, SPECIES
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -257,6 +258,7 @@ INITIAL_STATE = {
     "story_consciousness_integration": STORY_CONSCIOUSNESS_INTEGRATION_MODEL.runtime_defaults(),
     "systemic_horror_integration": SYSTEMIC_HORROR_INTEGRATION_MODEL.runtime_defaults(),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
+    "cottage_animals": ANIMAL_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
     "dynamic_events": EVENT_MODEL.runtime_defaults(),
@@ -807,6 +809,7 @@ class Game:
         state["quest_lifecycle"] = QUEST_MODEL.developer_context(self.state)
         state["life_simulation_overview"] = LIFE_SIMULATION_MODEL.public(self.state)
         state["player_status_overview"] = deepcopy(PLAYER_STATUS_MODEL.migrate(self.state))
+        state["cottage_animals_overview"] = ANIMAL_MODEL.public(self.state)
         state["society_overview"] = SOCIETY_MODEL.public(self.state)
         state["village_evolution_overview"] = VILLAGE_EVOLUTION_MODEL.public(self.state)
         state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
@@ -886,6 +889,25 @@ class Game:
             actions.append({"id": "read_letter", "label": "Read Eleanor's Letter", "kind": "story"})
         if loc == "ashcroft_cottage" and s["flags"]["read_letter"]:
             actions.append({"id": "sleep", "label": "Sleep Until Morning", "kind": "life"})
+
+        # Cottage animals: deterministic truth, bounded LLM-selected intentions.
+        animals=ANIMAL_MODEL.migrate(s)
+        if loc == "ashcroft_cottage":
+            if not animals["shelters"].get("coop"):
+                actions.append({"id":"animals:build:coop","label":"Build a Small Coop (฿60, 2 supplies)","kind":"life","category":"home"})
+            elif not animals["shelters"].get("goat_shed") and int(s.get("player_status",{}).get("life_level",1))>=3:
+                actions.append({"id":"animals:build:goat_shed","label":"Build a Small Goat Shelter (฿140, 4 supplies)","kind":"life","category":"home"})
+            if animals["animals"]:
+                actions.append({"id":"animals:feed","label":"Feed the Cottage Animals","kind":"life","category":"home"})
+                if any(a.get("production_ready") for a in animals["animals"].values()): actions.append({"id":"animals:collect","label":"Collect Eggs and Milk","kind":"life","category":"home"})
+                actions.append({"id":"animals:spend_time","label":"Spend Time with the Animals","kind":"life","category":"home"})
+        if loc == "calder_farm" and animals["shelters"].get("coop"):
+            actions.append({"id":"animals:buy:chicken","label":"Buy a Chicken (฿35)","kind":"economy","category":"work"})
+            actions.append({"id":"animals:buy:duck","label":"Buy a Duck (฿45)","kind":"economy","category":"work"})
+        if loc == "calder_farm" and animals["shelters"].get("goat_shed"):
+            actions.append({"id":"animals:buy:goat","label":"Buy a Goat (฿120)","kind":"economy","category":"work"})
+        if loc == "village_shop" and animals["animals"]:
+            actions.append({"id":"animals:buy_feed","label":"Buy Animal Feed (฿12)","kind":"economy","category":"work"})
 
         # Investigation is player-driven and contextual. Repeated observation,
         # familiarity and attentiveness can expose different layers without forcing
@@ -1053,6 +1075,7 @@ class Game:
             self.update_npc_personal_lives(step)
             ACTIVITY_MODEL.advance(s, step)
             PLAYER_STATUS_MODEL.advance(s, step)
+            for animal_event in ANIMAL_MODEL.advance_day(s): self.add("Narrator", animal_event)
             SEASONAL_MODEL.refresh(s)
             WORLD_RUNTIME_MODEL.advance(s, step)
             POPULATION_MODEL.advance_batch(s)
@@ -1882,6 +1905,10 @@ class Game:
             elif kind=="ecology_review":
                 if choice and ECOLOGY_AI_MODEL.apply(s,choice,provider.model_for_task("weather")): applied+=1
                 else: stale+=1
+            elif kind=="animal_intention":
+                aid=str(job.get("key","")).split(":",1)[1] if ":" in str(job.get("key","")) else None
+                if choice and aid and ANIMAL_MODEL.apply_intention(s,aid,choice.get("id"),"llm"): applied+=1
+                else: stale+=1
             elif kind=="director_batch":
                 proposals=choice if isinstance(choice,dict) else {}
                 revision_age=max(0,self._async_state_revision()-int(job.get("revision",0)))
@@ -1897,6 +1924,13 @@ class Game:
             elif stale>before_stale: ASYNC_AI_RUNTIME.record_application(job,"rejected_or_stale")
         rt=s.setdefault("ai_runtime",{}); rt["async_applied"]=rt.get("async_applied",0)+applied; rt["async_stale_or_rejected"]=rt.get("async_stale_or_rejected",0)+stale
         rt["background_worker"]=ASYNC_AI_RUNTIME.status(); return applied
+
+    def queue_animal_intention_review(self, animal_id):
+        if self.state.get("diagnostic_mode"): return False
+        candidates=ANIMAL_MODEL.legal_intentions(self.state,animal_id)
+        if not candidates:return False
+        context=deepcopy(ANIMAL_MODEL.compact_context(self.state,animal_id)); frozen=deepcopy(candidates); pulse=self._async_state_revision()
+        return ASYNC_AI_RUNTIME.submit(f"animal_intention:{animal_id}","animal_intention",pulse,tuple(x["id"] for x in frozen),lambda: provider.ask_choice("animal_intention","Choose one plausible immediate animal intention. Choose only from the candidates; do not invent state or outcomes.",context,frozen),domain="ecology",priority=15)
 
     def queue_town_mind_review(self, reason="scheduled"):
         if self.state.get("diagnostic_mode"): return False
@@ -2735,7 +2769,42 @@ class Game:
         if action == "new_run": return self.new_game()
         if s.setdefault("danger",DANGER_MODEL.runtime_defaults()).get("status") == "dead" and action != "failure:recover": return self.view()
 
-        if action == "look":
+        if action == "animals:build:coop":
+            rt=ANIMAL_MODEL.migrate(s); supplies=s.setdefault("economy",{}).setdefault("household",{}).get("repair_supplies",0)
+            if s.get("money",0)>=60 and supplies>=2:
+                s["money"]-=60;s["economy"]["household"]["repair_supplies"]-=2;rt["shelters"]["coop"]=True;self.add("Narrator","You finish a modest coop beside the cottage garden. It is small, dry, and ready for a few birds.");self.advance(120)
+            else:self.add("Narrator","You need ฿60 and two repair supplies to build the coop.")
+        elif action == "animals:build:goat_shed":
+            rt=ANIMAL_MODEL.migrate(s); supplies=s.setdefault("economy",{}).setdefault("household",{}).get("repair_supplies",0)
+            if s.get("money",0)>=140 and supplies>=4:
+                s["money"]-=140;s["economy"]["household"]["repair_supplies"]-=4;rt["shelters"]["goat_shed"]=True;self.add("Narrator","You finish a compact goat shelter beyond the garden beds, sturdy enough for cottage-scale keeping.");self.advance(180)
+            else:self.add("Narrator","You need ฿140 and four repair supplies to build the goat shelter.")
+        elif action.startswith("animals:buy:"):
+            species=action.rsplit(":",1)[1];cost={"chicken":35,"duck":45,"goat":120}[species]
+            if s.get("money",0)>=cost:
+                s["money"]-=cost;a=ANIMAL_MODEL.add(s,species);self.add("Narrator",f"You bring {a['name'].lower()} home to Ashcroft Cottage. The animal will need food, shelter, and time to trust you.");self.advance(45);self.queue_animal_intention_review(a['id'])
+            else:self.add("Narrator",f"You do not have the ฿{cost} needed.")
+        elif action == "animals:buy_feed":
+            if s.get("money",0)>=12:s["money"]-=12;ANIMAL_MODEL.migrate(s)["feed"]+=10;self.add("Narrator","You buy a sack of feed, enough for several days of cottage-scale animal care.");self.advance(10)
+            else:self.add("Narrator","You do not have ฿12 for feed.")
+        elif action == "animals:feed":
+            rt=ANIMAL_MODEL.migrate(s)
+            if rt["feed"]>0:
+                for a in rt["animals"].values(): a["hunger"]=max(0,a["hunger"]-20);a["trust"]=min(100,a["trust"]+1)
+                self.add("Narrator","You measure out feed and check each animal in turn. The cottage yard settles into the small noises of eating.");self.advance(20)
+            else:self.add("Narrator","There is no animal feed stored. The village shop sells small sacks.")
+        elif action == "animals:collect":
+            got=ANIMAL_MODEL.collect(s)
+            if got:self.add("Narrator","You collect " + ", ".join(f"{n} {k.replace('_',' ')}" for k,n in got.items()) + " and carry the produce into the cottage.")
+            else:self.add("Narrator","There is nothing ready to collect today.")
+            self.advance(10)
+        elif action == "animals:spend_time":
+            rt=ANIMAL_MODEL.migrate(s)
+            for a in rt["animals"].values(): a["trust"]=min(100,a["trust"]+4)
+            self.add("Narrator","You spend an unhurried while among the animals, learning which movements startle them and which bring them closer.");self.advance(30)
+            for aid in rt["animals"]: self.queue_animal_intention_review(aid)
+
+        elif action == "look":
             self.add("Narrator", WORLD[s["location"]]["description"])
             if s["location"] == "ashcroft_cottage":
                 self.add("Narrator", CONTENT_MODEL.seasonal_cottage_text(s))

@@ -13,15 +13,15 @@ ENTERPRISES={
 }
 
 class PlayerBusinessModel:
- schema_version=1
+ schema_version=2
  def runtime_defaults(self):
-  return {"schema_version":1,"enterprises":{},"history":[],"total_profit":0,"total_losses":0,"last_daily_tick":0}
+  return {"schema_version":2,"enterprises":{},"history":[],"total_profit":0,"total_losses":0,"last_daily_tick":0}
  def migrate(self,state):
   rt=state.setdefault("player_businesses",self.runtime_defaults());d=self.runtime_defaults()
   for k,v in d.items():rt.setdefault(k,deepcopy(v))
   rt["schema_version"]=self.schema_version
   for bid,b in rt["enterprises"].items():
-   b.setdefault("mode","owner_operated");b.setdefault("cash",20);b.setdefault("reputation",50);b.setdefault("health",70);b.setdefault("staff",0);b.setdefault("wage",4);b.setdefault("sales",0);b.setdefault("days_owned",0);b.setdefault("consecutive_losses",0);b.setdefault("closed",False)
+   b.setdefault("mode","owner_operated");b.setdefault("cash",20);b.setdefault("reputation",50);b.setdefault("health",70);b.setdefault("staff",0);b.setdefault("wage",4);b.setdefault("sales",0);b.setdefault("days_owned",0);b.setdefault("consecutive_losses",0);b.setdefault("closed",False);b.setdefault("stock",0);b.setdefault("stock_capacity",8);b.setdefault("prepared_batches",0);b.setdefault("deliveries",0);b.setdefault("missed_sales",0)
   return rt
  def _record(self,state,kind,bid,amount=0,detail=None):
   rt=self.migrate(state);rt["history"].append({"day":state.get("day",1),"minute":state.get("minute",0),"kind":kind,"business":bid,"amount":amount,"detail":detail});rt["history"]=rt["history"][-120:]
@@ -40,7 +40,9 @@ class PlayerBusinessModel:
   for bid,b in rt["enterprises"].items():
    spec=ENTERPRISES[bid]
    if loc!=spec["location"] or b.get("closed"):continue
-   if b["mode"]=="owner_operated":out.append((f"business:operate:{bid}",f"Operate {spec['name']}"))
+   if b["mode"]=="owner_operated":
+    out.append((f"business:prepare:{bid}",f"Prepare stock for {spec['name']}"))
+    if b.get("stock",0)>0: out.append((f"business:operate:{bid}",f"Open {spec['name']} for customers"))
    out.append((f"business:mode:{bid}","Switch to manager-operated mode" if b["mode"]=="owner_operated" else "Return to owner-operated mode"))
    if b["mode"]=="manager_operated":
     if b["staff"]<1:out.append((f"business:hire:{bid}",f"Hire a local manager (฿{b['wage']}/day)"))
@@ -80,17 +82,25 @@ class PlayerBusinessModel:
    ok,msg=self._eligible(state,bid)
    if not ok:return False,msg,0
    if state.get("money",0)<spec["startup"]:return False,"You cannot afford the startup costs.",0
-   state["money"]-=spec["startup"];rt["enterprises"][bid]={"mode":"owner_operated","cash":20,"reputation":50,"health":70,"staff":0,"wage":4,"sales":0,"days_owned":0,"consecutive_losses":0,"closed":False}
+   state["money"]-=spec["startup"];rt["enterprises"][bid]={"mode":"owner_operated","cash":20,"reputation":50,"health":70,"staff":0,"wage":4,"sales":0,"days_owned":0,"consecutive_losses":0,"closed":False,"stock":0,"stock_capacity":8,"prepared_batches":0,"deliveries":0,"missed_sales":0}
    self._record(state,"startup",bid,-spec["startup"]);return True,f"You establish {spec['name']}. It is small, but it is yours to run.",180
   b=rt["enterprises"].get(bid)
   if not b:return False,"You do not own that enterprise.",0
-  if verb=="operate":
+  if verb=="prepare":
    if b["closed"]:return False,"The business is closed and needs recovery capital.",0
+   if b.get("stock",0)>=b.get("stock_capacity",8):return False,"The business already has as much prepared stock as it can hold.",0
    ok,msg=self._consume_input(state,bid)
    if not ok:return False,msg,0
+   cargo=state.get("transport_overview",{}).get("cargo_capacity") or 2
+   batch=2 if cargo>=7 else 1
+   batch=min(batch,b.get("stock_capacity",8)-b.get("stock",0));b["stock"]+=batch;b["prepared_batches"]+=1
+   self._record(state,"stock_prepared",bid,0,{"units":batch});return True,f"You prepare {batch} sale unit{'s' if batch!=1 else ''} for {spec['name']}. Stock is now {b['stock']}/{b['stock_capacity']}.",max(45,spec["minutes"]//2)
+  if verb=="operate":
+   if b["closed"]:return False,"The business is closed and needs recovery capital.",0
+   if b.get("stock",0)<=0:return False,"There is no prepared stock to sell. Prepare stock first.",0
    outlook=state.get("economy",{}).get("market",{}).get("village_outlook","stable");factor=.8 if outlook=="fragile" else .9 if outlook=="uneasy" else 1.0
-   revenue=max(1,round(spec["base_revenue"]*factor*(.75+b["reputation"]/200)));b["cash"]+=revenue;b["sales"]+=1;b["reputation"]=min(100,b["reputation"]+1);b["health"]=min(100,b["health"]+1);rt["total_profit"]+=revenue;self._record(state,"sale",bid,revenue)
-   return True,f"You run {spec['name']} for a working session. The business takes ฿{revenue}.",spec["minutes"]
+   units=min(b["stock"],2 if b["reputation"]>=65 else 1);revenue=max(1,round(spec["base_revenue"]*factor*(.75+b["reputation"]/200)*units));b["stock"]-=units;b["cash"]+=revenue;b["sales"]+=units;b["reputation"]=min(100,b["reputation"]+1);b["health"]=min(100,b["health"]+1);rt["total_profit"]+=revenue;self._record(state,"sale",bid,revenue,{"units":units})
+   return True,f"You open {spec['name']} for customers and sell {units} unit{'s' if units!=1 else ''}, taking ฿{revenue}. {b['stock']} prepared stock remains.",spec["minutes"]
   if verb=="mode":
    b["mode"]="manager_operated" if b["mode"]=="owner_operated" else "owner_operated";self._record(state,"mode",bid,0,b["mode"]);return True,f"{spec['name']} is now {b['mode'].replace('_',' ')}.",20
   if verb=="hire":
@@ -111,7 +121,10 @@ class PlayerBusinessModel:
    if b["closed"]:continue
    cost=2+(b["wage"] if b["staff"] else 0);income=0
    if b["mode"]=="manager_operated" and b["staff"]:
-    outlook=state.get("economy",{}).get("market",{}).get("village_outlook","stable");income=max(0,round(ENTERPRISES[bid]["base_revenue"]*(.45 if outlook=="fragile" else .65)))
+    if b.get("stock",0)>0:
+     outlook=state.get("economy",{}).get("market",{}).get("village_outlook","stable");income=max(0,round(ENTERPRISES[bid]["base_revenue"]*(.45 if outlook=="fragile" else .65)));b["stock"]-=1;b["sales"]+=1
+    else:
+     b["missed_sales"]+=1
    net=income-cost;b["cash"]+=net
    if net<0:rt["total_losses"]+=-net;b["consecutive_losses"]+=1
    else:rt["total_profit"]+=net;b["consecutive_losses"]=0

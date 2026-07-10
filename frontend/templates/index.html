@@ -9,15 +9,15 @@
   </aside>
   <section class="scene-stage" id="scene-stage"><img id="scene-art" class="scene-art hidden" alt="" aria-hidden="true"><div class="scene-atmosphere" aria-hidden="true"></div><div class="weather-particles rain-layer" aria-hidden="true"></div><div class="weather-particles snow-layer" aria-hidden="true"></div><div class="weather-particles mist-layer" aria-hidden="true"></div><div class="scene-vignette" aria-hidden="true"></div><div class="scene-art-placeholder"><div class="scene-kicker">Current location</div><div class="scene-title scene-title-overlay" id="scene-title-overlay"></div><div id="environment-line-overlay" class="environment-line"></div></div><div class="dialogue" id="dialogue"></div></section>
   <aside class="right-rail">
-    <section class="rail-card"><div class="rail-label">Current Thread</div><div id="current-objective"></div></section>
-    <section class="rail-card"><div class="rail-label">Active Side Stories</div><div id="side-stories"></div></section>
-    <section class="rail-card"><div class="rail-label">Recent Events</div><div id="recent-events"></div></section>
+    <section class="rail-card current-thread-card"><div class="rail-label">Current Thread</div><div id="current-objective"></div></section>
+    <div id="side-stories" class="context-storage" aria-hidden="true"></div>
+    <div id="recent-events" class="context-storage" aria-hidden="true"></div>
   </aside>
 </section>
 
 <section id="narrator-strip" class="narrator-strip hidden" aria-live="polite"></section>
 <section class="command-zone"><div class="command-heading"><strong>What will you do?</strong><span>Immediate choices appear first; open a category for everything else.</span></div><div id="quick-actions" class="quick-actions"></div><nav class="action-dock" id="action-dock" aria-label="Action categories"></nav><section id="action-tray" class="action-tray hidden"><div class="tray-head"><h2 id="tray-title"></h2><button class="quiet-button" onclick="closeActionTray()">Close</button></div><div id="tray-actions" class="tray-actions"></div></section></section>
-<nav class="panel-nav" aria-label="Game information"><button onclick="openPanel('journal')">Journal</button><button onclick="openPanel('map')">Map</button><button onclick="openPanel('inventory')">Inventory</button><button onclick="openPanel('relationships')">Relationships</button><button onclick="openPanel('notebook')">Notebook</button><button onclick="openPanel('home')">Home</button><button onclick="openPanel('status')">Status</button></nav>
+<nav class="panel-nav life-book-nav" aria-label="Life Book"><button onclick="openPanel('journal')">Today</button><button onclick="openPanel('relationships')">People</button><button onclick="openPanel('home')">Home</button><button onclick="openPanel('work')">Work</button><button onclick="openPanel('map')">World</button><button onclick="openPanel('notebook')">Mystery</button><button onclick="openPanel('inventory')">Things</button></nav>
 </main>
 <div id="talk-modal" class="modal hidden"><div class="modal-card talk-card"><div class="modal-head"><h2 id="talk-title">Speak</h2><button onclick="closeTalk()">Cancel</button></div><p class="diagnostic-note">Say what you want. Ordinary conversations respond to current village context; story conversations remain authored.</p><textarea id="talk-input" maxlength="600" rows="4" placeholder="What do you say?"></textarea><div class="talk-actions"><button onclick="sendTalk()">Say it</button></div></div></div>
 <div id="npc-modal" class="modal hidden" onclick="closeNpcPanelFromBackdrop(event)"><div class="modal-card npc-card"><div class="modal-head"><h2 id="npc-panel-title">Person</h2><button onclick="closeNpcPanel()">Close</button></div><div id="npc-panel-content" class="panel-content"></div></div></div>

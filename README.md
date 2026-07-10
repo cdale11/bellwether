@@ -1,6 +1,6 @@
 # Bellwether v3.0.0
 
-**Release status:** v3.0.0 final certification release. The v3 RC line integrated and certified ordinary-life depth, dialogue expression, strategic Town Consciousness behaviour, UI/UX resilience, diagnostics, interaction contracts, story tempo, content language, and release integrity. See `AUDIT_v3.0.0_FINAL.md` for final evidence and remaining runtime boundaries.
+**Release status:** v3.3.0 narration-surface correction on the v3.2 cottage-animal foundation. The v3 RC line integrated and certified ordinary-life depth, dialogue expression, strategic Town Consciousness behaviour, UI/UX resilience, diagnostics, interaction contracts, story tempo, content language, and release integrity. See `AUDIT_v3.0.0_FINAL.md` for final evidence and remaining runtime boundaries.
 
 Bellwether is a local-first, state-driven rural village life simulation and psychological/supernatural horror RPG. Ordinary life is intentionally substantial: gardening, cooking, preservation, fishing, foraging, cottage repair and expansion, work, economy, property, enterprise, transport, relationships and autonomous village change coexist with an authored mystery, recurrence, adaptive horror and a bounded Town Consciousness.
 
