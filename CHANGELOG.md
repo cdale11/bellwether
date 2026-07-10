@@ -1,3 +1,45 @@
+# v3.0.0 Final
+
+- Performed final integrated certification across story, endings, postgame, economy, society, UI, interface horror, action contracts, and save migration.
+- Fixed a release-blocking investigation crash: globally exposed Observe/Search actions now remain valid in expanded-world locations that do not yet have bespoke investigation prose.
+- Added final release certification and updated README/version identity.
+- Cleaned generated caches, bytecode, stale runtime reports and trace artifacts before packaging.
+
+# v3.0.0-rc15
+
+- Polished procedural side-story titles and help actions into concise, natural player-facing language.
+- Replaced vague social action labels with direct greeting labels.
+- Added recipe-specific cooking outcome prose so different meals no longer collapse to one generic response.
+- Added RC15 content/narrative polish certification and performed repository hygiene cleanup.
+
+## 3.0.0-rc14 — Device & Browser Resilience Certification
+- Added modal focus trapping and focus restoration.
+- Added viewport, safe-area, coarse-pointer, narrow-screen and landscape resilience rules.
+- Added device/browser static certification diagnostic.
+
+## v3.0.0-rc9 — Story Reachability, Tempo Certification & AI Runtime Visibility
+
+- Fixed blank AI Runtime developer tab caused by frontend/backend status-shape mismatch.
+- Added robust job, queue, inference-accounting, lifecycle and recent-event rendering.
+- Added romance-focused and avoidant playstyle classification for story-tempo certification.
+- Added RC9 multi-playstyle certification.
+
+# 3.0.0-rc8 — Integrated Interaction Audit & Quest Lifecycle Visibility
+
+- Audited core NPC interaction metadata across authored talk, free talk and social actions.
+- Added NPC identity metadata to social greeting actions so presence-panel and action-tray interaction paths agree.
+- Exposed procedural quest lifecycle states as available, in progress and completed.
+- Kept recently completed side/procedural quests visible in the compact side-story surface with explicit completion presentation.
+- Added deterministic certification for side-quest completion, duplicate reward protection, procedural involvement, resolution, reward application and public completed-state projection.
+
+# 3.0.0-rc3 — NPC Characterization, Dialogue, Memory & Autonomous-Life Expression
+
+- Added bounded authored voice-expression profiles for the core conversational cast.
+- Wired autonomous-life events and goals into dialogue subtext context.
+- Added NPC social-web and bounded knowledge context to foreground conversations.
+- Added authored identity and expression context to ambient NPC-to-NPC dialogue.
+- Preserved deterministic story, knowledge, relationship and simulation authority boundaries.
+
 # Bellwether v2.0.4 — Diagnostic Semantics and Console Reliability
 
 - Fixed Full Game Diagnosis crash caused by missing PLAYER_STATUS_MODEL import.
@@ -1002,3 +1044,23 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added distinct Mara and Jonah witness texture gated by authoritative relationship trust.
 - Added spoiler-bounded public narrative diagnostics.
 - Preserved all existing canon authority, story gates, ending rules and quest reward contracts.
+
+## v3.0.0-rc2 — Ordinary-Life Content Density
+- Expanded garden catalogue from four to seven crops with economy-integrated seeds and produce sales.
+- Expanded cooking from four to eleven recipes.
+- Connected authoritative foraging and fishing collections to cooking recipes.
+- Expanded seasonal forage discoveries, fish catalogue, and preservation catalogue.
+- Added focused RC2 content-density certification and preserved existing economy/life-simulation contracts.
+
+## 3.0.0-rc4 — Multi-Playstyle Story Pacing & Strategic Intelligence
+- Added deterministic five-archetype playstyle pacing observer and pacing-risk tracking.
+- Added auditable Town Consciousness hypotheses and confidence.
+- Added resisted-tactic memory, strategy discounting, adaptation, outcome memory and bounded deliberate retreat.
+- Exposed playstyle pacing in developer diagnostic state.
+- Preserved authored story, evidence and ending authority boundaries.
+
+## 3.0.0-rc10
+- Fixed Sleep Until Morning disappearing from the bounded Home & Life action surface as ordinary-life content expanded.
+- Added priority preservation for the sleep action without changing its story/location gate.
+- Added RC10 deterministic certification for sleep reachability and foreground LLM runtime safety contracts.
+- Audited foreground dialogue timeout, retry, repetition repair, daypart contradiction, reply bounding, and story-authority prompt boundaries.

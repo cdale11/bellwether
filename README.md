@@ -1,4 +1,6 @@
-# Bellwether v3.0.0-rc1
+# Bellwether v3.0.0
+
+**Release status:** v3.0.0 final certification release. The v3 RC line integrated and certified ordinary-life depth, dialogue expression, strategic Town Consciousness behaviour, UI/UX resilience, diagnostics, interaction contracts, story tempo, content language, and release integrity. See `AUDIT_v3.0.0_FINAL.md` for final evidence and remaining runtime boundaries.
 
 Bellwether is a local-first, state-driven rural village life simulation and psychological/supernatural horror RPG. Ordinary life is intentionally substantial: gardening, cooking, preservation, fishing, foraging, cottage repair and expansion, work, economy, property, enterprise, transport, relationships and autonomous village change coexist with an authored mystery, recurrence, adaptive horror and a bounded Town Consciousness.
 
@@ -24,9 +26,9 @@ The current release includes ordinary-life activities and skills; gardening, coo
 
 ## Developer Console and diagnostics
 
-Open the gear button in the top bar. The Developer Console exposes Living World, NPC, Event, Horror, Investigation, Economy, AI Runtime and Raw State diagnostics. v3.0.0-rc1 adds a dedicated **v2.x Systems** tab exposing read-only snapshots for property, enterprises, transport, NPC lives, relationship life, Town Consciousness strategy, resistance, village evolution, narrative expansion, story-consciousness integration and systemic-horror integration.
+Open the gear button in the top bar. The Developer Console exposes Living World, NPC, Event, Horror, Investigation, Economy, AI Runtime and Raw State diagnostics. The RC line includes a dedicated **v2.x Systems** tab exposing read-only snapshots for property, enterprises, transport, NPC lives, relationship life, Town Consciousness strategy, resistance, village evolution, narrative expansion, story-consciousness integration and systemic-horror integration.
 
-The console also provides **Run Full Game Diagnosis** and **Let the Village Play**. Full diagnosis is the shorter controlled certification path. Village Play is a longer autonomous campaign and should be reserved for milestone/soak testing rather than every feature iteration.
+The console provides **Run Fast QA**, **Run Targeted QA**, **Run Full Game Diagnosis**, **Let the Village Play**, and **Export QA Bundle**. Fast QA is the normal per-build tier; Targeted QA runs broader subsystem regressions; Full Diagnosis is controlled integrated certification; Village Play is reserved for milestone/soak testing.
 
 Diagnostic output is written under `diagnostics/` during runs. Export filenames now follow the packaged `VERSION` instead of a stale hard-coded release name.
 
@@ -38,4 +40,7 @@ For RC work, use layered evidence: syntax/JSON validation → focused subsystem 
 
 ## Release status
 
-This is a release candidate, not final certification. The RC audit is recorded in `AUDIT_v3.0.0-rc1.md`. Browser-level behavior still requires execution in a real browser environment; static JS syntax and endpoint contracts are tested separately.
+This package is the v3.0.0 final certification release. Final certification includes deterministic story and ending regressions, save-state JSON round-trip and migration checks, action-surface fuzz testing, UI/JavaScript syntax checks, economy and long-term simulation checks, and focused regressions from the RC line. Long live Ollama dialogue quality and target-device browser behaviour remain runtime evidence boundaries rather than claims made from static certification.
+
+## RC3 dialogue and character expression
+Foreground and ambient conversations now receive bounded authored voice constraints plus relevant autonomous-life, social-web, and knowledge context. This improves character distinctiveness and continuity without giving the LLM authority over canon or simulation state.

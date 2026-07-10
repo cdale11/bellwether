@@ -209,3 +209,20 @@ def ai_player_report():
     text=AI_PLAYER.report_path.read_text(encoding='utf-8') if AI_PLAYER.report_path.exists() else 'No overnight AI player report has been generated yet.'
     version=(ROOT / "VERSION").read_text(encoding="utf-8").strip()
     return Response(text, media_type='text/plain', headers={'Content-Disposition':f'attachment; filename="Bellwether_v{version}_overnight_AI_soak_report.txt"'})
+
+@app.post('/api/qa/{tier}/start')
+def qa_tier_start(tier: str):
+    from backend.core.qa_runner import QA_RUNNER
+    started=QA_RUNNER.start(tier)
+    return {'started':started, **QA_RUNNER.snapshot()}
+
+@app.get('/api/qa/status')
+def qa_status():
+    from backend.core.qa_runner import QA_RUNNER
+    return QA_RUNNER.snapshot()
+
+@app.get('/api/qa/bundle')
+def qa_bundle():
+    from backend.core.qa_runner import QA_RUNNER
+    path=QA_RUNNER.bundle(); version=(ROOT/'VERSION').read_text().strip()
+    return Response(path.read_bytes(),media_type='application/zip',headers={'Content-Disposition':f'attachment; filename="Bellwether_v{version}_QA_Bundle.zip"'})

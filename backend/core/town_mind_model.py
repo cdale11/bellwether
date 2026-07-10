@@ -21,10 +21,10 @@ STRATEGIES={
 }
 
 class TownMindModel:
-    schema_version = 2
+    schema_version = 3
     def runtime_defaults(self):
         return {"schema_version":2,"status":"dormant","active_intentions":[],"intention_history":[],"last_review_pulse":-999,"review_count":0,"accepted_count":0,"rejected_count":0,"last_model":None,"last_reason":None,
-                "strategy":{"observations":{},"dominant_playstyle":"unformed","active_strategy":None,"strategy_history":[],"pressure_log":[],"last_strategy_day":0,"last_pressure_day":0,"resistance_score":0}}
+                "strategy":{"observations":{},"dominant_playstyle":"unformed","active_strategy":None,"strategy_history":[],"pressure_log":[],"last_strategy_day":0,"last_pressure_day":0,"resistance_score":0,"hypothesis":None,"hypothesis_confidence":0,"tactic_failures":{},"last_outcome":None,"retreat_until_day":0,"chain_stage":0,"chain_origin":None}}
     def migrate(self,state):
         tm=state.setdefault("town_mind",self.runtime_defaults())
         for k,v in self.runtime_defaults().items(): tm.setdefault(k,deepcopy(v))
@@ -43,16 +43,43 @@ class TownMindModel:
         investigation=len(state.get("investigation",{}).get("evidence",[]))+len(state.get("mystery_investigation",{}).get("evidence_log",[]))
         obs={"property":len(prop.get("owned",{}))+len(prop.get("leases",{}))+len(prop.get("expansions",[])),"business":len(biz.get("enterprises",{})),"transport":len(trans.get("owned",{})),"relationships":affinity,"inquiry":investigation,"routine":int(traits.get("routine",0)),"avoidance":int(traits.get("avoidance",0)),"independence":int(traits.get("independence",0))}
         scores={"property_pressure":obs["property"]*30+obs["routine"],"enterprise_pressure":obs["business"]*55+obs["independence"],"mobility_pressure":obs["transport"]*45+obs["independence"]//2,"social_pressure":obs["relationships"]*2+int(traits.get("social",0)),"routine_pressure":obs["routine"]+obs["avoidance"],"mystery_pressure":max(0,45-obs["inquiry"]*8)+obs["avoidance"]}
-        chosen=max(scores,key=lambda k:(scores[k],k)); st["observations"]=obs; st["dominant_playstyle"]=chosen.replace("_pressure",""); st["resistance_score"]=max(0,obs["inquiry"]*10-obs["avoidance"])
+        # Blend observed attachment with RC4 playstyle pacing, while keeping strategy deterministic.
+        pacing=state.get("playstyle_pacing",{})
+        profile=pacing.get("profile")
+        if profile=="homesteader": scores["property_pressure"]+=25
+        elif profile=="entrepreneur": scores["enterprise_pressure"]+=30
+        elif profile=="social": scores["social_pressure"]+=25
+        elif profile=="investigator": scores["mystery_pressure"]-=20; scores["social_pressure"]+=8
+        elif profile=="romance_focused": scores["social_pressure"]+=35
+        elif profile=="avoidant": scores["routine_pressure"]+=20; scores["mystery_pressure"]+=15
+        elif profile=="wanderer": scores["mobility_pressure"]+=18
+        # A tactic that has repeatedly failed is discounted so the consciousness changes approach.
+        failures=st.get("tactic_failures",{})
+        for key,count in failures.items():
+            if key in scores: scores[key]-=min(60,int(count)*20)
+        chosen=max(scores,key=lambda k:(scores[k],k)); st["observations"]=obs; st["dominant_playstyle"]=(profile or chosen.replace("_pressure","")); st["resistance_score"]=max(0,obs["inquiry"]*10-obs["avoidance"])
+        st["hypothesis"]={"player_values":st["dominant_playstyle"],"best_leverage":chosen,"pacing_risk":pacing.get("pacing_risk","unknown")}
+        st["hypothesis_confidence"]=min(100,25+max(scores.values())//4)
         return chosen
     def strategic_daily_tick(self,state):
         tm=self.migrate(state); st=tm["strategy"]; day=int(state.get("day",1)); chosen=self.observe_player(state)
-        # The consciousness starts responding on day 2, but only once per day and through bounded existing-state pressure.
+        # The consciousness starts responding on day 2, but only once per day. It may deliberately retreat.
         if day<2 or int(st.get("last_pressure_day",0))>=day:return None
+        if day<=int(st.get("retreat_until_day",0)):
+            st["last_pressure_day"]=day; st["last_outcome"]="deliberate_retreat"
+            row={"day":day,"strategy":st.get("active_strategy"),"effect":"deliberate_retreat","magnitude":0}
+            st["pressure_log"].append(row); st["pressure_log"]=st["pressure_log"][-60:]; return row
         if st.get("active_strategy")!=chosen:
-            st["active_strategy"]=chosen; st["last_strategy_day"]=day; st["strategy_history"].append({"day":day,"strategy":chosen,"observations":deepcopy(st["observations"])}); st["strategy_history"]=st["strategy_history"][-30:]
+            st["active_strategy"]=chosen; st["last_strategy_day"]=day; st["chain_stage"]=0; st["chain_origin"]=chosen
+            st["strategy_history"].append({"day":day,"strategy":chosen,"observations":deepcopy(st["observations"]),"hypothesis":deepcopy(st.get("hypothesis"))}); st["strategy_history"]=st["strategy_history"][-30:]
         modifier=RESISTANCE_MODEL.pressure_modifier(state,chosen)
+        absorbed=modifier<=0.4
         result=self._apply_pressure(state,chosen,modifier); st["last_pressure_day"]=day
+        if absorbed:
+            failures=st.setdefault("tactic_failures",{}); failures[chosen]=int(failures.get(chosen,0))+1; st["last_outcome"]="resisted"
+            if failures[chosen]>=2: st["retreat_until_day"]=day+1
+        else:
+            st["last_outcome"]="pressure_landed"; st["chain_stage"]=min(3,int(st.get("chain_stage",0))+1)
         if result:
             row={"day":day,"strategy":chosen,**result}; st["pressure_log"].append(row); st["pressure_log"]=st["pressure_log"][-60:]
             state.setdefault("village_brain",{})["supernatural_pressure"]=min(100,int(state.get("village_brain",{}).get("supernatural_pressure",0))+1)

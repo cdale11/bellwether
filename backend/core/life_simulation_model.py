@@ -15,6 +15,9 @@ PRESERVES = {
     "pickled_radish":{"label":"Pickle radishes","crop":"radish","qty":4,"groceries":1,"minutes":40},
     "carrot_pickle":{"label":"Make spiced carrot pickle","crop":"carrot","qty":4,"groceries":1,"minutes":50},
     "bean_preserve":{"label":"Bottle broad beans","crop":"broad_bean","qty":5,"groceries":1,"minutes":55},
+    "potato_store":{"label":"Sort potatoes for cool storage","crop":"potato","qty":6,"groceries":0,"minutes":35},
+    "kale_pickle":{"label":"Make peppered kale pickle","crop":"kale","qty":4,"groceries":1,"minutes":50},
+    "pea_relish":{"label":"Bottle garden pea relish","crop":"pea","qty":5,"groceries":1,"minutes":55},
 }
 MILESTONES = {
     10:"settling_in", 30:"capable_routine", 60:"rooted_life", 100:"bellwether_hand"

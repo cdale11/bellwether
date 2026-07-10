@@ -6,27 +6,27 @@ select a suitable template; it cannot invent actors, facts, stages, or effects.
 from copy import deepcopy
 
 ARC_TEMPLATES = [
-    {"id":"shop_delivery_strain","label":"A delayed shop delivery strains morning routines","domain":"economy","actors":["asha","mrs_ellis"],"location":"village_shop","stages":[
+    {"id":"shop_delivery_strain","label":"Delayed shop delivery","domain":"economy","actors":["asha","mrs_ellis"],"location":"village_shop","stages":[
         {"id":"pressure","after_days":0,"text":"A delayed delivery leaves Asha reorganising the shop's morning priorities.","concerns":{"asha":"The shop delivery delay may inconvenience regular customers."}},
         {"id":"social_ripple","after_days":1,"text":"Regular customers begin adjusting errands around the shop's unsettled stock routine.","concerns":{"mrs_ellis":"The shop's altered routine is becoming noticeable."}},
         {"id":"resolution","after_days":2,"text":"The shop settles into a revised delivery rhythm, though the disruption is remembered."}
     ]},
-    {"id":"garden_help_chain","label":"Concern for the neglected cottage garden draws people together","domain":"social","actors":["mara","ruth"],"location":"ashcroft_cottage","stages":[
+    {"id":"garden_help_chain","label":"The neglected cottage garden","domain":"social","actors":["mara","ruth"],"location":"ashcroft_cottage","stages":[
         {"id":"notice","after_days":0,"text":"Mara's attention to the neglected cottage garden becomes a small point of local concern.","concerns":{"mara":"The cottage garden needs patient work rather than a hurried fix."}},
         {"id":"shared_interest","after_days":1,"text":"A conversation about old planting habits connects the cottage garden to village memory.","concerns":{"ruth":"Old accounts of the cottage garden may be worth comparing with what grows there now."}},
         {"id":"resolution","after_days":3,"text":"The cottage garden has become a quiet shared reference point between practical work and local memory."}
     ]},
-    {"id":"railway_clock_dispute","label":"A small disagreement forms around the halt timetable","domain":"social","actors":["tom","mrs_ellis"],"location":"railway_halt","stages":[
+    {"id":"railway_clock_dispute","label":"Conflicting railway timetables","domain":"social","actors":["tom","mrs_ellis"],"location":"railway_halt","stages":[
         {"id":"disagreement","after_days":0,"text":"A minor disagreement about the railway halt timetable begins circulating among regular travellers.","concerns":{"tom":"People are relying on conflicting ideas about the halt timetable."}},
         {"id":"clarification","after_days":1,"text":"Different recollections of the timetable are compared rather than immediately resolved.","concerns":{"mrs_ellis":"Familiar travel routines feel less certain when people remember the timetable differently."}},
         {"id":"resolution","after_days":2,"text":"The timetable disagreement subsides after the practical routine becomes clear again."}
     ]},
-    {"id":"bakery_workload","label":"Bakery workload creates a chain of small obligations","domain":"economy","actors":["jonah","asha"],"location":"bakery","stages":[
+    {"id":"bakery_workload","label":"Bakery under pressure","domain":"economy","actors":["jonah","asha"],"location":"bakery","stages":[
         {"id":"pressure","after_days":0,"text":"A busy stretch at the bakery leaves Jonah balancing orders against the ordinary morning rhythm.","concerns":{"jonah":"The bakery workload is becoming difficult to absorb without changing the routine."}},
         {"id":"coordination","after_days":1,"text":"The bakery and shop quietly coordinate around what can be supplied and when.","concerns":{"asha":"Shop expectations need to stay realistic while the bakery is under pressure."}},
         {"id":"resolution","after_days":3,"text":"The bakery workload eases into a more workable pattern after several days of adjustment."}
     ]},
-    {"id":"churchyard_record_question","label":"A local-history question draws together memory and evidence","domain":"mystery","actors":["ruth","mrs_ellis"],"location":"churchyard","stages":[
+    {"id":"churchyard_record_question","label":"The churchyard record discrepancy","domain":"mystery","actors":["ruth","mrs_ellis"],"location":"churchyard","stages":[
         {"id":"question","after_days":0,"text":"Ruth notices a small inconsistency between a weathered inscription and a remembered local account.","concerns":{"ruth":"A churchyard record and a familiar local account do not quite agree."}},
         {"id":"comparison","after_days":2,"text":"The record question persists as recollections are compared without forcing a conclusion.","concerns":{"mrs_ellis":"People can remember the same old village detail differently."}},
         {"id":"resolution","after_days":4,"text":"The record discrepancy remains documented as an unresolved local-history question rather than becoming a new fact."}
@@ -61,12 +61,20 @@ class ProceduralArcModel:
         location=state.get("location"); out=[]
         for arc in self.migrate(state).get("active",[]):
             if arc.get("location")==location and not arc.get("player_involved"):
-                out.append((f"arc:help:{arc['id']}",f"Offer to help with: {arc['label']}"))
+                
+                help_labels={
+                    "shop_delivery_strain":"Help Asha reorganise the delayed delivery",
+                    "garden_help_chain":"Help Mara with the neglected garden",
+                    "railway_clock_dispute":"Help compare the conflicting timetables",
+                    "bakery_workload":"Help Jonah with the bakery backlog",
+                    "churchyard_record_question":"Help compare the churchyard records",
+                }
+                out.append((f"arc:help:{arc['id']}", help_labels.get(arc.get("template_id"), f"Offer practical help: {arc['label']}")))
         return out[:2]
     def involve_player(self,state,arc_id,memory_model,cognition_model):
         root=self.migrate(state); arc=next((a for a in root["active"] if a.get("id")==arc_id),None)
         if not arc or arc.get("player_involved") or state.get("location")!=arc.get("location"): return None
-        arc["player_involved"]=True; arc["player_involved_day"]=state.get("day",1)
+        arc["player_involved"]=True; arc["status"]="in_progress"; arc["player_involved_day"]=state.get("day",1)
         text=f"The player offered practical help with {arc['label'].lower()}."
         eid=memory_model.record(state,"commitment",text,actors=arc.get("actors",[]),location=arc.get("location"),witnesses=arc.get("actors",[]),importance=3,tags=["procedural_arc","player_involved"],metadata={"arc_id":arc_id})
         for nid in arc.get("actors",[]): cognition_model.ingest_event(state,nid,eid)

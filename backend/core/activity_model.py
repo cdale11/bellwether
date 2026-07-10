@@ -11,6 +11,9 @@ CROPS = {
     "lettuce": {"name":"Lettuce", "seasons":{"early_spring","late_spring","early_summer","late_summer","early_autumn"}, "growth_minutes":2160, "water_need":45, "yield":2},
     "carrot": {"name":"Carrot", "seasons":{"early_spring","late_spring","early_summer","late_summer"}, "growth_minutes":4320, "water_need":30, "yield":3},
     "broad_bean": {"name":"Broad bean", "seasons":{"early_spring","late_spring","early_autumn","late_autumn"}, "growth_minutes":5760, "water_need":40, "yield":4},
+    "potato": {"name":"Potato", "seasons":{"late_spring","early_summer","late_summer","early_autumn"}, "growth_minutes":6480, "water_need":32, "yield":5},
+    "kale": {"name":"Kale", "seasons":{"late_summer","early_autumn","late_autumn","early_winter"}, "growth_minutes":5040, "water_need":38, "yield":4},
+    "pea": {"name":"Garden pea", "seasons":{"late_spring","early_summer","late_summer"}, "growth_minutes":4320, "water_need":42, "yield":4},
 }
 
 class ActivityModel:
@@ -23,7 +26,7 @@ class ActivityModel:
                 "moisture": 45,
                 "weeds": 55,
                 "plots": [None, None, None],
-                "seed_stock": {"radish":0,"lettuce":0,"carrot":0,"broad_bean":0},
+                "seed_stock": {"radish":0,"lettuce":0,"carrot":0,"broad_bean":0,"potato":0,"kale":0,"pea":0},
                 "harvest_store": {},
                 "last_update_absolute_minute": 550,
                 "actions_completed": 0,
@@ -131,9 +134,9 @@ HOBBY_DISCOVERIES = {
         "early_spring":["nettles","wild_garlic"], "late_spring":["wild_garlic","elderflower"],
         "early_summer":["elderflower","wild_strawberry"], "high_summer":["blackberry","wild_strawberry"],
         "late_summer":["blackberry","damson"], "early_autumn":["blackberry","damson","hazelnut"],
-        "late_autumn":["hazelnut","rosehip"], "early_winter":["rosehip"], "deep_winter":[], "late_winter":[]
+        "late_autumn":["hazelnut","rosehip","field_mushroom"], "early_winter":["rosehip","wood_sorrel"], "deep_winter":["wood_sorrel"], "late_winter":["young_nettles"]
     },
-    "fish": ["brown_trout","chub","perch","roach"],
+    "fish": ["brown_trout","chub","perch","roach","grayling","pike"],
     "history": {
         "churchyard":"churchyard_masons_marks", "railway_halt":"halt_freight_siding", "village_green":"green_old_market_charter", "calder_farm":"farm_boundary_ledger", "old_quarry":"quarry_shift_register", "quarry_caves":"worked_passage_marks"
     }

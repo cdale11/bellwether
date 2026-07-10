@@ -1,7 +1,8 @@
 from backend.ai.provider import provider
+from backend.core.dialogue_expression_model import DIALOGUE_EXPRESSION_MODEL
+from backend.core.npc_model import NPC_MODEL
 from backend.ai.repair import LABEL
 from backend.core.world_model import WORLD_MODEL
-from backend.core.npc_model import NPC_MODEL
 from backend.core.purpose_model import PURPOSE_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
 import random
@@ -396,9 +397,10 @@ def conversation_round(s):
                          {"id":b,"name":nb["name"],"activity":nb["activity"],"memories":s.get("social_memory",{}).get(b,[])[-3:]}],
          "location":na["location"],"time_minute":s["minute"],"weather":s["weather"],"village_mood":s["village_brain"]["mood"],
          "supernatural_pressure":s["village_brain"]["supernatural_pressure"],"recent_village_events":s.get("world_events",[])[-4:],
-         "catchup_changes":s.get("ai_catchup_context",{}).get("meaningful_changes",[])[-4:]}
+         "catchup_changes":s.get("ai_catchup_context",{}).get("meaningful_changes",[])[-4:],
+         "character_context":{a:{"identity":NPC_MODEL.dialogue_identity(a),"expression":DIALOGUE_EXPRESSION_MODEL.context(s,a)},b:{"identity":NPC_MODEL.dialogue_identity(b),"expression":DIALOGUE_EXPRESSION_MODEL.context(s,b)}}}
     instruction=(f"Write exactly 4 dialogue lines between {na['name']} and {nb['name']}. Alternate speakers. "
-                 "Format every line exactly as Name: dialogue. Keep the exchange ordinary, character-grounded, concise, and free of exposition dumps.")
+                 "Format every line exactly as Name: dialogue. Keep the exchange ordinary, concise, and free of exposition dumps. Make each speaker recognizably distinct from CHARACTER_CONTEXT without caricature, repeated catchphrases, or forced biography.")
     dialogue=provider.ask_text("conversation",instruction,ctx,max_tokens=120)
     if not dialogue:
         # Fast authored fallback keeps the living-village tick moving if local generation fails.

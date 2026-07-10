@@ -8,6 +8,13 @@ RECIPES={
  'garden_salad':{'name':'Garden salad','requires':{'lettuce':1,'radish':1},'household':{},'minutes':20,'meals':1,'skill':2},
  'carrot_soup':{'name':'Carrot soup','requires':{'carrot':3},'household':{'groceries':1},'minutes':45,'meals':2,'skill':4},
  'bean_stew':{'name':'Broad bean stew','requires':{'broad_bean':3},'household':{'groceries':1},'minutes':50,'meals':2,'skill':5},
+ 'potato_hash':{'name':'Crisp potato hash','requires':{'potato':3},'household':{'groceries':1},'minutes':35,'meals':2,'skill':4},
+ 'kale_broth':{'name':'Kale and garden broth','requires':{'kale':2,'carrot':1},'household':{'groceries':1},'minutes':45,'meals':2,'skill':5},
+ 'pea_toast':{'name':'Crushed pea toast','requires':{'pea':2},'household':{'bread_loaf':1},'minutes':25,'meals':1,'skill':3},
+ 'nettle_soup':{'name':'Nettle soup','requires':{},'foraged':{'nettles':2},'household':{'groceries':1},'minutes':40,'meals':2,'skill':5},
+ 'mushroom_stew':{'name':'Field mushroom stew','requires':{},'foraged':{'field_mushroom':2},'household':{'groceries':1},'minutes':50,'meals':2,'skill':6},
+ 'trout_supper':{'name':'Pan-fried trout supper','requires':{},'fish':{'brown_trout':1},'household':{'groceries':1},'minutes':45,'meals':2,'skill':6},
+ 'perch_supper':{'name':'Herbed perch supper','requires':{},'fish':{'perch':1},'household':{'groceries':1},'minutes':40,'meals':2,'skill':6},
 }
 REPAIRS={
  'kitchen_stove':{'name':'service the old kitchen stove','cost_supplies':1,'minutes':60,'care':12},
@@ -34,7 +41,8 @@ class ContentModel:
   rt=state.setdefault('content_progression',self.runtime_defaults()); store=state['player_activities']['garden']['harvest_store']; house=state['economy']['household']; out=[]
   for rid in rt['cooking']['recipes_known']:
    r=RECIPES[rid]
-   if all(store.get(k,0)>=v for k,v in r['requires'].items()) and all(house.get(k,0)>=v for k,v in r['household'].items()): out.append((f'content:cook:{rid}',f"Cook {r['name']}"))
+   hobbies=state.get('player_activities',{}).get('hobbies',{}).get('collections',{}); forage=hobbies.get('foraged',{}); fish=hobbies.get('fish',{})
+   if all(store.get(k,0)>=v for k,v in r.get('requires',{}).items()) and all(forage.get(k,0)>=v for k,v in r.get('foraged',{}).items()) and all(fish.get(k,0)>=v for k,v in r.get('fish',{}).items()) and all(house.get(k,0)>=v for k,v in r.get('household',{}).items()): out.append((f'content:cook:{rid}',f"Cook {r['name']}"))
   return out
  def repair_actions(self,state):
   if state.get('location')!='ashcroft_cottage': return []
@@ -44,12 +52,28 @@ class ContentModel:
  def cook(self,state,rid):
   if rid not in RECIPES or state.get('location')!='ashcroft_cottage':return False,'You cannot cook that here.',0
   r=RECIPES[rid]; store=state['player_activities']['garden']['harvest_store']; house=state['economy']['household']
-  if not all(store.get(k,0)>=v for k,v in r['requires'].items()) or not all(house.get(k,0)>=v for k,v in r['household'].items()):return False,'You no longer have the ingredients.',0
-  for k,v in r['requires'].items():store[k]-=v
-  for k,v in r['household'].items():house[k]-=v
+  hobbies=state.get('player_activities',{}).get('hobbies',{}).get('collections',{}); forage=hobbies.get('foraged',{}); fish=hobbies.get('fish',{})
+  if not all(store.get(k,0)>=v for k,v in r.get('requires',{}).items()) or not all(forage.get(k,0)>=v for k,v in r.get('foraged',{}).items()) or not all(fish.get(k,0)>=v for k,v in r.get('fish',{}).items()) or not all(house.get(k,0)>=v for k,v in r.get('household',{}).items()):return False,'You no longer have the ingredients.',0
+  for k,v in r.get('requires',{}).items():store[k]-=v
+  for k,v in r.get('foraged',{}).items():forage[k]-=v
+  for k,v in r.get('fish',{}).items():fish[k]-=v
+  for k,v in r.get('household',{}).items():house[k]-=v
   rt=state['content_progression']['cooking']; rt['meals_cooked']+=1; rt['history'].append({'day':state['day'],'recipe':rid}); rt['history']=rt['history'][-40:]
   state['player_life']['meals']+=r['meals']; state['player_activities']['skills']['cooking']+=r['skill']
-  return True,f"You cook {r['name']}. The work is ordinary and absorbing, and the cottage smells inhabited afterward.",r['minutes']
+  cooking_prose={
+   'radish_toast':'You slice the radishes thinly over buttered toast. The sharp, peppery bite makes a simple meal feel deliberate.',
+   'garden_salad':'You wash the leaves and radishes, then make a crisp salad from what the garden has given you.',
+   'carrot_soup':'The carrots soften slowly into a sweet, earthy soup. Steam clouds the kitchen window while the pot simmers.',
+   'bean_stew':'The broad beans cook down into a thick, sustaining stew. It is plain food, but exactly right after a long day.',
+   'potato_hash':'You fry the potatoes until their edges crisp. The cottage fills with the warm smell of a proper hot meal.',
+   'garden_broth':'Carrot and kale simmer into a light garden broth. Nothing is wasted, and the result tastes of the season.',
+   'pea_toast':'You crush the peas and spread them over hot toast. It is fresh, quick, and better than the ingredients suggest.',
+   'nettle_soup':'Carefully handled nettles become a deep green soup. Their wild edge softens into something unexpectedly comforting.',
+   'mushroom_stew':'The mushrooms darken the stew as it cooks, giving the kitchen a rich woodland smell.',
+   'trout_supper':'You pan-fry the trout until the skin crisps. For once, the river has provided dinner without asking anything back.',
+   'perch_supper':'You cook the perch with herbs and eat it hot. The meal is modest, clean-tasting, and earned.',
+  }
+  return True,cooking_prose.get(rid,f"You cook {r['name']}. The work is absorbing, and the cottage feels more lived in afterward."),r['minutes']
  def repair(self,state,rid):
   if rid not in REPAIRS or state.get('location')!='ashcroft_cottage':return False,'You cannot repair that here.',0
   rt=state['content_progression']['home_restoration']; r=REPAIRS[rid]

@@ -11,6 +11,9 @@ ITEMS={
  "lettuce_seed":{"name":"Lettuce seed packet","price":2,"kind":"seed","crop_id":"lettuce","seed_units":3,"supply":"farm"},
  "carrot_seed":{"name":"Carrot seed packet","price":3,"kind":"seed","crop_id":"carrot","seed_units":3,"supply":"farm"},
  "broad_bean_seed":{"name":"Broad bean seed packet","price":3,"kind":"seed","crop_id":"broad_bean","seed_units":3,"supply":"farm"},
+ "potato_seed":{"name":"Seed potato sack","price":4,"kind":"seed","crop_id":"potato","seed_units":3,"supply":"farm"},
+ "kale_seed":{"name":"Kale seed packet","price":3,"kind":"seed","crop_id":"kale","seed_units":3,"supply":"farm"},
+ "pea_seed":{"name":"Garden pea packet","price":3,"kind":"seed","crop_id":"pea","seed_units":3,"supply":"farm"},
  "groceries":{"name":"Basic groceries","price":4,"kind":"household","units":3,"supply":"wholesale"},
  "tea":{"name":"Tea","price":2,"kind":"household","units":4,"supply":"wholesale"},
  "cleaning_supplies":{"name":"Cleaning supplies","price":3,"kind":"household","units":2,"supply":"wholesale"},
@@ -19,9 +22,9 @@ ITEMS={
  "bread_loaf":{"name":"Fresh loaf","price":2,"kind":"food","units":2,"supply":"flour"},
  "radish_bunch":{"name":"Local radish bunch","price":3,"kind":"produce","crop_id":"radish","units":2,"supply":"farm"},
 }
-PRODUCE_VALUES={"radish":1,"lettuce":2,"carrot":1,"broad_bean":1}
+PRODUCE_VALUES={"radish":1,"lettuce":2,"carrot":1,"broad_bean":1,"potato":1,"kale":2,"pea":2}
 SHOPS={
- "village_shop":{"name":"Village Shop","location":"village_shop","stock":["radish_seed","lettuce_seed","carrot_seed","broad_bean_seed","radish_bunch","groceries","tea","cleaning_supplies","repair_supplies"],"buys_produce":True},
+ "village_shop":{"name":"Village Shop","location":"village_shop","stock":["radish_seed","lettuce_seed","carrot_seed","broad_bean_seed","potato_seed","kale_seed","pea_seed","radish_bunch","groceries","tea","cleaning_supplies","repair_supplies"],"buys_produce":True},
  "bakery":{"name":"Bellwether Bakery","location":"bakery","stock":["bakery_breakfast","bread_loaf"],"buys_produce":False},
 }
 

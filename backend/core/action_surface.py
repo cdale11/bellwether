@@ -35,6 +35,6 @@ def compact(actions,limit_per_category=8):
  for cat in CATEGORY_ORDER:
   xs=buckets.get(cat,[])
   # Passive observation is useful but should not crowd out consequential choices.
-  xs.sort(key=lambda a:(a.get("intent") in {"observation","ordinary_life"}, a.get("label","")))
+  xs.sort(key=lambda a:(0 if str(a.get("id",""))=="sleep" else 1, a.get("intent") in {"observation","ordinary_life"}, a.get("label","")))
   out.extend(xs[:limit_per_category])
  return out

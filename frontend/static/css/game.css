@@ -240,3 +240,40 @@ body[data-horror-stage="severe"] .scene-atmosphere{box-shadow:inset 0 0 160px rg
 .developer-card #developer-summary,.developer-card .developer-tabs{flex:0 0 auto}
 .developer-card .developer-content{flex:1 1 auto;min-height:0;overflow:auto}
 @media(max-height:760px){.developer-card .diagnostic-launch{max-height:28vh}}
+
+/* v3.0.0-rc5 interaction, atmosphere and device resilience */
+.loading-card{display:grid;grid-template-columns:auto auto;gap:4px 10px;align-items:center;min-width:min(360px,88vw)}
+.loading-card small{grid-column:1/-1;color:var(--muted);line-height:1.35}.loading-dots{grid-column:2}
+button:focus-visible,[role=button]:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+button:active{transform:translateY(1px) scale(.99)}
+button{touch-action:manipulation;-webkit-tap-highlight-color:rgba(201,173,114,.22);min-height:42px}
+.atmosphere-uneasy .scene-stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(25,30,28,calc(var(--horror-pressure)*.08)),rgba(30,22,20,calc(var(--horror-pressure)*.13)));mix-blend-mode:multiply}
+.atmosphere-acute .scene-art{filter:saturate(calc(1 - var(--horror-pressure)*.22)) contrast(calc(1 + var(--horror-pressure)*.08))}
+body[data-weather="rain"] .scene-stage::before,body[data-weather="storm"] .scene-stage::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent,rgba(220,230,225,.05),transparent);background-size:220% 100%;animation:weather-sweep 8s linear infinite}
+@keyframes weather-sweep{from{background-position:220% 0}to{background-position:-220% 0}}
+@media(pointer:coarse){button{min-height:48px;padding:12px 15px}.action-dock button,.panel-nav button{min-height:48px}.npc-presence{min-height:58px}}
+@media(max-width:620px){.loading-card{min-width:0;width:90vw}.developer-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}.developer-tabs button{flex:0 0 auto}.modal-head button{min-width:72px}.panel-nav{scrollbar-width:thin}}
+@media(prefers-reduced-motion:reduce){body[data-weather="rain"] .scene-stage::before,body[data-weather="storm"] .scene-stage::before{animation:none}.atmosphere-acute .scene-art{transition:none}}
+
+/* v3.0.0-rc13 — panel readability and status-card overflow repair */
+#panel-modal .panel-content{min-width:0;overflow-x:hidden}
+#panel-modal .stat-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:stretch}
+#panel-modal .stat-grid>div{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:12px;min-width:0}
+#panel-modal .stat-grid>div>b{min-width:0;line-height:1.15;overflow-wrap:normal;word-break:normal}
+#panel-modal .stat-grid>div>span{white-space:nowrap;overflow-wrap:normal;word-break:normal;text-align:right}
+#panel-modal .diag-table{table-layout:fixed}
+#panel-modal .diag-table th,#panel-modal .diag-table td{overflow-wrap:anywhere;word-break:normal}
+@media(max-width:700px){#panel-modal .stat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:460px){#panel-modal .stat-grid{grid-template-columns:1fr}#panel-modal .stat-grid>div{grid-template-columns:minmax(0,1fr) auto}}
+
+/* v3.0.0-rc14 — device/browser resilience */
+html{min-height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-height:100dvh}
+button,input,textarea,select{font:inherit}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+.modal-card{overscroll-behavior:contain}
+.panel-nav{padding-bottom:max(4px,env(safe-area-inset-bottom))}
+.shell{padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right))}
+@media(hover:none){button:hover{background:inherit}.action-dock button:hover{background:linear-gradient(#293229,#202820)}}
+@media(max-width:460px){.action-dock{grid-template-columns:1fr 1fr}.topbar .utilitybar button{flex:1 1 44%}.scene-stage{height:min(520px,62dvh)}.dialogue{max-height:46%;overflow:auto}.modal-card{max-height:calc(100dvh - 16px)}}
+@media(max-height:560px) and (orientation:landscape){.game-frame{height:auto}.scene-stage{height:78dvh;min-height:320px}.dialogue{max-height:48%}.panel-nav{position:sticky}.modal-card{max-height:96dvh}.developer-card{height:96dvh}}

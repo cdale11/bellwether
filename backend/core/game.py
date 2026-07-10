@@ -33,12 +33,14 @@ from backend.core.interface_horror_model import INTERFACE_HORROR_MODEL
 from backend.core.property_model import PROPERTY_MODEL
 from backend.core.player_business_model import PLAYER_BUSINESS_MODEL
 from backend.core.player_identity_model import PLAYER_IDENTITY_MODEL
+from backend.core.playstyle_pacing_model import PLAYSTYLE_PACING_MODEL
 from backend.core.danger_model import DANGER_MODEL
 from backend.core.failure_recovery_model import FAILURE_RECOVERY_MODEL
 from backend.ai.async_runtime import ASYNC_AI_RUNTIME
 from backend.core.recurrence_model import RECURRENCE_MODEL
 from backend.core.content_model import CONTENT_MODEL
 from backend.core.memory_model import MEMORY_MODEL
+from backend.core.dialogue_expression_model import DIALOGUE_EXPRESSION_MODEL
 from backend.core.population_model import POPULATION_MODEL
 from backend.core.social_consequence_model import SOCIAL_CONSEQUENCE_MODEL
 from backend.core.relationship_life_model import RELATIONSHIP_LIFE_MODEL
@@ -813,6 +815,7 @@ class Game:
         state["transport_overview"] = TRANSPORT_MODEL.public(self.state)
         state["relationship_life_overview"] = RELATIONSHIP_LIFE_MODEL.public(self.state)
         state["town_consciousness_overview"] = TOWN_MIND_MODEL.developer_context(self.state)
+        state["playstyle_pacing_overview"] = PLAYSTYLE_PACING_MODEL.public(self.state)
         state["resistance_overview"] = RESISTANCE_MODEL.public(self.state)
         story_public=STORY_MODEL.public(self.state)
         main_quests=self.visible_quests("main")
@@ -820,10 +823,10 @@ class Game:
             main_quests=main_quests + [{"id":"rc1:"+story_public["chapter"],"title":story_public["title"],"objective":story_public["objective"],"done":False}]
         procedural_opportunities=[]
         for arc in self.state.get("procedural_arcs",{}).get("active",[]):
-            procedural_opportunities.append({"id":"arc:"+str(arc.get("id")),"title":arc.get("label","Village opportunity"),"objective":"Follow the situation where it is unfolding in Bellwether.","location":arc.get("location"),"done":False,"procedural":True})
+            procedural_opportunities.append({"id":"arc:"+str(arc.get("id")),"title":arc.get("label","Village opportunity"),"objective":("You have offered help; allow the situation to unfold and check back as village time passes." if arc.get("player_involved") else "Follow the situation where it is unfolding in Bellwether."),"location":arc.get("location"),"done":False,"status":("in_progress" if arc.get("player_involved") else "available"),"procedural":True})
         for arc in self.state.get("procedural_arcs",{}).get("history",[])[-12:]:
             if arc.get("player_involved"):
-                procedural_opportunities.append({"id":"arc:"+str(arc.get("id")),"title":arc.get("label","Village opportunity"),"objective":"Resolved through your involvement in village life.","location":arc.get("location"),"done":True,"procedural":True,"reward_applied":arc.get("reward_applied",False)})
+                procedural_opportunities.append({"id":"arc:"+str(arc.get("id")),"title":arc.get("label","Village opportunity"),"objective":"Resolved through your involvement in village life.","location":arc.get("location"),"done":True,"status":"completed","procedural":True,"reward_applied":arc.get("reward_applied",False),"completed_day":arc.get("resolved_day")})
         state["quests"] = {
             "main": main_quests,
             "side": self.visible_quests("side") + procedural_opportunities,
@@ -869,7 +872,7 @@ class Game:
         for npc_id, npc in s.get("npcs", {}).items():
             if npc.get("visible", True) and npc.get("location") == loc:
                 if self._story_conversation_required(npc_id):
-                    actions.append({"id": f"talk:{npc_id}", "label": f"Talk to {npc['name']}", "kind": "talk"})
+                    actions.append({"id": f"talk:{npc_id}", "label": f"Talk to {npc['name']}", "kind": "talk", "npc_id": npc_id, "npc_name": npc["name"]})
                 else:
                     actions.append({
                         "id": f"free_talk:{npc_id}",
@@ -878,7 +881,7 @@ class Game:
                         "npc_id": npc_id,
                         "npc_name": npc["name"],
                     })
-                actions.append({"id":f"social:greet:{npc_id}","label":f"Exchange a Few Words with {npc['name']}","kind":"social"})
+                actions.append({"id":f"social:greet:{npc_id}","label":f"Greet {npc['name']}","kind":"social","npc_id":npc_id,"npc_name":npc["name"]})
         if loc == "ashcroft_cottage" and not s["flags"]["read_letter"]:
             actions.append({"id": "read_letter", "label": "Read Eleanor's Letter", "kind": "story"})
         if loc == "ashcroft_cottage" and s["flags"]["read_letter"]:
@@ -980,7 +983,7 @@ class Game:
         for action_id, label in RESISTANCE_MODEL.actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
         for resident in POPULATION_MODEL.present(s, s.get("location"))[:6]:
-            actions.append({"id":"society:greet:"+resident["id"],"label":"Exchange a Few Words with "+resident["name"],"kind":"social"})
+            actions.append({"id":"society:greet:"+resident["id"],"label":"Greet "+resident["name"],"kind":"social"})
 
         # Part 6: applications and scheduled shifts use authored job definitions and real world locations.
         for action_id, label in JOB_MODEL.available_actions(s):
@@ -1730,7 +1733,10 @@ class Game:
             "social_consequences": SOCIAL_CONSEQUENCE_MODEL.context(s,npc_id,limit=6),
             "recent_conversation": self._conversation_recent_exchange_context(npc_id),
             "npc_personality": self._npc_social_personality(npc_id),
+            "dialogue_expression": DIALOGUE_EXPRESSION_MODEL.context(s,npc_id),
             "npc_life_context": self.npc_life_context(npc_id),
+            "npc_social_web": self.npc_social_context(npc_id),
+            "npc_knowledge": self.npc_knowledge_context(npc_id),
             "relationship": {
                 "affinity": s["relationships"][npc_id]["affinity"],
                 "familiarity": s["relationships"][npc_id]["familiarity"],
@@ -1823,7 +1829,18 @@ class Game:
             return self.view()
         self.advance(5)
         self.start_ai_player_conversation(npc_id, clean)
-        return self.view()
+        view = self.view()
+        # Explicit foreground exchange contract: the scene dialogue window must show
+        # the just-completed free-form conversation even if another UI acknowledgement
+        # advanced the ordinary message cursor.
+        recent = self.state.get("conversation_sessions", {}).get(npc_id, [])
+        if recent:
+            exchange = recent[-1]
+            view["conversation_exchange"] = {
+                "npc_id": npc_id, "npc_name": npc.get("name", npc_id),
+                "player": exchange.get("player", clean), "npc": exchange.get("npc", "")
+            }
+        return view
 
     def describe_current_village_activity(self):
         """Describe already-simulated state without causing actors to decide again."""
@@ -2336,9 +2353,21 @@ class Game:
             "quarry_caves": ("cave_acoustic_return", "An echo from the wrong direction", "A sharp sound returns first from deeper in the passage rather than from the open quarry mouth behind you."),
         }
 
-        evidence = ordinary[loc]
+        # Expanded-world locations may not yet have bespoke investigation prose.
+        # Keep the globally exposed investigation action valid everywhere instead
+        # of crashing when the player observes a newer location.
+        place_name = WORLD.get(loc, {}).get("name", loc.replace("_", " ").title())
+        evidence = ordinary.get(loc, (
+            f"ordinary_{loc}",
+            f"The shape of {place_name}",
+            f"Small signs of use, weather and repeated passage reveal how {place_name} fits into the village's ordinary routines.",
+        ))
         if mode == "search" and (familiarity >= 6 or life["attentiveness"] >= 8 or count >= 2):
-            evidence = deeper[loc]
+            evidence = deeper.get(loc, (
+                f"deeper_{loc}",
+                f"A detail at {place_name}",
+                f"Closer attention reveals a detail at {place_name} that is easy to miss when simply passing through.",
+            ))
 
         self.add("Narrator", "You slow down and pay attention to the place rather than merely passing through it.")
         self.record_evidence(*evidence, location=loc)
@@ -2855,7 +2884,7 @@ class Game:
             rid=action.split(":",2)[2]; resident=POPULATION_MODEL.migrate(s)["residents"].get(rid)
             if resident and resident.get("location")==s.get("location"):
                 self.advance(5); SOCIETY_MODEL.note_encounter(s,rid); LIFE_SIMULATION_MODEL.award(s,2,"ordinary resident contact")
-                self.add(resident.get("name",rid),"You exchange a few ordinary words about the day and the village around you.")
+                self.add("Narrator",f"You exchange a few ordinary words with {resident.get('name',rid)} about the day and the village around you.")
 
         elif action.startswith("lifesim:"):
             ok,msg,minutes=LIFE_SIMULATION_MODEL.perform(s,action)
@@ -2871,7 +2900,12 @@ class Game:
                 self.advance(5); self._update_relationship(npc_id,"shared an ordinary greeting",1,2,1)
                 s["relationships"][npc_id]["talks"]+=1; CONTENT_MODEL.note_activity(s,"social")
                 LIFE_SIMULATION_MODEL.award(s,2,"ordinary social contact")
-                self.add(npc.get("name",npc_id),"You exchange a few ordinary words about the day. Nothing dramatic happens, which is part of becoming familiar.")
+                greeting_lines={
+                    "jonah":"Morning. If you need anything practical, ask before I pretend the bakery keeps me too busy.",
+                    "mara":"Hello. The day's holding together so far; that's usually enough to work with.",
+                    "mrs_ellis":"Good to see you. Ordinary days are worth noticing too, while they remain ordinary.",
+                }
+                self.add(npc.get("name",npc_id),greeting_lines.get(npc_id,"Hello. Good to see you about the village."))
 
         elif action.startswith("life:"):
             self.perform_life_activity(action.split(":", 1)[1])
@@ -2931,6 +2965,7 @@ class Game:
             property_update=PROPERTY_MODEL.daily_tick(s)
             business_update=PLAYER_BUSINESS_MODEL.daily_tick(s)
             RESISTANCE_MODEL.daily_tick(s)
+            pacing_update=PLAYSTYLE_PACING_MODEL.daily_tick(s)
             town_pressure=TOWN_MIND_MODEL.strategic_daily_tick(s)
             story_response=STORY_CONSCIOUSNESS_INTEGRATION_MODEL.daily_tick(s)
             horror_consequence=SYSTEMIC_HORROR_INTEGRATION_MODEL.daily_tick(s)

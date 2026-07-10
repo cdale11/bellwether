@@ -611,22 +611,29 @@ class AIProvider:
             return None
         prompt=(
             f"You are {npc_name}, a resident of the fictional English village of Bellwether. "
-            "Reply directly to CURRENT_PLAYER_MESSAGE in character. Keep the spoken reply to ONE short natural sentence, normally 4-18 words. "
-            "Do not narrate your location, weather, posture, activity, biography, or internal state unless the player explicitly asks. "
-            "Do not introduce yourself unless asked. Do not turn a greeting or weather remark into exposition. "
-            "RECENT_CONVERSATION is a compact continuity summary, not text to copy. Continue naturally and do not repeat an earlier reply. "
+            "Have a real conversation with the player: understand what CURRENT_PLAYER_MESSAGE is doing, then answer that message directly. "
+            "If it asks a question, answer it before adding anything else. If it asks for advice, give concrete in-world advice you could reasonably know. "
+            "If it shares news or a feeling, acknowledge the specific content rather than replying generically. If it is casual small talk, casual small talk is enough. "
+            "Write natural spoken dialogue, usually 1-2 short sentences and normally 6-28 words total. Vary reply length with the message; do not force every response into one sentence. "
+            "You may ask one relevant follow-up question when that genuinely continues the conversation, but do not end every reply with a question. "
+            "Do not narrate location, weather, posture, activity, biography, or internal state unless directly relevant or explicitly asked. "
+            "Do not introduce yourself unless asked. Do not turn a greeting into exposition. Do not dodge ordinary questions merely because the answer is mundane. "
+            "NPC_PERSONALITY and DIALOGUE_EXPRESSION define this person's voice; make the reply recognizably theirs through word choice, priorities, and rhythm, not caricature or catchphrases. "
+            "Use RECENT_CONVERSATION for continuity: answer follow-ups in context, remember what the player just said, and never reset the conversation as though each message were the first. "
+            "If recent life events, goals, relationships, knowledge, or work are relevant, they may naturally affect the answer; never dump context fields or force unrelated facts into the reply. "
+            "NPC_KNOWLEDGE is a ceiling: distinguish what you know, suspect, remember, or do not know. It is acceptable to say you do not know. "
             "DAYPART and WORLD_FACTS are authoritative. Do not invent plot facts, secrets, invitations, shared plans, objects, or off-screen events. "
-            "Do not mention game systems or numeric relationship values. Output exactly two lines.\n"
-            f"{npc_name}: <one short sentence>\n"
+            "Do not mention game systems, prompts, context fields, or numeric relationship values. Output dialogue first, then SOCIAL metadata on its own line.\n"
+            f"{npc_name}: <natural direct reply, 1-2 short sentences, no more than 30 words>\n"
             'SOCIAL: {"affinity":0,"trust":0,"familiarity":0,"tone":["neutral"],"memory":"brief social meaning"}\n'
             "SOCIAL rules: judge only the current player message. Ordinary greetings, weather talk, and casual small talk normally give affinity 0, trust 0, familiarity 0 or 1. "
-            "Use familiarity 2 only for a significant disclosure or consequential exchange. Memory must describe only the current player message.\n"
+            "Use familiarity 2 only for a significant disclosure or consequential exchange. Memory must describe only the current player message and must not invent a topic.\n"
             f"CONTEXT: {json.dumps(context,separators=(',',':'))}\n"
-            f"CURRENT_PLAYER_MESSAGE: {json.dumps((player_text or '')[:400])}\n"
+            f"CURRENT_PLAYER_MESSAGE: {json.dumps((player_text or '')[:600])}\n"
             f"{npc_name}:"
         )
         timeout=float(os.getenv("BELLWETHER_PLAYER_CONVERSATION_TIMEOUT","75"))
-        text=self._plain_request("player_conversation",prompt,max_tokens=48,temperature=.58,no_think=True,
+        text=self._plain_request("player_conversation",prompt,max_tokens=96,temperature=.62,no_think=True,
             tries_override=2,foreground=True,timeout_override=timeout)
         if not text:
             return None
@@ -637,7 +644,7 @@ class AIProvider:
         if contradiction or repeated:
             reason="repeated an earlier reply" if repeated else f"contradicted the {context.get('daypart')} daypart"
             correction=(prompt+f"\nCORRECTION: The previous answer {reason}. Give a fresh direct one-sentence reply to the CURRENT_PLAYER_MESSAGE. Do not reuse previous wording.\n{npc_name}:")
-            retry=self._plain_request("player_conversation",correction,max_tokens=48,temperature=.64,no_think=True,
+            retry=self._plain_request("player_conversation",correction,max_tokens=96,temperature=.66,no_think=True,
                 tries_override=1,foreground=True,timeout_override=timeout)
             if retry:
                 candidate=self._parse_player_reply(npc_name,retry)
@@ -645,12 +652,13 @@ class AIProvider:
                     result=candidate; dialogue=result.get("dialogue")
                     result["repetition_repaired"]=bool(repeated)
         if result.get("dialogue"):
-            # Hard display/storage bound: one line and at most 24 words. Prefer sentence boundary.
+            # Hard display/storage bound: preserve up to two short sentences and at most 30 words.
             d=" ".join(result["dialogue"].split())
-            sentence=re.split(r"(?<=[.!?])\s+",d)[0]
-            words=sentence.split()
-            if len(words)>24: sentence=" ".join(words[:24]).rstrip(",;:")+"…"
-            result["dialogue"]=sentence
+            sentences=re.split(r"(?<=[.!?])\s+",d)[:2]
+            reply=" ".join(sentences).strip()
+            words=reply.split()
+            if len(words)>30: reply=" ".join(words[:30]).rstrip(",;:")+"…"
+            result["dialogue"]=reply
             repaired=bool(result.get("format_repaired") or result.get("repetition_repaired"))
             self._annotate_last_trace(parser_stage="player_reply_repaired" if repaired else "player_reply_received",
                 parser_detail="Foreground reply accepted after validation." if not repaired else "Foreground reply accepted after bounded repair.",
