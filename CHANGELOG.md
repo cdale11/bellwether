@@ -915,3 +915,21 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added real bread consumption action; eating bread now reduces hunger pressure by 26 points before elapsed-time hunger accrual.
 - Hardened responsive Status layout and compact stat presentation.
 - Preserved v1.6.0 geographic expansion and prior simulation systems.
+
+## 2.0.2 — Autonomous Gameplay Certification
+- Fresh bread can be eaten wherever the ordinary food action is plausible, rather than being arbitrarily cottage-only.
+- Added a spoiler-safe autonomous gameplay certification tool that drives ordinary-life loops through `Game.actions()` and `Game.perform()` on isolated fresh states.
+- Certification now checks portable food use in multiple locations, fishing-to-inventory and save round-trip, staged cottage repair and remote gating, quest reward idempotence, fabricated-action exclusion, and release identity.
+- The autonomous certification writes a machine-readable evidence report to `v202_ai_gameplay_certification_report.json`.
+
+## 2.0.3 — Diagnostic AI Player Expansion
+- Reworked the real `AIPlayerRunner` into a coverage-driven autonomous QA player.
+- Added 16-domain coverage ledger spanning ordinary life, economy, survival, jobs, gardening, cooking, fishing/foraging, cottage maintenance, relationships, society, procedural content, quests/story, investigation, weather/ecology, horror/failure/recovery, persistence, and action contracts.
+- Comprehensive QA mode may exercise visible story, horror, recurrence and ending actions rather than excluding them from the AI player's legal surface.
+- Added per-action authoritative state digests and before/after delta evidence.
+- Added anomaly detection for action exceptions, silent no-effect actions, precipitation/temperature contradictions, negative money, and out-of-range player status values.
+- Added periodic save/serialization round-trip checks during autonomous campaigns.
+- Added interrupt-safe live expository report rewritten after every action checkpoint.
+- Added JSONL machine-readable evidence stream with state digest, coverage, provider telemetry and action evidence.
+- Final report now includes coverage ledger, issue/anomaly journal, visited locations, recent trace, provider telemetry, action diversity and persistence checks.
+- Added v2.0.3 diagnostic AI player certification tool.

@@ -29,9 +29,11 @@ class PlayerStatusModel:
         rt=self.migrate(state);rt["energy"]=min(100,rt["energy"]+72);rt["warmth"]=min(100,rt["warmth"]+35);rt["health"]=min(100,rt["health"]+4);rt["hunger"]=min(100,rt["hunger"]+8);state["health"]=round(rt["health"],1)
     def actions(self,state):
         rt=self.migrate(state); c=rt["cottage"]; out=[]
-        if state.get("location")!="ashcroft_cottage": return out
         household=state.get("economy",{}).get("household",{})
+        # Portable ordinary food is available wherever eating is plausible; cottage-only
+        # restrictions remain specific to repair and home activities.
         if int(household.get("bread_loaf",0) or 0)>0: out.append(("status:eat:bread","Eat Fresh Bread"))
+        if state.get("location")!="ashcroft_cottage": return out
         if c["condition"]<72 and not c.get("active_repair"): out.append(("status:repair:inspect","Inspect Cottage Damage"))
         elif c.get("active_repair")=="inspected": out.append(("status:repair:prepare","Prepare Repair Materials"))
         elif c.get("active_repair")=="prepared": out.append(("status:repair:work","Carry Out Cottage Repairs"))
@@ -42,7 +44,7 @@ class PlayerStatusModel:
             household=state.setdefault("economy",{}).setdefault("household",{})
             if int(household.get("bread_loaf",0) or 0)<1:return False,"There is no fresh bread left to eat.",0
             household["bread_loaf"]-=1; self.eat(state,26)
-            return True,"You cut a generous piece of fresh bread and eat it properly. The meal takes the edge off your hunger.",15
+            return True,"You eat some of the fresh bread. The simple food takes the edge off your hunger.",15
         if action.startswith("status:repair:") and state.get("location")!="ashcroft_cottage":
             return False,"Cottage repairs can only be carried out at Ashcroft Cottage.",0
         if action=="status:repair:inspect":

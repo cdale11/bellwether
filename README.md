@@ -41,3 +41,6 @@ The Developer Console full diagnostic now certifies dynamic side-content lifecyc
 Human and autonomous players now consume the same bounded action taxonomy. The human UI uses progressive disclosure by category and intent; the AI receives the same compact legal surface rather than the visual DOM. `Let the Village Play` writes an append-only checkpoint after every action and generates an extensive overnight soak report on completion or stop.
 
 Currency uses the single crossed-B glyph `฿` in authored labels, action buttons, narration, diagnostics, and status surfaces. Purchased bread is stored and can be eaten as a real action; eating it reduces the hunger-pressure value substantially.
+
+### v2.0.3 diagnostic AI player
+The AI Player control now runs a coverage-driven diagnostic campaign. During a run it continuously writes `diagnostics/diagnostic_ai_player_live_report.txt` and `diagnostics/diagnostic_ai_player_live.jsonl`; if interrupted, the latest completed action evidence and coverage ledger remain available. A completed or stopped run writes `diagnostics/diagnostic_ai_player_report.txt`. The report is intended for engineering analysis and can contain detailed gameplay-system evidence.
