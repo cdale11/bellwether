@@ -1,0 +1,5 @@
+Bellwether v2.0.0 integration audit
+
+Implemented: shared human/AI action grammar; progressive disclosure by category and intent; bounded candidate surface; overnight append-only AI checkpoints; comprehensive stop/completion soak report; report copy/export controls; crossed-B currency consistency; bread consumption and hunger correction; responsive Status panel; retained v1.6 geography and all additive systems.
+
+Testing contract: compile all Python, parse JS, graph/world regressions, player-status food invariant, action-surface boundedness, currency scan, AI report endpoint contract.

@@ -69,17 +69,17 @@ class EconomyModel:
    g=state["player_activities"]["garden"];g["seed_stock"][item["crop_id"]]=g["seed_stock"].get(item["crop_id"],0)+item["seed_units"]
   elif item["kind"] in {"household","repair","food"}:e["household"][item_id]=e["household"].get(item_id,0)+item.get("units",1)
   elif item["kind"]=="meal":state["player_life"]["meals"]+=1
-  self.record(state,"purchase",-price,item_id,shop_id);return True,f"You buy {item['name'].lower()} for B{price}."
+  self.record(state,"purchase",-price,item_id,shop_id);return True,f"You buy {item['name'].lower()} for ฿{price}."
  def sell_produce(self,state,crop_id,quantity=None):
   store=state["player_activities"]["garden"]["harvest_store"];have=int(store.get(crop_id,0));qty=have if quantity is None else min(have,max(0,int(quantity)))
   if qty<=0 or crop_id not in PRODUCE_VALUES:return False,"You have none of that produce to sell."
   unit=self.produce_price(state,crop_id);earned=qty*unit;store[crop_id]=have-qty;state["money"]+=earned;e=self.migrate(state);b=e["market"]["businesses"]["village_shop"];b["purchases"]+=qty;b["daily_purchases"]+=qty;b["cash_reserve"]=max(0,b["cash_reserve"]-earned);b["player_support"]+=min(3,qty*.1)
-  e["market"]["produce_demand"][crop_id]=max(.75,round(e["market"]["produce_demand"][crop_id]-min(.2,qty*.02),2));self.record(state,"sale",earned,f"{crop_id}:{qty}@{unit}","village_shop");return True,f"The shop takes {qty} {crop_id.replace('_',' ')} for B{earned}."
+  e["market"]["produce_demand"][crop_id]=max(.75,round(e["market"]["produce_demand"][crop_id]-min(.2,qty*.02),2));self.record(state,"sale",earned,f"{crop_id}:{qty}@{unit}","village_shop");return True,f"The shop takes {qty} {crop_id.replace('_',' ')} for ฿{earned}."
  def support_business(self,state,sid,amount=5):
   if sid not in SHOPS:return False,"There is no such business to support."
   amount=max(1,min(20,int(amount)));e=self.migrate(state)
   if state.get("money",0)<amount:return False,"You cannot spare that much."
-  state["money"]-=amount;b=e["market"]["businesses"][sid];b["cash_reserve"]=min(200,b["cash_reserve"]+amount);b["health"]=min(100,b["health"]+amount*.35);b["player_support"]+=amount;self.record(state,"support",-amount,sid,sid);return True,f"You quietly put B{amount} toward helping {SHOPS[sid]['name']} through the strain."
+  state["money"]-=amount;b=e["market"]["businesses"][sid];b["cash_reserve"]=min(200,b["cash_reserve"]+amount);b["health"]=min(100,b["health"]+amount*.35);b["player_support"]+=amount;self.record(state,"support",-amount,sid,sid);return True,f"You quietly put ฿{amount} toward helping {SHOPS[sid]['name']} through the strain."
  def job_modifier(self,state,jid):
   sid="bakery" if jid=="bakery_helper" else "village_shop" if jid=="shop_assistant" else None
   if not sid:return {"available":True,"wage_factor":1.0,"reason":"community work"}
@@ -110,11 +110,11 @@ class EconomyModel:
   sid=self.shop_for_location(state.get("location"));out=[]
   if sid:
    for iid in SHOPS[sid]["stock"]:
-    item=ITEMS[iid];out.append((f"economy:buy:{sid}:{iid}",f"Buy {item['name']} (B{self.price(state,sid,iid)})"))
+    item=ITEMS[iid];out.append((f"economy:buy:{sid}:{iid}",f"Buy {item['name']} (฿{self.price(state,sid,iid)})"))
    if SHOPS[sid]["buys_produce"]:
     for crop,qty in state.get("player_activities",{}).get("garden",{}).get("harvest_store",{}).items():
-     if qty>0:out.append((f"economy:sell:{crop}",f"Sell all {crop.replace('_',' ').title()} ({qty}, B{self.produce_price(state,crop)}/unit)"))
+     if qty>0:out.append((f"economy:sell:{crop}",f"Sell all {crop.replace('_',' ').title()} ({qty}, ฿{self.produce_price(state,crop)}/unit)"))
    b=self.migrate(state)["market"]["businesses"][sid]
-   if b["trend"] in {"strained","critical"}:out.append((f"economy:support:{sid}:5",f"Help {SHOPS[sid]['name']} through the strain (B5)"))
+   if b["trend"] in {"strained","critical"}:out.append((f"economy:support:{sid}:5",f"Help {SHOPS[sid]['name']} through the strain (฿5)"))
   return out
 ECONOMY_MODEL=EconomyModel()

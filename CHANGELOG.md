@@ -895,3 +895,13 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Expanded autonomous playtesting with society and employment-change goals, stronger cooking/community prerequisite scoring, richer quality dimensions, and society telemetry.
 - Preserved compact AI-player prompts and no-timeout regression architecture while improving goal-specific action ranking.
 - Expanded diagnostic output with timeout, invalid-response, no-effect, behavioural-diversity, goal-completion, society-connectivity, migration-pressure, and weekly-continuity metrics.
+
+## v2.0.0 — Emergent Bellwether Integration
+- Unified human and AI player action surfaces around one backend action grammar.
+- Added progressive disclosure by category and intent; reduced flat action clutter.
+- Added append-only overnight AI-player checkpoints and comprehensive completion/stop soak reports.
+- Added Copy/Export Overnight Report controls and report endpoint.
+- Standardized visible currency to the crossed-B glyph ฿, including action-button labels and authored narration.
+- Added real bread consumption action; eating bread now reduces hunger pressure by 26 points before elapsed-time hunger accrual.
+- Hardened responsive Status layout and compact stat presentation.
+- Preserved v1.6.0 geographic expansion and prior simulation systems.

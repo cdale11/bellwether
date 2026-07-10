@@ -183,3 +183,9 @@ def ai_player_stop():
 def ai_player_status():
     from backend.core.ai_player import AI_PLAYER
     return AI_PLAYER.snapshot()
+
+@app.get('/api/ai-player/report')
+def ai_player_report():
+    from backend.core.ai_player import AI_PLAYER
+    text=AI_PLAYER.report_path.read_text(encoding='utf-8') if AI_PLAYER.report_path.exists() else 'No overnight AI player report has been generated yet.'
+    return Response(text, media_type='text/plain', headers={'Content-Disposition':'attachment; filename="Bellwether_v2.0.0_overnight_AI_soak_report.txt"'})

@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SAVE_PATH = ROOT / "saves" / "save.json"
 
 from backend.core.world_model import WORLD, WORLD_MODEL
+from backend.core.action_surface import compact as compact_action_surface
 from backend.core.npc_model import NPC_MODEL
 from backend.core.social_model import SOCIAL_MODEL
 from backend.core.activity_model import ACTIVITY_MODEL, CROPS
@@ -801,7 +802,7 @@ class Game:
             "state": state,
             "location": {"id": self.state["location"], **loc},
             "world_context": {**WORLD_MODEL.public_location_context(self.state["location"]), "active_events": EVENT_MODEL.location_context(self.state, self.state["location"]), "supernatural_overlay": HORROR_MODEL.location_context(self.state, self.state["location"]), "weather_effect": self.weather_environment_effect()},
-            "actions": self.actions() + ([{"id":"danger:treat","label":"Treat your injury","kind":"life"}] if self.state.get("danger",{}).get("injuries") and self.state.get("danger",{}).get("status")=="alive" else []),
+            "actions": compact_action_surface(self.actions() + ([{"id":"danger:treat","label":"Treat your injury","kind":"life"}] if self.state.get("danger",{}).get("injuries") and self.state.get("danger",{}).get("status")=="alive" else [])),
             "present": {"npcs": present_npcs, "traffic": present_traffic},
             "simulation_pacing": self.simulation_pacing_status(),
         }
@@ -1194,7 +1195,7 @@ class Game:
         if result and result.get("newly_completed"):
             reward=(result.get("transaction") or {}).get("reward",{})
             parts=[]
-            if reward.get("money"): parts.append(f"B{reward['money']}")
+            if reward.get("money"): parts.append(f"฿{reward['money']}")
             if reward.get("life_xp"): parts.append(f"{reward['life_xp']} life XP")
             parts.extend(reward.get("items",[]) or [])
             if reward.get("community"): parts.append(f"community standing +{reward['community']}")
@@ -2571,7 +2572,7 @@ class Game:
             if s["money"] >= 2:
                 PLAYER_STATUS_MODEL.eat(s,28)
                 s["money"] -= 2; life["meals"] += 1; effects["money"] = s["money"]
-                self.add("Narrator", "You spend B2 on something warm and eat without rushing.")
+                self.add("Narrator", "You spend ฿2 on something warm and eat without rushing.")
             else:
                 self.add("Narrator", "You check your pockets and decide to save what little money you have.")
                 return

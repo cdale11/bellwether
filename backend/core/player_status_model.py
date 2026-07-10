@@ -36,6 +36,11 @@ class PlayerStatusModel:
         return out
     def perform(self,state,action):
         rt=self.migrate(state); c=rt["cottage"]
+        if action=="status:eat:bread":
+            household=state.setdefault("economy",{}).setdefault("household",{})
+            if int(household.get("bread_loaf",0) or 0)<1:return False,"There is no fresh bread left to eat.",0
+            household["bread_loaf"]-=1; self.eat(state,26)
+            return True,"You cut a generous piece of fresh bread and eat it properly. The meal takes the edge off your hunger.",15
         if action=="status:repair:inspect": c["active_repair"]="inspected"; return True,"You inspect damp joints, slipped pointing and weathered frames, making a practical repair list.",35
         if action=="status:repair:prepare":
             supplies=state.get("economy",{}).get("household",{}).get("repair_supplies",0)

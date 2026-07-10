@@ -3,7 +3,10 @@ from copy import deepcopy
 from threading import RLock,Thread,Event
 from collections import deque
 import time
+import json
+from pathlib import Path
 from backend.ai.provider import provider
+from backend.core.action_surface import compact as compact_action_surface
 BLOCKED_PREFIXES=("story:","ending:","horror:","recurrence:")
 BLOCKED_KINDS={"story","choice","talk"}
 GOAL_WORDS={"movement":("travel","walk","visit","return","go to"),"npc_interaction":("talk","speak","help","conversation"),"relationships":("talk","speak","help","conversation"),"economy":("buy","sell","shop","purchase","support"),"jobs":("job","work","shift","apply"),"gardening":("garden","soil","weed","water","plant","sow","harvest","cottage"),"investigation":("observe","examine","review","lead","investigat"),"procedural_content":("offer to help","errand","opportunity","favour","favor"),"cooking":("cook","preserve","meal","food"),"hobbies":("hobby","fish","forage","bird","sketch","history"),"community":("community","workday","care walk","churchyard upkeep","share a simple meal"),"society":("exchange a few words","resident","community","social"),"employment_change":("job","work","shift","apply","leave job") }
@@ -11,7 +14,7 @@ PASSIVE=("look around","take a moment","wait and observe","sit by","review what"
 
 def safe_actions(game,allow_investigation=True):
  out=[]
- for a in game.actions():
+ for a in compact_action_surface(game.actions()):
   aid=a.get("id","");kind=a.get("kind","")
   if aid.startswith(BLOCKED_PREFIXES) or kind in BLOCKED_KINDS:continue
   if not allow_investigation and (aid.startswith("investigate:") or kind=="investigate"):continue
@@ -130,17 +133,27 @@ def _shadow_game(game,game_lock):
  return shadow
 
 class AIPlayerRunner:
- def __init__(self):self.lock=RLock();self.stop_event=Event();self._thread=None;self.status={"running":False,"stop_state":"stopped","mode":"idle","progress":0,"phase":"Idle","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"goal_stalls":0,"stop_requested_at":None,"stop_latency_s":None,"discarded_after_stop":0}
+ def __init__(self):
+  self.report_dir=Path(__file__).resolve().parents[2]/"diagnostics"; self.report_dir.mkdir(exist_ok=True)
+  self.checkpoint_path=self.report_dir/"overnight_ai_player_live.jsonl"; self.report_path=self.report_dir/"overnight_ai_player_report.txt"
+  self.lock=RLock();self.stop_event=Event();self._thread=None;self.status={"running":False,"stop_state":"stopped","mode":"idle","progress":0,"phase":"Idle","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"goal_stalls":0,"stop_requested_at":None,"stop_latency_s":None,"discarded_after_stop":0}
  def snapshot(self):
   with self.lock:return deepcopy(self.status)
  def _update(self,**kw):
   with self.lock:self.status.update(kw)
  def _feed(self,text):
   with self.lock:self.status.setdefault('feed',[]).append(text);self.status['feed']=self.status['feed'][-40:]
+ def _checkpoint(self,game,event):
+  s=game.state; rt=s.get("ai_runtime",{}); bg=rt.get("background",{}); ps=s.get("player_status",{}); econ=s.get("economy",{}); row={"ts":time.time(),"event":event,"day":s.get("day"),"minute":s.get("minute"),"location":s.get("location"),"money":s.get("money"),"health":ps.get("health"),"hunger":ps.get("hunger"),"energy":ps.get("energy"),"warmth":ps.get("warmth"),"cottage_condition":ps.get("cottage",{}).get("condition"),"world_ticks":s.get("world_runtime",{}).get("ticks",0),"history":len(s.get("history",[])),"world_events":len(s.get("world_events",[])),"quests":s.get("quest_runtime",{}),"procedural_active":len(s.get("procedural_arcs",{}).get("active",[])),"procedural_history":len(s.get("procedural_arcs",{}).get("history",[])),"ai_runtime":rt,"provider":provider.telemetry()}
+  with self.checkpoint_path.open("a",encoding="utf-8") as f:f.write(json.dumps(row,default=str)+"\n")
+ def _write_report(self,game,stopped=False):
+  s=game.state; snap=self.snapshot(); rt=s.get("ai_runtime",{}); ps=s.get("player_status",{}); wr=s.get("world_runtime",{}); eco=s.get("ecology_ai",{}); econ=s.get("economy",{}); q=s.get("quest_runtime",{}); lines=["BELLWETHER OVERNIGHT HUMAN + AI SOAK REPORT","Version: 2.0.0",f"Outcome: {'STOPPED' if stopped else 'COMPLETED'}",f"AI actions: {snap.get('actions',0)}",f"LLM calls: {snap.get('llm_calls',0)}",f"Successful decisions: {snap.get('successful_decisions',0)}",f"Timeouts: {snap.get('timeouts',0)}",f"Fallbacks: {snap.get('fallbacks',0)}",f"Stop latency: {snap.get('stop_latency_s')}","","WORLD HEALTH",f"Clock: day {s.get('day')} minute {s.get('minute')}",f"Location: {s.get('location')}",f"World ticks: {wr.get('ticks',0)}",f"World events retained: {len(s.get('world_events',[]))}",f"History entries: {len(s.get('history',[]))}","","PLAYER HEALTH",f"Health={ps.get('health')} Hunger={ps.get('hunger')} Energy={ps.get('energy')} Warmth={ps.get('warmth')}",f"Cottage={ps.get('cottage',{})}",f"Money={s.get('money')} Ledger entries={len(econ.get('ledger',[]))}","","AI RUNTIME",json.dumps(rt,indent=2,default=str),"","PROVIDER TELEMETRY",json.dumps(provider.telemetry(),indent=2,default=str),"","QUEST RUNTIME",json.dumps(q,indent=2,default=str),"","PROCEDURAL CONTENT",json.dumps(s.get('procedural_arcs',{}),indent=2,default=str),"","ECOLOGY AI",json.dumps(eco,indent=2,default=str),"","SOCIETY",json.dumps(s.get('society',{}),indent=2,default=str),"","RECENT AI FEED"]+['- '+x for x in snap.get('feed',[])]
+  self.report_path.write_text("\n".join(lines),encoding="utf-8")
+  self._update(report="\n".join(lines))
  def start_live(self,game,game_lock,days=7):
   with self.lock:
    if self.status.get('running'):return False
-   self.stop_event.clear();self.status={"running":True,"stop_state":"running","mode":"live","progress":0,"phase":"Planning ordinary life","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"days":days,"goal_stalls":0,"stop_requested_at":None,"stop_latency_s":None,"discarded_after_stop":0}
+   self.stop_event.clear(); self.checkpoint_path.write_text("",encoding="utf-8");self.status={"running":True,"stop_state":"running","mode":"live","progress":0,"phase":"Planning ordinary life","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"days":days,"goal_stalls":0,"stop_requested_at":None,"stop_latency_s":None,"discarded_after_stop":0}
   self._thread=Thread(target=self._live,args=(game,game_lock,days),daemon=True,name='bellwether-ai-player');self._thread.start();return True
  def stop(self):
   with self.lock:
@@ -171,7 +184,8 @@ class AIPlayerRunner:
     else:memory['blocked_actions'].add(action['id']);memory['failed_attempts'].append(f"{action['id']}: no_effect")
     stalls=0 if progress else stalls+1;self._update(goal_stalls=stalls)
     tag=meta['outcome'];self._feed(f"Day {game.state.get('day')} {game.time_label()} · {action.get('label',action['id'])} · {tag} {dt:.1f}s"+(' · goal progress' if progress else ''))
+    self._checkpoint(game,{"action":action.get("id"),"label":action.get("label"),"outcome":tag,"latency_s":round(dt,2),"changed":changed,"goal":goal})
     n=self.snapshot()['actions']+(1 if ok else 0);pct=min(99,int(100*(game.state.get('day',1)-start)/max(1,days)));self._update(actions=n,progress=pct,phase=f"AI player: {action.get('label',action['id'])}")
-   stopped=self.stop_event.is_set();snap=self.snapshot();lat=(time.time()-snap['stop_requested_at']) if stopped and snap.get('stop_requested_at') else None;self._update(running=False,thinking=False,stop_state='stopped',stop_latency_s=round(lat,3) if lat is not None else None,progress=self.snapshot()['progress'] if stopped else 100,phase='AI player stopped' if stopped else 'AI player finished')
+   stopped=self.stop_event.is_set();snap=self.snapshot();lat=(time.time()-snap['stop_requested_at']) if stopped and snap.get('stop_requested_at') else None;self._update(running=False,thinking=False,stop_state='stopped',stop_latency_s=round(lat,3) if lat is not None else None,progress=self.snapshot()['progress'] if stopped else 100,phase='AI player stopped' if stopped else 'AI player finished');self._write_report(game,stopped)
   except Exception as e:self._update(running=False,thinking=False,stop_state='stopped',error=f'{type(e).__name__}: {e}',phase='AI player failed')
 AI_PLAYER=AIPlayerRunner()
