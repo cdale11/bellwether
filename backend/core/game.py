@@ -41,6 +41,7 @@ from backend.core.travel_model import TRAVEL_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
 from backend.core.cognition_model import COGNITION_MODEL
 from backend.core.procedural_arc_model import PROCEDURAL_ARC_MODEL, ARC_TEMPLATES
+from backend.core.quest_model import QUEST_MODEL
 from backend.core.story_model import STORY_MODEL
 from backend.core.ending_model import ENDING_MODEL, FAMILIES
 from backend.core.postgame_model import POSTGAME_MODEL
@@ -230,6 +231,7 @@ INITIAL_STATE = {
     "town_mind": TOWN_MIND_MODEL.runtime_defaults(),
     "npc_cognition": COGNITION_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "procedural_arcs": PROCEDURAL_ARC_MODEL.runtime_defaults(),
+    "quest_runtime": {"schema_version":1,"transactions":{},"history":[],"completion_checks":0},
     "authored_story": STORY_MODEL.runtime_defaults(),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
@@ -586,6 +588,7 @@ class Game:
         self.state.setdefault("npcs", {})
         for npc_id, npc_defaults in INITIAL_STATE["npcs"].items():
             self.state["npcs"].setdefault(npc_id, deepcopy(npc_defaults))
+        QUEST_MODEL.migrate(self.state)
         self.state.setdefault("npc_social_web", SOCIAL_MODEL.runtime_defaults())
         self.state.setdefault("npc_knowledge", KNOWLEDGE_MODEL.runtime_defaults(list(self.state.get("npcs",{}))))
         self.state.setdefault("mystery_investigation", INVESTIGATION_MODEL.runtime_defaults())
@@ -761,6 +764,7 @@ class Game:
         state["authored_story_overview"] = STORY_MODEL.public(self.state)
         state["ending_families_overview"] = ENDING_MODEL.public(self.state)
         state["postgame_overview"] = POSTGAME_MODEL.public(self.state)
+        state["quest_lifecycle"] = QUEST_MODEL.developer_context(self.state)
         state["life_simulation_overview"] = LIFE_SIMULATION_MODEL.public(self.state)
         state["society_overview"] = SOCIETY_MODEL.public(self.state)
         state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
@@ -771,6 +775,9 @@ class Game:
         procedural_opportunities=[]
         for arc in self.state.get("procedural_arcs",{}).get("active",[]):
             procedural_opportunities.append({"id":"arc:"+str(arc.get("id")),"title":arc.get("label","Village opportunity"),"objective":"Follow the situation where it is unfolding in Bellwether.","location":arc.get("location"),"done":False,"procedural":True})
+        for arc in self.state.get("procedural_arcs",{}).get("history",[])[-12:]:
+            if arc.get("player_involved"):
+                procedural_opportunities.append({"id":"arc:"+str(arc.get("id")),"title":arc.get("label","Village opportunity"),"objective":"Resolved through your involvement in village life.","location":arc.get("location"),"done":True,"procedural":True,"reward_applied":arc.get("reward_applied",False)})
         state["quests"] = {
             "main": main_quests,
             "side": self.visible_quests("side") + procedural_opportunities,
@@ -1169,9 +1176,16 @@ class Game:
             self.add("Bellwether", text)
 
     def complete(self, group, quest_id):
-        for q in self.state["quests"][group]:
-            if q["id"] == quest_id:
-                q["done"] = True
+        result = QUEST_MODEL.complete(self.state, group, quest_id)
+        if result and result.get("newly_completed"):
+            reward=(result.get("transaction") or {}).get("reward",{})
+            parts=[]
+            if reward.get("money"): parts.append(f"Br {reward['money']}")
+            if reward.get("life_xp"): parts.append(f"{reward['life_xp']} life XP")
+            parts.extend(reward.get("items",[]) or [])
+            if reward.get("community"): parts.append(f"community standing +{reward['community']}")
+            if parts:self.add("Journal", "Reward received: " + ", ".join(parts) + ".")
+        return result
 
     def reveal(self, group, quest_id):
         for q in self.state["quests"][group]:
@@ -2655,7 +2669,7 @@ class Game:
                 if target == "village_green" and s["day"] >= 2:
                     for q in s["quests"]["main"]:
                         if q["id"] == "first_morning" and not q["done"]:
-                            q["done"] = True
+                            self.complete("main", "first_morning")
                             self.add("Journal", "Main Story completed: The Morning After.")
                             self.add("Narrator", "The green looks ordinary in the new light. Still, you have the odd feeling that someone was expecting you.")
                 if target == "ashcroft_cottage" and not s["flags"]["reached_cottage"]:

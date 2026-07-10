@@ -123,8 +123,14 @@ def choose_action(game,purpose='ordinary life',memory=None,target=None):
  if 'timeout' in state: provider.reset_session('autoplayer')
  return selected,choice,dt,{"outcome":"timeout_fallback" if 'timeout' in state else 'invalid_fallback',"provider_state":state,"goal_progress":_score(selected,target,recent,blocked)<0}
 
+def _shadow_game(game,game_lock):
+ """Snapshot authoritative state briefly; never hold the game lock during inference."""
+ with game_lock:
+  shadow=game.__class__.__new__(game.__class__);shadow.state=deepcopy(game.state);shadow._overview_cache_key=None;shadow._overview_cache=None
+ return shadow
+
 class AIPlayerRunner:
- def __init__(self):self.lock=RLock();self.stop_event=Event();self._thread=None;self.status={"running":False,"stop_state":"stopped","mode":"idle","progress":0,"phase":"Idle","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"goal_stalls":0}
+ def __init__(self):self.lock=RLock();self.stop_event=Event();self._thread=None;self.status={"running":False,"stop_state":"stopped","mode":"idle","progress":0,"phase":"Idle","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"goal_stalls":0,"stop_requested_at":None,"stop_latency_s":None,"discarded_after_stop":0}
  def snapshot(self):
   with self.lock:return deepcopy(self.status)
  def _update(self,**kw):
@@ -134,11 +140,11 @@ class AIPlayerRunner:
  def start_live(self,game,game_lock,days=7):
   with self.lock:
    if self.status.get('running'):return False
-   self.stop_event.clear();self.status={"running":True,"stop_state":"running","mode":"live","progress":0,"phase":"Planning ordinary life","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"days":days,"goal_stalls":0}
+   self.stop_event.clear();self.status={"running":True,"stop_state":"running","mode":"live","progress":0,"phase":"Planning ordinary life","feed":[],"actions":0,"llm_calls":0,"successful_decisions":0,"timeouts":0,"fallbacks":0,"planner_calls":0,"goal":None,"thinking":False,"error":None,"days":days,"goal_stalls":0,"stop_requested_at":None,"stop_latency_s":None,"discarded_after_stop":0}
   self._thread=Thread(target=self._live,args=(game,game_lock,days),daemon=True,name='bellwether-ai-player');self._thread.start();return True
  def stop(self):
   with self.lock:
-   if self.status.get('running'):self.status.update(stop_state='stopping',phase='Stop requested; completed inference will be discarded')
+   if self.status.get('running'):self.status.update(stop_state='stopping',phase='Stop requested; completed inference will be discarded',stop_requested_at=time.time())
   self.stop_event.set();return True
  def _live(self,game,game_lock,days):
   memory={"recent_actions":deque(maxlen=12),"recent_locations":deque(maxlen=10),"failed_attempts":deque(maxlen=8),"completed_subtasks":deque(maxlen=10),"blocked_actions":set()}
@@ -147,12 +153,13 @@ class AIPlayerRunner:
    while game.state.get('day',1)<start+days and not self.stop_event.is_set():
     if goal is None or goal_actions>=8 or stalls>=4:
      self._update(thinking=True,phase='Planner is choosing an intention')
-     with game_lock:planned=plan_goal(game,memory)
+     shadow=_shadow_game(game,game_lock);planned=plan_goal(shadow,memory)
      snap=self.snapshot();self._update(thinking=False,planner_calls=snap['planner_calls']+1,llm_calls=snap['llm_calls']+1);goal=planned.get('label',planned.get('id','ordinary life'));goal_actions=0;stalls=0;memory['blocked_actions'].clear();self._update(goal=goal);self._feed('Plan · '+goal)
     self._update(thinking=True,phase='AI player is choosing a legal action')
-    with game_lock:action,raw,dt,meta=choose_action(game,goal,memory)
+    shadow=_shadow_game(game,game_lock);action,raw,dt,meta=choose_action(shadow,goal,memory)
     snap=self.snapshot();self._update(thinking=False,llm_calls=snap['llm_calls']+(meta['outcome']=='llm_success' or 'fallback' in meta['outcome']),successful_decisions=snap['successful_decisions']+(meta['outcome']=='llm_success'),timeouts=snap['timeouts']+('timeout' in meta['outcome']),fallbacks=snap['fallbacks']+('fallback' in meta['outcome']))
-    if self.stop_event.is_set():self._feed(f'Stop requested · discarded completed choice after {dt:.1f}s');break
+    if self.stop_event.is_set():
+     snap=self.snapshot();self._update(discarded_after_stop=snap.get('discarded_after_stop',0)+1);self._feed(f'Stop requested · discarded completed choice after {dt:.1f}s');break
     if not action:break
     with game_lock:
      before=(game.state.get('day'),game.state.get('minute'),game.state.get('location'),game.state.get('money'),len(game.state.get('history',[])))
@@ -165,6 +172,6 @@ class AIPlayerRunner:
     stalls=0 if progress else stalls+1;self._update(goal_stalls=stalls)
     tag=meta['outcome'];self._feed(f"Day {game.state.get('day')} {game.time_label()} · {action.get('label',action['id'])} · {tag} {dt:.1f}s"+(' · goal progress' if progress else ''))
     n=self.snapshot()['actions']+(1 if ok else 0);pct=min(99,int(100*(game.state.get('day',1)-start)/max(1,days)));self._update(actions=n,progress=pct,phase=f"AI player: {action.get('label',action['id'])}")
-   stopped=self.stop_event.is_set();self._update(running=False,thinking=False,stop_state='stopped',progress=self.snapshot()['progress'] if stopped else 100,phase='AI player stopped' if stopped else 'AI player finished')
+   stopped=self.stop_event.is_set();snap=self.snapshot();lat=(time.time()-snap['stop_requested_at']) if stopped and snap.get('stop_requested_at') else None;self._update(running=False,thinking=False,stop_state='stopped',stop_latency_s=round(lat,3) if lat is not None else None,progress=self.snapshot()['progress'] if stopped else 100,phase='AI player stopped' if stopped else 'AI player finished')
   except Exception as e:self._update(running=False,thinking=False,stop_state='stopped',error=f'{type(e).__name__}: {e}',phase='AI player failed')
 AI_PLAYER=AIPlayerRunner()

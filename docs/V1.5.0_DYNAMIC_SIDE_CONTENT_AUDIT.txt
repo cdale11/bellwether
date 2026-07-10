@@ -1,0 +1,24 @@
+BELLWETHER v1.5.0 — DYNAMIC SIDE CONTENT / QUEST LIFECYCLE AUDIT
+
+Scope
+- Dynamic side-content lifecycle and bounded procedural arc rewards.
+- Authored main/side quest exactly-once rewards.
+- Unified core/background relationship presentation.
+- Mobile relationship layout and structured impression serialization.
+- AI-player control-plane responsiveness and stop accounting.
+- Expanded diagnostic certification for quest rewards, duplicate prevention, UI serialization, and inference-lock separation.
+
+Key invariants
+1. Authored story remains authoritative. Procedural arcs use bounded authored templates.
+2. Quest rewards are deterministic game-state mutations, never invented/applied by the LLM.
+3. Reward transaction IDs are idempotent across repeated completion evaluation and save/load.
+4. LLM inference never runs while the authoritative game lock is held by the live AI player.
+5. Stop requests prevent new autonomous actions and completed post-stop choices are discarded.
+6. Meaningful lightweight-resident encounters create lightweight relationship records without adding them to expensive core cognition loops.
+
+Validation performed
+- Python compilation across backend/core, backend/ai and backend application modules.
+- JavaScript syntax validation with node --check.
+- Fresh-state migration and public-view smoke test.
+- Authored side-quest reward duplicate-prevention smoke test.
+- Controlled procedural arc involvement -> staged resolution -> history -> reward transaction smoke test.

@@ -89,6 +89,11 @@ class ProceduralArcModel:
         arc["stage_index"]=idx; arc["stage_history"].append({"stage":stage["id"],"day":state.get("day",1),"event_id":eid})
         if idx==len(template["stages"])-1:
             arc["status"]="resolved"; arc["resolved_day"]=state.get("day",1)
+            
+            # v1.5.0: resolved player-involved arcs are completed quests with exactly-once rewards.
+            if arc.get("player_involved"):
+                from backend.core.quest_model import QUEST_MODEL
+                QUEST_MODEL.complete_arc(state,arc)
             root["history"].append(deepcopy(arc)); root["history"]=root["history"][-40:]; root["active"].remove(arc)
         return eid
 

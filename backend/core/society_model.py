@@ -41,5 +41,9 @@ class SocietyModel:
             rt['last_week']=day//7; snap={'day':day,'population':len(residents),'employed':employed,'seeking':seeking,'strong_ties':rt['social']['strong_ties'],'isolated':rt['social']['isolated'],'migration_pressure':rt['migration']['pressure']};rt['weekly_snapshots'].append(snap);rt['weekly_snapshots']=rt['weekly_snapshots'][-52:]
     def note_encounter(self,state,resident_id):
         rt=self.migrate(state);rt['social']['encounters']+=1;rt['social']['history'].append({'day':state.get('day'),'resident':resident_id});rt['social']['history']=rt['social']['history'][-100:]
+        # v1.5.0 unified player relationship surface for lightweight residents.
+        rels=state.setdefault('relationships',{}); rel=rels.setdefault(resident_id,{'affinity':0,'familiarity':0,'trust':0,'talks':0,'impressions':[],'lightweight':True})
+        if not isinstance(rel,dict): rel={'affinity':int(rel or 0),'familiarity':0,'trust':0,'talks':0,'impressions':[],'lightweight':True};rels[resident_id]=rel
+        rel['talks']=int(rel.get('talks',0))+1;rel['familiarity']=min(100,int(rel.get('familiarity',0))+1);rel.setdefault('impressions',[]).append({'text':'You exchanged a few ordinary words in the village.','day':state.get('day')});rel['impressions']=rel['impressions'][-8:]
     def public(self,state): return deepcopy(self.migrate(state))
 SOCIETY_MODEL=SocietyModel()

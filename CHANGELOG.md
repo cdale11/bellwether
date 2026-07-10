@@ -1,3 +1,18 @@
+# Changelog
+
+## v1.5.0 — Dynamic Side Content, Quest Lifecycle, and Responsive Control
+- Added a persistent quest lifecycle and exactly-once reward transaction ledger.
+- Added meaningful rewards for authored main/side quests and player-involved procedural village arcs.
+- Procedural arcs now resolve into visible completed side-story history when the player participated.
+- Added quest lifecycle diagnostics: status, completion timestamps, reward specifications, transaction IDs, persistence surfaces, and duplicate-award protection.
+- Unified meaningful relationship presentation across core NPCs and lightweight residents.
+- Fixed structured relationship impressions rendering as `[object Object]`.
+- Repaired narrow mobile relationship cards with resilient responsive layout rules.
+- Moved AI-player planning and action inference outside the authoritative game lock; only state snapshots and action application hold the lock.
+- Added stop-request timing, post-stop result discard accounting, and control-plane diagnostic certification.
+- Expanded full diagnostics with quest lifecycle/reward and UI serialization/control-plane checks.
+- Updated release metadata and diagnostic export naming.
+
 # Bellwether Changelog
 
 ## v1.4.0 — Adaptive Horror and Failure Depth
@@ -75,7 +90,6 @@
 - Added `/api/pacing-status` and Developer Console pacing observability.
 - Preserved single-worker low-memory inference, stale-result validation, portable saves, and v1.0.3 interaction redesign.
 
-# Changelog
 
 ## v1.0.3 — UI Interaction Redesign and Timeout Efficiency
 

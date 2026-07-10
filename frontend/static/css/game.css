@@ -219,3 +219,7 @@ body[data-horror-stage="severe"] .scene-atmosphere{box-shadow:inset 0 0 160px rg
 .ai-player-feed div{overflow-wrap:anywhere}
 .developer-card .diag-card strong .currency{color:#fffdf5}
 @media(max-width:720px){.diagnostic-launch{align-items:stretch}.diagnostic-launch>button{flex:1 1 160px}.diagnostic-progress{min-width:100%}}
+
+/* v1.5.0 relationship serialization and responsive contract */
+.relationships-list{display:grid;gap:12px;width:100%;min-width:0}.relationship-person{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;min-width:0}.relationship-person img{width:112px;max-width:28vw;height:auto;aspect-ratio:1/1;object-fit:cover}.relationship-copy{min-width:0;overflow-wrap:anywhere}.impression{display:block;margin-top:7px}.relationship-person:not(:has(img)){grid-template-columns:minmax(0,1fr)}
+@media(max-width:700px){.relationship-person{grid-template-columns:76px minmax(0,1fr);gap:12px}.relationship-person img{width:76px;max-width:76px}.relationship-card h3{word-break:normal;overflow-wrap:normal}.relationships-list{gap:8px}}
