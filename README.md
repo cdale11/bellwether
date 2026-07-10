@@ -1,4 +1,4 @@
-# Bellwether v2.0.1 — Foundation Certification and Public-Path Corrections
+# Bellwether v2.0.4 — Foundation Certification and Public-Path Corrections
 
 Bellwether is a local-first village life-sim and psychological-horror RPG. The deterministic engine owns saves, accounting, story gates, hazards and legal state transitions. Local LLMs make bounded choices for world interpretation, NPC behaviour, ecology, conversation, procedural situations and autonomous playtesting.
 

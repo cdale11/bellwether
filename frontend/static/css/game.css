@@ -232,3 +232,11 @@ body[data-horror-stage="severe"] .scene-atmosphere{box-shadow:inset 0 0 160px rg
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.stat-grid>div{min-width:0;display:flex;justify-content:space-between;gap:12px;align-items:center}.stat-grid span{overflow-wrap:anywhere;text-align:right}
 .currency-mark{font-family:Georgia,'Times New Roman',serif;font-weight:700;margin-right:.08em}.currency-mark::after{display:none}
 @media(max-width:620px){#panel-modal .modal-card{width:96vw;max-height:88vh;padding:14px}.stat-grid{grid-template-columns:1fr 1fr;gap:7px}.stat-grid>div{padding:8px;font-size:.88rem}.diag-table{font-size:.88rem}.action-tray{max-height:62vh;overflow:auto}}
+
+/* v2.0.4 — bounded developer console scrolling and stable diagnostic controls */
+.developer-card{overflow:hidden;min-height:0}
+.developer-card>.diagnostic-note{flex:0 0 auto}
+.developer-card .diagnostic-launch{flex:0 0 auto;max-height:34vh;overflow:auto;padding-right:4px}
+.developer-card #developer-summary,.developer-card .developer-tabs{flex:0 0 auto}
+.developer-card .developer-content{flex:1 1 auto;min-height:0;overflow:auto}
+@media(max-height:760px){.developer-card .diagnostic-launch{max-height:28vh}}

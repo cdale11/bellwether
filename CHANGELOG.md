@@ -1,3 +1,11 @@
+# Bellwether v2.0.4 — Diagnostic Semantics and Console Reliability
+
+- Fixed Full Game Diagnosis crash caused by missing PLAYER_STATUS_MODEL import.
+- Reworked Diagnostic AI coverage accounting to separate planning attempts, semantically relevant actions, and domain certification.
+- Added domain-specific certification contracts and expository WHY/gap reporting.
+- Added bounded scrolling to the developer diagnostic region so tabs remain usable during simultaneous live/full diagnostics.
+- Updated exported diagnostic filenames and release identity.
+
 # Bellwether v2.0.1 — Foundation Certification and Public-Path Corrections
 
 - Audited the v2.0.0 package against executable code and player-visible state transitions before editing.

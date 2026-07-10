@@ -1,0 +1,61 @@
+BELLWETHER DIAGNOSTIC AI PLAYER REPORT
+Version: 2.0.4
+Outcome: RUNNING / INTERRUPT-SAFE CHECKPOINT
+Coverage: 0/17 domains
+AI actions attempted: 0
+Unique actions: 0
+Unique locations: 1
+LLM calls: 0
+Timeouts: 0
+Fallbacks: 0
+Save/reload checks: 0
+Anomalies recorded: 0
+Clock: Day 1 minute 555
+Current location: bus_stop
+
+LATEST ACTION EVIDENCE
+{
+  "action": "v204-certification",
+  "diff": [
+    "minute: 550 -> 555",
+    "player_status changed",
+    "arcs changed",
+    "garden changed",
+    "weather changed",
+    "history_len: 2 -> 4"
+  ]
+}
+
+COVERAGE LEDGER
+- movement: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Explore locations and routes, including returning home.
+- economy: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Earn and spend money; verify ledger and balance changes.
+- food_survival: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Acquire and consume food; exercise hunger, energy, warmth and health changes.
+- jobs: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Find work, perform shifts and exercise employment transitions.
+- gardening: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Exercise soil, planting, watering, tending, growth and harvest pathways.
+- cooking: untested | planning_attempts=3 | relevant_actions=2 | certifications=0 | WHY: 3 planning attempts, 2 relevant actions, but certification contract not met; last gap: needs cooking action with ingredient/product/status consequence | CONTRACT: Acquire ingredients and cook, preserve or eat prepared food.
+- fishing_foraging: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Fish, forage and verify inventory/collection consequences.
+- cottage: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Inspect condition and exercise staged maintenance/repair pathways.
+- relationships: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Interact with core and background residents and observe relationship consequences.
+- community_society: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Participate in community and society actions and observe persistent social state.
+- procedural_content: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Discover, accept/progress and resolve grounded procedural opportunities.
+- quests_story: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Exercise visible quest/story actions and verify lifecycle progression without report spoilers.
+- investigation: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Follow visible leads and verify investigation state changes.
+- weather_ecology: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Advance enough time to observe weather/ecology response and contradictions.
+- horror_failure_recovery: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Exercise eligible horror, danger, failure and recovery surfaces when naturally reachable.
+- save_reload: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Periodically serialize and restore state, then continue play.
+- action_contract: untested | planning_attempts=3 | relevant_actions=0 | certifications=0 | WHY: 3 planning attempts; no semantically relevant domain action executed | CONTRACT: Continuously verify legal actions execute or fail with explicit evidence rather than silent no-effect.
+
+ISSUE / ANOMALY JOURNAL
+- No anomalies recorded by current detectors.
+
+VISITED LOCATIONS
+- bus_stop
+
+RECENT LIVE TRACE
+
+PROVIDER TELEMETRY
+{
+  "busy": false,
+  "foreground_waiters": 0,
+  "active": null
+}
