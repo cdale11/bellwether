@@ -103,6 +103,9 @@ def director_status():
 @app.post("/api/action")
 def action(req: ActionRequest):
     with game_lock:
+        legal={str(a.get("id")) for a in game.actions()}
+        if req.action not in legal:
+            return {"ok": False, "message": "That action is no longer available in the current state.", "view": game.view()}
         return game.perform(req.action)
 
 @app.post("/api/talk")
@@ -188,4 +191,5 @@ def ai_player_status():
 def ai_player_report():
     from backend.core.ai_player import AI_PLAYER
     text=AI_PLAYER.report_path.read_text(encoding='utf-8') if AI_PLAYER.report_path.exists() else 'No overnight AI player report has been generated yet.'
-    return Response(text, media_type='text/plain', headers={'Content-Disposition':'attachment; filename="Bellwether_v2.0.0_overnight_AI_soak_report.txt"'})
+    version=(ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    return Response(text, media_type='text/plain', headers={'Content-Disposition':f'attachment; filename="Bellwether_v{version}_overnight_AI_soak_report.txt"'})

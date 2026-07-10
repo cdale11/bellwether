@@ -1,3 +1,13 @@
+# Bellwether v2.0.1 — Foundation Certification and Public-Path Corrections
+
+- Audited the v2.0.0 package against executable code and player-visible state transitions before editing.
+- Exposed purchased bread as a legal player action at Ashcroft Cottage; eating consumes one loaf and reduces authoritative hunger pressure.
+- Hardened the cottage repair state machine: repair actions are location-bound and enforce inspect → prepare → work ordering.
+- Added public API rejection for stale or illegal action IDs without executing the rejected gameplay action.
+- Made overnight AI report version text and download filenames derive from the packaged VERSION file.
+- Added a focused v2.0.1 certification diagnostic covering bread/hunger, staged repair, remote-repair rejection, fishing inventory, exactly-once quest rewards, portable save round-trip, public action guarding and report-version contracts.
+- Preserved v2.0.0 shared human/AI action grammar, AI stop semantics, ecology, economy, society, horror, recurrence and geography systems.
+
 # Bellwether v1.6.0 — Geographic Expansion
 
 - Expanded the traversable region from 14 to 21 connected locations across South Vale, Moor Edge and East Hamlet.

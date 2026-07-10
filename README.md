@@ -1,12 +1,12 @@
-# Bellwether v2.0.0 — Adaptive Horror and Failure Depth
+# Bellwether v2.0.1 — Foundation Certification and Public-Path Corrections
 
 Bellwether is a local-first village life-sim and psychological-horror RPG. The deterministic engine owns saves, accounting, story gates, hazards and legal state transitions. Local LLMs make bounded choices for world interpretation, NPC behaviour, ecology, conversation, procedural situations and autonomous playtesting.
 
 ## This release
 
-v2.0.0 deepens failure without turning Bellwether into a random punishment simulator. Existing authored hazards, injuries and recovery routes remain intact. A new inspectable adaptive failure profile tracks pressure from poverty, injury, psychological strain, village decline and social isolation, with bounded mitigation from preparation, recovery and financial stability. Horror remains authored-only and still requires learned normality before escalation.
+v2.0.1 is a focused evidence-first certification and correction release. It does not add a new major gameplay domain. It closes player-path gaps found while auditing v2.0.0: purchased bread is now actually exposed as a legal action at Ashcroft Cottage; cottage repairs enforce the intended inspect → prepare → work sequence and cannot be completed remotely; stale or fabricated action IDs are rejected at the public action API; and overnight AI report version metadata follows the packaged VERSION file.
 
-The AI tester now uses prerequisite stages for multi-step goals, receives a smaller goal-relevant action surface, defers stalled goals instead of spending the whole run on them, and reports per-goal attempts, deferrals, passive-action share, location diversity and procedural pipeline counters. The diagnostic suite also includes adversarial failure/recovery checks and a deterministic 90-day society soak.
+The release also adds a focused v2.0.1 diagnostic for ordinary-life state transitions, fishing inventory, quest reward idempotence, portable save round-tripping, action legality and report metadata. Existing v2.0 systems remain additive and intact.
 
 ## Run
 
@@ -20,17 +20,17 @@ Open the local address printed by the server. Bellwether expects an Ollama-compa
 
 Portable game state is stored under `saves/`. Full diagnostics continuously checkpoint to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`. Per-run evidence is written under `diagnostics/runs/` so interrupted tests still leave useful traces.
 
-Run the focused v2.0.0 certification with:
+Run the focused v2.0.1 foundation certification with:
 
 ```bash
-PYTHONPATH=. python tools/v140_adaptive_horror_failure_diagnostic.py
+PYTHONPATH=. python tools/v201_foundation_certification_diagnostic.py
 ```
 
 ## Development principle
 
 Gameplay and autonomous certification evolve together. Each gameplay milestone should add both player-facing systems and the tests needed to exercise them naturally, adversarially and over long horizons. Deterministic tests certify invariants; LLM agents test exploration, strategy, semantic coherence, emergent interactions and behavioural quality. Diagnostic reports should expose enough evidence to diagnose problems without requiring spoiler-heavy manual inspection.
 
-See `docs/V1.4.0_ADAPTIVE_HORROR_FAILURE_DEPTH_AUDIT.txt` for the release audit and implementation notes.
+See `docs/V2.0.1_FOUNDATION_CERTIFICATION_AUDIT.txt` for the release audit and implementation notes.
 
 
 ## v2.0.0 testing notes

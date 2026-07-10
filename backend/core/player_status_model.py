@@ -30,6 +30,8 @@ class PlayerStatusModel:
     def actions(self,state):
         rt=self.migrate(state); c=rt["cottage"]; out=[]
         if state.get("location")!="ashcroft_cottage": return out
+        household=state.get("economy",{}).get("household",{})
+        if int(household.get("bread_loaf",0) or 0)>0: out.append(("status:eat:bread","Eat Fresh Bread"))
         if c["condition"]<72 and not c.get("active_repair"): out.append(("status:repair:inspect","Inspect Cottage Damage"))
         elif c.get("active_repair")=="inspected": out.append(("status:repair:prepare","Prepare Repair Materials"))
         elif c.get("active_repair")=="prepared": out.append(("status:repair:work","Carry Out Cottage Repairs"))
@@ -41,12 +43,19 @@ class PlayerStatusModel:
             if int(household.get("bread_loaf",0) or 0)<1:return False,"There is no fresh bread left to eat.",0
             household["bread_loaf"]-=1; self.eat(state,26)
             return True,"You cut a generous piece of fresh bread and eat it properly. The meal takes the edge off your hunger.",15
-        if action=="status:repair:inspect": c["active_repair"]="inspected"; return True,"You inspect damp joints, slipped pointing and weathered frames, making a practical repair list.",35
+        if action.startswith("status:repair:") and state.get("location")!="ashcroft_cottage":
+            return False,"Cottage repairs can only be carried out at Ashcroft Cottage.",0
+        if action=="status:repair:inspect":
+            if c["condition"]>=72 or c.get("active_repair"):
+                return False,"There is no new cottage damage ready for inspection.",0
+            c["active_repair"]="inspected"; return True,"You inspect damp joints, slipped pointing and weathered frames, making a practical repair list.",35
         if action=="status:repair:prepare":
+            if c.get("active_repair")!="inspected":return False,"Inspect the cottage damage before preparing materials.",0
             supplies=state.get("economy",{}).get("household",{}).get("repair_supplies",0)
             if supplies<1:return False,"You need repair supplies before the work can continue.",0
             state["economy"]["household"]["repair_supplies"]-=1;c["active_repair"]="prepared";return True,"You sort tools and materials and prepare the damaged sections for repair.",45
         if action=="status:repair:work":
+            if c.get("active_repair")!="prepared":return False,"Prepare the repair materials before beginning the work.",0
             before=c["condition"];c["condition"]=min(100,before+24);c["weatherproofing"]=min(100,c["weatherproofing"]+8);c["active_repair"]=None;c["repair_history"].append({"day":state.get("day"),"before":round(before,1),"after":round(c["condition"],1)});return True,"You complete a real section of repair work. The cottage is more weather-tight than it was.",150
         return False,"Nothing happens.",0
 PLAYER_STATUS_MODEL=PlayerStatusModel()
