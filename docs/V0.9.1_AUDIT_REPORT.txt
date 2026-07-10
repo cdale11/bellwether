@@ -1,7 +1,0 @@
-Bellwether v0.9.1 audit report
-
-Scope: Failure and Recovery milestone plus asynchronous LLM runtime and low-end performance pass.
-
-Key invariants: one active Ollama inference at a time; foreground dialogue priority preserved; background workers never mutate game state; completed background choices are revalidated on the game thread; stale/illegal choices are rejected; recurrence architecture preserved; Developer Console preserved.
-
-Performance work: strategic Town Mind and procedural arc calls moved off the gameplay path; single background worker avoids RAM/CPU contention; all available CPU threads remain passed to Ollama; choice regex precompiled; JSON request bodies compacted.

@@ -1,5 +1,0 @@
-BELLWETHER v1.0.7 — RUNTIME UX AUDIT
-
-Scope: pacing-banner lifecycle, Developer Console readability, Events/NPC/Investigation diagnostics, numeric formatting, contrast, active-tab state, regression preservation.
-
-The pacing notice now has a bounded lifecycle and fades after either successful catch-up or bounded continuation. Dedicated diagnostic renderers replace generic nested-object JSON stringification for Events, NPCs, and Investigation. Raw State remains intentionally available.
