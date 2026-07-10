@@ -1,46 +1,41 @@
-# Bellwether v2.0.4 — Foundation Certification and Public-Path Corrections
+# Bellwether v3.0.0-rc1
 
-Bellwether is a local-first village life-sim and psychological-horror RPG. The deterministic engine owns saves, accounting, story gates, hazards and legal state transitions. Local LLMs make bounded choices for world interpretation, NPC behaviour, ecology, conversation, procedural situations and autonomous playtesting.
-
-## This release
-
-v2.0.1 is a focused evidence-first certification and correction release. It does not add a new major gameplay domain. It closes player-path gaps found while auditing v2.0.0: purchased bread is now actually exposed as a legal action at Ashcroft Cottage; cottage repairs enforce the intended inspect → prepare → work sequence and cannot be completed remotely; stale or fabricated action IDs are rejected at the public action API; and overnight AI report version metadata follows the packaged VERSION file.
-
-The release also adds a focused v2.0.1 diagnostic for ordinary-life state transitions, fishing inventory, quest reward idempotence, portable save round-tripping, action legality and report metadata. Existing v2.0 systems remain additive and intact.
+Bellwether is a local-first, state-driven rural village life simulation and psychological/supernatural horror RPG. Ordinary life is intentionally substantial: gardening, cooking, preservation, fishing, foraging, cottage repair and expansion, work, economy, property, enterprise, transport, relationships and autonomous village change coexist with an authored mystery, recurrence, adaptive horror and a bounded Town Consciousness.
 
 ## Run
+
+Requirements: Python 3.11+ and the packages in `requirements.txt`. An Ollama-compatible local model service is recommended for AI-assisted systems; deterministic fallbacks preserve core playability when inference is unavailable.
 
 ```bash
 ./run.sh
 ```
 
-Open the local address printed by the server. Bellwether expects an Ollama-compatible local model service for AI-assisted systems. Deterministic fallbacks preserve playability when AI is unavailable.
+Open the local address printed by the server. The game is local-first and stores saves under `saves/`.
 
-## Saves and diagnostics
+## Architecture and authority
 
-Portable game state is stored under `saves/`. Full diagnostics continuously checkpoint to `diagnostics/latest_live_diagnostic.json` and `diagnostics/latest_live_diagnostic.txt`. Per-run evidence is written under `diagnostics/runs/` so interrupted tests still leave useful traces.
+The deterministic engine owns saves, accounting, legal actions, story gates, clues, endings, hazards and authoritative state transitions. Local LLM systems are bounded advisers/selectors for conversation, NPC interpretation, ecology, weather, procedural situations, Town Mind intentions and autonomous playtesting. LLM output is not allowed to invent story canon, bypass authored gates or mutate arbitrary state.
 
-Run the focused v2.0.1 foundation certification with:
+The public human UI and diagnostic AI player consume the bounded legal action surface. Long-running AI diagnostics checkpoint live evidence so interrupted runs remain useful.
 
-```bash
-PYTHONPATH=. python tools/v201_foundation_certification_diagnostic.py
-```
+## Major gameplay systems
 
-## Development principle
+The current release includes ordinary-life activities and skills; gardening, cooking, pantry and preservation; fishing and seasonal foraging; survival status and cottage condition/repair; jobs and career progression; dynamic village economy and shortages; property ownership, leases and cottage expansion; player enterprises; bicycle-to-van transport progression; autonomous NPC lives and village evolution; authored relationship routes and household progression; investigation, authored story, narrative connective scenes, quests and endings; Town Consciousness strategy; resistance and recovery counterplay; recurrence; systemic horror; and bounded interface corruption.
 
-Gameplay and autonomous certification evolve together. Each gameplay milestone should add both player-facing systems and the tests needed to exercise them naturally, adversarially and over long horizons. Deterministic tests certify invariants; LLM agents test exploration, strategy, semantic coherence, emergent interactions and behavioural quality. Diagnostic reports should expose enough evidence to diagnose problems without requiring spoiler-heavy manual inspection.
+## Developer Console and diagnostics
 
-See `docs/V2.0.1_FOUNDATION_CERTIFICATION_AUDIT.txt` for the release audit and implementation notes.
+Open the gear button in the top bar. The Developer Console exposes Living World, NPC, Event, Horror, Investigation, Economy, AI Runtime and Raw State diagnostics. v3.0.0-rc1 adds a dedicated **v2.x Systems** tab exposing read-only snapshots for property, enterprises, transport, NPC lives, relationship life, Town Consciousness strategy, resistance, village evolution, narrative expansion, story-consciousness integration and systemic-horror integration.
 
+The console also provides **Run Full Game Diagnosis** and **Let the Village Play**. Full diagnosis is the shorter controlled certification path. Village Play is a longer autonomous campaign and should be reserved for milestone/soak testing rather than every feature iteration.
 
-## v2.0.0 testing notes
-The Developer Console full diagnostic now certifies dynamic side-content lifecycle, exactly-once quest rewards, relationship serialization guards, and AI-player control-plane architecture. During autonomous play, Settings, Developer Console, status polling, and Stop AI Player remain independent of inference; completed choices arriving after a stop request are discarded. Quest lifecycle and reward transactions are exposed in developer diagnostics for copy/paste diagnosis.
+Diagnostic output is written under `diagnostics/` during runs. Export filenames now follow the packaged `VERSION` instead of a stale hard-coded release name.
 
+## Testing
 
-## v2.0 action interface and overnight certification
-Human and autonomous players now consume the same bounded action taxonomy. The human UI uses progressive disclosure by category and intent; the AI receives the same compact legal surface rather than the visual DOM. `Let the Village Play` writes an append-only checkpoint after every action and generates an extensive overnight soak report on completion or stop.
+Focused deterministic diagnostics live in `tools/` and `diagnostics/`. Historical diagnostics are retained when they still provide regression value; some old release-identity assertions are expected to fail against newer versions and must not be rewritten merely to inflate PASS counts.
 
-Currency uses the single crossed-B glyph `฿` in authored labels, action buttons, narration, diagnostics, and status surfaces. Purchased bread is stored and can be eaten as a real action; eating it reduces the hunger-pressure value substantially.
+For RC work, use layered evidence: syntax/JSON validation → focused subsystem diagnostics → cross-system regressions → public gameplay paths → autonomous milestone soak testing → browser interaction verification.
 
-### v2.0.3 diagnostic AI player
-The AI Player control now runs a coverage-driven diagnostic campaign. During a run it continuously writes `diagnostics/diagnostic_ai_player_live_report.txt` and `diagnostics/diagnostic_ai_player_live.jsonl`; if interrupted, the latest completed action evidence and coverage ledger remain available. A completed or stopped run writes `diagnostics/diagnostic_ai_player_report.txt`. The report is intended for engineering analysis and can contain detailed gameplay-system evidence.
+## Release status
+
+This is a release candidate, not final certification. The RC audit is recorded in `AUDIT_v3.0.0-rc1.md`. Browser-level behavior still requires execution in a real browser environment; static JS syntax and endpoint contracts are tested separately.

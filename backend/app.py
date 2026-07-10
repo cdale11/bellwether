@@ -17,6 +17,7 @@ from backend.core.story_model import STORY_MODEL
 from backend.core.ending_model import ENDING_MODEL
 from backend.core.postgame_model import POSTGAME_MODEL
 from backend.core.quest_model import QUEST_MODEL
+from backend.core.town_mind_model import TOWN_MIND_MODEL
 
 ROOT = Path(__file__).resolve().parent.parent
 app = FastAPI(title="Bellwether")
@@ -85,6 +86,21 @@ def developer_status():
         "investigation": {"notebook": s.get("investigation", {}), "mysteries": game.investigation_overview()},
         "authored_story": STORY_MODEL.public(game.state), "procedural_arcs": s.get("procedural_arcs", {}), "quest_lifecycle": QUEST_MODEL.developer_context(game.state), "ending_families": ENDING_MODEL.public(game.state), "postgame": POSTGAME_MODEL.public(game.state),
         "economy": {"money": s.get("money"), "economy": s.get("economy", {}), "employment": s.get("employment", {}), "activities": s.get("activities", {})},
+        # v3.0-RC: expose the v2.x simulation layers explicitly. These are read-only
+        # diagnostic surfaces; authoritative mutation remains inside each model.
+        "v2_systems": {
+            "property": s.get("property", {}),
+            "businesses": s.get("player_businesses", {}),
+            "transport": s.get("transport", {}),
+            "npc_lives": s.get("npc_lives", {}),
+            "relationship_life": s.get("relationship_life", {}),
+            "town_consciousness": TOWN_MIND_MODEL.developer_context(game.state),
+            "resistance": s.get("resistance", {}),
+            "village_evolution": s.get("village_evolution", {}),
+            "narrative_expansion": s.get("narrative_expansion", {}),
+            "story_consciousness": s.get("story_consciousness_integration", {}),
+            "systemic_horror": s.get("systemic_horror_integration", {}),
+        },
         "provider": {**provider.last_status, "telemetry": provider.telemetry()}, "ai_runtime": {**s.get("ai_runtime", {}), "background": ASYNC_AI_RUNTIME.status(), "pacing": game.simulation_pacing_status()}, "ai_player": __import__("backend.core.ai_player", fromlist=["AI_PLAYER"]).AI_PLAYER.snapshot(), "failure_recovery": FAILURE_RECOVERY_MODEL.developer_context(game.state),
         "ai_events": s.get("ai_events", [])[-20:], "traces": provider.debug_traces[-40:]
     }

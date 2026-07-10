@@ -36,7 +36,9 @@ def _goal_stage(game,target,actions):
   if any(a.get("id","").startswith(("content:cook:","lifesim:preserve:")) for a in actions): return "perform_cooking"
   pantry=s.get("life_simulation",{}).get("pantry",{}); household=s.get("economy",{}).get("household",{})
   has_food=sum(int(v or 0) for v in pantry.values())>0 or int(household.get("groceries",0) or 0)>0
-  if not has_food:return "acquire_ingredients"
+  store=s.get("player_activities",{}).get("garden",{}).get("harvest_store",{})
+  has_recipe_crop=any(int(store.get(k,0) or 0)>0 for k in ("radish","lettuce","carrot","broad_bean"))
+  if not has_recipe_crop:return "acquire_ingredients"
   if loc!="ashcroft_cottage":return "return_home"
   return "inspect_cooking_availability"
  if target=="community":
@@ -59,7 +61,7 @@ def _stage_score(a,target,stage):
  text=_action_text(a); aid=a.get("id",""); score=0
  rules={
   "perform_cooking":(("cook","preserve","meal"),-120),
-  "acquire_ingredients":(("groceries","food","breakfast","loaf","shop"),-90),
+  "acquire_ingredients":(("radish bunch","radish","produce","village shop","shop"),-110),
   "return_home":(("ashcroft cottage","ashcroft_cottage"),-110),
   "inspect_cooking_availability":(("kitchen","cook","meal","pantry"),-100),
   "participate":(("community","workday","care walk","upkeep","share a simple meal"),-120),
@@ -95,7 +97,7 @@ def _score(a,target,recent,blocked):
  if target in {'npc_interaction','relationships'} and (aid.startswith('social:greet:') or any(x in text for x in ('talk','speak','offer to help','exchange a few words'))):score-=80
  if target=='procedural_content' and any(x in text for x in ('offer to help','opportunity','errand')):score-=60
  if target=='cooking':
-  if any(x in text for x in ('basic groceries','food','cook','preserve','meal')):score-=55
+  if any(x in text for x in ('radish bunch','radish','produce','cook','preserve','recipe')):score-=70
   if 'ashcroft_cottage' in text:score-=35
  if target=='community' and any(x in text for x in ('village green','churchyard','riverside','community','workday','care walk','upkeep','share a simple meal')):score-=45
  if target=='society' and ('society:greet:' in aid or 'exchange a few words' in text):score-=80
@@ -170,12 +172,12 @@ class AIPlayerRunner:
  def _feed(self,text):
   with self.lock:self.status.setdefault('feed',[]).append(text);self.status['feed']=self.status['feed'][-80:]
  def _state_digest(self,s):
-  return {"day":s.get("day"),"minute":s.get("minute"),"location":s.get("location"),"money":s.get("money"),"inventory":deepcopy(s.get("inventory",[])),"player_status":deepcopy(s.get("player_status",{})),"relationships":deepcopy(s.get("relationships",{})),"quests":deepcopy(s.get("quest_runtime",{})),"arcs":deepcopy(s.get("procedural_arcs",{})),"garden":deepcopy(s.get("player_activities",{}).get("garden",{})),"employment":deepcopy(s.get("life_simulation",{}).get("employment",{})),"investigation":deepcopy(s.get("investigation",{})),"failure":deepcopy(s.get("failure_recovery",{})),"weather":deepcopy(s.get("weather",{})),"history_len":len(s.get("history",[])),"world_events_len":len(s.get("world_events",[]))}
+  return {"day":s.get("day"),"minute":s.get("minute"),"location":s.get("location"),"money":s.get("money"),"inventory":deepcopy(s.get("inventory",[])),"player_status":deepcopy(s.get("player_status",{})),"relationships":deepcopy(s.get("relationships",{})),"quests":deepcopy(s.get("quest_runtime",{})),"arcs":deepcopy(s.get("procedural_arcs",{})),"garden":deepcopy(s.get("player_activities",{}).get("garden",{})),"employment":deepcopy(s.get("life_simulation",{}).get("employment",{})),"investigation":deepcopy(s.get("investigation",{})),"failure":deepcopy(s.get("failure_recovery",{})),"weather":deepcopy(s.get("weather",{})),"player_life":deepcopy(s.get("player_life",{})),"hobby_collections":deepcopy(s.get("player_activities",{}).get("hobbies",{}).get("collections",{})),"economy_ledger_len":len(s.get("economy",{}).get("ledger",[])),"history_len":len(s.get("history",[])),"world_events_len":len(s.get("world_events",[]))}
  def _diff(self,b,a):
   out=[]
   for k in b:
    if b[k]!=a.get(k):
-    if k in {"inventory","relationships","quests","arcs","garden","employment","investigation","failure","player_status","weather"}:out.append(k+" changed")
+    if k in {"inventory","relationships","quests","arcs","garden","employment","investigation","failure","player_status","weather","player_life","hobby_collections"}:out.append(k+" changed")
     else:out.append(f"{k}: {b[k]} -> {a.get(k)}")
   return out
  def _coverage_for_action(self,aid,label,diff):
@@ -201,11 +203,11 @@ class AIPlayerRunner:
    return ok2,("employment or wage consequence observed" if ok2 else "needs employment transition or wage consequence")
   if goal=="gardening":return (before.get('garden')!=after.get('garden'),"garden state changed" if before.get('garden')!=after.get('garden') else "no garden-state mutation")
   if goal=="cooking":
-   ok2=any(w in t for w in ('cook','preserve','recipe','meal')) and (before.get('inventory')!=after.get('inventory') or before.get('player_status')!=after.get('player_status'))
-   return ok2,("cooking/meal action changed inventory or status" if ok2 else "needs cooking action with ingredient/product/status consequence")
+   ok2=any(w in t for w in ('cook','preserve','recipe')) and (before.get('garden')!=after.get('garden') or before.get('player_life')!=after.get('player_life') or before.get('player_status')!=after.get('player_status'))
+   return ok2,("cooking action consumed ingredients or changed meal/life state" if ok2 else "needs actual cook/preserve action with ingredient/product/life consequence")
   if goal=="fishing_foraging":
-   ok2=any(w in t for w in ('fish','forag')) and before.get('inventory')!=after.get('inventory')
-   return ok2,("collection action changed inventory" if ok2 else "needs fishing/foraging inventory consequence")
+   ok2=any(w in t for w in ('fish','forag')) and (before.get('inventory')!=after.get('inventory') or before.get('hobby_collections')!=after.get('hobby_collections'))
+   return ok2,("fishing inventory or foraging collection state changed" if ok2 else "needs fishing inventory or foraging collection consequence; probabilistic fishing may require bounded retries")
   if goal=="cottage":
    bc=(before.get('player_status') or {}).get('cottage');ac=(after.get('player_status') or {}).get('cottage');ok2=bc!=ac
    return ok2,("cottage state changed" if ok2 else "needs cottage condition/repair-stage mutation")
@@ -224,13 +226,15 @@ class AIPlayerRunner:
   return False,"no certification contract"
  def _coverage_reason(self,key,v):
   if v.get('status')=='certified':return v.get('last_evidence') or 'domain contract satisfied'
+  if v.get('status')=='deferred':return v.get('last_gap') or 'effort budget exhausted; revisit after state changes'
   if v.get('attempts',0)==0:return 'not attempted yet'
   if v.get('acted',0)==0:return f"{v.get('attempts',0)} planning attempts; no semantically relevant domain action executed"
   return f"{v.get('attempts',0)} planning attempts, {v.get('acted',0)} relevant actions, but certification contract not met; last gap: {v.get('last_gap','unknown')}"
  def _detect_anomalies(self,b,a,aid,ok,diff,error=None):
   found=[]
   if not ok:found.append({"severity":"error","type":"action_exception","action":aid,"detail":error or "unknown exception"})
-  if ok and not diff:found.append({"severity":"warning","type":"silent_no_effect","action":aid,"detail":"Action returned successfully but monitored authoritative state did not change."})
+  informational={"investigate:review"}
+  if ok and not diff and aid not in informational:found.append({"severity":"warning","type":"silent_no_effect","action":aid,"detail":"Action returned successfully but monitored authoritative state did not change."})
   wb=b.get('weather') or {};wa=a.get('weather') or {};temp=wa.get('temperature_c');prec=str(wa.get('condition') or wa.get('precipitation') or '').lower()
   if isinstance(temp,(int,float)) and temp<=0 and 'rain' in prec:found.append({"severity":"warning","type":"weather_consistency","action":aid,"detail":f"Rain-like condition at {temp} C; inspect precipitation rules."})
   if isinstance(a.get('money'),(int,float)) and a['money']<0:found.append({"severity":"error","type":"negative_money","action":aid,"detail":f"Money became {a['money']}"})
@@ -248,7 +252,7 @@ class AIPlayerRunner:
   lines=["BELLWETHER DIAGNOSTIC AI PLAYER REPORT",f"Version: {version}",f"Outcome: {outcome}",f"Coverage: {done}/{total} domains",f"AI actions attempted: {snap.get('actions',0)}",f"Unique actions: {len(unique_actions)}",f"Unique locations: {len(visited)}",f"LLM calls: {snap.get('llm_calls',0)}",f"Timeouts: {snap.get('timeouts',0)}",f"Fallbacks: {snap.get('fallbacks',0)}",f"Save/reload checks: {snap.get('save_reload_checks',0)}",f"Anomalies recorded: {len(anomalies)}",f"Clock: Day {s.get('day')} minute {s.get('minute')}",f"Current location: {s.get('location')}",""]
   if event:lines += ["LATEST ACTION EVIDENCE",json.dumps(event,indent=2,default=str),""]
   lines += ["COVERAGE LEDGER"]
-  for k,v in coverage.items():lines.append(f"- {k}: {v.get('status')} | planning_attempts={v.get('attempts',0)} | relevant_actions={v.get('acted',0)} | certifications={v.get('successes',0)} | WHY: {self._coverage_reason(k,v)} | CONTRACT: {v.get('note','')}")
+  for k,v in coverage.items():lines.append(f"- {k}: {v.get('status')} | planning_attempts={v.get('attempts',0)} | relevant_actions={v.get('acted',0)} | certifications={v.get('successes',0)} | deferrals={v.get('deferrals',0)} | WHY: {self._coverage_reason(k,v)} | CONTRACT: {v.get('note','')}")
   lines += ["","ISSUE / ANOMALY JOURNAL"]
   if anomalies:
    for i,x in enumerate(anomalies[-100:],1):lines.append(f"{i}. [{x.get('severity','warning').upper()}] {x.get('type')} | action={x.get('action')} | {x.get('detail')}")
@@ -270,7 +274,7 @@ class AIPlayerRunner:
   self.stop_event.set();return True
  def _live(self,game,game_lock,days):
   memory={"recent_actions":deque(maxlen=20),"recent_locations":deque(maxlen=20),"failed_attempts":deque(maxlen=20),"completed_subtasks":deque(maxlen=30),"blocked_actions":set()}
-  coverage={k:{"status":"untested","attempts":0,"acted":0,"successes":0,"last_gap":"","last_evidence":"","note":v} for k,v in self.COVERAGE_GOALS.items()};anomalies=[];visited={game.state.get('location')};unique_actions=set();goal_cursor=0
+  coverage={k:{"status":"untested","attempts":0,"acted":0,"successes":0,"deferrals":0,"last_gap":"","last_evidence":"","note":v} for k,v in self.COVERAGE_GOALS.items()};anomalies=[];visited={game.state.get('location')};unique_actions=set();goal_cursor=0
   try:
    start=game.state.get('day',1);goal=None;goal_key=None;goal_actions=0;stalls=0
    self._write_live_report(game,coverage,anomalies,visited,unique_actions)
@@ -281,7 +285,13 @@ class AIPlayerRunner:
       before=deepcopy(game.state);blob=json.dumps(before,default=str);restored=json.loads(blob);ok=(restored.get('day')==before.get('day') and restored.get('location')==before.get('location') and restored.get('money')==before.get('money'))
      coverage['save_reload']['attempts']+=1;coverage['save_reload']['successes']+=int(ok);coverage['save_reload']['status']='certified' if ok else 'failed';coverage['save_reload']['acted']+=1;coverage['save_reload']['last_evidence']='JSON round trip preserved clock, location and money' if ok else '';coverage['save_reload']['last_gap']='round-trip mismatch' if not ok else '';self._update(save_reload_checks=self.snapshot().get('save_reload_checks',0)+1)
      if not ok:anomalies.append({"severity":"error","type":"save_reload_roundtrip","action":"save_reload","detail":"Core clock/location/money changed across JSON round trip."})
-    missing=[k for k,v in coverage.items() if v['status']!='certified' and k not in {'save_reload','weather_ecology'}]
+    # Passive environment certification: weather/ecology is observed through ordinary time progression.
+    if coverage['weather_ecology']['status']!='certified':
+     coverage['weather_ecology']['attempts']+=1
+     env_ok,env_reason=self._certification_evidence('weather_ecology','passive:environment','Passive environment observation',self._state_digest(game.state),self._state_digest(game.state),[],True)
+     # Day/weather changes are checked per action below; this heartbeat records observation effort only.
+     coverage['weather_ecology']['last_gap']=env_reason
+    missing=[k for k,v in coverage.items() if v['status'] not in {'certified','deferred'} and k not in {'save_reload','weather_ecology'}]
     if goal is None or goal_actions>=10 or stalls>=4:
      goal_key=missing[goal_cursor%len(missing)] if missing else list(self.COVERAGE_GOALS)[goal_cursor%len(self.COVERAGE_GOALS)];goal_cursor+=1;goal=self.COVERAGE_GOALS[goal_key];goal_actions=0;stalls=0;memory['blocked_actions'].clear();self._update(goal=goal_key,planner_calls=self.snapshot()['planner_calls']+1);self._feed(f"Coverage target · {goal_key} · {goal}")
     self._update(thinking=True,phase=f'Choosing legal action for {goal_key}')
@@ -297,6 +307,9 @@ class AIPlayerRunner:
      except Exception as exc:ok=False;err=f"{type(exc).__name__}: {exc}"
      after=self._state_digest(game.state)
     diff=self._diff(before,after);found=self._detect_anomalies(before,after,aid,ok,diff,err);anomalies.extend(found);visited.add(after.get('location'));hits=self._coverage_for_action(aid,label,diff)
+    env_ok,env_reason=self._certification_evidence('weather_ecology',aid,label,before,after,diff,ok)
+    if env_ok:
+     coverage['weather_ecology']['acted']+=1;coverage['weather_ecology']['successes']+=1;coverage['weather_ecology']['status']='certified';coverage['weather_ecology']['last_evidence']=env_reason;coverage['weather_ecology']['last_gap']=''
     # Attempted, acted and certified are deliberately separate concepts.
     for h in hits:
      if h!=goal_key:coverage[h]['attempts']+=1
@@ -314,7 +327,10 @@ class AIPlayerRunner:
     else:stalls+=1
     if ok and diff:memory['recent_actions'].append(aid);memory['recent_locations'].append(after.get('location'))
     else:memory['blocked_actions'].add(aid);memory['failed_attempts'].append(f"{aid}: {err or 'no_effect'}")
-    goal_actions+=1;n=self.snapshot()['actions']+1;done=sum(1 for v in coverage.values() if v['status']=='certified');pct=min(99,int(100*done/max(1,len(coverage))));event={"action":aid,"label":label,"target":goal_key,"outcome":meta.get('outcome'),"latency_s":round(dt,2),"ok":ok,"diff":diff,"new_anomalies":found}
+    goal_actions+=1
+    if coverage[goal_key]['status']!='certified' and coverage[goal_key]['attempts']>=18:
+     coverage[goal_key]['status']='deferred';coverage[goal_key]['deferrals']+=1;coverage[goal_key]['last_gap']=f"effort budget exhausted after {coverage[goal_key]['attempts']} attempts; campaign reallocated to other domains";goal=None
+    n=self.snapshot()['actions']+1;done=sum(1 for v in coverage.values() if v['status']=='certified');pct=min(99,int(100*done/max(1,len(coverage))));event={"action":aid,"label":label,"target":goal_key,"outcome":meta.get('outcome'),"latency_s":round(dt,2),"ok":ok,"diff":diff,"new_anomalies":found}
     self._update(actions=n,progress=pct,phase=f"Executed {label}",coverage=deepcopy(coverage),anomalies=deepcopy(anomalies[-100:]),unique_actions=len(unique_actions),unique_locations=len(visited),goal_stalls=stalls)
     self._feed(f"Day {game.state.get('day')} {game.time_label()} · {goal_key} · {label} · {'changed: '+', '.join(diff) if diff else 'NO MONITORED EFFECT'}")
     self._checkpoint(game,event,coverage,anomalies,visited,unique_actions)

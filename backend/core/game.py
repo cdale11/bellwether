@@ -16,6 +16,7 @@ SAVE_PATH = ROOT / "saves" / "save.json"
 from backend.core.world_model import WORLD, WORLD_MODEL
 from backend.core.action_surface import compact as compact_action_surface
 from backend.core.npc_model import NPC_MODEL
+from backend.core.npc_life_model import NPC_LIFE_MODEL
 from backend.core.social_model import SOCIAL_MODEL
 from backend.core.activity_model import ACTIVITY_MODEL, CROPS
 from backend.core.economy_model import ECONOMY_MODEL, ITEMS, SHOPS
@@ -29,6 +30,8 @@ from backend.core.investigation_model import INVESTIGATION_MODEL
 from backend.core.horror_model import HORROR_MODEL
 from backend.core.horror_aftermath_model import HORROR_AFTERMATH_MODEL
 from backend.core.interface_horror_model import INTERFACE_HORROR_MODEL
+from backend.core.property_model import PROPERTY_MODEL
+from backend.core.player_business_model import PLAYER_BUSINESS_MODEL
 from backend.core.player_identity_model import PLAYER_IDENTITY_MODEL
 from backend.core.danger_model import DANGER_MODEL
 from backend.core.failure_recovery_model import FAILURE_RECOVERY_MODEL
@@ -38,17 +41,24 @@ from backend.core.content_model import CONTENT_MODEL
 from backend.core.memory_model import MEMORY_MODEL
 from backend.core.population_model import POPULATION_MODEL
 from backend.core.social_consequence_model import SOCIAL_CONSEQUENCE_MODEL
+from backend.core.relationship_life_model import RELATIONSHIP_LIFE_MODEL
 from backend.core.travel_model import TRAVEL_MODEL
+from backend.core.transport_model import TRANSPORT_MODEL
 from backend.core.town_mind_model import TOWN_MIND_MODEL
+from backend.core.resistance_model import RESISTANCE_MODEL
 from backend.core.cognition_model import COGNITION_MODEL
 from backend.core.procedural_arc_model import PROCEDURAL_ARC_MODEL, ARC_TEMPLATES
 from backend.core.quest_model import QUEST_MODEL
 from backend.core.player_status_model import PLAYER_STATUS_MODEL
 from backend.core.story_model import STORY_MODEL
+from backend.core.narrative_expansion_model import NARRATIVE_EXPANSION_MODEL
+from backend.core.story_consciousness_integration_model import STORY_CONSCIOUSNESS_INTEGRATION_MODEL
+from backend.core.systemic_horror_integration_model import SYSTEMIC_HORROR_INTEGRATION_MODEL
 from backend.core.ending_model import ENDING_MODEL, FAMILIES
 from backend.core.postgame_model import POSTGAME_MODEL
 from backend.core.life_simulation_model import LIFE_SIMULATION_MODEL
 from backend.core.society_model import SOCIETY_MODEL
+from backend.core.village_evolution_model import VILLAGE_EVOLUTION_MODEL
 INITIAL_STATE = {
     "location": "bus_stop",
     "day": 1,
@@ -214,12 +224,15 @@ INITIAL_STATE = {
     },
     "world_model": WORLD_MODEL.runtime_state_defaults(),
     "npc_lives": NPC_MODEL.runtime_defaults(),
+    "npc_autonomous_lives": NPC_LIFE_MODEL.runtime_defaults(),
     "npc_social_web": SOCIAL_MODEL.runtime_defaults(),
     "npc_knowledge": KNOWLEDGE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "mystery_investigation": INVESTIGATION_MODEL.runtime_defaults(),
     "systemic_horror": HORROR_MODEL.runtime_defaults(),
     "horror_aftermath": HORROR_AFTERMATH_MODEL.runtime_defaults(),
     "interface_horror": INTERFACE_HORROR_MODEL.runtime_defaults(),
+    "property": PROPERTY_MODEL.runtime_defaults(),
+    "player_businesses": PLAYER_BUSINESS_MODEL.runtime_defaults(),
     "player_identity": PLAYER_IDENTITY_MODEL.runtime_defaults(),
     "danger": DANGER_MODEL.runtime_defaults(),
     "failure_recovery": FAILURE_RECOVERY_MODEL.runtime_defaults(),
@@ -229,13 +242,18 @@ INITIAL_STATE = {
     "memory_system": MEMORY_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "population": POPULATION_MODEL.runtime_defaults(),
     "society": SOCIETY_MODEL.runtime_defaults(),
+    "village_evolution": VILLAGE_EVOLUTION_MODEL.runtime_defaults(),
     "social_consequences": SOCIAL_CONSEQUENCE_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "travel": TRAVEL_MODEL.runtime_defaults(),
     "town_mind": TOWN_MIND_MODEL.runtime_defaults(),
+    "resistance": RESISTANCE_MODEL.runtime_defaults(),
     "npc_cognition": COGNITION_MODEL.runtime_defaults(list(NPC_MODEL.npcs)),
     "procedural_arcs": PROCEDURAL_ARC_MODEL.runtime_defaults(),
     "quest_runtime": {"schema_version":1,"transactions":{},"history":[],"completion_checks":0},
     "authored_story": STORY_MODEL.runtime_defaults(),
+    "authored_narrative": NARRATIVE_EXPANSION_MODEL.runtime_defaults(),
+    "story_consciousness_integration": STORY_CONSCIOUSNESS_INTEGRATION_MODEL.runtime_defaults(),
+    "systemic_horror_integration": SYSTEMIC_HORROR_INTEGRATION_MODEL.runtime_defaults(),
     "player_activities": ACTIVITY_MODEL.runtime_defaults(),
     "economy": ECONOMY_MODEL.runtime_defaults(),
     "jobs": JOB_MODEL.runtime_defaults(),
@@ -558,6 +576,10 @@ class Game:
         if s["flags"].get("read_letter") and s["weather"].get("state")=="heavy_rain" and s["location"]=="ashcroft_cottage":
             unlock("first_storm_at_ashcroft","The player experienced heavy rain at Ashcroft Cottage after reading Eleanor's letter.",
                    "Narrator","Rain works across the cottage in layers: roof, glass, gutter, leaves. For a while, every sound has an ordinary source.")
+        for scene in NARRATIVE_EXPANSION_MODEL.evaluate(s):
+            self.add(scene["speaker"], scene["text"])
+            self.record_world_event(f"Authored narrative scene: {scene['id']}", "authored_narrative")
+            STORY_CONSCIOUSNESS_INTEGRATION_MODEL.record_authored_signal(s, scene["id"], scene["chapter"])
         story_step=STORY_MODEL.advance_if_ready(s)
         if story_step:
             self.add("Story", story_step["text"])
@@ -588,6 +610,7 @@ class Game:
             map_state["discovered_locations"].append(current_location)
         self.state.setdefault("world_model", WORLD_MODEL.runtime_state_defaults())
         self.state.setdefault("npc_lives", NPC_MODEL.runtime_defaults())
+        NPC_LIFE_MODEL.migrate(self.state)
         self.state.setdefault("npcs", {})
         for npc_id, npc_defaults in INITIAL_STATE["npcs"].items():
             self.state["npcs"].setdefault(npc_id, deepcopy(npc_defaults))
@@ -600,6 +623,8 @@ class Game:
         HORROR_MODEL.migrate(self.state)
         HORROR_AFTERMATH_MODEL.migrate(self.state)
         INTERFACE_HORROR_MODEL.migrate(self.state)
+        PROPERTY_MODEL.migrate(self.state)
+        PLAYER_BUSINESS_MODEL.migrate(self.state)
         self.state.setdefault("player_identity", PLAYER_IDENTITY_MODEL.runtime_defaults())
         self.state.setdefault("danger", DANGER_MODEL.runtime_defaults())
         FAILURE_RECOVERY_MODEL.migrate(self.state)
@@ -610,14 +635,20 @@ class Game:
         COGNITION_MODEL.bootstrap_authoritative_context(self.state, NPC_MODEL, KNOWLEDGE_MODEL)
         PROCEDURAL_ARC_MODEL.migrate(self.state)
         STORY_MODEL.migrate(self.state)
+        NARRATIVE_EXPANSION_MODEL.migrate(self.state)
+        STORY_CONSCIOUSNESS_INTEGRATION_MODEL.migrate(self.state)
+        SYSTEMIC_HORROR_INTEGRATION_MODEL.migrate(self.state)
         ENDING_MODEL.migrate(self.state)
         POSTGAME_MODEL.migrate(self.state)
         POPULATION_MODEL.migrate(self.state)
         SOCIAL_CONSEQUENCE_MODEL.migrate(self.state, list(self.state.get("npcs",{})))
+        RELATIONSHIP_LIFE_MODEL.migrate(self.state)
         TRAVEL_MODEL.migrate(self.state)
+        TRANSPORT_MODEL.migrate(self.state)
         CONTENT_MODEL.migrate_v040(self.state)
         LIFE_SIMULATION_MODEL.migrate(self.state)
         SOCIETY_MODEL.migrate(self.state)
+        VILLAGE_EVOLUTION_MODEL.migrate(self.state)
         RECURRENCE_MODEL.migrate(self.state["recurrence"])
         self.state.setdefault("player_activities", ACTIVITY_MODEL.runtime_defaults())
         ACTIVITY_MODEL.migrate(self.state)
@@ -766,13 +797,23 @@ class Game:
         state["time"] = self.time_label()
         state["mystery_overview"] = self.investigation_overview()
         state["authored_story_overview"] = STORY_MODEL.public(self.state)
+        state["authored_narrative_overview"] = NARRATIVE_EXPANSION_MODEL.public(self.state)
+        state["story_consciousness_overview"] = STORY_CONSCIOUSNESS_INTEGRATION_MODEL.public(self.state)
+        state["systemic_horror_integration_overview"] = SYSTEMIC_HORROR_INTEGRATION_MODEL.public(self.state)
         state["ending_families_overview"] = ENDING_MODEL.public(self.state)
         state["postgame_overview"] = POSTGAME_MODEL.public(self.state)
         state["quest_lifecycle"] = QUEST_MODEL.developer_context(self.state)
         state["life_simulation_overview"] = LIFE_SIMULATION_MODEL.public(self.state)
         state["player_status_overview"] = deepcopy(PLAYER_STATUS_MODEL.migrate(self.state))
         state["society_overview"] = SOCIETY_MODEL.public(self.state)
+        state["village_evolution_overview"] = VILLAGE_EVOLUTION_MODEL.public(self.state)
         state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
+        state["property_overview"] = PROPERTY_MODEL.public(self.state)
+        state["player_business_overview"] = PLAYER_BUSINESS_MODEL.public(self.state)
+        state["transport_overview"] = TRANSPORT_MODEL.public(self.state)
+        state["relationship_life_overview"] = RELATIONSHIP_LIFE_MODEL.public(self.state)
+        state["town_consciousness_overview"] = TOWN_MIND_MODEL.developer_context(self.state)
+        state["resistance_overview"] = RESISTANCE_MODEL.public(self.state)
         story_public=STORY_MODEL.public(self.state)
         main_quests=self.visible_quests("main")
         if not story_public.get("ending_eligible"):
@@ -928,6 +969,16 @@ class Game:
             actions.append({"id":action_id,"label":label,"kind":"life"})
         for action_id, label in PLAYER_STATUS_MODEL.actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
+        for action_id, label in PROPERTY_MODEL.actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"economy"})
+        for action_id, label in PLAYER_BUSINESS_MODEL.actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"economy"})
+        for action_id, label in TRANSPORT_MODEL.actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"travel"})
+        for action_id, label in RELATIONSHIP_LIFE_MODEL.actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"social"})
+        for action_id, label in RESISTANCE_MODEL.actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"life"})
         for resident in POPULATION_MODEL.present(s, s.get("location"))[:6]:
             actions.append({"id":"society:greet:"+resident["id"],"label":"Exchange a Few Words with "+resident["name"],"kind":"social"})
 
@@ -1003,6 +1054,10 @@ class Game:
             WORLD_RUNTIME_MODEL.advance(s, step)
             POPULATION_MODEL.advance_batch(s)
             SOCIETY_MODEL.advance_day(s, POPULATION_MODEL)
+            for life_event in NPC_LIFE_MODEL.advance_day(s):
+                self.record_world_event(life_event["text"], "npc_life", life_event["kind"])
+            for evolution_event in VILLAGE_EVOLUTION_MODEL.advance_day(s):
+                self.record_world_event(evolution_event["text"], "village_evolution", evolution_event["kind"])
             HORROR_MODEL.expire(s)
             for event_kind,event_id,message in EVENT_MODEL.advance(s):
                 self.add("Bellwether", message)
@@ -2667,8 +2722,12 @@ class Game:
             if target in WORLD[s["location"]]["exits"].values():
                 origin = s["location"]
                 journey_plan = TRAVEL_MODEL.plan(s, origin, target, WORLD)
+                transport_plan = TRANSPORT_MODEL.journey_modifier(s)
+                journey_plan["minutes"] = max(3, round(journey_plan["minutes"] * transport_plan["multiplier"]))
+                journey_plan["transport_mode"] = transport_plan["mode"]
                 self.advance(journey_plan["minutes"])
                 first_journey = TRAVEL_MODEL.complete(s, origin, target, journey_plan)
+                TRANSPORT_MODEL.complete_journey(s, journey_plan["minutes"])
                 s["location"] = target
                 map_state = s.setdefault("map_exploration", deepcopy(INITIAL_STATE["map_exploration"]))
                 discovered = map_state.setdefault("discovered_locations", [])
@@ -2758,6 +2817,36 @@ class Game:
         elif action.startswith("content:"):
             self.perform_content_action(action)
 
+        elif action.startswith("property:"):
+            ok,msg,minutes=PROPERTY_MODEL.perform(s,action); self.add("Narrator",msg)
+            if ok:
+                self.record_player_activity("property",msg,minutes,{"property_action":action})
+                self.advance(minutes); self.propagate_world_consequences("property_change")
+
+        elif action.startswith("transport:"):
+            ok,msg,minutes=TRANSPORT_MODEL.perform(s,action); self.add("Narrator",msg)
+            if ok:
+                self.record_player_activity("transport",msg,minutes,{"transport_action":action})
+                self.advance(minutes)
+
+        elif action.startswith("business:"):
+            ok,msg,minutes=PLAYER_BUSINESS_MODEL.perform(s,action); self.add("Narrator",msg)
+            if ok:
+                self.record_player_activity("business",msg,minutes,{"business_action":action})
+                self.advance(minutes); self.propagate_world_consequences("business_change")
+
+        elif action.startswith("relationship:"):
+            ok,msg,minutes=RELATIONSHIP_LIFE_MODEL.perform(s,action); self.add("Narrator",msg)
+            if ok:
+                self.record_player_activity("relationship",msg,minutes,{"relationship_action":action})
+                self.advance(minutes); self.propagate_world_consequences("relationship_change")
+
+        elif action.startswith("resist:"):
+            ok,msg,minutes=RESISTANCE_MODEL.perform(s,action); self.add("Narrator",msg)
+            if ok:
+                self.record_player_activity("resistance",msg,minutes,{"resistance_action":action})
+                self.advance(minutes); self.propagate_world_consequences("resistance_action")
+
         elif action.startswith("status:"):
             ok,msg,minutes=PLAYER_STATUS_MODEL.perform(s,action); self.add("Narrator",msg)
             if ok: self.advance(minutes)
@@ -2839,6 +2928,19 @@ class Game:
             for echo in RECURRENCE_MODEL.advance_day(s): self.add(echo["speaker"], echo["text"])
             s["minute"] = 450
             market_update=ECONOMY_MODEL.daily_tick(s)
+            property_update=PROPERTY_MODEL.daily_tick(s)
+            business_update=PLAYER_BUSINESS_MODEL.daily_tick(s)
+            RESISTANCE_MODEL.daily_tick(s)
+            town_pressure=TOWN_MIND_MODEL.strategic_daily_tick(s)
+            story_response=STORY_CONSCIOUSNESS_INTEGRATION_MODEL.daily_tick(s)
+            horror_consequence=SYSTEMIC_HORROR_INTEGRATION_MODEL.daily_tick(s)
+            if horror_consequence:
+                self.record_world_event("The pressure found a consequence in the life being built here.", "systemic_horror_consequence", horror_consequence.get("target"))
+            if story_response:
+                self.record_world_event("The village changed how it answered the player’s relationship to the mystery.", "story_consciousness_response", story_response.get("posture"))
+            if town_pressure:
+                self.record_world_event("The village has begun to lean against the shape of your life.", "town_mind_pressure", town_pressure.get("strategy"))
+            RELATIONSHIP_LIFE_MODEL.daily_tick(s)
             JOB_MODEL.daily_recovery(s)
             if market_update:
                 fav=market_update.get("favoured_produce","").replace("_"," ")

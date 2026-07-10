@@ -941,3 +941,64 @@ The bundled baseline covers 7 profiles × 2 runs × 120 player actions = 1,680 a
 - Added JSONL machine-readable evidence stream with state digest, coverage, provider telemetry and action evidence.
 - Final report now includes coverage ledger, issue/anomaly journal, visited locations, recent trace, provider telemetry, action diversity and persistence checks.
 - Added v2.0.3 diagnostic AI player certification tool.
+
+## 2.0.5 — Diagnostic Path Repair
+- Added a purchasable local radish bunch to create a short, ordinary starter path into the existing cooking system without bypassing gardening progression.
+- Expanded diagnostic state observation to include player-life consequences, hobby collection stores, and economy ledger growth.
+- Corrected Fishing/Foraging certification so foraging collection rewards are observed in their authoritative collection state while fishing remains inventory-based.
+- Classified investigation review as intentionally informational rather than a silent no-effect defect.
+- Improved Cooking certification to require a real cook/preserve action and ingredient/life consequence.
+- Added campaign-level effort budgets and explicit deferred-domain reporting to reduce goal thrashing.
+- Added passive Weather/Ecology certification from ordinary world progression.
+- Clarified AI-player UI percentage as campaign progress and shows certified-domain count.
+- Added v2.0.5 focused public-path certification.
+
+## 2.1.0 — Property, Land & Cottage Progression (Part 1)
+- Added authoritative property ownership and lease state with save migration.
+- Added purchasable/leaseable rural parcels and workshop space at real world locations.
+- Land acquisition expands existing garden plot capacity rather than creating a duplicate farming system.
+- Added staged cottage expansion gated by repair condition, money, materials and prior work.
+- Added recurring lease rent, arrears tracking, economy-ledger entries and public property overview.
+- Preserved existing cottage repair, garden, economy and survival authority boundaries.
+
+## v2.2.0 — Business Ownership & Enterprise
+- Added authoritative player enterprise ownership and save migration.
+- Added produce stall, preserve kitchen, and repair workshop ventures connected to existing garden, pantry, property, repair-supply, and economy state.
+- Added owner-operated and manager-operated modes, manager hiring, daily wages/overheads, business cash, health, reputation, closure pressure, and reinvestment.
+- Added public enterprise overview and action-surface/game dispatch integration.
+- Added focused business diagnostic and release audit.
+- Cleaned generated caches and stale live diagnostic artifacts from the package.
+
+## v2.4.0 — NPC Lives & Autonomous Change
+- Added persistent autonomous NPC life progression for core-cast personal goals.
+- Added sparse deterministic lightweight-resident employment and household-pressure events.
+- Added player influence hooks, bounded life-event history, and save migration.
+- Integrated daily life progression with the authoritative simulation clock and world-event stream.
+- Preserved authored canon, existing social web, cognition, schedules, knowledge propagation, and population tiers.
+
+## 2.6.0 — Town Consciousness Strategy
+- Added persistent player-playstyle and leverage observation to Town Mind.
+- Added bounded strategies for property, enterprise, mobility, social attachment, routine and mystery avoidance.
+- Strategic response begins from in-game day 2 and is limited to one auditable pressure application per day.
+- Added strategy history, pressure log, resistance score and public diagnostic overview.
+- Preserved authored story authority and bounded LLM choice contracts.
+
+## 2.7.0 — Resistance, Recovery & Counterplay
+- Added persistent cross-domain resistance state: readiness, resilience, temporary protections and evidence logs.
+- Added deliberate preparation, diversification, documentation, social grounding, recovery and counteraction gameplay.
+- Integrated bounded resistance modifiers into Town Consciousness strategic pressure without changing authored truth.
+- Added focused v2.7.0 certification and audit documentation.
+
+## 2.8.0 — Village Evolution and Long-Term Change
+- Added persistent village-evolution ledger and public overview.
+- Materialised migration pressure into sparse reversible resident departures and returns.
+- Materialised prior household-change considerations into persistent household moves.
+- Added structural business closure/reopening history and bounded resident venture formation.
+- Added slow land-use evolution without rewriting authored map or story canon.
+
+## v2.9.0 — Authored Story Audit & Narrative Expansion
+- Audited story spine, mystery graph, quest lifecycle, ending families, recurrence links and simulation-story integration.
+- Added deterministic once-only authored connective scenes across the eight-chapter spine.
+- Added distinct Mara and Jonah witness texture gated by authoritative relationship trust.
+- Added spoiler-bounded public narrative diagnostics.
+- Preserved all existing canon authority, story gates, ending rules and quest reward contracts.

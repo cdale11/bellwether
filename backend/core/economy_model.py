@@ -17,10 +17,11 @@ ITEMS={
  "repair_supplies":{"name":"Basic repair supplies","price":5,"kind":"repair","units":1,"supply":"hardware"},
  "bakery_breakfast":{"name":"Warm bakery breakfast","price":2,"kind":"meal","units":1,"supply":"flour"},
  "bread_loaf":{"name":"Fresh loaf","price":2,"kind":"food","units":2,"supply":"flour"},
+ "radish_bunch":{"name":"Local radish bunch","price":3,"kind":"produce","crop_id":"radish","units":2,"supply":"farm"},
 }
 PRODUCE_VALUES={"radish":1,"lettuce":2,"carrot":1,"broad_bean":1}
 SHOPS={
- "village_shop":{"name":"Village Shop","location":"village_shop","stock":["radish_seed","lettuce_seed","carrot_seed","broad_bean_seed","groceries","tea","cleaning_supplies","repair_supplies"],"buys_produce":True},
+ "village_shop":{"name":"Village Shop","location":"village_shop","stock":["radish_seed","lettuce_seed","carrot_seed","broad_bean_seed","radish_bunch","groceries","tea","cleaning_supplies","repair_supplies"],"buys_produce":True},
  "bakery":{"name":"Bellwether Bakery","location":"bakery","stock":["bakery_breakfast","bread_loaf"],"buys_produce":False},
 }
 
@@ -69,6 +70,8 @@ class EconomyModel:
    g=state["player_activities"]["garden"];g["seed_stock"][item["crop_id"]]=g["seed_stock"].get(item["crop_id"],0)+item["seed_units"]
   elif item["kind"] in {"household","repair","food"}:e["household"][item_id]=e["household"].get(item_id,0)+item.get("units",1)
   elif item["kind"]=="meal":state["player_life"]["meals"]+=1
+  elif item["kind"]=="produce":
+   g=state["player_activities"]["garden"]["harvest_store"];crop=item["crop_id"];g[crop]=g.get(crop,0)+item.get("units",1)
   self.record(state,"purchase",-price,item_id,shop_id);return True,f"You buy {item['name'].lower()} for ฿{price}."
  def sell_produce(self,state,crop_id,quantity=None):
   store=state["player_activities"]["garden"]["harvest_store"];have=int(store.get(crop_id,0));qty=have if quantity is None else min(have,max(0,int(quantity)))
