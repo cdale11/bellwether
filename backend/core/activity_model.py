@@ -110,11 +110,11 @@ class ActivityModel:
     def available_hobby_actions(self, state):
         loc=state.get("location")
         out=[]
-        if loc in {"riverside_path","churchyard","ashcroft_cottage","field_lane","calder_farm","north_woods","old_quarry"}: out.append(("hobby:birdwatch","Watch for Birds"))
-        if loc in {"riverside_path","churchyard","field_lane","calder_farm","north_woods"}: out.append(("hobby:forage","Go Foraging"))
-        if loc == "riverside_path": out.append(("hobby:fish","Fish the River"))
-        if loc in {"churchyard","railway_halt","village_green","calder_farm","old_quarry","quarry_caves"}: out.append(("hobby:history","Research Local History"))
-        if loc in {"riverside_path","churchyard","village_green","ashcroft_cottage","field_lane","calder_farm","north_woods","old_quarry"}: out.append(("hobby:sketch","Make a Sketch"))
+        if loc in {"riverside_path","churchyard","ashcroft_cottage","field_lane","calder_farm","north_woods","old_quarry","mill_bridge","orchard_lane","south_pasture","moor_gate","ridge_path","east_hamlet"}: out.append(("hobby:birdwatch","Watch for Birds"))
+        if loc in {"riverside_path","churchyard","field_lane","calder_farm","north_woods","mill_bridge","orchard_lane","south_pasture","moor_gate","ridge_path"}: out.append(("hobby:forage","Go Foraging"))
+        if loc in {"riverside_path","mill_bridge"}: out.append(("hobby:fish","Fish the River"))
+        if loc in {"churchyard","railway_halt","village_green","calder_farm","old_quarry","quarry_caves","mill_bridge","east_hamlet","workshop_yard","ridge_path"}: out.append(("hobby:history","Research Local History"))
+        if loc in {"riverside_path","churchyard","village_green","ashcroft_cottage","field_lane","calder_farm","north_woods","old_quarry","mill_bridge","orchard_lane","south_pasture","moor_gate","ridge_path","east_hamlet"}: out.append(("hobby:sketch","Make a Sketch"))
         return out
 
 HOBBY_DISCOVERIES = {

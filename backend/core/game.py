@@ -42,6 +42,7 @@ from backend.core.town_mind_model import TOWN_MIND_MODEL
 from backend.core.cognition_model import COGNITION_MODEL
 from backend.core.procedural_arc_model import PROCEDURAL_ARC_MODEL, ARC_TEMPLATES
 from backend.core.quest_model import QUEST_MODEL
+from backend.core.player_status_model import PLAYER_STATUS_MODEL
 from backend.core.story_model import STORY_MODEL
 from backend.core.ending_model import ENDING_MODEL, FAMILIES
 from backend.core.postgame_model import POSTGAME_MODEL
@@ -97,6 +98,7 @@ INITIAL_STATE = {
         "run_complete": False
     },
     "money": 24,
+    "player_status": PLAYER_STATUS_MODEL.defaults(),
     "inventory": ["Eleanor's key", "Suitcase"],
     "relationships": {"jonah": 0, "mara": 0},
     "history": [
@@ -589,6 +591,7 @@ class Game:
         for npc_id, npc_defaults in INITIAL_STATE["npcs"].items():
             self.state["npcs"].setdefault(npc_id, deepcopy(npc_defaults))
         QUEST_MODEL.migrate(self.state)
+        PLAYER_STATUS_MODEL.migrate(self.state)
         self.state.setdefault("npc_social_web", SOCIAL_MODEL.runtime_defaults())
         self.state.setdefault("npc_knowledge", KNOWLEDGE_MODEL.runtime_defaults(list(self.state.get("npcs",{}))))
         self.state.setdefault("mystery_investigation", INVESTIGATION_MODEL.runtime_defaults())
@@ -766,6 +769,7 @@ class Game:
         state["postgame_overview"] = POSTGAME_MODEL.public(self.state)
         state["quest_lifecycle"] = QUEST_MODEL.developer_context(self.state)
         state["life_simulation_overview"] = LIFE_SIMULATION_MODEL.public(self.state)
+        state["player_status_overview"] = deepcopy(PLAYER_STATUS_MODEL.migrate(self.state))
         state["society_overview"] = SOCIETY_MODEL.public(self.state)
         state["presentation_horror"] = INTERFACE_HORROR_MODEL.resolve(self.state)
         story_public=STORY_MODEL.public(self.state)
@@ -895,6 +899,13 @@ class Game:
             "north_woods": [("life:woods_walk", "Follow the Woodland Track"), ("life:listen_woods", "Stop and Listen Beneath the Trees")],
             "old_quarry": [("life:quarry_walk", "Walk the Safe Quarry Terrace"), ("life:study_stone", "Study the Exposed Stone")],
             "quarry_caves": [("life:cave_listen", "Listen in the First Chamber"), ("life:study_passage", "Examine the Worked Passage")],
+            "mill_bridge": [("life:watch_water", "Watch the Water Below the Bridge"), ("life:river_walk", "Walk the Mill Race")],
+            "orchard_lane": [("life:orchard_walk", "Walk the Orchard Lane"), ("life:watch_fields", "Watch the Orchard Work")],
+            "south_pasture": [("life:field_walk", "Walk the Pasture Footpath"), ("life:watch_fields", "Watch the Sheep and Weather")],
+            "moor_gate": [("life:field_walk", "Walk Beyond the Moor Gate"), ("life:watch_fields", "Watch Weather Cross the High Ground")],
+            "ridge_path": [("life:quarry_walk", "Walk the Ridge Path"), ("life:watch_fields", "Look Out Across Bellwether")],
+            "east_hamlet": [("life:walk_road", "Walk Through East Hamlet"), ("life:errand", "Help with a Small Hamlet Errand")],
+            "workshop_yard": [("life:farm_observe", "Watch the Workshop at Work"), ("life:errand", "Carry Materials Across the Yard")],
         }
         for action_id, label in life_actions.get(loc, []):
             actions.append({"id": action_id, "label": label, "kind": "life"})
@@ -913,6 +924,8 @@ class Game:
         for action_id, label in CONTENT_MODEL.home_actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
         for action_id, label in LIFE_SIMULATION_MODEL.actions(s):
+            actions.append({"id":action_id,"label":label,"kind":"life"})
+        for action_id, label in PLAYER_STATUS_MODEL.actions(s):
             actions.append({"id":action_id,"label":label,"kind":"life"})
         for resident in POPULATION_MODEL.present(s, s.get("location"))[:6]:
             actions.append({"id":"society:greet:"+resident["id"],"label":"Exchange a Few Words with "+resident["name"],"kind":"social"})
@@ -984,6 +997,7 @@ class Game:
             self.update_temperature_for_time()
             self.update_npc_personal_lives(step)
             ACTIVITY_MODEL.advance(s, step)
+            PLAYER_STATUS_MODEL.advance(s, step)
             SEASONAL_MODEL.refresh(s)
             WORLD_RUNTIME_MODEL.advance(s, step)
             POPULATION_MODEL.advance_batch(s)
@@ -1180,7 +1194,7 @@ class Game:
         if result and result.get("newly_completed"):
             reward=(result.get("transaction") or {}).get("reward",{})
             parts=[]
-            if reward.get("money"): parts.append(f"Br {reward['money']}")
+            if reward.get("money"): parts.append(f"B{reward['money']}")
             if reward.get("life_xp"): parts.append(f"{reward['life_xp']} life XP")
             parts.extend(reward.get("items",[]) or [])
             if reward.get("community"): parts.append(f"community standing +{reward['community']}")
@@ -1986,6 +2000,9 @@ class Game:
         weather = proposals.get("weather")
         if weather and weather != s["weather"]:
             previous=s["weather"].get("state")
+            temp=float(weather.get("temperature_c", s["weather"].get("temperature_c",10)))
+            if temp <= 0 and weather.get("state") in {"light_rain","heavy_rain","rain","showers","drizzle"}:
+                weather=dict(weather); weather["state"]="snow"; weather["label"]="Snow"
             s["weather"] = weather
             self.record_world_event(f"Weather changed from {previous} to {weather['state']}.","weather")
             accepted.append("weather")
@@ -2392,6 +2409,7 @@ class Game:
             roll=(s["day"]*17+h["sessions"][key]*23+skill*7)%100
             if roll<min(85,chance):
                 found=pool[(s["day"]+h["sessions"][key])%len(pool)]; coll["fish"][found]=coll["fish"].get(found,0)+1
+                s.setdefault("inventory",[]).append(found.replace("_"," ").title())
                 self.add("Narrator",f"Patience pays off: a {found.replace('_',' ')} comes to the bank. You record the catch before packing up.")
             else:self.add("Narrator","The river gives you no catch today, but the time is not empty; you learn a little more about current, shade and patience.")
         elif verb=="history":
@@ -2518,6 +2536,7 @@ class Game:
             "north_woods": {"woods_walk","listen_woods"},
             "old_quarry": {"quarry_walk","study_stone"},
             "quarry_caves": {"cave_listen","study_passage"},
+            "mill_bridge": {"watch_water","river_walk"}, "orchard_lane": {"orchard_walk","watch_fields"}, "south_pasture": {"field_walk","watch_fields"}, "moor_gate": {"field_walk","watch_fields"}, "ridge_path": {"quarry_walk","watch_fields"}, "east_hamlet": {"walk_road","errand"}, "workshop_yard": {"farm_observe","errand"},
         }
         if activity_id not in allowed.get(loc, set()) or activity_id not in specs:
             return
@@ -2550,8 +2569,9 @@ class Game:
             self.add("Narrator", "There is no letter today. The stone by the step is damp where the morning has not quite dried.")
         elif activity_id == "breakfast":
             if s["money"] >= 2:
+                PLAYER_STATUS_MODEL.eat(s,28)
                 s["money"] -= 2; life["meals"] += 1; effects["money"] = s["money"]
-                self.add("Narrator", "You spend ¤2 on something warm and eat without rushing.")
+                self.add("Narrator", "You spend B2 on something warm and eat without rushing.")
             else:
                 self.add("Narrator", "You check your pockets and decide to save what little money you have.")
                 return
@@ -2737,6 +2757,10 @@ class Game:
         elif action.startswith("content:"):
             self.perform_content_action(action)
 
+        elif action.startswith("status:"):
+            ok,msg,minutes=PLAYER_STATUS_MODEL.perform(s,action); self.add("Narrator",msg)
+            if ok: self.advance(minutes)
+
         elif action.startswith("society:greet:"):
             rid=action.split(":",2)[2]; resident=POPULATION_MODEL.migrate(s)["residents"].get(rid)
             if resident and resident.get("location")==s.get("location"):
@@ -2801,6 +2825,7 @@ class Game:
             self.add("Narrator", "You stop for a while and listen. Bellwether is quiet, but never entirely still.")
 
         elif action == "sleep" and s["location"] == "ashcroft_cottage" and s["flags"]["read_letter"]:
+            PLAYER_STATUS_MODEL.sleep(s)
             LIFE_SIMULATION_MODEL.close_day(s)
             day_summary=CONTENT_MODEL.close_day(s)
             if day_summary["variety"] >= 3:

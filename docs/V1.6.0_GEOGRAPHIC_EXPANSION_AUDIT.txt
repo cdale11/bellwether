@@ -1,0 +1,20 @@
+BELLWETHER v1.6.0 GEOGRAPHIC EXPANSION AUDIT
+
+Scope: additive expansion over the accepted v1.5.0 baseline.
+
+Implemented:
+- 7 new locations and 3 regional districts, all validated by WorldModel.
+- Bidirectional route connectivity into the existing river, quarry and village-road graph.
+- New map anchors, reveal regions and route lines.
+- Ordinary activities and hobby eligibility across expanded geography.
+- Player status surface: health, hunger, energy, warmth, life XP, level and skills.
+- Cottage condition continuity with climate deterioration and staged repairs.
+- Fishing inventory persistence fix.
+- Sub-zero rain normalization.
+- Currency prose normalization and legacy display normalization.
+
+Compatibility:
+- Existing saves migrate player_status automatically.
+- Existing map discovery schema remains valid.
+- New locations receive generic persistent location state and familiarity/investigation slots through existing migration loops.
+- No authored story gates were moved or replaced.

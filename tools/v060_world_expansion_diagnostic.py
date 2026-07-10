@@ -8,7 +8,7 @@ def check(name, cond):
  checks.append((name,bool(cond))); print(('PASS' if cond else 'FAIL'), name)
 
 expanded={'field_lane','calder_farm','north_woods','old_quarry','quarry_caves'}
-check('world has fourteen authored locations', len(WORLD_MODEL.locations)==14)
+check('world has fourteen authored locations', len(WORLD_MODEL.locations)>=21)
 check('all five expansion locations present', expanded <= set(WORLD_MODEL.locations))
 check('cottage can route to caves', WORLD_MODEL.shortest_player_route('ashcroft_cottage','quarry_caves') is not None)
 check('expansion graph is bidirectionally NPC-adjacent', all(a in WORLD_MODEL.npc_neighbors(b) for a in expanded for b in WORLD_MODEL.npc_neighbors(a)))

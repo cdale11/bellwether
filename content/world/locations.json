@@ -36,6 +36,18 @@
     "underground": {
       "name": "Quarry Caves",
       "character": "Natural and worked limestone chambers beneath the old quarry."
+    },
+    "south_vale": {
+      "name": "South Vale",
+      "character": "Orchards, sheep pasture and a narrow tributary south of Bellwether."
+    },
+    "moor_edge": {
+      "name": "Moor Edge",
+      "character": "Higher rough grazing, wind-cut lanes and distant views beyond the parish."
+    },
+    "east_hamlet": {
+      "name": "East Hamlet",
+      "character": "A sparse cluster of cottages and workshops linked to Bellwether by an old lane."
     }
   },
   "locations": {
@@ -130,7 +142,8 @@
         "Walk to the village green": "village_green",
         "Visit the village shop": "village_shop",
         "Take the lane to the churchyard": "churchyard",
-        "Return to the bus stop": "bus_stop"
+        "Return to the bus stop": "bus_stop",
+        "Take the long east road": "east_hamlet"
       },
       "travel_minutes": 10
     },
@@ -378,7 +391,8 @@
       ],
       "exits": {
         "Climb back to the village green": "village_green",
-        "Follow the meadow path to the station": "railway_halt"
+        "Follow the meadow path to the station": "railway_halt",
+        "Follow the river south to Mill Bridge": "mill_bridge"
       },
       "travel_minutes": 15
     },
@@ -674,7 +688,8 @@
       "exits": {
         "Return through the woods": "north_woods",
         "Take the farm track": "calder_farm",
-        "Approach the cave mouth": "quarry_caves"
+        "Approach the cave mouth": "quarry_caves",
+        "Take the ridge path": "ridge_path"
       },
       "travel_minutes": 20
     },
@@ -716,6 +731,314 @@
         "Return to the quarry floor": "old_quarry"
       },
       "travel_minutes": 25
+    },
+    "mill_bridge": {
+      "name": "Mill Bridge",
+      "description": "An old stone bridge crosses the tributary where the remains of a mill race disappear beneath alder roots.",
+      "district": "south_vale",
+      "kind": "river_crossing",
+      "interior": false,
+      "ownership": "public",
+      "access": "public",
+      "weather_exposure": "exposed",
+      "seasonal_access": "year_round",
+      "services": [],
+      "activity_tags": [
+        "river",
+        "alder",
+        "waterbirds"
+      ],
+      "npc_suitability": [
+        "resident",
+        "visitor",
+        "worker"
+      ],
+      "story_tags": [
+        "regional_life"
+      ],
+      "investigation_tags": [
+        "local_pattern"
+      ],
+      "ecology_tags": [
+        "river",
+        "alder",
+        "waterbirds"
+      ],
+      "future_job_tags": [
+        "odd_jobs"
+      ],
+      "future_economy_tags": [
+        "local_supply"
+      ],
+      "exits": {
+        "Return along the river": "riverside_path",
+        "Follow the orchard road": "orchard_lane"
+      },
+      "travel_minutes": 18
+    },
+    "orchard_lane": {
+      "name": "Orchard Lane",
+      "description": "Apple and pear trees stand behind low walls, with grass paths running between old smallholdings.",
+      "district": "south_vale",
+      "kind": "rural_lane",
+      "interior": false,
+      "ownership": "public",
+      "access": "public",
+      "weather_exposure": "exposed",
+      "seasonal_access": "year_round",
+      "services": [],
+      "activity_tags": [
+        "orchard",
+        "hedgerow",
+        "pollinators"
+      ],
+      "npc_suitability": [
+        "resident",
+        "visitor",
+        "worker"
+      ],
+      "story_tags": [
+        "regional_life"
+      ],
+      "investigation_tags": [
+        "local_pattern"
+      ],
+      "ecology_tags": [
+        "orchard",
+        "hedgerow",
+        "pollinators"
+      ],
+      "future_job_tags": [
+        "odd_jobs"
+      ],
+      "future_economy_tags": [
+        "local_supply"
+      ],
+      "exits": {
+        "Return to Mill Bridge": "mill_bridge",
+        "Walk to South Pasture": "south_pasture",
+        "Take the old lane to East Hamlet": "east_hamlet"
+      },
+      "travel_minutes": 16
+    },
+    "south_pasture": {
+      "name": "South Pasture",
+      "description": "Open sheep pasture rises gently above the vale, crossed by a public footpath and old boundary stones.",
+      "district": "south_vale",
+      "kind": "pasture",
+      "interior": false,
+      "ownership": "public",
+      "access": "public",
+      "weather_exposure": "exposed",
+      "seasonal_access": "year_round",
+      "services": [],
+      "activity_tags": [
+        "grassland",
+        "sheep",
+        "skylarks"
+      ],
+      "npc_suitability": [
+        "resident",
+        "visitor",
+        "worker"
+      ],
+      "story_tags": [
+        "regional_life"
+      ],
+      "investigation_tags": [
+        "local_pattern"
+      ],
+      "ecology_tags": [
+        "grassland",
+        "sheep",
+        "skylarks"
+      ],
+      "future_job_tags": [
+        "odd_jobs"
+      ],
+      "future_economy_tags": [
+        "local_supply"
+      ],
+      "exits": {
+        "Return to Orchard Lane": "orchard_lane",
+        "Climb toward Moor Gate": "moor_gate"
+      },
+      "travel_minutes": 20
+    },
+    "moor_gate": {
+      "name": "Moor Gate",
+      "description": "A cattle grid and weathered gate mark the beginning of rougher high ground. Wind moves almost constantly here.",
+      "district": "moor_edge",
+      "kind": "upland_gate",
+      "interior": false,
+      "ownership": "public",
+      "access": "public",
+      "weather_exposure": "exposed",
+      "seasonal_access": "year_round",
+      "services": [],
+      "activity_tags": [
+        "heath",
+        "raptors",
+        "rough_grazing"
+      ],
+      "npc_suitability": [
+        "resident",
+        "visitor",
+        "worker"
+      ],
+      "story_tags": [
+        "regional_life"
+      ],
+      "investigation_tags": [
+        "local_pattern"
+      ],
+      "ecology_tags": [
+        "heath",
+        "raptors",
+        "rough_grazing"
+      ],
+      "future_job_tags": [
+        "odd_jobs"
+      ],
+      "future_economy_tags": [
+        "local_supply"
+      ],
+      "exits": {
+        "Return to South Pasture": "south_pasture",
+        "Follow the ridge path": "ridge_path"
+      },
+      "travel_minutes": 22
+    },
+    "ridge_path": {
+      "name": "Ridge Path",
+      "description": "The ridge path gives long views over Bellwether, the quarry and fields beyond the parish boundary.",
+      "district": "moor_edge",
+      "kind": "upland_path",
+      "interior": false,
+      "ownership": "public",
+      "access": "public",
+      "weather_exposure": "exposed",
+      "seasonal_access": "year_round",
+      "services": [],
+      "activity_tags": [
+        "heath",
+        "raptors",
+        "weather"
+      ],
+      "npc_suitability": [
+        "resident",
+        "visitor",
+        "worker"
+      ],
+      "story_tags": [
+        "regional_life"
+      ],
+      "investigation_tags": [
+        "local_pattern"
+      ],
+      "ecology_tags": [
+        "heath",
+        "raptors",
+        "weather"
+      ],
+      "future_job_tags": [
+        "odd_jobs"
+      ],
+      "future_economy_tags": [
+        "local_supply"
+      ],
+      "exits": {
+        "Return to Moor Gate": "moor_gate",
+        "Descend by the quarry track": "old_quarry"
+      },
+      "travel_minutes": 25
+    },
+    "east_hamlet": {
+      "name": "East Hamlet",
+      "description": "A loose handful of cottages, a workshop yard and a red post box sit along the old east lane.",
+      "district": "east_hamlet",
+      "kind": "hamlet",
+      "interior": false,
+      "ownership": "public",
+      "access": "public",
+      "weather_exposure": "exposed",
+      "seasonal_access": "year_round",
+      "services": [],
+      "activity_tags": [
+        "gardens",
+        "hedges",
+        "swallows"
+      ],
+      "npc_suitability": [
+        "resident",
+        "visitor",
+        "worker"
+      ],
+      "story_tags": [
+        "regional_life"
+      ],
+      "investigation_tags": [
+        "local_pattern"
+      ],
+      "ecology_tags": [
+        "gardens",
+        "hedges",
+        "swallows"
+      ],
+      "future_job_tags": [
+        "odd_jobs"
+      ],
+      "future_economy_tags": [
+        "local_supply"
+      ],
+      "exits": {
+        "Return by Orchard Lane": "orchard_lane",
+        "Follow the lane to the Workshop Yard": "workshop_yard",
+        "Take the long road to Bellwether": "village_road"
+      },
+      "travel_minutes": 24
+    },
+    "workshop_yard": {
+      "name": "Workshop Yard",
+      "description": "A practical yard of timber, tools and repair work serves farms and households across the surrounding lanes.",
+      "district": "east_hamlet",
+      "kind": "workplace",
+      "interior": false,
+      "ownership": "public",
+      "access": "public",
+      "weather_exposure": "sheltered",
+      "seasonal_access": "year_round",
+      "services": [
+        "repairs",
+        "materials"
+      ],
+      "activity_tags": [
+        "yard_birds"
+      ],
+      "npc_suitability": [
+        "resident",
+        "visitor",
+        "worker"
+      ],
+      "story_tags": [
+        "regional_life"
+      ],
+      "investigation_tags": [
+        "local_pattern"
+      ],
+      "ecology_tags": [
+        "yard_birds"
+      ],
+      "future_job_tags": [
+        "odd_jobs"
+      ],
+      "future_economy_tags": [
+        "local_supply"
+      ],
+      "exits": {
+        "Return to East Hamlet": "east_hamlet"
+      },
+      "travel_minutes": 8
     }
   },
   "npc_adjacency": {
@@ -726,20 +1049,18 @@
       "bakery",
       "bus_stop",
       "churchyard",
+      "east_hamlet",
       "village_green",
       "village_shop"
     ],
     "village_green": [
       "ashcroft_cottage",
-      "bakery",
       "churchyard",
       "field_lane",
       "riverside_path",
-      "village_road",
-      "village_shop"
+      "village_road"
     ],
     "bakery": [
-      "village_green",
       "village_road"
     ],
     "village_shop": [
@@ -747,12 +1068,11 @@
       "village_road"
     ],
     "churchyard": [
-      "riverside_path",
       "village_green",
       "village_road"
     ],
     "riverside_path": [
-      "churchyard",
+      "mill_bridge",
       "railway_halt",
       "village_green"
     ],
@@ -778,10 +1098,40 @@
     "old_quarry": [
       "calder_farm",
       "north_woods",
-      "quarry_caves"
+      "quarry_caves",
+      "ridge_path"
     ],
     "quarry_caves": [
       "old_quarry"
+    ],
+    "mill_bridge": [
+      "orchard_lane",
+      "riverside_path"
+    ],
+    "orchard_lane": [
+      "east_hamlet",
+      "mill_bridge",
+      "south_pasture"
+    ],
+    "south_pasture": [
+      "moor_gate",
+      "orchard_lane"
+    ],
+    "moor_gate": [
+      "ridge_path",
+      "south_pasture"
+    ],
+    "ridge_path": [
+      "moor_gate",
+      "old_quarry"
+    ],
+    "east_hamlet": [
+      "orchard_lane",
+      "village_road",
+      "workshop_yard"
+    ],
+    "workshop_yard": [
+      "east_hamlet"
     ]
   }
 }

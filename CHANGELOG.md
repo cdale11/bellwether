@@ -1,3 +1,15 @@
+# Bellwether v1.6.0 — Geographic Expansion
+
+- Expanded the traversable region from 14 to 21 connected locations across South Vale, Moor Edge and East Hamlet.
+- Added persistent route discovery, map coverage and ordinary-life actions across the new geography.
+- Added compact player vitals and a full Status panel for health, hunger, energy, warmth, life XP, level, skills and cottage condition.
+- Added season/weather-driven cottage deterioration and a staged inspect → prepare → repair maintenance loop.
+- Fixed successful fishing catches so caught fish enter inventory as well as the hobby collection.
+- Added freezing-precipitation normalization: rain-like AI weather proposals at or below 0°C become snow.
+- Unified authored backend currency prose on the canonical B mark and added frontend normalization for legacy Br/¤ text.
+- Extended hobbies and local-history play into the expanded region.
+- Preserved v1.5.0 quest lifecycle, AI player, diagnostics, economy, society and adaptive horror systems.
+
 # Changelog
 
 ## v1.5.0 — Dynamic Side Content, Quest Lifecycle, and Responsive Control
